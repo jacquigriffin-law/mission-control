@@ -1,8 +1,5 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "outputDirectory": ".",
-  "github": {
-    "silent": true
-  }
+  "outputDirectory": "public"
 }
