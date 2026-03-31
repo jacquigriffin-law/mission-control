@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Jacqui Griffin Law Firm</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Mission Control">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #2c5aa0;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .status-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #4CAF50;
+        }
+        .status-card.warning { border-left-color: #FF9800; }
+        .status-card.critical { border-left-color: #F44336; }
+        
+        .status-icon { font-size: 32px; margin-bottom: 10px; }
+        .status-title { font-weight: 600; color: #333; margin-bottom: 5px; }
+        .status-value { font-size: 24px; font-weight: 700; color: #2c5aa0; }
+        .status-desc { font-size: 12px; color: #666; margin-top: 5px; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #2c5aa0;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #2c5aa0;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #1e4080;
+            transform: translateY(-2px);
+        }
+        .btn.secondary {
+            background: #6c757d;
+        }
+        .btn.success {
+            background: #28a745;
+        }
+        .btn.warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            text-align: center;
+            padding: 10px;
+            background: rgba(44,90,160,0.1);
+            border-radius: 10px;
+        }
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c5aa0;
+        }
+        .metric-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .alerts {
+            background: rgba(220,53,69,0.1);
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .alerts h4 {
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+        .alert-item {
+            background: rgba(255,255,255,0.8);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #dc3545;
+        }
+        
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .header h1 { font-size: 24px; }
+            .grid { grid-template-columns: 1fr; }
+            .status-bar { grid-template-columns: 1fr 1fr; }
+        }
+        
+        .refresh-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .last-updated {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Mission Control</h1>
+            <p>Jacqui Griffin Law Firm Operations Dashboard</p>
+            <div class="last-updated" id="lastUpdated">Last updated: Loading...</div>
+        </div>
+
+        <!-- Critical Alerts -->
+        <div class="alerts" id="alertsSection" style="display: none;">
+            <h4>🚨 Critical Alerts</h4>
+            <div id="alertsList"></div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-card">
+                <div class="status-icon">🌐</div>
+                <div class="status-title">Website Status</div>
+                <div class="status-value" id="websiteStatus">✅ Online</div>
+                <div class="status-desc">mobilesolicitor.com.au</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">📱</div>
+                <div class="status-title">Leads Tracker</div>
+                <div class="status-value" id="leadsStatus">✅ Active</div>
+                <div class="status-desc">7 leads tracked</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">📊</div>
+                <div class="status-title">Build Plan</div>
+                <div class="status-value" id="buildStatus">🟡 Week 5</div>
+                <div class="status-desc">In progress</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">🤖</div>
+                <div class="status-title">AI System</div>
+                <div class="status-value" id="aiStatus">✅ Online</div>
+                <div class="status-desc">3 agents available</div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="grid">
+            <!-- Website Management -->
+            <div class="card">
+                <h3>🌐 Website Management</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">95%</div>
+                        <div class="metric-label">Complete</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$0</div>
+                        <div class="metric-label">Monthly</div>
+                    </div>
+                </div>
+                <a href="https://mobilesolicitor.com.au" target="_blank" class="btn">View Live Site</a>
+                <a href="https://vercel.com/jacqui-griffins-projects/jgms-site" target="_blank" class="btn secondary">Vercel Dashboard</a>
+                <a href="https://github.com/jacquigriffin-law/jgms-site" target="_blank" class="btn secondary">GitHub Repo</a>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    ⚠️ Header design being improved by Webby
+                </p>
+            </div>
+
+            <!-- Leads Management -->
+            <div class="card">
+                <h3>📱 Leads Tracker</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">7</div>
+                        <div class="metric-label">Total</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2</div>
+                        <div class="metric-label">Active</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">1</div>
+                        <div class="metric-label">Urgent</div>
+                    </div>
+                </div>
+                <a href="https://leads-tracker-eta.vercel.app/" target="_blank" class="btn">Open Leads Tracker</a>
+                <a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank" class="btn secondary">GitHub Repo</a>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    📞 <strong>Action Required:</strong> Laurie Bamford - 0402798314 (Property settlement)
+                </p>
+            </div>
+
+            <!-- Build Plan -->
+            <div class="card">
+                <h3>📊 ISA Build Plan</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">Week 5</div>
+                        <div class="metric-label">Current</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$21K</div>
+                        <div class="metric-label">Spent</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">75%</div>
+                        <div class="metric-label">Progress</div>
+                    </div>
+                </div>
+                <a href="https://jgms-site.vercel.app/build-plan" target="_blank" class="btn">View Build Plan</a>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    🎯 <strong>Next:</strong> NAB statements needed for Legal Aid reconciliation ($2K+ recovery)
+                </p>
+            </div>
+
+            <!-- AI Agents -->
+            <div class="card">
+                <h3>🤖 AI Agents</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Available</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">1</div>
+                        <div class="metric-label">Active</div>
+                    </div>
+                </div>
+                <div style="margin: 15px 0;">
+                    <div style="font-size: 13px; margin-bottom: 5px;"><strong>🎯 Xena:</strong> ✅ Main assistant (active)</div>
+                    <div style="font-size: 13px; margin-bottom: 5px;"><strong>🎨 Webby:</strong> 🔧 Website designer (working)</div>
+                    <div style="font-size: 13px; margin-bottom: 5px;"><strong>💻 Claude Code:</strong> ⏸️ Available on demand</div>
+                    <div style="font-size: 13px; margin-bottom: 5px;"><strong>🚀 Codex:</strong> ⏸️ Available on demand</div>
+                </div>
+                <a href="#" class="btn secondary">Agent Status</a>
+            </div>
+
+            <!-- System Health -->
+            <div class="card">
+                <h3>⚙️ System Health</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">✅</div>
+                        <div class="metric-label">Gateway</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">✅</div>
+                        <div class="metric-label">Telegram</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">✅</div>
+                        <div class="metric-label">M365</div>
+                    </div>
+                </div>
+                <div style="margin: 15px 0;">
+                    <div style="font-size: 13px; margin-bottom: 5px;">📍 <strong>Location:</strong> Mac Mini M4 (Moe's)</div>
+                    <div style="font-size: 13px; margin-bottom: 5px;">🧠 <strong>Model:</strong> Claude Sonnet 4</div>
+                    <div style="font-size: 13px; margin-bottom: 5px;">💾 <strong>Memory:</strong> 77% context used</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <h3>⚡ Quick Actions</h3>
+                <a href="tel:0402798314" class="btn warning">📞 Call Laurie Bamford</a>
+                <a href="mailto:jacquigriffin@mobilesolicitor.com.au" class="btn secondary">📧 Email</a>
+                <a href="https://account.squarespace.com/" target="_blank" class="btn secondary">Squarespace Login</a>
+                <a href="https://myob.com" target="_blank" class="btn secondary">MYOB Portal</a>
+                <div style="margin-top: 15px;">
+                    <div style="font-size: 13px; color: #dc3545;"><strong>⚠️ Urgent:</strong></div>
+                    <div style="font-size: 12px; color: #666;">• NAB statements for Legal Aid reconciliation</div>
+                    <div style="font-size: 12px; color: #666;">• MYOB access for BAS (due 28 April)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>🎯 Mission Control Dashboard</strong><br>
+            Built by ISA for Jacqui Griffin Law Firm<br>
+            Real-time operations monitoring
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="location.reload();" title="Refresh Dashboard">
+        🔄
+    </button>
+
+    <script>
+        function updateTimestamp() {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-AU', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'Australia/Sydney'
+            });
+            document.getElementById('lastUpdated').textContent = `Last updated: ${timeString} AEDT`;
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(() => {
+            location.reload();
+        }, 300000);
+
+        // Update timestamp on load
+        updateTimestamp();
+
+        // Check for critical alerts
+        function checkAlerts() {
+            const alerts = [
+                "Lead monitoring system missed Finchly lead - needs fixing",
+                "BAS due 28 April - MYOB access required",
+                "NAB statements needed for $2K+ Legal Aid recovery"
+            ];
+
+            if (alerts.length > 0) {
+                document.getElementById('alertsSection').style.display = 'block';
+                const alertsList = document.getElementById('alertsList');
+                alerts.forEach(alert => {
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert-item';
+                    alertDiv.textContent = alert;
+                    alertsList.appendChild(alertDiv);
+                });
+            }
+        }
+
+        checkAlerts();
+    </script>
+</body>
+</html>
