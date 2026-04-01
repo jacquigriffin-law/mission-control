@@ -356,6 +356,58 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- ═══ COMPLIANCE DEADLINES STRIP ═══ -->
+  <div class="section-title">⏰ Compliance & Deadlines</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem;margin-bottom:1.5rem;" id="deadlines-strip"></div>
+
+  <!-- ═══ CALENDAR / COURT DIARY ═══ -->
+  <div class="section-title">📅 Calendar & Court Diary</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+    <div class="glass" style="padding:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--cyan);">📆 Today's Appointments</div>
+      <div id="calendar-today"></div>
+    </div>
+    <div class="glass" style="padding:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--purple);">⚖️ Upcoming Court Dates</div>
+      <div id="court-dates"></div>
+    </div>
+  </div>
+
+  <!-- ═══ FINANCE SNAPSHOT ═══ -->
+  <div class="section-title">💼 Finance Snapshot</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1rem;" id="finance-metrics"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+    <div class="glass" style="padding:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--yellow);">🧾 Outstanding Invoices</div>
+      <div id="outstanding-invoices"></div>
+    </div>
+    <div class="glass" style="padding:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--green);">⚖️ Legal Aid Pipeline</div>
+      <div id="legal-aid-status"></div>
+    </div>
+  </div>
+
+  <!-- ═══ CLIENT / MATTER SNAPSHOT ═══ -->
+  <div class="section-title">👥 Client & Matter Snapshot</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-bottom:1.5rem;" id="matters-grid"></div>
+
+  <!-- ═══ LEAD PIPELINE FUNNEL ═══ -->
+  <div class="section-title">🔄 Lead Pipeline</div>
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div id="lead-funnel"></div>
+    <div style="margin-top:1rem;font-size:.75rem;color:var(--text-dim);text-align:center;">
+      <a href="https://leads-tracker-eta.vercel.app/" target="_blank" style="color:var(--cyan);">Open Full Leads Tracker →</a>
+    </div>
+  </div>
+
+  <!-- ═══ ALERTS CENTRE ═══ -->
+  <div class="section-title">🚨 Alerts & Notifications</div>
+  <div class="glass" style="padding:1rem;margin-bottom:1.5rem;" id="alerts-centre"></div>
+
+  <!-- ═══ SYSTEM HEALTH ═══ -->
+  <div class="section-title">💓 System Health</div>
+  <div class="glass" style="padding:1rem;margin-bottom:1.5rem;" id="system-health"></div>
+
   <!-- ═══ Build Plan ═══ -->
   <div class="section-title collapsible" id="buildPlanToggle" onclick="toggleBuildPlan()">
     📅 Full Build Plan <span class="chevron">▶</span>
@@ -442,6 +494,760 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- ═══ Kanban Task Board ═══ -->
+  <div class="section-title">📋 Task Board</div>
+  
+  <div id="kanban" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem;">
+    
+    <!-- TO DO -->
+    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-todo">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
+        <span style="background:var(--red);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
+        TO DO <span id="count-todo" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(239,68,68,.15);padding:1px 6px;border-radius:4px;">0</span>
+      </div>
+      <div id="tasks-todo" class="task-list"></div>
+      <div style="margin-top:.5rem;">
+        <input id="new-todo" type="text" placeholder="+ Add task..." style="width:100%;padding:.4rem .5rem;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);border-radius:6px;color:var(--text);font-size:.75rem;outline:none;" onkeydown="if(event.key==='Enter')addTask('todo')">
+      </div>
+    </div>
+    
+    <!-- IN PROGRESS -->
+    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-progress">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
+        <span style="background:var(--yellow);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
+        IN PROGRESS <span id="count-progress" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(234,179,8,.15);padding:1px 6px;border-radius:4px;">0</span>
+      </div>
+      <div id="tasks-progress" class="task-list"></div>
+    </div>
+    
+    <!-- DONE -->
+    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-done">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
+        <span style="background:var(--green);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
+        DONE <span id="count-done" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(34,197,94,.15);padding:1px 6px;border-radius:4px;">0</span>
+      </div>
+      <div id="tasks-done" class="task-list"></div>
+    </div>
+  </div>
+
+  <style>
+    .task-card{background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:8px;padding:.5rem .6rem;margin-bottom:.4rem;font-size:.75rem;cursor:pointer;transition:all .2s;position:relative;}
+    .task-card:hover{background:rgba(255,255,255,.08);border-color:var(--purple);}
+    .task-card .task-text{line-height:1.4;margin-bottom:.3rem;}
+    .task-card .task-meta{display:flex;gap:.3rem;flex-wrap:wrap;}
+    .task-tag{font-size:.6rem;padding:1px 5px;border-radius:3px;display:inline-block;}
+    .tag-urgent{background:rgba(239,68,68,.2);color:#fca5a5;}
+    .tag-finance{background:rgba(234,179,8,.2);color:#fde68a;}
+    .tag-website{background:rgba(6,182,212,.2);color:#67e8f9;}
+    .tag-leads{background:rgba(168,85,247,.2);color:#d8b4fe;}
+    .tag-compliance{background:rgba(239,68,68,.15);color:#fca5a5;}
+    .task-actions{display:none;position:absolute;top:.3rem;right:.3rem;gap:.2rem;}
+    .task-card:hover .task-actions{display:flex;}
+    .task-btn{background:rgba(255,255,255,.1);border:none;color:var(--text);padding:2px 5px;border-radius:4px;cursor:pointer;font-size:.65rem;}
+    .task-btn:hover{background:rgba(255,255,255,.2);}
+    @media(max-width:640px){
+      #kanban{grid-template-columns:1fr;gap:.5rem;}
+    }
+  </style>
+
+  <script>
+  // Kanban Task Board with localStorage persistence
+  const KANBAN_KEY='xena-kanban-v1';
+  
+  function getKanban(){
+    const saved=localStorage.getItem(KANBAN_KEY);
+    if(saved)return JSON.parse(saved);
+    // Default tasks
+    return {
+      todo:[
+        {id:1,text:'Call Laurie Bamford — 0402798314 (Section 90)',tags:['urgent','leads']},
+        {id:2,text:'Provide NAB bank statements for Legal Aid reconciliation (~$2K recovery)',tags:['urgent','finance']},
+        {id:3,text:'Grant MYOB access for BAS automation (due 28 April)',tags:['urgent','finance','compliance']},
+        {id:4,text:'Fix lead monitoring system — missed Finchly lead',tags:['urgent','leads']},
+        {id:5,text:'Send chronology templates for automation',tags:[]},
+        {id:6,text:'Provide conference scheduling PDF example',tags:[]},
+        {id:7,text:'Fix Areas of Practice page deployment issue',tags:['website']},
+      ],
+      progress:[
+        {id:8,text:'Website header branding — refined, needs final review',tags:['website']},
+        {id:9,text:'Mission Control v2 — building out sections',tags:['website']},
+        {id:10,text:'NT Legal Aid billing — PDF form integration',tags:['finance']},
+      ],
+      done:[
+        {id:11,text:'Leads tracker migrated to Vercel (7 leads synced)',tags:['leads']},
+        {id:12,text:'ISA Build Plan deployed with agent specs + skills',tags:['website']},
+        {id:13,text:'Mission Control v1 deployed',tags:['website']},
+        {id:14,text:'Homepage polished — hero text, spacing, Darwin image',tags:['website']},
+        {id:15,text:'Frontend Design skill created and installed',tags:[]},
+        {id:16,text:'Webby sub-agent created and operational',tags:[]},
+        {id:17,text:'PythonAnywhere to Vercel migration ($60/yr saved)',tags:['finance']},
+        {id:18,text:'M365 email/calendar connected (22 Mar)',tags:[]},
+        {id:19,text:'Morning brief system deployed (7am weekday, 8:30am weekend)',tags:[]},
+        {id:20,text:'Intake checklists created (Family, Estate, Care, Criminal)',tags:[]},
+      ]
+    };
+  }
+  
+  function saveKanban(data){localStorage.setItem(KANBAN_KEY,JSON.stringify(data));}
+  
+  function renderKanban(){
+    const data=getKanban();
+    ['todo','progress','done'].forEach(col=>{
+      const el=document.getElementById('tasks-'+col);
+      const count=document.getElementById('count-'+col);
+      el.innerHTML='';
+      count.textContent=data[col].length;
+      data[col].forEach(task=>{
+        const card=document.createElement('div');
+        card.className='task-card';
+        card.innerHTML=`
+          <div class="task-actions">
+            ${col!=='todo'?'<button class="task-btn" onclick="moveTask(${task.id},\'left\')" title="Move left">◀</button>':''}
+            ${col!=='done'?'<button class="task-btn" onclick="moveTask(${task.id},\'right\')" title="Move right">▶</button>':''}
+            <button class="task-btn" onclick="deleteTask(${task.id})" title="Delete" style="color:#fca5a5;">✕</button>
+          </div>
+          <div class="task-text">${task.text}</div>
+          <div class="task-meta">
+            ${task.tags.map(t=>'<span class="task-tag tag-'+t+'">'+t+'</span>').join('')}
+          </div>
+        `;
+        el.appendChild(card);
+      });
+    });
+  }
+  
+  function moveTask(id,dir){
+    const data=getKanban();
+    const cols=['todo','progress','done'];
+    for(let i=0;i<cols.length;i++){
+      const idx=data[cols[i]].findIndex(t=>t.id===id);
+      if(idx>-1){
+        const task=data[cols[i]].splice(idx,1)[0];
+        const newCol=dir==='right'?cols[Math.min(i+1,2)]:cols[Math.max(i-1,0)];
+        data[newCol].unshift(task);
+        break;
+      }
+    }
+    saveKanban(data);
+    renderKanban();
+  }
+  
+  function deleteTask(id){
+    const data=getKanban();
+    ['todo','progress','done'].forEach(col=>{
+      data[col]=data[col].filter(t=>t.id!==id);
+    });
+    saveKanban(data);
+    renderKanban();
+  }
+  
+  function addTask(col){
+    const input=document.getElementById('new-todo');
+    const text=input.value.trim();
+    if(!text)return;
+    const data=getKanban();
+    const maxId=Math.max(0,...['todo','progress','done'].flatMap(c=>data[c].map(t=>t.id)));
+    data[col].push({id:maxId+1,text:text,tags:[]});
+    saveKanban(data);
+    renderKanban();
+    input.value='';
+  }
+  
+  renderKanban();
+  </script>
+
+  <!-- ═══ Memory & Knowledge ═══ -->
+  <div class="section-title">🧠 Memory & Knowledge</div>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    
+    <!-- Long-Term Memory -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.4rem;">🏛️</span>
+        <div>
+          <div style="font-weight:700;font-size:.95rem;">Long-Term Memory</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">MEMORY.md — Curated knowledge</div>
+        </div>
+      </div>
+      <div style="font-size:.8rem;color:var(--text);line-height:1.6;">
+        <div style="padding:.4rem .6rem;background:rgba(168,85,247,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--purple);">
+          <strong>M365 Connected:</strong> Email, Calendar, Tasks live since 22 Mar
+        </div>
+        <div style="padding:.4rem .6rem;background:rgba(6,182,212,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--cyan);">
+          <strong>Two Microsoft accounts:</strong> Business (Exchange) + Personal (OneDrive 437GB)
+        </div>
+        <div style="padding:.4rem .6rem;background:rgba(34,197,94,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--green);">
+          <strong>Practice:</strong> Red Rain Family Law, Red Rain Wills & Estates, Amicable Family Law
+        </div>
+        <div style="padding:.4rem .6rem;background:rgba(234,179,8,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--yellow);">
+          <strong>IT Admin:</strong> Tim Morgan (external reseller)
+        </div>
+        <div style="padding:.4rem .6rem;background:rgba(239,68,68,.1);border-radius:6px;border-left:2px solid var(--red);">
+          <strong>OneDrive:</strong> NOT connected — needs Business Basic licence ($9/mo)
+        </div>
+      </div>
+    </div>
+    
+    <!-- Daily Journals -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.4rem;">📔</span>
+        <div>
+          <div style="font-weight:700;font-size:.95rem;">Daily Journals</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Tap any day to expand • memory/*.md</div>
+        </div>
+      </div>
+      <div style="font-size:.8rem;color:var(--text);">
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.15);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>31 Mar 2026</strong> — Build Plan, Leads Crisis, Mission Control</span><span style="color:var(--green);font-size:.7rem;">7.8 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Created ISA build plan with dual checklists (Jacqui + Moe)</div>
+            <div style="color:var(--green);">✅ Migrated leads tracker to Vercel — $60/year saved</div>
+            <div style="color:var(--red);">🚨 Lead monitoring MISSED Finchly lead (Laurie Bamford)</div>
+            <div style="color:var(--green);">✅ Emergency data sync — all 7 leads restored</div>
+            <div style="color:var(--green);">✅ Created Webby sub-agent for website design</div>
+            <div style="color:var(--green);">✅ Mission Control v1 deployed</div>
+            <div style="color:var(--yellow);">⚠️ Blockers: NAB statements, MYOB access (BAS due 28 Apr)</div>
+            <div style="color:var(--text-dim);margin-top:.3rem;">Cost: ~$24 • Models: Sonnet 4, Opus 4-6</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>30 Mar 2026</strong> — M365 Fix, Leads Register Rebuild</span><span style="color:var(--text-dim);font-size:.7rem;">5.5 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Fixed M365 email fetch (was timing out on 300+ messages)</div>
+            <div style="color:var(--green);">✅ PythonAnywhere API token updated</div>
+            <div style="color:var(--green);">✅ Fixed cron jobs for lead monitoring</div>
+            <div style="color:var(--red);">🚨 Major fix: leads register accidentally overwrote real leads with spam</div>
+            <div style="color:var(--green);">✅ Restored 5 real leads, created strict classifier</div>
+            <div style="color:var(--green);">✅ Added "Actioned" tab functionality to mobile app</div>
+            <div style="color:var(--yellow);">⚠️ Lesson: Lead classification needs strict boundaries</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>29 Mar 2026</strong> — JGMS Website Build, Finance Board</span><span style="color:var(--text-dim);font-size:.7rem;">4.9 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Built JGMS website mockup with navigation, Fees page, contact pages</div>
+            <div style="color:var(--green);">✅ Created finance-agent-priority-board.md</div>
+            <div style="color:var(--green);">✅ Fixed iPhone home-screen icon for leads app</div>
+            <div style="color:var(--green);">✅ Deployed multiple Vercel preview builds</div>
+            <div style="color:var(--cyan);">💡 Claude Code used for front-end redesign pass (~8 mins)</div>
+            <div style="color:var(--yellow);">⚠️ Cost decision: Opus for complex, Sonnet for everything else</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>28 Mar 2026</strong> — Morning Brief System, Intake Checklists</span><span style="color:var(--text-dim);font-size:.7rem;">8.2 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Automated daily morning brief (7am weekdays, 8:30am weekends)</div>
+            <div style="color:var(--green);">✅ Aggregates: court diary, calendar, leads, calls</div>
+            <div style="color:var(--green);">✅ Created 4 legal intake checklists (Family, Estate, Care, Criminal)</div>
+            <div style="color:var(--green);">✅ Acuity booking calendar embedded on website</div>
+            <div style="color:var(--cyan);">💡 Court Diary Agent moved from "built" to "deployed"</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>27 Mar 2026</strong> — Squarespace JGMS, Cost Tracking</span><span style="color:var(--text-dim);font-size:.7rem;">6.8 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Squarespace login restored (session had expired)</div>
+            <div style="color:var(--green);">✅ JGMS hero section fully transformed with branding</div>
+            <div style="color:var(--green);">✅ Footer contact info updated</div>
+            <div style="color:var(--green);">✅ Blog section removed, testimonials kept</div>
+            <div style="color:var(--yellow);">⚠️ Logo still shows "Family Law Assist" — needs manual fix</div>
+            <div style="color:var(--yellow);">⚠️ Navigation menu still old structure</div>
+            <div style="color:var(--cyan);">💡 Late-night operating reset with Moe — model strategy defined</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>26 Mar 2026</strong> — ATO Research Blocked</span><span style="color:var(--text-dim);font-size:.7rem;">0.8 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--red);">❌ ATO fines research blocked — missing Brave Search API key</div>
+            <div style="color:var(--yellow);">⚠️ Web search capability needed for finance agent work</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>24 Mar 2026</strong> — Subscription Audit</span><span style="color:var(--text-dim);font-size:.7rem;">0.7 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Subscription audit triage — identified false positives</div>
+            <div style="color:var(--cyan);">💡 Legal Aid $3,811.50 flagged as likely non-subscription</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>23 Mar 2026</strong> — Memory System, Leads Microapp, Squarespace</span><span style="color:var(--text-dim);font-size:.7rem;">6.8 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Daily memory dashboard created</div>
+            <div style="color:var(--green);">✅ Leads microapp prototype built with real data feed</div>
+            <div style="color:var(--green);">✅ 255 leads captured across all 3 inboxes</div>
+            <div style="color:var(--green);">✅ Squarespace browser session logged in (ISA/Moe)</div>
+            <div style="color:var(--green);">✅ Phase 2A delivered: lead extraction, dispute resolver, VXT, subscriptions</div>
+            <div style="color:var(--cyan);">💡 FamilyProperty dispute evidence found (4 cancellation emails)</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+            <span>📝 <strong>22 Mar 2026</strong> — Lead Rules Defined</span><span style="color:var(--text-dim);font-size:.7rem;">0.7 KB</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);">✅ Lead detection rules established</div>
+            <div style="color:var(--cyan);">💡 Finchly = lead, Acuity = definite lead, Legal Aid offers = lead</div>
+          </div>
+        </details>
+
+      </div>
+      <div style="margin-top:.75rem;font-size:.7rem;color:var(--text-dim);text-align:center;">
+        📊 Total: 9 journals • ~42 KB of memory • 10 days tracked
+      </div>
+    </div>
+  </div>
+
+  <!-- Workspace Files - Expandable -->
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+      <span style="font-size:1.4rem;">📁</span>
+      <div>
+        <div style="font-weight:700;font-size:.95rem;">Workspace Configuration</div>
+        <div style="font-size:.7rem;color:var(--text-dim);">Tap to preview • <a href="https://docs-ten-swart.vercel.app" target="_blank" style="color:var(--cyan);">Open Full Document Viewer →</a></div>
+      </div>
+    </div>
+    <div style="font-size:.8rem;">
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(168,85,247,.08);border-radius:6px;border-left:2px solid var(--purple);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">⚔️ SOUL.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— Identity & personality</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+          <div><strong>Name:</strong> Xena — Legal AI Assistant</div>
+          <div><strong>Owner:</strong> Jacqui Griffin</div>
+          <div><strong>Location:</strong> Sydney, NSW (splitting time with Darwin)</div>
+          <div style="margin-top:.3rem;"><strong>Practices:</strong></div>
+          <div style="padding-left:.75rem;">• Red Rain Family Law — Family and children's court</div>
+          <div style="padding-left:.75rem;">• Red Rain Wills & Estates — Estate planning, probate</div>
+          <div style="padding-left:.75rem;">• Amicable Family Law — Collaborative family law</div>
+          <div style="margin-top:.3rem;"><strong>Voice:</strong> Professional but warm, clear, concise, Australian English</div>
+          <div><strong>Core Functions:</strong> Finance Agent, Court Diary, Document Agent, Client Management, Practice Operations</div>
+          <div style="margin-top:.3rem;"><strong>Hard Constraints:</strong></div>
+          <div style="padding-left:.75rem;color:var(--red);">• NEVER provide legal advice</div>
+          <div style="padding-left:.75rem;color:var(--red);">• Client confidentiality is absolute</div>
+          <div style="padding-left:.75rem;">• Australian legal context (NSW primary)</div>
+          <div style="margin-top:.3rem;"><strong>Built by:</strong> ISA (Intelligent Solutions Agency) — Mohamed Dhaini</div>
+        </div>
+      </details>
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(6,182,212,.08);border-radius:6px;border-left:2px solid var(--cyan);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">👤 USER.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— About Jacqui Griffin</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
+          <div><strong>Name:</strong> Jacqui Griffin</div>
+          <div><strong>Phone:</strong> 0408 961 344</div>
+          <div><strong>Timezone:</strong> Australia/Sydney (AEDT/AEST)</div>
+          <div><strong>Location:</strong> Sydney, NSW (Darwin trips occasionally)</div>
+          <div style="margin-top:.3rem;"><strong>Context:</strong></div>
+          <div style="padding-left:.75rem;">• Sole practitioner running 3 law firms</div>
+          <div style="padding-left:.75rem;">• Family and children's court specialist</div>
+          <div style="padding-left:.75rem;">• Uses LEAP practice management software</div>
+          <div style="padding-left:.75rem;color:var(--red);">• Being fined by ATO — finance agent is top priority</div>
+          <div style="padding-left:.75rem;">• Prefers WhatsApp for comms</div>
+          <div style="margin-top:.3rem;"><strong>Communication:</strong> Direct, no fluff, professional but friendly, time-poor</div>
+        </div>
+      </details>
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(34,197,94,.08);border-radius:6px;border-left:2px solid var(--green);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">📋 AGENTS.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— Operating rules</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
+          <div><strong>Session Startup:</strong> Prime every session (SOUL → USER → AGENTS → TOOLS → today's memory)</div>
+          <div style="margin-top:.3rem;"><strong>Memory System:</strong></div>
+          <div style="padding-left:.75rem;">• Daily notes: memory/YYYY-MM-DD.md (raw logs)</div>
+          <div style="padding-left:.75rem;">• Long-term: MEMORY.md (curated, main sessions only)</div>
+          <div style="margin-top:.3rem;"><strong>Red Lines:</strong></div>
+          <div style="padding-left:.75rem;color:var(--red);">• Don't exfiltrate private data. Ever.</div>
+          <div style="padding-left:.75rem;color:var(--red);">• Don't run destructive commands without asking.</div>
+          <div style="padding-left:.75rem;">• trash > rm (recoverable beats gone forever)</div>
+          <div style="margin-top:.3rem;"><strong>External Actions:</strong> Ask first before sending emails, tweets, public posts</div>
+          <div><strong>Group Chats:</strong> Participate, don't dominate. Quality > quantity.</div>
+          <div><strong>Heartbeats:</strong> Check emails, calendar, mentions 2-4x daily. Stay quiet 23:00-08:00.</div>
+        </div>
+      </details>
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(234,179,8,.08);border-radius:6px;border-left:2px solid var(--yellow);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">🔧 TOOLS.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— Service config & credentials</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;line-height:1.7;">
+          <div><strong>Squarespace:</strong> ✅ Logged in — session active</div>
+          <div style="padding-left:.75rem;">• FLA (Family Law Assist) — Active</div>
+          <div style="padding-left:.75rem;">• NTRRLS (NT Rural Remote Legal Services) — Started</div>
+          <div style="padding-left:.75rem;">• JGMS (Mobile Solicitor) — Moved to Vercel</div>
+          <div style="margin-top:.3rem;"><strong>Re-login note:</strong> Must use slow typing (pressSequentially) — Squarespace disables submit on paste</div>
+        </div>
+      </details>
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(239,68,68,.08);border-radius:6px;border-left:2px solid var(--red);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">🪪 IDENTITY.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— Operating discipline</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--red);font-size:.75rem;line-height:1.7;">
+          <div><strong>Non-Negotiable Rules:</strong></div>
+          <div style="padding-left:.75rem;">1. Prime every session before work</div>
+          <div style="padding-left:.75rem;">2. Verify before reporting — check persisted state</div>
+          <div style="padding-left:.75rem;">3. Research feasibility first on complex tasks</div>
+          <div style="padding-left:.75rem;">4. Use the best current model version</div>
+          <div style="padding-left:.75rem;">5. Prefer truth over confidence</div>
+          <div style="padding-left:.75rem;">6. Keep memory current — write daily logs</div>
+          <div style="padding-left:.75rem;">7. Do not over-promise</div>
+          <div style="padding-left:.75rem;">8. Use Australian English</div>
+          <div style="margin-top:.3rem;"><strong>Working Style:</strong> Concise, transparent about blockers, think first, double-check important work, triple-check client-facing/money/calendar items</div>
+          <div style="margin-top:.3rem;color:var(--yellow);"><strong>Key Lesson:</strong> Browser DOM edits ≠ saved changes. Always verify after refresh.</div>
+        </div>
+      </details>
+
+      <details style="margin-bottom:.4rem;">
+        <summary style="padding:.5rem .75rem;background:rgba(168,85,247,.08);border-radius:6px;border-left:2px solid var(--purple);cursor:pointer;list-style:none;">
+          <span style="font-weight:600;">💓 HEARTBEAT.md</span> <span style="color:var(--text-dim);font-size:.7rem;">— Periodic task config</span>
+        </summary>
+        <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+          <div style="color:var(--text-dim);font-style:italic;">Currently empty — no periodic heartbeat tasks configured.</div>
+          <div style="margin-top:.3rem;">Add tasks here for Xena to check periodically (every ~30 min):</div>
+          <div style="padding-left:.75rem;">• Email inbox checks</div>
+          <div style="padding-left:.75rem;">• Calendar reminders</div>
+          <div style="padding-left:.75rem;">• Lead monitoring</div>
+          <div style="padding-left:.75rem;">• System health checks</div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Skills Detail -->
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+      <span style="font-size:1.4rem;">🛠️</span>
+      <div>
+        <div style="font-weight:700;font-size:.95rem;">Installed Skills (9 Ready)</div>
+        <div style="font-size:.7rem;color:var(--text-dim);">Specialist capabilities loaded</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.5rem;font-size:.8rem;">
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">🧩</span>
+        <div>
+          <div style="font-weight:600;">Coding Agent</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Delegate to Codex/Claude Code/Pi</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">🔒</span>
+        <div>
+          <div style="font-weight:600;">Healthcheck</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Security audits & hardening</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">📱</span>
+        <div>
+          <div style="font-weight:600;">Node Connect</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Device pairing diagnostics</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">✍️</span>
+        <div>
+          <div style="font-weight:600;">Skill Creator</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Build custom skills</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">🧵</span>
+        <div>
+          <div style="font-weight:600;">Tmux</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Terminal session automation</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">🎬</span>
+        <div>
+          <div style="font-weight:600;">Video Frames</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Extract clips via ffmpeg</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:1.1rem;">☔</span>
+        <div>
+          <div style="font-weight:600;">Weather</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Forecasts for any location</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">READY</span>
+      </div>
+      <div style="padding:.5rem .75rem;background:rgba(168,85,247,.15);border-radius:6px;display:flex;align-items:center;gap:.5rem;border:1px solid rgba(168,85,247,.3);">
+        <span style="font-size:1.1rem;">🎨</span>
+        <div>
+          <div style="font-weight:600;">Frontend Design</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Website design & Vercel deploy</div>
+        </div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(168,85,247,.3);padding:2px 6px;border-radius:4px;color:var(--purple);">CUSTOM</span>
+      </div>
+    </div>
+    <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(234,179,8,.08);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;color:var(--text-dim);">
+      💡 <strong>42 more skills available</strong> from OpenClaw bundled library — install on demand
+    </div>
+  </div>
+
+  <!-- ═══ Documents ═══ -->
+  <div class="section-title">📄 Documents</div>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    
+    <!-- Workspace Core -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.2rem;">📂</span>
+        <div style="font-weight:700;font-size:.9rem;">Workspace Core</div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">6 files</span>
+      </div>
+      <div style="font-size:.78rem;line-height:1.8;">
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">⚔️ <span style="color:var(--text-bright);">SOUL.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Identity & voice</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">👤 <span style="color:var(--text-bright);">USER.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">About Jacqui</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📋 <span style="color:var(--text-bright);">AGENTS.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Operating rules</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🔧 <span style="color:var(--text-bright);">TOOLS.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Service config</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🪪 <span style="color:var(--text-bright);">IDENTITY.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Discipline rules</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;">💓 <span style="color:var(--text-bright);">HEARTBEAT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Periodic tasks</span></div>
+      </div>
+    </div>
+    
+    <!-- Project Documentation - Expandable -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.2rem;">📑</span>
+        <div style="font-weight:700;font-size:.9rem;">Project Docs</div>
+        <a href="https://docs-ten-swart.vercel.app" target="_blank" style="margin-left:auto;font-size:.65rem;background:rgba(6,182,212,.2);padding:2px 6px;border-radius:4px;color:var(--cyan);text-decoration:none;">View Full Docs →</a>
+      </div>
+      <div style="font-size:.8rem;">
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            📊 <span style="color:var(--text-bright);font-weight:600;">PHASE-2-PLAN.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Build roadmap</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
+            <div><strong>Goal:</strong> Connect external integrations to make agents functional</div>
+            <div style="margin-top:.3rem;"><strong>Available Credentials:</strong></div>
+            <div style="padding-left:.75rem;">✅ LEAP, MYOB, VXT, Calendly, Acuity, ElevenLabs, Vapi</div>
+            <div style="padding-left:.75rem;">✅ FCFCOA Court Portal, NSW Courts, Federal Court</div>
+            <div style="padding-left:.75rem;">✅ HubSpot, Stripe, Twilio</div>
+            <div style="margin-top:.3rem;"><strong>Priority:</strong> Items that unblock the most HIGH-priority scope items first</div>
+            <div><strong>Created:</strong> 23 March 2026 by ISA HQ</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE-2A-COMPLETION.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2A report</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);"><strong>Status:</strong> ✅ All 3 tasks complete (23 Mar 2026)</div>
+            <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
+            <div style="padding-left:.75rem;">✅ Email Dispute Resolver — found FamilyProperty cancellation evidence</div>
+            <div style="padding-left:.75rem;">✅ VXT Call Log Integration — webhook receiver built</div>
+            <div style="padding-left:.75rem;">✅ Subscription Auditor — scans M365 for recurring payments</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE2B-COMPLETION-REPORT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2B report</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
+            <div style="color:var(--green);"><strong>Status:</strong> ✅ Complete (23 Mar 2026)</div>
+            <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
+            <div style="padding-left:.75rem;">✅ LEAP API Integration (practice management)</div>
+            <div style="padding-left:.75rem;">✅ Court Portal Scrapers (3 Australian courts: FCFCOA, NSW, Federal)</div>
+            <div style="padding-left:.75rem;">✅ Enhanced Morning Brief (aggregates all data sources)</div>
+            <div style="padding-left:.75rem;">→ Unblocked 10+ scope items for practice automation</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            🗺️ <span style="color:var(--text-bright);font-weight:600;">WORKSPACE-MAP.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">File structure</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;font-family:monospace;">
+            <div>/opt/openclaw/clients/jacqui-griffin/</div>
+            <div>├── Core Files (SOUL, USER, IDENTITY, AGENTS, TOOLS, MEMORY)</div>
+            <div>├── memory/ (daily journals)</div>
+            <div>├── scripts/ (13 automation scripts)</div>
+            <div>├── sites/jgms/ (website files)</div>
+            <div>├── leads-tracker/ (Vercel leads app)</div>
+            <div>├── mission-control/ (this dashboard)</div>
+            <div>├── skills/ (custom skills)</div>
+            <div>├── leads/ (lead data & feed builders)</div>
+            <div>└── output/ (generated reports & workpacks)</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            📝 <span style="color:var(--text-bright);font-weight:600;">JGMS-COMPLETION-CHECKLIST.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Website tasks</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;line-height:1.7;">
+            <div><strong>Site:</strong> Originally for Squarespace, now migrated to Vercel</div>
+            <div style="margin-top:.3rem;color:var(--green);"><strong>✅ Completed:</strong></div>
+            <div style="padding-left:.75rem;">✅ Site title, hero section, footer email, blog removed</div>
+            <div style="margin-top:.3rem;color:var(--yellow);"><strong>⚠️ Remaining:</strong></div>
+            <div style="padding-left:.75rem;">• Logo update (still shows old branding in some places)</div>
+            <div style="padding-left:.75rem;">• Navigation menu restructure</div>
+            <div style="padding-left:.75rem;">• Colour scheme refinement</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            🏗️ <span style="color:var(--text-bright);font-weight:600;">SQUARESPACE-JGMS-HANDOFF.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Migration notes</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
+            <div><strong>Project:</strong> Transform "Family Law Assist (Copy)" → "JGMS"</div>
+            <div><strong>Status:</strong> Partially complete, then migrated to Vercel instead</div>
+            <div style="margin-top:.3rem;"><strong>Completed:</strong> Site title, login session, content gathered</div>
+            <div><strong>Originally remaining:</strong> Logo (10 min), nav menu, middle content, colour scheme</div>
+            <div style="color:var(--cyan);margin-top:.3rem;">💡 Decision: Moved to Vercel for free hosting instead of continuing on Squarespace</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            📄 <span style="color:var(--text-bright);font-weight:600;">SQUARESPACE-PAGE-CONTENT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Page content</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
+            <div><strong>Purpose:</strong> Ready-to-paste content for each website page</div>
+            <div style="margin-top:.3rem;"><strong>Pages mapped:</strong></div>
+            <div style="padding-left:.75rem;">Home → HOME, Our Mission → AREAS OF PRACTICE</div>
+            <div style="padding-left:.75rem;">About → DO IT ONLINE, Self Represent → FOR CLIENTS</div>
+            <div style="padding-left:.75rem;">Blog → NEWS, Contact → CONTACT</div>
+            <div style="padding-left:.75rem;">Fixed Fees → DELETE, Testimonials → DELETE</div>
+            <div style="color:var(--text-dim);margin-top:.3rem;">Originally for Squarespace nav restructure — content now used on Vercel site</div>
+          </div>
+        </details>
+
+        <details style="margin-bottom:.4rem;">
+          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+            📋 <span style="color:var(--text-bright);font-weight:600;">remaining_build_plan.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Outstanding tasks</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--red);font-size:.75rem;line-height:1.7;">
+            <div><strong>Weeks 5-6 Outstanding:</strong></div>
+            <div style="margin-top:.3rem;color:var(--red);"><strong>🔴 Critical:</strong></div>
+            <div style="padding-left:.75rem;">• NT Legal Aid reconciliation — $2K+ at risk (needs NAB statements)</div>
+            <div style="padding-left:.75rem;">• MYOB BAS statements — ATO fines! (due 28 April)</div>
+            <div style="padding-left:.75rem;">• Trust account reconciliation — compliance requirement</div>
+            <div style="margin-top:.3rem;color:var(--yellow);"><strong>🟡 Medium:</strong></div>
+            <div style="padding-left:.75rem;">• Conference scheduler, chronologies, merit advice drafting</div>
+            <div style="padding-left:.75rem;">• Professional indemnity, Legal Aid invoice reassign</div>
+            <div style="padding-left:.75rem;">• Trust account audit docs</div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    
+    <!-- Scripts -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.2rem;">⚙️</span>
+        <div style="font-weight:700;font-size:.9rem;">Scripts</div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(168,85,247,.2);padding:2px 6px;border-radius:4px;color:var(--purple);">13 scripts</span>
+      </div>
+      <div style="font-size:.78rem;line-height:1.8;">
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🔍 <span style="color:var(--text-bright);">urgent_lead_check.py</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● CRON</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📊 <span style="color:var(--text-bright);">daily_leads_update.py</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● CRON</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📧 <span style="color:var(--text-bright);">ms365_graph.py</span><span style="margin-left:auto;color:var(--yellow);font-size:.65rem;">● M365</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">💰 <span style="color:var(--text-bright);">cost_monitor.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">tracking</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">💼 <span style="color:var(--text-bright);">finance_workpack.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">finance</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📋 <span style="color:var(--text-bright);">intake_checklist.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">client intake</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📇 <span style="color:var(--text-bright);">manage_leads_register.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">leads</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🔄 <span style="color:var(--text-bright);">refresh_leads_and_upload.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">sync</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;">📱 <span style="color:var(--text-bright);">+ 5 more scripts</span><span style="margin-left:auto;color:var(--text-dim);font-size:.65rem;">various</span></div>
+      </div>
+    </div>
+    
+    <!-- Website Files -->
+    <div class="glass" style="padding:1.25rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+        <span style="font-size:1.2rem;">🌐</span>
+        <div style="font-weight:700;font-size:.9rem;">Website Pages</div>
+        <span style="margin-left:auto;font-size:.65rem;background:rgba(239,68,68,.2);padding:2px 6px;border-radius:4px;color:#fca5a5;">17 files</span>
+      </div>
+      <div style="font-size:.78rem;line-height:1.8;">
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🏠 <span style="color:var(--text-bright);">index.html</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">👤 <span style="color:var(--text-bright);">about/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">⚖️ <span style="color:var(--text-bright);">areas-of-practice/</span><span style="margin-left:auto;color:var(--yellow);font-size:.65rem;">● ISSUE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">💰 <span style="color:var(--text-bright);">fees/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📞 <span style="color:var(--text-bright);">contact/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">👨‍👩‍👧 <span style="color:var(--text-bright);">family-law/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🛡️ <span style="color:var(--text-bright);">care-protection/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">⚖️ <span style="color:var(--text-bright);">criminal-law-avos/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📜 <span style="color:var(--text-bright);">estate-law/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🌏 <span style="color:var(--text-bright);">darwin/ sydney/</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">📊 <span style="color:var(--text-bright);">build-plan.html</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+        <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;">🎨 <span style="color:var(--text-bright);">styles.css</span><span style="margin-left:auto;color:var(--green);font-size:.65rem;">● LIVE</span></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Data Files -->
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+      <span style="font-size:1.2rem;">💾</span>
+      <div style="font-weight:700;font-size:.9rem;">Data & Configuration</div>
+      <span style="margin-left:auto;font-size:.65rem;background:rgba(234,179,8,.2);padding:2px 6px;border-radius:4px;color:var(--yellow);">4 files</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.5rem;font-size:.78rem;">
+      <div style="padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;display:flex;align-items:center;gap:.4rem;">
+        <span>📊</span><span style="color:var(--text-bright);">leads_data.json</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Lead records</span>
+      </div>
+      <div style="padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;display:flex;align-items:center;gap:.4rem;">
+        <span>💰</span><span style="color:var(--text-bright);">cost-tracking.json</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">API costs</span>
+      </div>
+      <div style="padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;display:flex;align-items:center;gap:.4rem;">
+        <span>🚦</span><span style="color:var(--text-bright);">cost-limits.json</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Budget limits</span>
+      </div>
+      <div style="padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;display:flex;align-items:center;gap:.4rem;">
+        <span>🏋️</span><span style="color:var(--text-bright);">original_fitness_app.py</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">PythonAnywhere</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ Recent Activity ═══ -->
   <div class="section-title">📝 Recent Activity</div>
   <div class="glass">
@@ -454,6 +1260,112 @@ a:hover{text-decoration:underline}
       <div class="log-item"><span class="log-dot"></span><span>Mission Control v1 deployed</span><span class="log-time">Yesterday</span></div>
       <div class="log-item"><span class="log-dot" style="background:var(--red)"></span><span><strong style="color:#fca5a5">Laurie Bamford lead added (URGENT)</strong></span><span class="log-time">Yesterday</span></div>
     </div>
+  </div>
+
+  <!-- ═══ Cost Tracking ═══ -->
+  <div class="section-title">💰 Cost Tracking</div>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    <div class="glass" style="padding:1.25rem;text-align:center;">
+      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Today</div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--green);margin:.25rem 0;">$30</div>
+      <div style="font-size:.7rem;color:var(--text-dim);">1 Apr 2026</div>
+    </div>
+    <div class="glass" style="padding:1.25rem;text-align:center;">
+      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Week</div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--cyan);margin:.25rem 0;">$55</div>
+      <div style="font-size:.7rem;color:var(--text-dim);">Mon 31 Mar – Sun 6 Apr</div>
+    </div>
+    <div class="glass" style="padding:1.25rem;text-align:center;">
+      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Month</div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--purple);margin:.25rem 0;">$85</div>
+      <div style="font-size:.7rem;color:var(--text-dim);">March 2026</div>
+    </div>
+    <div class="glass" style="padding:1.25rem;text-align:center;">
+      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Total to Date</div>
+      <div style="font-size:1.8rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.25rem 0;">$85</div>
+      <div style="font-size:.7rem;color:var(--text-dim);">Since 22 Mar 2026</div>
+    </div>
+  </div>
+
+  <!-- Agent Cost Breakdown -->
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem;">🤖 Agent Cost Breakdown</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <th style="text-align:left;padding:.5rem;color:var(--text-dim);font-weight:600;">Agent</th>
+        <th style="text-align:left;padding:.5rem;color:var(--text-dim);font-weight:600;">Model</th>
+        <th style="text-align:right;padding:.5rem;color:var(--text-dim);font-weight:600;">Today</th>
+        <th style="text-align:right;padding:.5rem;color:var(--text-dim);font-weight:600;">Total</th>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.5rem;">⚔️ <strong>Xena</strong></td>
+        <td style="padding:.5rem;"><span style="background:rgba(168,85,247,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Opus 4-6</span></td>
+        <td style="padding:.5rem;text-align:right;color:var(--green);">$20.00</td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$65.00</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.5rem;">🎨 <strong>Webby</strong></td>
+        <td style="padding:.5rem;"><span style="background:rgba(6,182,212,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Sonnet 4 / Opus</span></td>
+        <td style="padding:.5rem;text-align:right;color:var(--green);">$8.00</td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$8.00</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.5rem;">💻 <strong>Claude Code</strong></td>
+        <td style="padding:.5rem;"><span style="background:rgba(34,197,94,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Claude 4.5+</span></td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.5rem;">🚀 <strong>Codex</strong></td>
+        <td style="padding:.5rem;"><span style="background:rgba(234,179,8,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">GPT-5+</span></td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem;"><strong>⏱️ Cron Jobs</strong></td>
+        <td style="padding:.5rem;"><span style="background:rgba(239,68,68,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Opus 4-6</span></td>
+        <td style="padding:.5rem;text-align:right;color:var(--green);">$2.00</td>
+        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$12.00</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Model Pricing Reference -->
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem;">📊 Model Pricing Reference</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Model</th>
+        <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Input/1M tokens</th>
+        <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Output/1M tokens</th>
+        <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Best For</th>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.4rem;"><strong>Claude Opus 4-6</strong></td>
+        <td style="padding:.4rem;text-align:right;">$15.00</td>
+        <td style="padding:.4rem;text-align:right;">$75.00</td>
+        <td style="padding:.4rem;color:var(--purple);">Complex reasoning, strategy</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.4rem;"><strong>Claude Sonnet 4</strong></td>
+        <td style="padding:.4rem;text-align:right;">$3.00</td>
+        <td style="padding:.4rem;text-align:right;">$15.00</td>
+        <td style="padding:.4rem;color:var(--cyan);">Execution, web design, coding</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--glass-border);">
+        <td style="padding:.4rem;"><strong>Claude Haiku 4.5</strong></td>
+        <td style="padding:.4rem;text-align:right;">$0.80</td>
+        <td style="padding:.4rem;text-align:right;">$4.00</td>
+        <td style="padding:.4rem;color:var(--green);">Quick admin, simple tasks</td>
+      </tr>
+      <tr>
+        <td style="padding:.4rem;"><strong>Cerebras Qwen 235B</strong></td>
+        <td style="padding:.4rem;text-align:right;">Free</td>
+        <td style="padding:.4rem;text-align:right;">Free</td>
+        <td style="padding:.4rem;color:var(--yellow);">Fallback, fast inference</td>
+      </tr>
+    </table>
   </div>
 
   <!-- ═══ Quick Actions ═══ -->
@@ -473,6 +1385,255 @@ a:hover{text-decoration:underline}
 </div>
 
 <script>
+// ═══════════════════════════════════════════
+// MISSION CONTROL — LIVE WIDGETS
+// ═══════════════════════════════════════════
+
+// ── 1. COMPLIANCE DEADLINES STRIP ──
+function renderDeadlines(){
+  const now=new Date();
+  const deadlines=[
+    {label:'BAS Lodgement',date:'2026-04-28',category:'finance',icon:'💰'},
+    {label:'Trust Reconciliation',date:'2026-04-30',category:'compliance',icon:'🏦'},
+    {label:'PI Renewal',date:'2026-09-01',category:'compliance',icon:'🛡️'},
+    {label:'NTRRLS Password Off',date:'2026-06-01',category:'website',icon:'🌐'},
+    {label:'Legal Aid Recon',date:'2026-04-07',category:'finance',icon:'⚖️'},
+    {label:'LEAP Review',date:'2026-04-15',category:'admin',icon:'📋'},
+  ];
+  const el=document.getElementById('deadlines-strip');
+  if(!el)return;
+  el.innerHTML=deadlines.map(d=>{
+    const due=new Date(d.date);
+    const diff=Math.ceil((due-now)/(1000*60*60*24));
+    const color=diff<=7?'var(--red)':diff<=14?'var(--yellow)':'var(--green)';
+    const bg=diff<=7?'rgba(239,68,68,.12)':diff<=14?'rgba(234,179,8,.08)':'rgba(34,197,94,.08)';
+    const urgency=diff<=7?'🔴 ':diff<=14?'🟡 ':'🟢 ';
+    return `<div style="background:${bg};border:1px solid ${color};border-radius:10px;padding:.75rem;text-align:center;">
+      <div style="font-size:1.2rem;">${d.icon}</div>
+      <div style="font-weight:700;font-size:.75rem;margin:.2rem 0;">${d.label}</div>
+      <div style="font-size:.7rem;color:${color};font-weight:700;">${urgency}${diff <= 0 ? 'OVERDUE' : diff+' days'}</div>
+      <div style="font-size:.65rem;color:var(--text-dim);">${new Date(d.date).toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── 2. CALENDAR & COURT DIARY ──
+function renderCalendar(){
+  const calToday=document.getElementById('calendar-today');
+  const courtDates=document.getElementById('court-dates');
+  
+  // Static data — will be live once M365 calendar is queried
+  const todayItems=[
+    {time:'9:00 AM',title:'Client call — Care & Protection',type:'call'},
+    {time:'2:00 PM',title:'Legal Aid — merit advice review',type:'admin'},
+    {time:'4:30 PM',title:'Phone consult — new enquiry',type:'consult'},
+  ];
+  const courtItems=[
+    {date:'3 Apr',court:'Children\'s Court Parramatta',matter:'Care & Protection — directions',type:'court'},
+    {date:'7 Apr',court:'Federal Circuit Court',matter:'Family law — financial orders',type:'court'},
+    {date:'14 Apr',court:'Children\'s Court Darwin (AVL)',matter:'Care & Protection — hearing',type:'court'},
+  ];
+  
+  if(calToday) calToday.innerHTML=todayItems.length?todayItems.map(i=>`
+    <div style="padding:.4rem .5rem;background:rgba(6,182,212,.06);border-left:2px solid var(--cyan);border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
+      <div style="color:var(--cyan);font-size:.7rem;">${i.time}</div>
+      <div style="color:var(--text-bright);">${i.title}</div>
+    </div>`).join('')
+    :`<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;text-align:center;padding:.5rem;">
+      No appointments today<br><a href="#" style="color:var(--cyan);font-size:.7rem;">Connect M365 calendar for live data</a>
+    </div>`;
+
+  if(courtDates) courtDates.innerHTML=courtItems.map(i=>`
+    <div style="padding:.4rem .5rem;background:rgba(239,68,68,.06);border-left:2px solid var(--red);border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
+      <div style="color:#fca5a5;font-size:.7rem;font-weight:700;">${i.date} • ${i.court}</div>
+      <div style="color:var(--text-bright);">${i.matter}</div>
+    </div>`).join('');
+    
+  // Note about live data
+  if(courtDates) courtDates.innerHTML+=`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem .4rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Sample data — live court dates need LEAP/calendar integration</div>`;
+}
+
+// ── 3. FINANCE SNAPSHOT ──
+function renderFinance(){
+  const metrics=document.getElementById('finance-metrics');
+  const invoices=document.getElementById('outstanding-invoices');
+  const legalAid=document.getElementById('legal-aid-status');
+  
+  if(metrics) metrics.innerHTML=[
+    {label:'Outstanding',value:'$8,400',sub:'3 invoices',color:'var(--yellow)',icon:'📄'},
+    {label:'Legal Aid Owed',value:'$2,100+',sub:'NT reconciliation',color:'var(--red)',icon:'⚖️'},
+    {label:'Trust Balance',value:'–',sub:'MYOB needed',color:'var(--text-dim)',icon:'🏦'},
+    {label:'BAS Status',value:'⚠️ Due',sub:'28 April',color:'var(--red)',icon:'💰'},
+    {label:'AI Spend (Apr)',value:'$30',sub:'Budget on track',color:'var(--green)',icon:'🤖'},
+  ].map(m=>`
+    <div style="background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;padding:.75rem;text-align:center;">
+      <div style="font-size:1.1rem;">${m.icon}</div>
+      <div style="font-size:1.1rem;font-weight:800;color:${m.color};margin:.2rem 0;">${m.value}</div>
+      <div style="font-size:.7rem;font-weight:600;">${m.label}</div>
+      <div style="font-size:.65rem;color:var(--text-dim);">${m.sub}</div>
+    </div>`).join('');
+
+  if(invoices) invoices.innerHTML=[
+    {client:'Matter A — Family Law',amount:'$3,200',age:'32 days',status:'overdue'},
+    {client:'Matter B — Care & Protection',amount:'$2,800',age:'18 days',status:'pending'},
+    {client:'Matter C — Wills & Estates',amount:'$2,400',age:'7 days',status:'recent'},
+  ].map(i=>{
+    const color=i.status==='overdue'?'var(--red)':i.status==='pending'?'var(--yellow)':'var(--green)';
+    return `<div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;">
+      <div><div style="color:var(--text-bright);">${i.client}</div><div style="font-size:.65rem;color:var(--text-dim);">${i.age} old</div></div>
+      <div style="font-weight:700;color:${color};">${i.amount}</div>
+    </div>`;
+  }).join('')+`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Sample data — connect LEAP/MYOB for live invoices</div>`;
+
+  if(legalAid) legalAid.innerHTML=[
+    {item:'NT Legal Aid — current quarter',amount:'$2,100+',status:'At risk — NAB stmts needed',color:'var(--red)'},
+    {item:'NSW Legal Aid — approved',amount:'$1,400',status:'Awaiting payment',color:'var(--yellow)'},
+    {item:'Family Violence scheme',amount:'$840',status:'Invoiced',color:'var(--green)'},
+  ].map(i=>`
+    <div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${i.color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
+      <div style="color:var(--text-bright);font-weight:600;">${i.item}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:.2rem;">
+        <span style="color:var(--text-dim);font-size:.7rem;">${i.status}</span>
+        <span style="font-weight:700;color:${i.color};">${i.amount}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── 4. CLIENT / MATTER SNAPSHOT ──
+function renderMatters(){
+  const el=document.getElementById('matters-grid');
+  if(!el)return;
+  const practices=[
+    {name:'Red Rain Family Law',icon:'👨‍👩‍👧',matters:8,urgent:2,color:'var(--purple)',description:'Family, parenting, property'},
+    {name:'Red Rain Wills & Estates',icon:'📜',matters:4,urgent:0,color:'var(--cyan)',description:'Wills, probate, estates'},
+    {name:'Amicable Family Law',icon:'🤝',matters:3,urgent:1,color:'var(--green)',description:'Collaborative family law'},
+    {name:'Care & Protection',icon:'🛡️',matters:5,urgent:3,color:'var(--red)',description:'Children\'s court'},
+    {name:'Criminal & AVOs',icon:'⚖️',matters:2,urgent:1,color:'var(--yellow)',description:'Criminal defence, AVOs'},
+  ];
+  el.innerHTML=practices.map(p=>`
+    <div style="background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;padding:.9rem;">
+      <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem;">
+        <span style="font-size:1.2rem;">${p.icon}</span>
+        <div>
+          <div style="font-weight:700;font-size:.78rem;color:var(--text-bright);">${p.name}</div>
+          <div style="font-size:.65rem;color:var(--text-dim);">${p.description}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.4rem;">
+        <div style="flex:1;text-align:center;background:rgba(255,255,255,.04);border-radius:6px;padding:.3rem;">
+          <div style="font-size:1.1rem;font-weight:800;color:${p.color};">${p.matters}</div>
+          <div style="font-size:.6rem;color:var(--text-dim);">matters</div>
+        </div>
+        <div style="flex:1;text-align:center;background:${p.urgent>0?'rgba(239,68,68,.1)':'rgba(255,255,255,.04)'};border-radius:6px;padding:.3rem;">
+          <div style="font-size:1.1rem;font-weight:800;color:${p.urgent>0?'var(--red)':'var(--text-dim)'};">${p.urgent}</div>
+          <div style="font-size:.6rem;color:var(--text-dim);">urgent</div>
+        </div>
+      </div>
+    </div>`).join('')+`<div style="grid-column:1/-1;font-size:.65rem;color:var(--text-dim);padding:.3rem .5rem;background:rgba(234,179,8,.05);border-radius:6px;">⚠️ Sample counts — connect LEAP for live matter data</div>`;
+}
+
+// ── 5. LEAD PIPELINE FUNNEL ──
+function renderFunnel(){
+  const el=document.getElementById('lead-funnel');
+  if(!el)return;
+  const stages=[
+    {label:'Enquiry',count:7,icon:'📨',color:'var(--cyan)',pct:100},
+    {label:'Consult Booked',count:4,icon:'📅',color:'var(--purple)',pct:57},
+    {label:'Retained',count:2,icon:'✅',color:'var(--green)',pct:29},
+    {label:'Closed / Referred',count:5,icon:'🗂️',color:'var(--text-dim)',pct:71},
+  ];
+  el.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem;">
+      ${stages.map(s=>`
+        <div style="text-align:center;">
+          <div style="font-size:1.2rem;">${s.icon}</div>
+          <div style="font-size:1.4rem;font-weight:800;color:${s.color};">${s.count}</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">${s.label}</div>
+          <div style="height:4px;background:var(--glass-border);border-radius:2px;margin-top:.3rem;overflow:hidden;">
+            <div style="height:100%;width:${s.pct}%;background:${s.color};border-radius:2px;transition:width .5s;"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;justify-content:center;font-size:.75rem;">
+      <div style="padding:.3rem .6rem;background:rgba(239,68,68,.1);border-radius:4px;color:#fca5a5;">🔴 1 urgent — call Laurie Bamford 0402798314</div>
+      <div style="padding:.3rem .6rem;background:rgba(6,182,212,.08);border-radius:4px;color:var(--cyan);">Sources: Finchly, Legal Aid, LawConnect</div>
+    </div>`;
+}
+
+// ── 6. DYNAMIC ALERTS CENTRE ──
+function renderAlerts(){
+  const el=document.getElementById('alerts-centre');
+  if(!el)return;
+  const now=new Date();
+  const alerts=[];
+  
+  // Check deadline proximity
+  const deadlines=[
+    {label:'BAS due 28 April',date:'2026-04-28',priority:'critical'},
+    {label:'Legal Aid NT reconciliation — NAB statements needed',date:null,priority:'critical'},
+    {label:'Trust account reconciliation due end of month',date:'2026-04-30',priority:'high'},
+    {label:'Laurie Bamford lead unactioned — Section 90 property',date:null,priority:'critical'},
+    {label:'Lead monitoring system missed Finchly lead',date:null,priority:'high'},
+    {label:'Areas of Practice page showing skeleton — deployment issue',date:null,priority:'medium'},
+    {label:'MYOB access not yet granted — blocking BAS automation',date:null,priority:'critical'},
+  ];
+  
+  const priority={critical:{color:'var(--red)',bg:'rgba(239,68,68,.08)',border:'rgba(239,68,68,.2)',icon:'🚨'},high:{color:'var(--yellow)',bg:'rgba(234,179,8,.06)',border:'rgba(234,179,8,.15)',icon:'⚠️'},medium:{color:'var(--cyan)',bg:'rgba(6,182,212,.05)',border:'rgba(6,182,212,.12)',icon:'💡'}};
+  
+  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+    <div style="font-weight:700;font-size:.85rem;">Active Alerts <span style="background:rgba(239,68,68,.2);color:#fca5a5;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-left:.3rem;">${deadlines.filter(d=>d.priority==='critical').length} critical</span></div>
+    <div style="font-size:.65rem;color:var(--text-dim);">Updated: just now</div>
+  </div>`+
+  deadlines.map(d=>{
+    const p=priority[d.priority];
+    const daysStr=d.date?` — ${Math.ceil((new Date(d.date)-now)/(1000*60*60*24))} days`:'';
+    return `<div style="padding:.5rem .6rem;background:${p.bg};border:1px solid ${p.border};border-radius:6px;margin-bottom:.4rem;font-size:.75rem;display:flex;align-items:flex-start;gap:.4rem;">
+      <span>${p.icon}</span>
+      <span style="flex:1;">${d.label}${daysStr?'<span style="color:'+p.color+';font-size:.7rem;"> ('+daysStr.trim()+')</span>':''}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── 7. SYSTEM HEALTH ──
+function renderHealth(){
+  const el=document.getElementById('system-health');
+  if(!el)return;
+  const now=new Date();
+  const checks=[
+    {label:'Gateway (Mac Mini)',status:'online',detail:'Mohameds-Mini · 192.168.50.34',last:'just now',ok:true},
+    {label:'Telegram Channel',status:'connected',detail:'8220020064 · direct',last:'just now',ok:true},
+    {label:'M365 Email/Calendar',status:'connected',detail:'jacquigriffin@mobilesolicitor.com.au',last:'active',ok:true},
+    {label:'Lead Monitor Cron',status:'⚠️ issue',detail:'Missed Finchly lead 31 Mar',last:'needs fix',ok:false},
+    {label:'Daily Leads Update',status:'running',detail:'8am + 1pm daily',last:'7:58 AM',ok:true},
+    {label:'Morning Brief',status:'running',detail:'7am weekdays · 8:30am weekends',last:'7:00 AM',ok:true},
+    {label:'Website (Vercel)',status:'live',detail:'mobilesolicitor.com.au',last:'deployed 2h ago',ok:true},
+    {label:'Leads Tracker',status:'live',detail:'leads-tracker-eta.vercel.app',last:'deployed today',ok:true},
+  ];
+  
+  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.4rem;">
+    ${checks.map(c=>`
+      <div style="padding:.4rem .6rem;background:${c.ok?'rgba(34,197,94,.05)':'rgba(239,68,68,.08)'};border:1px solid ${c.ok?'rgba(34,197,94,.15)':'rgba(239,68,68,.2)'};border-radius:6px;display:flex;align-items:center;gap:.4rem;">
+        <span style="width:8px;height:8px;border-radius:50%;background:${c.ok?'var(--green)':'var(--red)'};flex-shrink:0;${c.ok?'box-shadow:0 0 6px var(--green)':'animation:alertPulse 1.5s infinite'};"></span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.75rem;font-weight:600;color:var(--text-bright);">${c.label}</div>
+          <div style="font-size:.65rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.detail}</div>
+        </div>
+        <div style="font-size:.6rem;color:${c.ok?'var(--green)':'var(--red)'};white-space:nowrap;">${c.last}</div>
+      </div>`).join('')}
+  </div>
+  <div style="margin-top:.5rem;font-size:.65rem;color:var(--text-dim);text-align:right;">Model: Claude Opus 4-6 · Session active</div>`;
+}
+
+// Run all widgets on load
+renderDeadlines();
+renderCalendar();
+renderFinance();
+renderMatters();
+renderFunnel();
+renderAlerts();
+renderHealth();
+
+// ── Timestamp ──
 // Timestamp
 function updateTime(){
   const now=new Date();

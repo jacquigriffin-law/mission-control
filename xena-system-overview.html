@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xena — Your AI Legal Operations System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1628;
+    --navy-light: #162544;
+    --navy-mid: #1E3158;
+    --teal: #00C9A7;
+    --teal-dim: rgba(0, 201, 167, 0.15);
+    --teal-glow: rgba(0, 201, 167, 0.4);
+    --gold: #C8A951;
+    --gold-dim: rgba(200, 169, 81, 0.15);
+    --cream: #F8F6F1;
+    --white: #FFFFFF;
+    --text: #2D3748;
+    --text-light: #718096;
+    --text-on-dark: rgba(255,255,255,0.85);
+    --line: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(165deg, var(--navy) 0%, var(--navy-light) 50%, var(--navy-mid) 100%);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    opacity: 0.3;
+    animation: drift 20s ease-in-out infinite;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200, 169, 81, 0.2) 0%, transparent 70%);
+    opacity: 0.3;
+    animation: drift 25s ease-in-out infinite reverse;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-dim);
+    border: 1px solid rgba(0, 201, 167, 0.3);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease-out 0.1s both;
+  }
+
+  .hero h1 span { color: var(--teal); }
+
+  .hero-sub {
+    font-size: clamp(17px, 2.5vw, 21px);
+    color: var(--text-on-dark);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto 48px;
+    animation: fadeUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease-out 0.3s both;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--teal);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 8px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 24px; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+
+  .section-desc {
+    font-size: 18px;
+    color: var(--text-light);
+    max-width: 640px;
+    line-height: 1.8;
+    margin-bottom: 56px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works { background: white; }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+  }
+
+  .flow-step {
+    padding: 36px 28px;
+    border-radius: 16px;
+    background: var(--cream);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .flow-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(10, 22, 40, 0.08);
+  }
+
+  .flow-step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--teal);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .flow-step h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .flow-step p {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  /* ── AGENTS ── */
+  .agents-section { background: var(--cream); }
+
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .agent-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 32px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .agent-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 64px rgba(10, 22, 40, 0.08);
+  }
+
+  .agent-card:hover::before { opacity: 1; }
+
+  .agent-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .agent-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .agent-icon.pa { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); }
+  .agent-icon.court { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); }
+  .agent-icon.doc { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); }
+  .agent-icon.finance { background: linear-gradient(135deg, #FCE4EC, #F8BBD0); }
+  .agent-icon.conflict { background: linear-gradient(135deg, #F3E5F5, #E1BEE7); }
+  .agent-icon.intake { background: linear-gradient(135deg, #E0F7FA, #B2EBF2); }
+  .agent-icon.marketing { background: linear-gradient(135deg, #FFF8E1, #FFECB3); }
+
+  .agent-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .agent-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-dim);
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-top: 2px;
+  }
+
+  .agent-desc {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .agent-capabilities {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .agent-capabilities li {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--cream);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  /* ── RESULTS ── */
+  .results-section {
+    background: var(--navy);
+    color: white;
+  }
+
+  .results-section .section-title { color: white; }
+  .results-section .section-desc { color: var(--text-on-dark); }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .result-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px 28px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .result-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(0, 201, 167, 0.3);
+  }
+
+  .result-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .result-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .result-detail {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  /* ── AUTOMATION ── */
+  .automation-section { background: white; }
+
+  .cron-timeline {
+    position: relative;
+    padding-left: 48px;
+  }
+
+  .cron-timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--teal), var(--gold));
+    border-radius: 2px;
+  }
+
+  .cron-item {
+    position: relative;
+    padding: 16px 0 32px;
+  }
+
+  .cron-item::before {
+    content: '';
+    position: absolute;
+    left: -35px;
+    top: 22px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--teal);
+  }
+
+  .cron-time {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .cron-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .cron-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .cron-new {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    background: var(--gold-dim);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ── SECURITY ── */
+  .security-section { background: var(--cream); }
+
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .security-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 28px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .security-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .security-card p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  .security-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--teal-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ── UNDER THE HOOD ── */
+  .hood-section { background: white; }
+
+  .hood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .hood-block h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--teal);
+    display: inline-block;
+  }
+
+  .hood-table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .hood-table td {
+    padding: 7px 0;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .hood-table td:first-child {
+    font-weight: 500;
+    color: var(--navy);
+    width: 45%;
+  }
+
+  .hood-table td:last-child {
+    color: var(--text-light);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 48px 24px;
+    font-size: 14px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    margin-bottom: 24px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    section { padding: 64px 20px; }
+    .hero { padding: 48px 20px; min-height: auto; padding-top: 100px; padding-bottom: 80px; }
+    .hero-stats { gap: 32px; }
+    .hero-stat-num { font-size: 40px; }
+    .agents-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr; }
+    .cron-timeline { padding-left: 40px; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .hero { min-height: auto; padding: 60px 40px; page-break-after: always; }
+    section { padding: 40px 40px; }
+    .agent-card, .result-card, .security-card, .flow-step { break-inside: avoid; }
+    .scroll-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Deployed &amp; Live</div>
+    <h1>Meet <span>Xena</span></h1>
+    <p class="hero-sub">Your AI legal operations system. 7 specialised agents working around the clock to manage your practice, so you can focus on your clients.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">7</div>
+        <div class="hero-stat-label">AI Agents</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">41</div>
+        <div class="hero-stat-label">Capabilities</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">24/7</div>
+        <div class="hero-stat-label">Always On</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Practices Covered</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">As simple as sending a text</div>
+    <div class="section-desc">Xena lives in your Telegram. No apps to learn, no dashboards to check. Just message her like you'd message your assistant.</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <h3>You send a message</h3>
+        <p>"Check if I have a conflict with El-Hajj" or "What's on tomorrow?" or "Any unbilled duty days this quarter?"</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <h3>Xena routes it</h3>
+        <p>Based on what you asked, Xena activates the right specialist agent — Court Diary, Finance, Conflict Check, Intake, or any of the seven.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <h3>Agent does the work</h3>
+        <p>The agent searches your emails, calendar, tasks, and files. Runs the analysis. Builds the response. All in seconds.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <h3>You get the answer</h3>
+        <p>Straight back to Telegram. No login required. You can action it from the courthouse car park between hearings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ YOUR 7 AGENTS ═══ -->
+<section class="agents-section">
+  <div class="container">
+    <div class="section-label">Your Team</div>
+    <div class="section-title">7 agents, one mission</div>
+    <div class="section-desc">Each agent is a specialist. Together, they cover every aspect of running a sole practice across Mobile Solicitor, National Dispute Resolution, and Community Mediation Services.</div>
+
+    <div class="agents-grid">
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon pa">&#128188;</div>
+          <div>
+            <div class="agent-name">Personal Assistant</div>
+            <span class="agent-count">10 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your day-to-day admin brain. Tracks vehicles across NSW and NT, monitors parking fines, keeps CPD on track, drafts emails for your approval, audits subscriptions, and manages passwords securely.</div>
+        <ul class="agent-capabilities">
+          <li>Vehicle rego (NSW + NT rules)</li>
+          <li>Parking fines</li>
+          <li>CPD tracking</li>
+          <li>Email drafting</li>
+          <li>Email search</li>
+          <li>Password vault</li>
+          <li>Subscription audit</li>
+          <li>VXT call logs</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon court">&#9878;&#65039;</div>
+          <div>
+            <div class="agent-name">Court Diary</div>
+            <span class="agent-count">8 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your court operations engine. Morning briefs at 7am with travel times to 9 courts. Monitors email for vacated or adjourned dates. Generates hearing prep checklists for 11 hearing types. Never lets a date slip.</div>
+        <ul class="agent-capabilities">
+          <li>Morning brief</li>
+          <li>Court date changes</li>
+          <li>Travel times (9 courts)</li>
+          <li>Hearing prep (11 types)</li>
+          <li>Court portal scraper</li>
+          <li>Conference scheduling</li>
+          <li>LEAP integration</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon doc">&#128196;</div>
+          <div>
+            <div class="agent-name">Document Agent</div>
+            <span class="agent-count">7 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your legal document machine. Drafts court instructions to agent lawyers from templates. Auto-files emails into matter folders. Builds chronologies. Creates LEAP folder structures. Generates merit advice drafts for Legal Aid.</div>
+        <ul class="agent-capabilities">
+          <li>Court instructions (3 templates)</li>
+          <li>Email-to-matter filing</li>
+          <li>Document organiser</li>
+          <li>Email classifier</li>
+          <li>Chronology builder</li>
+          <li>Folder templates</li>
+          <li>Merit advice drafts</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon finance">&#128176;</div>
+          <div>
+            <div class="agent-name">Finance Agent</div>
+            <span class="agent-count">5 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your money tracker. Audits duty days against Legal Aid billing — found $1,075 in unbilled work on the first run. Searches for dispute evidence. Sends BAS reminders. Reconciles Legal Aid payments against bank statements.</div>
+        <ul class="agent-capabilities">
+          <li>Duty day billing audit</li>
+          <li>Dispute evidence search</li>
+          <li>Dispute tracker</li>
+          <li>BAS + trust reminders</li>
+          <li>Legal Aid reconciliation</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon conflict">&#9878;&#65039;</div>
+          <div>
+            <div class="agent-name">Conflict Check</div>
+            <span class="agent-count">4 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your compliance guardian. Searches tasks, calendar, and email across all 3 practices for party names. Fuzzy matching handles Arabic transliterations, nicknames, and hyphenated names. Every check logged for Law Society compliance.</div>
+        <ul class="agent-capabilities">
+          <li>M365 conflict search</li>
+          <li>Fuzzy name matching</li>
+          <li>Compliance log (7yr retention)</li>
+          <li>LEAP data sync</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon intake">&#128236;</div>
+          <div>
+            <div class="agent-name">Intake Agent</div>
+            <span class="agent-count">4 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your new business pipeline. Triages your inbox twice daily, extracting questions and action items by urgency. Monitors Legal Aid grant offers. Classifies matters automatically. Handles barrister invoice reassignment.</div>
+        <ul class="agent-capabilities">
+          <li>Email triage (8am + 2pm)</li>
+          <li>Legal Aid monitoring</li>
+          <li>Matter classification</li>
+          <li>Invoice reassignment</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-icon marketing">&#128227;</div>
+          <div>
+            <div class="agent-name">Marketing Agent</div>
+            <span class="agent-count">3 capabilities</span>
+          </div>
+        </div>
+        <div class="agent-desc">Your brand builder across all 3 practices. Generates content calendars with topic suggestions for family law, property, and care. Runs SEO audits on your websites. Analyses call patterns for business insights.</div>
+        <ul class="agent-capabilities">
+          <li>Content calendar</li>
+          <li>SEO auditor</li>
+          <li>Call pattern analysis</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FIRST RUN RESULTS ═══ -->
+<section class="results-section">
+  <div class="container">
+    <div class="section-label" style="color: var(--gold);">First Run Results</div>
+    <div class="section-title">What Xena found on day one</div>
+    <div class="section-desc">Within minutes of going live, Xena scanned your email, calendar, and tasks. Here's what she surfaced immediately.</div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-value">$1,075</div>
+        <div class="result-label">Unbilled duty days</div>
+        <div class="result-detail">4 Legal Aid duty days in Q3 (Jan-Mar) identified in your calendar that haven't been claimed. Surry Hills CC, Bretherton, Blacktown, Parramatta.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">2</div>
+        <div class="result-label">Court date changes detected</div>
+        <div class="result-detail">Lupton matter — DCJ requesting adjournment at tomorrow's mention. Dwyer matter — sealed application from Surry Hills Children's Court with new date 22 May.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">14</div>
+        <div class="result-label">Emails needing response</div>
+        <div class="result-detail">Scanned 100 emails, found 14 with questions or action items. 1 flagged HIGH urgency: DCJ caseworker visit — client asking about their rights.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">39</div>
+        <div class="result-label">Emails auto-filed to matters</div>
+        <div class="result-detail">Matched against 249 active matters from your task lists. Anderson, Wickham-Sperzel, McCabe-Ghamrawi, Lupton, Dwyer, and 34 more — sorted into Outlook folders.</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">19</div>
+        <div class="result-label">Subscriptions identified</div>
+        <div class="result-detail">Scanned billing emails and found 19 recurring charges totalling $27,275 per year. Includes LEAP ($437/mo), Squarespace ($204/mo), Starlink ($80/mo).</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">111</div>
+        <div class="result-label">Dispute evidence emails</div>
+        <div class="result-detail">FamilyProperty dispute: 4 cancellation emails found for your $79/mo claim. Insurance dispute: 52 agreement + 59 payment emails compiled into evidence reports.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUTOMATION ═══ -->
+<section class="automation-section">
+  <div class="container">
+    <div class="section-label">Always Working</div>
+    <div class="section-title">9 automated jobs, running daily</div>
+    <div class="section-desc">Xena doesn't wait to be asked. These jobs run automatically on schedule, so you wake up to a briefing and get alerted the moment something needs your attention.</div>
+
+    <div class="cron-timeline">
+      <div class="cron-item">
+        <div class="cron-time">4:00 AM</div>
+        <div class="cron-name">Autonomous Business Progress</div>
+        <div class="cron-desc">Picks one useful task and completes it while you sleep — organising systems, preparing drafts, tightening workflows.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">6:00 AM</div>
+        <div class="cron-name">Daily Leads Check + Daily Surprise</div>
+        <div class="cron-desc">Scans all 3 inboxes for genuine new client enquiries. Separately builds something useful for your practice.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">7:00 AM</div>
+        <div class="cron-name">Morning Brief</div>
+        <div class="cron-desc">Your daily briefing: court appearances, calendar, deadlines, new leads, travel times. Delivered to Telegram before you leave the house.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">8:00 AM</div>
+        <div class="cron-name">Email Question Triage <span class="cron-new">NEW</span></div>
+        <div class="cron-desc">Scans your inbox for emails with questions or action requests. Prioritises by urgency. Alerts you if anything is HIGH priority.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">9:00 AM</div>
+        <div class="cron-name">Court Date Change Monitor <span class="cron-new">NEW</span></div>
+        <div class="cron-desc">Scans for vacated, adjourned, or rescheduled court dates. Cross-references your calendar. Alerts you before you find out the hard way.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">Hourly &middot; 7AM &ndash; 6PM</div>
+        <div class="cron-name">Urgent Lead Alerts</div>
+        <div class="cron-desc">Checks for urgent leads from Finchly, LawConnect, and Legal Aid every hour during business hours. Alerts immediately if found.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">2:00 PM</div>
+        <div class="cron-name">Afternoon Email Triage <span class="cron-new">NEW</span></div>
+        <div class="cron-desc">Second daily triage — catches anything that came in during the morning court sessions.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">8:30 AM &middot; Weekends</div>
+        <div class="cron-name">Weekend Morning Check</div>
+        <div class="cron-desc">Lighter weekend scan — only alerts if there's something genuinely urgent or Monday prep is needed.</div>
+      </div>
+      <div class="cron-item">
+        <div class="cron-time">20 April &middot; One-time</div>
+        <div class="cron-name">BAS Q3 Deadline Reminder</div>
+        <div class="cron-desc">One week warning before BAS Q3 is due on 28 April. Checks your progress on the close-out checklist.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECURITY ═══ -->
+<section class="security-section">
+  <div class="container">
+    <div class="section-label">Trust &amp; Security</div>
+    <div class="section-title">Built for a law practice</div>
+    <div class="section-desc">Xena was designed with legal professional privilege, client confidentiality, and compliance obligations at the core — not bolted on as an afterthought.</div>
+
+    <div class="security-grid">
+      <div class="security-card">
+        <h3><div class="security-icon">&#128274;</div> Data stays on your machine</h3>
+        <p>All data lives on your Mac Mini. Nothing is sent to AI training pipelines. Zero data retention on API calls. Full disk encryption at rest, TLS 1.3 in transit.</p>
+      </div>
+      <div class="security-card">
+        <h3><div class="security-icon">&#9878;&#65039;</div> Legal professional privilege</h3>
+        <p>Client data is never shared between matters. Conflict checks run before any new intake. No client names in system logs — matter numbers only.</p>
+      </div>
+      <div class="security-card">
+        <h3><div class="security-icon">&#128203;</div> Compliance logging</h3>
+        <p>Every conflict check is logged with timestamp, names searched, result, and action taken. Append-only log — can never be deleted. 7-year retention as required by NSW Law Society.</p>
+      </div>
+      <div class="security-card">
+        <h3><div class="security-icon">&#9989;</div> Human approval required</h3>
+        <p>Xena never auto-sends emails — everything goes through a draft queue for your review. Court date changes never auto-modify your calendar. You always have the final say.</p>
+      </div>
+      <div class="security-card">
+        <h3><div class="security-icon">&#128737;&#65039;</div> Sandboxed access</h3>
+        <p>Xena cannot see other systems on the same machine. Each client's data is completely isolated. SSH access is restricted. API keys have minimum required permissions.</p>
+      </div>
+      <div class="security-card">
+        <h3><div class="security-icon">&#128218;</div> Regulatory compliance</h3>
+        <p>Designed to comply with the Australian Privacy Act 1988, Legal Profession Uniform Law (NSW), Australian Solicitors' Conduct Rules, and the Family Law Act 1975.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ UNDER THE HOOD ═══ -->
+<section class="hood-section">
+  <div class="container">
+    <div class="section-label">Under the Hood</div>
+    <div class="section-title">The technical details</div>
+    <div class="section-desc">For your records — what's running, where, and how it all connects.</div>
+
+    <div class="hood-grid">
+      <div class="hood-block">
+        <h3>Infrastructure</h3>
+        <table class="hood-table">
+          <tr><td>Hardware</td><td>Mac Mini M4, always on</td></tr>
+          <tr><td>Port</td><td>3100 (Xena dedicated)</td></tr>
+          <tr><td>Runtime</td><td>OpenClaw agent framework</td></tr>
+          <tr><td>Language</td><td>Python 3 + M365 Graph API</td></tr>
+          <tr><td>Interface</td><td>Telegram (@maddison_legal_ai_bot)</td></tr>
+          <tr><td>AI Models</td><td>Claude Opus (planning), Sonnet (execution), Haiku (quick tasks)</td></tr>
+        </table>
+      </div>
+      <div class="hood-block">
+        <h3>Connected Services</h3>
+        <table class="hood-table">
+          <tr><td>Microsoft 365</td><td>Email, Calendar, Tasks, OneDrive</td></tr>
+          <tr><td>LEAP</td><td>Via M365 Tasks sync (API access denied by LEAP)</td></tr>
+          <tr><td>VXT Cloud Phone</td><td>Call logs, voicemail transcription</td></tr>
+          <tr><td>Squarespace</td><td>3 websites (session-based access)</td></tr>
+          <tr><td>Court Portals</td><td>FCFCOA, NSW Courts, Federal Court</td></tr>
+          <tr><td>Vercel</td><td>Leads tracker + mission control hosting</td></tr>
+        </table>
+      </div>
+      <div class="hood-block">
+        <h3>Data Sources Searched</h3>
+        <table class="hood-table">
+          <tr><td>Email accounts</td><td>All 3 practice inboxes</td></tr>
+          <tr><td>Calendar</td><td>12 months back + 3 months ahead</td></tr>
+          <tr><td>Tasks</td><td>249 active matters across all lists</td></tr>
+          <tr><td>Local court diary</td><td>JSON database with hearing details</td></tr>
+          <tr><td>Court portals</td><td>Scraped listing data</td></tr>
+          <tr><td>VXT call logs</td><td>Daily call summaries</td></tr>
+        </table>
+      </div>
+      <div class="hood-block">
+        <h3>Key Figures</h3>
+        <table class="hood-table">
+          <tr><td>Total scripts</td><td>41 across 7 agents</td></tr>
+          <tr><td>Lines of code</td><td>~12,000+</td></tr>
+          <tr><td>Cron jobs</td><td>9 active, running daily</td></tr>
+          <tr><td>Hearing types supported</td><td>11 (directions to ICL)</td></tr>
+          <tr><td>Courts with travel data</td><td>9 (Sydney + Darwin)</td></tr>
+          <tr><td>Email templates</td><td>6 professional + 3 court instruction</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-logo">Intelligent Solutions Agency</div>
+  <div class="footer-tagline">AI Transformation Partner</div>
+  <p>Built for Jacqui Griffin by Moe Dhaini &middot; ISA &middot; April 2026</p>
+  <p style="margin-top: 8px; font-size: 12px;">Support: Telegram @IntelligentSolutionsAgency &middot; moe@intelligentsolutions.agency</p>
+</footer>
+
+</body>
+</html>
