@@ -1,10 +1,10 @@
 const COST_DATA = {
-  "generated": "2026-04-01T21:42:35.015141+11:00",
+  "generated": "2026-04-01T22:31:51.239991+11:00",
   "today": "2026-04-01",
-  "today_total": 31.5,
-  "week_total": 31.5,
-  "month_total": 31.5,
-  "all_total": 31.5,
+  "today_total": 32.35,
+  "week_total": 32.35,
+  "month_total": 32.35,
+  "all_total": 32.35,
   "daily_limit": 10.0,
   "over_limit": true,
   "agents": [
@@ -22,9 +22,9 @@ const COST_DATA = {
     },
     {
       "agent": "Xena",
-      "model": "claude-opus-4-6",
-      "today": 22.0,
-      "total": 22.0
+      "model": "claude-sonnet-4-20250514",
+      "today": 22.85,
+      "total": 22.85
     }
   ],
   "today_tasks": [
@@ -147,12 +147,22 @@ const COST_DATA = {
       "tokens_out": 20000,
       "est_cost": 8.0,
       "time": "various"
+    },
+    {
+      "date": "2026-04-01",
+      "task": "Conversation archive fix + heartbeat",
+      "agent": "Xena",
+      "model": "claude-sonnet-4-20250514",
+      "tokens_in": 5000,
+      "tokens_out": 2000,
+      "est_cost": 0.85,
+      "time": "22:27"
     }
   ],
   "daily_history": [
     {
       "date": "2026-04-01",
-      "cost": 31.5
+      "cost": 32.35
     },
     {
       "date": "2026-03-31",
