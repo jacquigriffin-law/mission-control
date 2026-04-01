@@ -503,7 +503,10 @@ a:hover{text-decoration:underline}
         
         <!-- Email & Communication -->
         <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--cyan);margin-bottom:.5rem;font-size:.85rem;">📧 Email & Communication</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--cyan);font-size:.85rem;">📧 Email & Communication</div>
+            <button onclick="openServiceChat('email')" style="background:var(--cyan);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Email Triage:</strong> Find urgent emails needing response</div>
             <div><strong>Email Search:</strong> "Find all emails about Smith matter"</div>
@@ -515,7 +518,10 @@ a:hover{text-decoration:underline}
 
         <!-- Court & Legal -->
         <div style="background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--purple);margin-bottom:.5rem;font-size:.85rem;">⚖️ Court & Legal</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--purple);font-size:.85rem;">⚖️ Court & Legal</div>
+            <button onclick="openServiceChat('court')" style="background:var(--purple);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Morning Brief:</strong> Daily court diary + urgent tasks</div>
             <div><strong>Court Date Monitor:</strong> Track changes/adjournments</div>
@@ -527,7 +533,10 @@ a:hover{text-decoration:underline}
 
         <!-- Finance & Billing -->
         <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--green);margin-bottom:.5rem;font-size:.85rem;">💰 Finance & Billing</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--green);font-size:.85rem;">💰 Finance & Billing</div>
+            <button onclick="openServiceChat('finance')" style="background:var(--green);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Duty Day Billing:</strong> Find unbilled duty appearances</div>
             <div><strong>Legal Aid Recovery:</strong> Track unpaid NT claims</div>
@@ -539,7 +548,10 @@ a:hover{text-decoration:underline}
 
         <!-- Personal Assistant -->
         <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--red);margin-bottom:.5rem;font-size:.85rem;">👤 Personal Assistant</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--red);font-size:.85rem;">👤 Personal Assistant</div>
+            <button onclick="openServiceChat('personal')" style="background:var(--red);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Vehicle Tracker:</strong> Registration renewals (3 cars)</div>
             <div><strong>Fine Tracker:</strong> Parking fines NT/Sydney</div>
@@ -551,7 +563,10 @@ a:hover{text-decoration:underline}
 
         <!-- Research & Documents -->
         <div style="background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--yellow);margin-bottom:.5rem;font-size:.85rem;">📚 Research & Documents</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--yellow);font-size:.85rem;">📚 Research & Documents</div>
+            <button onclick="openServiceChat('research')" style="background:var(--yellow);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Legal Research:</strong> Case law, legislation, precedents</div>
             <div><strong>Document Drafts:</strong> Letters, affidavits, contracts</div>
@@ -563,7 +578,10 @@ a:hover{text-decoration:underline}
 
         <!-- System & Tech -->
         <div style="background:rgba(156,163,175,.05);border:1px solid rgba(156,163,175,.2);border-radius:8px;padding:.75rem;">
-          <div style="font-weight:700;color:var(--text-dim);margin-bottom:.5rem;font-size:.85rem;">⚙️ System & Tech</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <div style="font-weight:700;color:var(--text-dim);font-size:.85rem;">⚙️ System & Tech</div>
+            <button onclick="openServiceChat('system')" style="background:var(--text-dim);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+          </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Mission Control:</strong> Practice dashboard updates</div>
             <div><strong>Cost Tracking:</strong> AI usage monitoring</div>
@@ -1498,6 +1516,170 @@ function renderCostDashboard(){
     </div>`;
 }
 renderCostDashboard();
+
+// ── SERVICE CHAT WINDOWS ──
+function openServiceChat(serviceType){
+  const services = {
+    email: {
+      title: '📧 Email & Communication',
+      color: 'var(--cyan)',
+      examples: [
+        'Find urgent emails from today',
+        'Draft email to court about adjournment', 
+        'Search all emails about Smith matter',
+        'File emails by matter in Outlook folders'
+      ]
+    },
+    court: {
+      title: '⚖️ Court & Legal',
+      color: 'var(--purple)',
+      examples: [
+        'Give me my morning brief',
+        'Check for court date changes',
+        'Draft court instructions for Smith v Jones',
+        'Check conflicts for John Smith'
+      ]
+    },
+    finance: {
+      title: '💰 Finance & Billing', 
+      color: 'var(--green)',
+      examples: [
+        'Find unbilled duty days this month',
+        'Check NT Legal Aid reconciliation',
+        'Run BAS preparation report',
+        'Audit subscription payments'
+      ]
+    },
+    personal: {
+      title: '👤 Personal Assistant',
+      color: 'var(--red)',
+      examples: [
+        'When is my car rego due?',
+        'List unpaid parking fines',
+        'Check CPD compliance status',
+        'Track practising certificate renewal'
+      ]
+    },
+    research: {
+      title: '📚 Research & Documents',
+      color: 'var(--yellow)',
+      examples: [
+        'Research parenting orders variations',
+        'Draft letter to opposing counsel',
+        'Look up company director details',
+        'Update website homepage'
+      ]
+    },
+    system: {
+      title: '⚙️ System & Tech',
+      color: 'var(--text-dim)',
+      examples: [
+        'Update cost tracking dashboard',
+        'Run system backup',
+        'Check leads pipeline status',
+        'Create new custom feature'
+      ]
+    }
+  };
+  
+  const service = services[serviceType];
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,.7);z-index:1000;
+    display:flex;align-items:center;justify-content:center;
+    padding:1rem;
+  `;
+  
+  modal.innerHTML = `
+    <div style="
+      background:var(--bg-start);border:1px solid var(--glass-border);
+      border-radius:12px;width:100%;max-width:500px;max-height:80vh;
+      overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.5);
+    ">
+      <div style="
+        padding:1rem;border-bottom:1px solid var(--glass-border);
+        background:linear-gradient(135deg,${service.color}22,transparent);
+        display:flex;justify-content:space-between;align-items:center;
+      ">
+        <div style="font-weight:700;color:${service.color};font-size:.95rem;">${service.title}</div>
+        <button onclick="this.closest('[style*=position]').remove()" style="
+          background:none;border:none;color:var(--text-dim);
+          font-size:1.2rem;cursor:pointer;padding:4px;
+        ">✕</button>
+      </div>
+      
+      <div style="padding:1rem;max-height:60vh;overflow-y:auto;">
+        <div style="margin-bottom:1rem;font-size:.8rem;color:var(--text-dim);">
+          Examples of what you can ask:
+        </div>
+        <div style="margin-bottom:1rem;">
+          ${service.examples.map(ex => 
+            `<div onclick="setMessage('${ex}')" style="
+              padding:.5rem;background:rgba(255,255,255,.03);
+              border:1px solid rgba(255,255,255,.05);border-radius:6px;
+              margin-bottom:.5rem;cursor:pointer;font-size:.8rem;
+              transition:all .2s;
+            " onmouseover="this.style.background='rgba(255,255,255,.08)'"
+              onmouseout="this.style.background='rgba(255,255,255,.03)'">
+              💬 ${ex}
+            </div>`
+          ).join('')}
+        </div>
+        
+        <div style="margin-bottom:.5rem;font-size:.8rem;color:var(--text-dim);">Or type your own request:</div>
+        <textarea id="serviceMessage" placeholder="What would you like me to do?" style="
+          width:100%;height:80px;background:rgba(255,255,255,.05);
+          border:1px solid var(--glass-border);border-radius:6px;
+          padding:.75rem;color:var(--text);font-size:.8rem;
+          font-family:inherit;resize:vertical;
+        "></textarea>
+        
+        <div style="display:flex;gap:.5rem;margin-top:1rem;">
+          <button onclick="sendToTelegram()" style="
+            flex:1;background:${service.color};color:#0f0a1e;
+            border:none;padding:.75rem;border-radius:6px;
+            font-weight:700;cursor:pointer;font-size:.8rem;
+          ">Send to Xena</button>
+          <button onclick="this.closest('[style*=position]').remove()" style="
+            background:rgba(255,255,255,.1);color:var(--text);
+            border:1px solid var(--glass-border);padding:.75rem 1rem;
+            border-radius:6px;cursor:pointer;font-size:.8rem;
+          ">Cancel</button>
+        </div>
+        
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(6,182,212,.1);
+          border:1px solid rgba(6,182,212,.2);border-radius:6px;font-size:.75rem;color:var(--cyan);">
+          💡 This will open Telegram to send your message to Xena. Make sure you have Telegram installed!
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  document.getElementById('serviceMessage').focus();
+}
+
+function setMessage(text){
+  document.getElementById('serviceMessage').value = text;
+}
+
+function sendToTelegram(){
+  const message = document.getElementById('serviceMessage').value.trim();
+  if(!message){
+    alert('Please enter a message first!');
+    return;
+  }
+  
+  // Create Telegram deep link
+  const telegramUrl = `https://t.me/jacqui_griffin_bot?start=${encodeURIComponent(message)}`;
+  
+  // Try to open Telegram app first, fallback to web
+  window.open(telegramUrl, '_blank');
+  
+  // Close modal
+  document.querySelector('[style*="position:fixed"]').remove();
+}
 
 // ── 1. COMPLIANCE DEADLINES STRIP ──
 function renderDeadlines(){
