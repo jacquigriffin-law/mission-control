@@ -1287,24 +1287,10 @@ a:hover{text-decoration:underline}
   <!-- ═══ Documents ═══ -->
   <div class="section-title">📄 Documents</div>
   
-  <!-- Search Box -->
-  <div class="glass" style="padding:1rem;margin-bottom:1rem;">
-    <input type="text" id="docSearch" placeholder="🔍 Search documents..." onkeyup="filterDocuments()" style="
-      width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);
-      border-radius:8px;padding:.75rem 1rem;color:var(--text);font-size:.85rem;
-      font-family:inherit;outline:none;transition:all .2s;
-    " onfocus="this.style.borderColor='var(--cyan)'" onblur="this.style.borderColor='var(--glass-border)'">
-  </div>
-  
-  <div style="margin-bottom:1.5rem;" id="documentsAccordion">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
     
     <!-- Workspace Core -->
-    <details class="glass" style="margin-bottom:1rem;" data-category="workspace core config identity rules" open>
-      <summary style="padding:1rem;cursor:pointer;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.5rem;">
-        📂 <span>Workspace Core</span>
-        <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.2);padding:2px 6px;border-radius:4px;color:var(--green);">6 files</span>
-      </summary>
-      <div style="padding:0 1rem 1rem;">
+    <div class="glass" style="padding:1.25rem;">
       <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
         <span style="font-size:1.2rem;">📂</span>
         <div style="font-weight:700;font-size:.9rem;">Workspace Core</div>
@@ -1318,7 +1304,7 @@ a:hover{text-decoration:underline}
         <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid var(--glass-border);">🪪 <span style="color:var(--text-bright);">IDENTITY.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Discipline rules</span></div>
         <div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;">💓 <span style="color:var(--text-bright);">HEARTBEAT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Periodic tasks</span></div>
       </div>
-    </details>
+    </div>
     
     <!-- Project Documentation - Expandable -->
     <div class="glass" style="padding:1.25rem;">
@@ -2106,29 +2092,6 @@ function toggleBuildPlan(){
   const tog=document.getElementById('buildPlanToggle');
   el.classList.toggle('open');
   tog.classList.toggle('open');
-}
-
-// Document search functionality
-function filterDocuments(){
-  const query = document.getElementById('docSearch').value.toLowerCase();
-  const sections = document.querySelectorAll('details[data-category]');
-  
-  if(!query){
-    sections.forEach(section => section.style.display = '');
-    return;
-  }
-  
-  sections.forEach(section => {
-    const category = section.dataset.category || '';
-    const text = section.textContent.toLowerCase();
-    
-    if(category.includes(query) || text.includes(query)){
-      section.style.display = '';
-      section.setAttribute('open', '');
-    } else {
-      section.style.display = 'none';
-    }
-  });
 }
 </script>
 </body>
