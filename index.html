@@ -242,6 +242,7 @@ a:hover{text-decoration:underline}
   .alerts{flex-direction:column;align-items:center}
 }
 </style>
+<script src="cost-data.js"></script>
 </head>
 <body>
 
@@ -1265,108 +1266,10 @@ a:hover{text-decoration:underline}
   <!-- ═══ Cost Tracking ═══ -->
   <div class="section-title">💰 Cost Tracking</div>
   
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
-    <div class="glass" style="padding:1.25rem;text-align:center;">
-      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Today</div>
-      <div style="font-size:1.8rem;font-weight:800;color:var(--green);margin:.25rem 0;">$30</div>
-      <div style="font-size:.7rem;color:var(--text-dim);">1 Apr 2026</div>
-    </div>
-    <div class="glass" style="padding:1.25rem;text-align:center;">
-      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Week</div>
-      <div style="font-size:1.8rem;font-weight:800;color:var(--cyan);margin:.25rem 0;">$55</div>
-      <div style="font-size:.7rem;color:var(--text-dim);">Mon 31 Mar – Sun 6 Apr</div>
-    </div>
-    <div class="glass" style="padding:1.25rem;text-align:center;">
-      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Month</div>
-      <div style="font-size:1.8rem;font-weight:800;color:var(--purple);margin:.25rem 0;">$85</div>
-      <div style="font-size:.7rem;color:var(--text-dim);">March 2026</div>
-    </div>
-    <div class="glass" style="padding:1.25rem;text-align:center;">
-      <div style="font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Total to Date</div>
-      <div style="font-size:1.8rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.25rem 0;">$85</div>
-      <div style="font-size:.7rem;color:var(--text-dim);">Since 22 Mar 2026</div>
-    </div>
-  </div>
-
-  <!-- Agent Cost Breakdown -->
-  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
-    <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem;">🤖 Agent Cost Breakdown</div>
-    <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <th style="text-align:left;padding:.5rem;color:var(--text-dim);font-weight:600;">Agent</th>
-        <th style="text-align:left;padding:.5rem;color:var(--text-dim);font-weight:600;">Model</th>
-        <th style="text-align:right;padding:.5rem;color:var(--text-dim);font-weight:600;">Today</th>
-        <th style="text-align:right;padding:.5rem;color:var(--text-dim);font-weight:600;">Total</th>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.5rem;">⚔️ <strong>Xena</strong></td>
-        <td style="padding:.5rem;"><span style="background:rgba(168,85,247,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Opus 4-6</span></td>
-        <td style="padding:.5rem;text-align:right;color:var(--green);">$20.00</td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$65.00</td>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.5rem;">🎨 <strong>Webby</strong></td>
-        <td style="padding:.5rem;"><span style="background:rgba(6,182,212,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Sonnet 4 / Opus</span></td>
-        <td style="padding:.5rem;text-align:right;color:var(--green);">$8.00</td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$8.00</td>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.5rem;">💻 <strong>Claude Code</strong></td>
-        <td style="padding:.5rem;"><span style="background:rgba(34,197,94,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Claude 4.5+</span></td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.5rem;">🚀 <strong>Codex</strong></td>
-        <td style="padding:.5rem;"><span style="background:rgba(234,179,8,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">GPT-5+</span></td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-dim);">$0.00</td>
-      </tr>
-      <tr>
-        <td style="padding:.5rem;"><strong>⏱️ Cron Jobs</strong></td>
-        <td style="padding:.5rem;"><span style="background:rgba(239,68,68,.2);padding:2px 8px;border-radius:4px;font-size:.75rem;">Opus 4-6</span></td>
-        <td style="padding:.5rem;text-align:right;color:var(--green);">$2.00</td>
-        <td style="padding:.5rem;text-align:right;color:var(--text-bright);">$12.00</td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- Model Pricing Reference -->
-  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
-    <div style="font-weight:700;margin-bottom:.75rem;font-size:.95rem;">📊 Model Pricing Reference</div>
-    <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Model</th>
-        <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Input/1M tokens</th>
-        <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Output/1M tokens</th>
-        <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Best For</th>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.4rem;"><strong>Claude Opus 4-6</strong></td>
-        <td style="padding:.4rem;text-align:right;">$15.00</td>
-        <td style="padding:.4rem;text-align:right;">$75.00</td>
-        <td style="padding:.4rem;color:var(--purple);">Complex reasoning, strategy</td>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.4rem;"><strong>Claude Sonnet 4</strong></td>
-        <td style="padding:.4rem;text-align:right;">$3.00</td>
-        <td style="padding:.4rem;text-align:right;">$15.00</td>
-        <td style="padding:.4rem;color:var(--cyan);">Execution, web design, coding</td>
-      </tr>
-      <tr style="border-bottom:1px solid var(--glass-border);">
-        <td style="padding:.4rem;"><strong>Claude Haiku 4.5</strong></td>
-        <td style="padding:.4rem;text-align:right;">$0.80</td>
-        <td style="padding:.4rem;text-align:right;">$4.00</td>
-        <td style="padding:.4rem;color:var(--green);">Quick admin, simple tasks</td>
-      </tr>
-      <tr>
-        <td style="padding:.4rem;"><strong>Cerebras Qwen 235B</strong></td>
-        <td style="padding:.4rem;text-align:right;">Free</td>
-        <td style="padding:.4rem;text-align:right;">Free</td>
-        <td style="padding:.4rem;color:var(--yellow);">Fallback, fast inference</td>
-      </tr>
-    </table>
-  </div>
+  <div id="cost-dashboard"></div>
+  <div id="cost-task-log"></div>
+  <div id="cost-agent-breakdown"></div>
+  <div id="cost-model-ref"></div>
 
   <!-- ═══ Quick Actions ═══ -->
   <div class="section-title">⚡ Quick Actions</div>
@@ -1390,6 +1293,121 @@ a:hover{text-decoration:underline}
 // ═══════════════════════════════════════════
 // MISSION CONTROL — LIVE WIDGETS
 // ═══════════════════════════════════════════
+
+// ── COST DASHBOARD (from real cost-data.js) ──
+function renderCostDashboard(){
+  if(typeof COST_DATA==='undefined')return;
+  const d=COST_DATA;
+  const limitColor=d.over_limit?'var(--red)':'var(--green)';
+  const limitIcon=d.over_limit?'🚨':'✅';
+  
+  // Summary cards
+  const dash=document.getElementById('cost-dashboard');
+  if(dash) dash.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1rem;">
+      <div class="glass" style="padding:1rem;text-align:center;${d.over_limit?'border:1px solid var(--red);':''}">
+        <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Today ${limitIcon}</div>
+        <div style="font-size:1.6rem;font-weight:800;color:${limitColor};margin:.2rem 0;">$${d.today_total.toFixed(2)}</div>
+        <div style="font-size:.65rem;color:var(--text-dim);">${d.today} • Limit: $${d.daily_limit}</div>
+        ${d.over_limit?'<div style="font-size:.65rem;color:var(--red);font-weight:700;margin-top:.2rem;">⚠️ OVER $10 DAILY LIMIT</div>':''}
+      </div>
+      <div class="glass" style="padding:1rem;text-align:center;">
+        <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Week</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--cyan);margin:.2rem 0;">$${d.week_total.toFixed(2)}</div>
+        <div style="font-size:.65rem;color:var(--text-dim);">Last 7 days</div>
+      </div>
+      <div class="glass" style="padding:1rem;text-align:center;">
+        <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Month</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--purple);margin:.2rem 0;">$${d.month_total.toFixed(2)}</div>
+        <div style="font-size:.65rem;color:var(--text-dim);">April 2026</div>
+      </div>
+      <div class="glass" style="padding:1rem;text-align:center;">
+        <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">All Time</div>
+        <div style="font-size:1.6rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.2rem 0;">$${d.all_total.toFixed(2)}</div>
+        <div style="font-size:.65rem;color:var(--text-dim);">Since 22 Mar 2026</div>
+      </div>
+    </div>
+    <!-- Daily spend bar chart -->
+    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📊 Daily Spend (Last 14 Days)</div>
+      <div style="display:flex;align-items:flex-end;gap:3px;height:80px;">
+        ${d.daily_history.slice().reverse().map(day=>{
+          const maxCost=Math.max(...d.daily_history.map(x=>x.cost),1);
+          const h=Math.max(4,Math.round((day.cost/maxCost)*70));
+          const color=day.cost>10?'var(--red)':day.cost>5?'var(--yellow)':'var(--green)';
+          const dateLabel=day.date.slice(5);
+          return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;">'
+            +'<div style="font-size:.55rem;color:var(--text-dim);">$'+day.cost.toFixed(0)+'</div>'
+            +'<div style="width:100%;height:'+h+'px;background:'+color+';border-radius:3px 3px 0 0;min-width:8px;"></div>'
+            +'<div style="font-size:.5rem;color:var(--text-dim);white-space:nowrap;">'+dateLabel+'</div>'
+            +'</div>';
+        }).join('')}
+      </div>
+      <div style="margin-top:.4rem;height:1px;background:rgba(239,68,68,.3);position:relative;">
+        <span style="position:absolute;right:0;top:-10px;font-size:.55rem;color:var(--red);">$10 limit</span>
+      </div>
+    </div>`;
+  
+  // Task log
+  const taskLog=document.getElementById('cost-task-log');
+  if(taskLog && d.today_tasks.length) taskLog.innerHTML=`
+    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📝 Today's Task Costs (${d.today_tasks.length} tasks)</div>
+      <div style="max-height:250px;overflow-y:auto;">
+        ${d.today_tasks.map(t=>{
+          const costColor=t.est_cost>=3?'var(--red)':t.est_cost>=1?'var(--yellow)':'var(--green)';
+          return '<div style="padding:.35rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid '+costColor+';border-radius:4px;margin-bottom:.3rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;">'
+            +'<div><div style="color:var(--text-bright);">'+t.task+'</div>'
+            +'<div style="font-size:.65rem;color:var(--text-dim);">'+t.agent+' • '+t.model.split('/').pop()+' • '+t.time+'</div></div>'
+            +'<div style="font-weight:700;color:'+costColor+';white-space:nowrap;margin-left:.5rem;">$'+t.est_cost.toFixed(2)+'</div>'
+            +'</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  
+  // Agent breakdown
+  const agentEl=document.getElementById('cost-agent-breakdown');
+  if(agentEl) agentEl.innerHTML=`
+    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">🤖 Agent Cost Breakdown</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
+        <tr style="border-bottom:1px solid var(--glass-border);">
+          <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Agent</th>
+          <th style="text-align:left;padding:.4rem;color:var(--text-dim);">Model</th>
+          <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Today</th>
+          <th style="text-align:right;padding:.4rem;color:var(--text-dim);">Total</th>
+        </tr>
+        ${d.agents.map(a=>{
+          const icons={'Xena':'⚔️','Webby':'🎨','Claude Code':'💻','Codex':'🚀','Cron':'⏱️'};
+          const icon=icons[a.agent]||'🤖';
+          const modelShort=a.model.split('/').pop()||'—';
+          const todayColor=a.today>0?'var(--green)':'var(--text-dim)';
+          return '<tr style="border-bottom:1px solid var(--glass-border);">'
+            +'<td style="padding:.4rem;">'+icon+' <strong>'+a.agent+'</strong></td>'
+            +'<td style="padding:.4rem;"><span style="background:rgba(168,85,247,.15);padding:1px 6px;border-radius:3px;font-size:.7rem;">'+modelShort+'</span></td>'
+            +'<td style="padding:.4rem;text-align:right;color:'+todayColor+';">$'+a.today.toFixed(2)+'</td>'
+            +'<td style="padding:.4rem;text-align:right;color:var(--text-bright);">$'+a.total.toFixed(2)+'</td>'
+            +'</tr>';
+        }).join('')}
+      </table>
+    </div>`;
+  
+  // Model pricing
+  const modelRef=document.getElementById('cost-model-ref');
+  if(modelRef) modelRef.innerHTML=`
+    <div class="glass" style="padding:1rem;margin-bottom:1.5rem;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📊 Model Pricing</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.75rem;">
+        <tr style="border-bottom:1px solid var(--glass-border);"><th style="text-align:left;padding:.3rem;color:var(--text-dim);">Model</th><th style="text-align:right;padding:.3rem;color:var(--text-dim);">In/1M</th><th style="text-align:right;padding:.3rem;color:var(--text-dim);">Out/1M</th><th style="text-align:left;padding:.3rem;color:var(--text-dim);">Use</th></tr>
+        <tr style="border-bottom:1px solid var(--glass-border);"><td style="padding:.3rem;"><strong>Opus 4-6</strong></td><td style="padding:.3rem;text-align:right;">$15</td><td style="padding:.3rem;text-align:right;">$75</td><td style="padding:.3rem;color:var(--purple);">Complex reasoning</td></tr>
+        <tr style="border-bottom:1px solid var(--glass-border);"><td style="padding:.3rem;"><strong>Sonnet 4</strong></td><td style="padding:.3rem;text-align:right;">$3</td><td style="padding:.3rem;text-align:right;">$15</td><td style="padding:.3rem;color:var(--cyan);">Execution, coding</td></tr>
+        <tr style="border-bottom:1px solid var(--glass-border);"><td style="padding:.3rem;"><strong>Haiku 4.5</strong></td><td style="padding:.3rem;text-align:right;">$0.80</td><td style="padding:.3rem;text-align:right;">$4</td><td style="padding:.3rem;color:var(--green);">Quick tasks</td></tr>
+        <tr><td style="padding:.3rem;"><strong>Cerebras Qwen</strong></td><td style="padding:.3rem;text-align:right;">Free</td><td style="padding:.3rem;text-align:right;">Free</td><td style="padding:.3rem;color:var(--yellow);">Fallback</td></tr>
+      </table>
+      <div style="margin-top:.5rem;font-size:.65rem;color:var(--text-dim);">💡 To get exact billing: provide an Admin API key (sk-ant-admin-...) from <a href="https://console.anthropic.com/settings/admin-keys" target="_blank" style="color:var(--cyan);">Anthropic Console</a></div>
+    </div>`;
+}
+renderCostDashboard();
 
 // ── 1. COMPLIANCE DEADLINES STRIP ──
 function renderDeadlines(){
