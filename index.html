@@ -463,55 +463,7 @@ a:hover{text-decoration:underline}
   <div class="section-title">💓 System Health</div>
   <div class="glass" style="padding:1rem;margin-bottom:1.5rem;" id="system-health"></div>
 
-  <!-- ═══ Build Plan ═══ -->
-  <div class="section-title collapsible" id="buildPlanToggle" onclick="toggleBuildPlan()">
-    📅 Full Build Plan <span class="chevron">▶</span>
-  </div>
-  <div class="glass">
-    <div class="build-plan-content" id="buildPlanContent">
-      <div class="build-week">
-        <div class="week-header"><span style="color:var(--green)">✅</span> Week 1–2 — Foundation</div>
-        <ul class="week-items">
-          <li>Infrastructure & environment setup</li>
-          <li>Court briefing system</li>
-          <li>LEAP intake workflow</li>
-        </ul>
-      </div>
-      <div class="build-week">
-        <div class="week-header"><span style="color:var(--green)">✅</span> Week 3 — Client Systems</div>
-        <ul class="week-items">
-          <li>Legal Aid monitoring</li>
-          <li>Conflict checks</li>
-          <li>Email–LEAP bridge</li>
-        </ul>
-      </div>
-      <div class="build-week">
-        <div class="week-header"><span style="color:var(--yellow)">🟡</span> Week 4 — Revenue</div>
-        <ul class="week-items">
-          <li>Leads tracker — live</li>
-          <li>SMS pipeline</li>
-          <li>Billing automation</li>
-        </ul>
-      </div>
-      <div class="build-week">
-        <div class="week-header"><span style="color:var(--red)">🔴</span> Week 5 — Current (Blockers)</div>
-        <ul class="week-items">
-          <li>NT Legal Aid reconciliation — <em>needs NAB statements</em></li>
-          <li>BAS automation — <em>needs MYOB access, due 28 April</em></li>
-          <li>Conference scheduler</li>
-          <li>Chronologies</li>
-        </ul>
-      </div>
-      <div class="build-week">
-        <div class="week-header"><span>⏳</span> Week 6 — Compliance</div>
-        <ul class="week-items">
-          <li>BAS lodgement</li>
-          <li>Trust accounting</li>
-          <li>Professional indemnity</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+
 
   <!-- ═══ Integrations & Tools ═══ -->
   <div class="section-title">🔗 Integrations &amp; Tools</div>
@@ -537,142 +489,295 @@ a:hover{text-decoration:underline}
   </div>
 
   <!-- ═══ PROJECT BUILD & DEVELOPMENT ═══ -->
-  <details class="glass" style="margin-bottom:1.5rem;">
-    <summary style="font-weight:700;padding:1rem;cursor:pointer;color:var(--purple);font-size:.95rem;">🏗️ Project Build & Development</summary>
-    <div style="padding:0 1rem 1rem;">
+  <div class="section-title">🏗️ Project Build & Development</div>
+  <div class="glass" style="margin-bottom:1.5rem;">
+    <div style="padding:1.25rem;">
       
-      <!-- Project Status Overview -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;margin-bottom:1rem;padding:.75rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:8px;">
-        <div style="text-align:center;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--purple);">7</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">AI Agents</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--cyan);">28</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Scripts</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--green);">7,097</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Lines of Code</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--yellow);">24/7</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Uptime</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:1.1rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">9</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Skills</div>
-        </div>
-      </div>
-      
-      <!-- Skills Installed -->
-      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.75rem;margin-bottom:1rem;">
-        <div style="font-weight:700;color:var(--cyan);font-size:.8rem;margin-bottom:.5rem;">🛠️ Skills & Capabilities Installed</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;font-size:.7rem;">
-          <div>🤖 Coding Agent</div>
-          <div>🩺 Healthcheck</div>
-          <div>🔌 Node Connect</div>
-          <div>✏️ Skill Creator</div>
-          <div>🖥️ Tmux</div>
-          <div>🎬 Video Frames</div>
-          <div>🌤️ Weather</div>
-          <div>🎨 Frontend Design</div>
-          <div style="color:var(--green);">✨ Custom Built</div>
-        </div>
-      </div>
-      
-      <!-- Chronological Timeline -->
-      <div style="position:relative;padding-left:1.5rem;">
-        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--purple),var(--cyan));"></div>
-        
-        <!-- 1 Apr 2026 (Today) -->
-        <div style="margin-bottom:1.5rem;position:relative;">
-          <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--green);border:2px solid #0f0a1e;"></div>
-          <div style="font-size:.75rem;color:var(--green);font-weight:700;margin-bottom:.25rem;">📅 1 April 2026 — TODAY</div>
-          <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:.75rem;">
-            <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Phase 1 Complete + Interactive Mission Control</div>
-            <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
-              ✅ ISA completion plan delivered (7 agents, 28 scripts live)<br>
-              ✅ Real-time cost tracking with daily charts<br>
-              ✅ Full conversation archive with chat history<br>
-              ✅ Interactive chat windows for all services<br>
-              ✅ Build timeline documentation<br>
-              ⚡ M365 builds started: Email triage + Morning brief
-            </div>
-            <div style="font-size:.7rem;color:var(--green);margin-bottom:.3rem;">💰 Cost: ~$36 (heavy development day)</div>
-            <a href="https://build-timeline.vercel.app" target="_blank" style="font-size:.7rem;color:var(--green);">📄 View ISA Plan PDF</a>
+      <!-- Build Stats -->
+      <div style="margin-bottom:1.5rem;">
+        <div style="font-weight:700;color:var(--purple);font-size:.95rem;margin-bottom:.75rem;">📊 Build Stats</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;padding:.75rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:8px;">
+          <div style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--purple);">7</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">AI Agents</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--cyan);">41</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Scripts</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--green);">7,097</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Lines of Code</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--yellow);">24/7</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Uptime</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">9</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Skills</div>
           </div>
         </div>
         
-        <!-- 31 Mar 2026 -->
-        <div style="margin-bottom:1.5rem;position:relative;">
-          <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--purple);border:2px solid #0f0a1e;"></div>
-          <div style="font-size:.75rem;color:var(--purple);font-weight:700;margin-bottom:.25rem;">📅 31 March 2026</div>
-          <div style="background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:6px;padding:.75rem;">
-            <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Mission Control v2 + Operational Widgets</div>
-            <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
-              🎛️ 7 operational widget sections deployed<br>
-              📊 Compliance, calendar, finance, client snapshots<br>
-              📈 Lead pipeline funnel with urgency tracking<br>
-              🚨 Alerts centre + system health monitoring<br>
-              📱 Mobile-responsive dark glass theme
-            </div>
-            <div style="font-size:.7rem;color:var(--purple);">💰 Cost: ~$24 • Models: Sonnet 4, Opus 4-6</div>
-          </div>
-        </div>
-        
-        <!-- 30 Mar 2026 -->
-        <div style="margin-bottom:1.5rem;position:relative;">
-          <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid #0f0a1e;"></div>
-          <div style="font-size:.75rem;color:var(--red);font-weight:700;margin-bottom:.25rem;">📅 30 March 2026</div>
-          <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:.75rem;">
-            <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Leads Crisis Resolution + Website Improvements</div>
-            <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
-              🚨 CRITICAL: Fixed missed lead monitoring (Laurie Bamford)<br>
-              📊 Automated lead tracking via cron jobs (8am, 1pm daily)<br>
-              🎨 Website header branding improvements via Webby<br>
-              ⚠️ Lesson: Lead classification needs strict boundaries
-            </div>
-            <div style="font-size:.7rem;color:var(--red);">💰 Cost: ~$18 • Models: Sonnet 4, Opus 4-6 crisis response</div>
-          </div>
-        </div>
-        
-        <!-- 29 Mar 2026 -->
-        <div style="margin-bottom:1.5rem;position:relative;">
-          <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--cyan);border:2px solid #0f0a1e;"></div>
-          <div style="font-size:.75rem;color:var(--cyan);font-weight:700;margin-bottom:.25rem;">📅 29 March 2026</div>
-          <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:6px;padding:.75rem;">
-            <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Frontend Design + Agent Framework</div>
-            <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
-              🎨 Created frontend-design custom skill<br>
-              💻 Claude Code used for front-end redesign pass (~8 mins)<br>
-              🔧 Agent framework optimization<br>
-              📋 Project planning and skill architecture
-            </div>
-            <div style="font-size:.7rem;color:var(--cyan);">💰 Cost: ~$5 • Model: Sonnet 4 efficiency focus</div>
-          </div>
-        </div>
-        
-        <!-- 28 Mar 2026 -->
-        <div style="margin-bottom:1.5rem;position:relative;">
-          <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--yellow);border:2px solid #0f0a1e;"></div>
-          <div style="font-size:.75rem;color:var(--yellow);font-weight:700;margin-bottom:.25rem;">📅 28 March 2026</div>
-          <div style="background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.2);border-radius:6px;padding:.75rem;">
-            <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Foundation + Mac Mini Deployment</div>
-            <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
-              🖥️ Mac Mini M4 deployment in Sydney<br>
-              ⚔️ Xena persona and core personality established<br>
-              🔐 SSH security hardening and access controls<br>
-              💡 Court Diary Agent moved from "built" to "deployed"<br>
-              🏗️ Initial agent framework and workspace setup
-            </div>
-            <div style="font-size:.7rem;color:var(--yellow);">💰 Cost: ~$8 • Foundation infrastructure build</div>
+        <!-- Skills Installed -->
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.75rem;margin-top:.75rem;">
+          <div style="font-weight:700;color:var(--cyan);font-size:.8rem;margin-bottom:.5rem;">🛠️ Skills & Capabilities Installed</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;font-size:.7rem;">
+            <div>🤖 Coding Agent</div>
+            <div>🩺 Healthcheck</div>
+            <div>🔌 Node Connect</div>
+            <div>✏️ Skill Creator</div>
+            <div>🖥️ Tmux</div>
+            <div>🎬 Video Frames</div>
+            <div>🌤️ Weather</div>
+            <div>🎨 Frontend Design</div>
+            <div style="color:var(--green);">✨ Custom Built</div>
           </div>
         </div>
       </div>
       
-      <!-- Current Status & Next -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+      <!-- Build Plan (Collapsible) -->
+      <div style="margin-bottom:1.5rem;">
+        <div class="collapsible" onclick="toggleBuildPlan()" style="font-weight:700;color:var(--yellow);font-size:.95rem;margin-bottom:.5rem;">
+          📅 Build Plan (Weeks 1-6) <span class="chevron" id="buildPlanChevron">▶</span>
+        </div>
+        <div class="build-plan-content" id="buildPlanContent">
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;">
+            <div class="build-week">
+              <div class="week-header"><span style="color:var(--green)">✅</span> Week 1–2 — Foundation</div>
+              <ul class="week-items">
+                <li>Infrastructure & environment setup</li>
+                <li>Court briefing system</li>
+                <li>LEAP intake workflow</li>
+              </ul>
+            </div>
+            <div class="build-week">
+              <div class="week-header"><span style="color:var(--green)">✅</span> Week 3 — Client Systems</div>
+              <ul class="week-items">
+                <li>Legal Aid monitoring</li>
+                <li>Conflict checks</li>
+                <li>Email–LEAP bridge</li>
+              </ul>
+            </div>
+            <div class="build-week">
+              <div class="week-header"><span style="color:var(--yellow)">🟡</span> Week 4 — Revenue</div>
+              <ul class="week-items">
+                <li>Leads tracker — live</li>
+                <li>SMS pipeline</li>
+                <li>Billing automation</li>
+              </ul>
+            </div>
+            <div class="build-week">
+              <div class="week-header"><span style="color:var(--red)">🔴</span> Week 5 — Current (Blockers)</div>
+              <ul class="week-items">
+                <li>NT Legal Aid reconciliation — <em>needs NAB statements</em></li>
+                <li>BAS automation — <em>needs MYOB access, due 28 April</em></li>
+                <li>Conference scheduler</li>
+                <li>Chronologies</li>
+              </ul>
+            </div>
+            <div class="build-week">
+              <div class="week-header"><span>⏳</span> Week 6 — Compliance</div>
+              <ul class="week-items">
+                <li>BAS lodgement</li>
+                <li>Trust accounting</li>
+                <li>Professional indemnity</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Development Timeline (Collapsible) -->
+      <div style="margin-bottom:1.5rem;">
+        <div class="collapsible" onclick="toggleTimeline()" style="font-weight:700;color:var(--cyan);font-size:.95rem;margin-bottom:.5rem;">
+          📅 Development Timeline (28 Mar → 3 Apr) <span class="chevron" id="timelineChevron">▶</span>
+        </div>
+        <div class="build-plan-content" id="timelineContent">
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:1rem;">
+            <div style="position:relative;padding-left:1.5rem;">
+              <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--purple),var(--cyan));"></div>
+              
+              <!-- 1 Apr 2026 -->
+              <div style="margin-bottom:1.5rem;position:relative;">
+                <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--green);border:2px solid #0f0a1e;"></div>
+                <div style="font-size:.75rem;color:var(--green);font-weight:700;margin-bottom:.25rem;">📅 1 April 2026</div>
+                <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:.75rem;">
+                  <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Phase 1 Complete + Interactive Mission Control</div>
+                  <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
+                    ✅ ISA completion plan delivered (7 agents, 41 scripts live)<br>
+                    ✅ Real-time cost tracking with daily charts<br>
+                    ✅ Full conversation archive with chat history<br>
+                    ✅ Interactive chat windows for all services<br>
+                    ✅ Build timeline documentation<br>
+                    ⚡ M365 builds started: Email triage + Morning brief
+                  </div>
+                  <div style="font-size:.7rem;color:var(--green);margin-bottom:.3rem;">💰 Cost: ~$36 (heavy development day)</div>
+                  <a href="https://build-timeline.vercel.app" target="_blank" style="font-size:.7rem;color:var(--green);">📄 View ISA Plan PDF</a>
+                </div>
+              </div>
+              
+              <!-- 31 Mar 2026 -->
+              <div style="margin-bottom:1.5rem;position:relative;">
+                <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--purple);border:2px solid #0f0a1e;"></div>
+                <div style="font-size:.75rem;color:var(--purple);font-weight:700;margin-bottom:.25rem;">📅 31 March 2026</div>
+                <div style="background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:6px;padding:.75rem;">
+                  <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Mission Control v2 + Operational Widgets</div>
+                  <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
+                    🎛️ 7 operational widget sections deployed<br>
+                    📊 Compliance, calendar, finance, client snapshots<br>
+                    📈 Lead pipeline funnel with urgency tracking<br>
+                    🚨 Alerts centre + system health monitoring<br>
+                    📱 Mobile-responsive dark glass theme
+                  </div>
+                  <div style="font-size:.7rem;color:var(--purple);">💰 Cost: ~$24 • Models: Sonnet 4, Opus 4-6</div>
+                </div>
+              </div>
+              
+              <!-- 30 Mar 2026 -->
+              <div style="margin-bottom:1.5rem;position:relative;">
+                <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid #0f0a1e;"></div>
+                <div style="font-size:.75rem;color:var(--red);font-weight:700;margin-bottom:.25rem;">📅 30 March 2026</div>
+                <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:.75rem;">
+                  <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Leads Crisis Resolution + Website Improvements</div>
+                  <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
+                    🚨 CRITICAL: Fixed missed lead monitoring (Laurie Bamford)<br>
+                    📊 Automated lead tracking via cron jobs (8am, 1pm daily)<br>
+                    🎨 Website header branding improvements via Webby<br>
+                    ⚠️ Lesson: Lead classification needs strict boundaries
+                  </div>
+                  <div style="font-size:.7rem;color:var(--red);">💰 Cost: ~$18 • Models: Sonnet 4, Opus 4-6 crisis response</div>
+                </div>
+              </div>
+              
+              <!-- 29 Mar 2026 -->
+              <div style="margin-bottom:1.5rem;position:relative;">
+                <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--cyan);border:2px solid #0f0a1e;"></div>
+                <div style="font-size:.75rem;color:var(--cyan);font-weight:700;margin-bottom:.25rem;">📅 29 March 2026</div>
+                <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:6px;padding:.75rem;">
+                  <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Frontend Design + Agent Framework</div>
+                  <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
+                    🎨 Created frontend-design custom skill<br>
+                    💻 Claude Code used for front-end redesign pass (~8 mins)<br>
+                    🔧 Agent framework optimization<br>
+                    📋 Project planning and skill architecture
+                  </div>
+                  <div style="font-size:.7rem;color:var(--cyan);">💰 Cost: ~$5 • Model: Sonnet 4 efficiency focus</div>
+                </div>
+              </div>
+              
+              <!-- 28 Mar 2026 -->
+              <div style="margin-bottom:1.5rem;position:relative;">
+                <div style="position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--yellow);border:2px solid #0f0a1e;"></div>
+                <div style="font-size:.75rem;color:var(--yellow);font-weight:700;margin-bottom:.25rem;">📅 28 March 2026</div>
+                <div style="background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.2);border-radius:6px;padding:.75rem;">
+                  <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">Foundation + Mac Mini Deployment</div>
+                  <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);margin-bottom:.5rem;">
+                    🖥️ Mac Mini M4 deployment in Sydney<br>
+                    ⚔️ Xena persona and core personality established<br>
+                    🔐 SSH security hardening and access controls<br>
+                    💡 Court Diary Agent moved from "built" to "deployed"<br>
+                    🏗️ Initial agent framework and workspace setup
+                  </div>
+                  <div style="font-size:.7rem;color:var(--yellow);">💰 Cost: ~$8 • Foundation infrastructure build</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Project Documentation (Sub-accordion) -->
+      <div style="margin-bottom:1.5rem;">
+        <div class="collapsible" onclick="toggleProjectDocs()" style="font-weight:700;color:var(--green);font-size:.95rem;margin-bottom:.5rem;">
+          📑 Project Documentation <span class="chevron" id="projectDocsChevron">▶</span>
+        </div>
+        <div class="build-plan-content" id="projectDocsContent">
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:1rem;font-size:.8rem;">
+
+            <details style="margin-bottom:.4rem;">
+              <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+                📊 <span style="color:var(--text-bright);font-weight:600;">PHASE-2-PLAN.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Build roadmap</span>
+              </summary>
+              <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
+                <div><strong>Goal:</strong> Connect external integrations to make agents functional</div>
+                <div style="margin-top:.3rem;"><strong>Available Credentials:</strong></div>
+                <div style="padding-left:.75rem;">✅ LEAP, MYOB, VXT, Calendly, Acuity, ElevenLabs, Vapi</div>
+                <div style="padding-left:.75rem;">✅ FCFCOA Court Portal, NSW Courts, Federal Court</div>
+                <div style="padding-left:.75rem;">✅ HubSpot, Stripe, Twilio</div>
+                <div style="margin-top:.3rem;"><strong>Priority:</strong> Items that unblock the most HIGH-priority scope items first</div>
+                <div><strong>Created:</strong> 23 March 2026 by ISA HQ</div>
+              </div>
+            </details>
+
+            <details style="margin-bottom:.4rem;">
+              <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+                ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE-2A-COMPLETION.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2A report</span>
+              </summary>
+              <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
+                <div style="color:var(--green);"><strong>Status:</strong> ✅ All 3 tasks complete (23 Mar 2026)</div>
+                <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
+                <div style="padding-left:.75rem;">✅ Email Dispute Resolver — found FamilyProperty cancellation evidence</div>
+                <div style="padding-left:.75rem;">✅ VXT Call Log Integration — webhook receiver built</div>
+                <div style="padding-left:.75rem;">✅ Subscription Auditor — scans M365 for recurring payments</div>
+              </div>
+            </details>
+
+            <details style="margin-bottom:.4rem;">
+              <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+                ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE2B-COMPLETION-REPORT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2B report</span>
+              </summary>
+              <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
+                <div style="color:var(--green);"><strong>Status:</strong> ✅ Complete (23 Mar 2026)</div>
+                <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
+                <div style="padding-left:.75rem;">✅ LEAP API Integration (practice management)</div>
+                <div style="padding-left:.75rem;">✅ Court Portal Scrapers (3 Australian courts: FCFCOA, NSW, Federal)</div>
+                <div style="padding-left:.75rem;">✅ Enhanced Morning Brief (aggregates all data sources)</div>
+                <div style="padding-left:.75rem;">→ Unblocked 10+ scope items for practice automation</div>
+              </div>
+            </details>
+
+            <details style="margin-bottom:.4rem;">
+              <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+                🗺️ <span style="color:var(--text-bright);font-weight:600;">WORKSPACE-MAP.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">File structure</span>
+              </summary>
+              <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;font-family:monospace;">
+                <div>/opt/openclaw/clients/jacqui-griffin/</div>
+                <div>├── Core Files (SOUL, USER, IDENTITY, AGENTS, TOOLS, MEMORY)</div>
+                <div>├── memory/ (daily journals)</div>
+                <div>├── scripts/ (13 automation scripts)</div>
+                <div>├── sites/jgms/ (website files)</div>
+                <div>├── leads-tracker/ (Vercel leads app)</div>
+                <div>├── mission-control/ (this dashboard)</div>
+                <div>├── skills/ (custom skills)</div>
+                <div>├── leads/ (lead data & feed builders)</div>
+                <div>└── output/ (generated reports & workpacks)</div>
+              </div>
+            </details>
+
+            <details style="margin-bottom:.4rem;">
+              <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
+                📋 <span style="color:var(--text-bright);font-weight:600;">remaining_build_plan.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Outstanding tasks</span>
+              </summary>
+              <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--red);font-size:.75rem;line-height:1.7;">
+                <div><strong>Weeks 5-6 Outstanding:</strong></div>
+                <div style="margin-top:.3rem;color:var(--red);"><strong>🔴 Critical:</strong></div>
+                <div style="padding-left:.75rem;">• NT Legal Aid reconciliation — $2K+ at risk (needs NAB statements)</div>
+                <div style="padding-left:.75rem;">• MYOB BAS statements — ATO fines! (due 28 April)</div>
+                <div style="padding-left:.75rem;">• Trust account reconciliation — compliance requirement</div>
+                <div style="margin-top:.3rem;color:var(--yellow);"><strong>🟡 Medium:</strong></div>
+                <div style="padding-left:.75rem;">• Conference scheduler, chronologies, merit advice drafting</div>
+                <div style="padding-left:.75rem;">• Professional indemnity, Legal Aid invoice reassign</div>
+                <div style="padding-left:.75rem;">• Trust account audit docs</div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </div>
+      
+      <!-- Currently Building / Up Next -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
         <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:6px;padding:.75rem;">
           <div style="font-weight:700;color:var(--cyan);font-size:.8rem;margin-bottom:.5rem;">🔄 Currently Building</div>
           <div style="font-size:.7rem;line-height:1.3;color:var(--text-dim);">
@@ -691,7 +796,8 @@ a:hover{text-decoration:underline}
         </div>
       </div>
       
-      <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:3px solid var(--purple);">
+      <!-- Build Summary -->
+      <div style="padding:.75rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:3px solid var(--purple);">
         <div style="font-size:.8rem;color:var(--purple);font-weight:700;margin-bottom:.25rem;">📊 Build Summary</div>
         <div style="font-size:.75rem;color:var(--text-dim);">
           <strong>6 days:</strong> From concept to 7 live AI agents • <strong>Total investment:</strong> ~$90 API costs • <strong>Value delivered:</strong> 24/7 legal operations automation • <strong>ROI:</strong> 10x+ in time savings and missed lead prevention
@@ -699,7 +805,7 @@ a:hover{text-decoration:underline}
       </div>
       
     </div>
-  </details>
+  </div>
 
   <!-- ═══ AI Services Directory ═══ -->
   <details class="glass" style="margin-bottom:1.5rem;" open>
@@ -1417,144 +1523,6 @@ a:hover{text-decoration:underline}
       </div>
     </div>
     
-    <!-- Project Documentation -->
-    <div class="document-accordion-item glass" data-category="project docs plans reports" style="margin-bottom:.5rem;border-radius:1rem;overflow:hidden;">
-      <div class="accordion-header" onclick="toggleDocumentAccordion(this)" style="padding:1rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;background:rgba(6,182,212,.08);border-bottom:1px solid rgba(6,182,212,.2);transition:all .3s;">
-        <span style="font-size:1.2rem;">📑</span>
-        <span style="font-weight:700;font-size:.9rem;">Project Documentation</span>
-        <a href="https://docs-ten-swart.vercel.app" target="_blank" onclick="event.stopPropagation()" style="font-size:.65rem;background:rgba(6,182,212,.25);padding:3px 8px;border-radius:4px;color:var(--cyan);text-decoration:none;">Full Docs →</a>
-        <span style="margin-left:auto;font-size:.65rem;background:rgba(6,182,212,.25);padding:3px 8px;border-radius:4px;color:var(--cyan);">8 docs</span>
-        <span class="accordion-chevron" style="font-size:.8rem;transition:transform .3s;color:var(--cyan);">▼</span>
-      </div>
-      <div class="accordion-content" style="max-height:0;overflow:hidden;transition:max-height .4s ease;">
-        <div style="padding:1rem;">
-      <div style="font-size:.8rem;">
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            📊 <span style="color:var(--text-bright);font-weight:600;">PHASE-2-PLAN.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Build roadmap</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
-            <div><strong>Goal:</strong> Connect external integrations to make agents functional</div>
-            <div style="margin-top:.3rem;"><strong>Available Credentials:</strong></div>
-            <div style="padding-left:.75rem;">✅ LEAP, MYOB, VXT, Calendly, Acuity, ElevenLabs, Vapi</div>
-            <div style="padding-left:.75rem;">✅ FCFCOA Court Portal, NSW Courts, Federal Court</div>
-            <div style="padding-left:.75rem;">✅ HubSpot, Stripe, Twilio</div>
-            <div style="margin-top:.3rem;"><strong>Priority:</strong> Items that unblock the most HIGH-priority scope items first</div>
-            <div><strong>Created:</strong> 23 March 2026 by ISA HQ</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE-2A-COMPLETION.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2A report</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);"><strong>Status:</strong> ✅ All 3 tasks complete (23 Mar 2026)</div>
-            <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
-            <div style="padding-left:.75rem;">✅ Email Dispute Resolver — found FamilyProperty cancellation evidence</div>
-            <div style="padding-left:.75rem;">✅ VXT Call Log Integration — webhook receiver built</div>
-            <div style="padding-left:.75rem;">✅ Subscription Auditor — scans M365 for recurring payments</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            ✅ <span style="color:var(--text-bright);font-weight:600;">PHASE2B-COMPLETION-REPORT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Phase 2B report</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--green);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);"><strong>Status:</strong> ✅ Complete (23 Mar 2026)</div>
-            <div style="margin-top:.3rem;"><strong>Delivered:</strong></div>
-            <div style="padding-left:.75rem;">✅ LEAP API Integration (practice management)</div>
-            <div style="padding-left:.75rem;">✅ Court Portal Scrapers (3 Australian courts: FCFCOA, NSW, Federal)</div>
-            <div style="padding-left:.75rem;">✅ Enhanced Morning Brief (aggregates all data sources)</div>
-            <div style="padding-left:.75rem;">→ Unblocked 10+ scope items for practice automation</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            🗺️ <span style="color:var(--text-bright);font-weight:600;">WORKSPACE-MAP.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">File structure</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;font-family:monospace;">
-            <div>/opt/openclaw/clients/jacqui-griffin/</div>
-            <div>├── Core Files (SOUL, USER, IDENTITY, AGENTS, TOOLS, MEMORY)</div>
-            <div>├── memory/ (daily journals)</div>
-            <div>├── scripts/ (13 automation scripts)</div>
-            <div>├── sites/jgms/ (website files)</div>
-            <div>├── leads-tracker/ (Vercel leads app)</div>
-            <div>├── mission-control/ (this dashboard)</div>
-            <div>├── skills/ (custom skills)</div>
-            <div>├── leads/ (lead data & feed builders)</div>
-            <div>└── output/ (generated reports & workpacks)</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            📝 <span style="color:var(--text-bright);font-weight:600;">JGMS-COMPLETION-CHECKLIST.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Website tasks</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;line-height:1.7;">
-            <div><strong>Site:</strong> Originally for Squarespace, now migrated to Vercel</div>
-            <div style="margin-top:.3rem;color:var(--green);"><strong>✅ Completed:</strong></div>
-            <div style="padding-left:.75rem;">✅ Site title, hero section, footer email, blog removed</div>
-            <div style="margin-top:.3rem;color:var(--yellow);"><strong>⚠️ Remaining:</strong></div>
-            <div style="padding-left:.75rem;">• Logo update (still shows old branding in some places)</div>
-            <div style="padding-left:.75rem;">• Navigation menu restructure</div>
-            <div style="padding-left:.75rem;">• Colour scheme refinement</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            🏗️ <span style="color:var(--text-bright);font-weight:600;">SQUARESPACE-JGMS-HANDOFF.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Migration notes</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
-            <div><strong>Project:</strong> Transform "Family Law Assist (Copy)" → "JGMS"</div>
-            <div><strong>Status:</strong> Partially complete, then migrated to Vercel instead</div>
-            <div style="margin-top:.3rem;"><strong>Completed:</strong> Site title, login session, content gathered</div>
-            <div><strong>Originally remaining:</strong> Logo (10 min), nav menu, middle content, colour scheme</div>
-            <div style="color:var(--cyan);margin-top:.3rem;">💡 Decision: Moved to Vercel for free hosting instead of continuing on Squarespace</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            📄 <span style="color:var(--text-bright);font-weight:600;">SQUARESPACE-PAGE-CONTENT.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Page content</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--cyan);font-size:.75rem;line-height:1.7;">
-            <div><strong>Purpose:</strong> Ready-to-paste content for each website page</div>
-            <div style="margin-top:.3rem;"><strong>Pages mapped:</strong></div>
-            <div style="padding-left:.75rem;">Home → HOME, Our Mission → AREAS OF PRACTICE</div>
-            <div style="padding-left:.75rem;">About → DO IT ONLINE, Self Represent → FOR CLIENTS</div>
-            <div style="padding-left:.75rem;">Blog → NEWS, Contact → CONTACT</div>
-            <div style="padding-left:.75rem;">Fixed Fees → DELETE, Testimonials → DELETE</div>
-            <div style="color:var(--text-dim);margin-top:.3rem;">Originally for Squarespace nav restructure — content now used on Vercel site</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.4rem .6rem;background:rgba(6,182,212,.06);border-radius:6px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:.4rem;">
-            📋 <span style="color:var(--text-bright);font-weight:600;">remaining_build_plan.md</span><span style="margin-left:auto;color:var(--text-dim);font-size:.7rem;">Outstanding tasks</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--red);font-size:.75rem;line-height:1.7;">
-            <div><strong>Weeks 5-6 Outstanding:</strong></div>
-            <div style="margin-top:.3rem;color:var(--red);"><strong>🔴 Critical:</strong></div>
-            <div style="padding-left:.75rem;">• NT Legal Aid reconciliation — $2K+ at risk (needs NAB statements)</div>
-            <div style="padding-left:.75rem;">• MYOB BAS statements — ATO fines! (due 28 April)</div>
-            <div style="padding-left:.75rem;">• Trust account reconciliation — compliance requirement</div>
-            <div style="margin-top:.3rem;color:var(--yellow);"><strong>🟡 Medium:</strong></div>
-            <div style="padding-left:.75rem;">• Conference scheduler, chronologies, merit advice drafting</div>
-            <div style="padding-left:.75rem;">• Professional indemnity, Legal Aid invoice reassign</div>
-            <div style="padding-left:.75rem;">• Trust account audit docs</div>
-          </div>
-        </details>
-
-        </div>
-      </div>
-    </div>
-    
-    <!-- Scripts -->
     <div class="document-accordion-item glass" data-category="scripts automation python cron" style="margin-bottom:.5rem;border-radius:1rem;overflow:hidden;">
       <div class="accordion-header" onclick="toggleDocumentAccordion(this)" style="padding:1rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;background:rgba(168,85,247,.08);border-bottom:1px solid rgba(168,85,247,.2);transition:all .3s;">
         <span style="font-size:1.2rem;">⚙️</span>
@@ -2216,9 +2184,41 @@ updateTime();setInterval(updateTime,1000);
 // Build plan toggle
 function toggleBuildPlan(){
   const el=document.getElementById('buildPlanContent');
-  const tog=document.getElementById('buildPlanToggle');
-  el.classList.toggle('open');
-  tog.classList.toggle('open');
+  const chevron=document.getElementById('buildPlanChevron');
+  const isOpen=el.classList.contains('open');
+  if(isOpen){
+    el.classList.remove('open');
+    chevron.style.transform='rotate(0deg)';
+  }else{
+    el.classList.add('open');
+    chevron.style.transform='rotate(90deg)';
+  }
+}
+
+function toggleTimeline(){
+  const el=document.getElementById('timelineContent');
+  const chevron=document.getElementById('timelineChevron');
+  const isOpen=el.classList.contains('open');
+  if(isOpen){
+    el.classList.remove('open');
+    chevron.style.transform='rotate(0deg)';
+  }else{
+    el.classList.add('open');
+    chevron.style.transform='rotate(90deg)';
+  }
+}
+
+function toggleProjectDocs(){
+  const el=document.getElementById('projectDocsContent');
+  const chevron=document.getElementById('projectDocsChevron');
+  const isOpen=el.classList.contains('open');
+  if(isOpen){
+    el.classList.remove('open');
+    chevron.style.transform='rotate(0deg)';
+  }else{
+    el.classList.add('open');
+    chevron.style.transform='rotate(90deg)';
+  }
 }
 
 // Accordion functionality for documents
