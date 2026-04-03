@@ -221,6 +221,7 @@ a:hover{text-decoration:underline}
 .progress-fill{height:100%;border-radius:3px;transition:width 1s ease}
 .progress-fill.green{background:linear-gradient(90deg,var(--green),#4ade80)}
 .progress-fill.yellow{background:linear-gradient(90deg,var(--yellow),#facc15)}
+.progress-fill.blue{background:linear-gradient(90deg,var(--cyan),#67e8f9)}
 
 /* ── Build Plan ── */
 .collapsible{cursor:pointer;user-select:none}
@@ -360,34 +361,98 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
-  <!-- ═══ Status Dashboard ═══ -->
-  <div class="section-title">📊 Status Dashboard</div>
-  <div class="status-grid">
+  <!-- ═══ Website Status ═══ -->
+  <div class="section-title">🌐 Website Status</div>
+  <div class="status-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+    
+    <!-- JGMS (Mobile Solicitor) -->
     <div class="glass status-card">
       <div class="card-header">
-        <span class="card-title">🌐 Website</span>
-        <span class="card-status blue">🔧 Header Refined</span>
+        <span class="card-title">🏛️ JGMS (Mobile Solicitor)</span>
+        <span class="card-status green">✅ Live</span>
       </div>
       <div class="card-body">
+        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Main business site</div>
         <a href="https://mobilesolicitor.com.au" target="_blank">mobilesolicitor.com.au ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:var(--green);">Header Refined</span>
+        </div>
         <div class="progress-bar"><div class="progress-fill green" style="width:95%"></div></div>
-        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">95%</div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">95% Complete</div>
       </div>
     </div>
 
+    <!-- FLA (Family Law Assist) -->
+    <div class="glass status-card">
+      <div class="card-header">
+        <span class="card-title">👨‍👩‍👧 FLA (Family Law Assist)</span>
+        <span class="card-status green">✅ Active</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Legacy branding site</div>
+        <a href="https://familylawassist.com.au" target="_blank">familylawassist.com.au ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
+          <span style="color:var(--green);">No edits needed</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill green" style="width:100%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Stable</div>
+      </div>
+    </div>
+
+    <!-- NTRRLS (NT Rural Remote Legal Services) -->
+    <div class="glass status-card">
+      <div class="card-header">
+        <span class="card-title">🌏 NTRRLS (NT Rural Remote)</span>
+        <span class="card-status yellow">🔧 In Progress</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Territory legal services</div>
+        <a href="#" style="color:var(--text-dim);">ntrrls.com.au (staging) ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
+          <span style="color:var(--yellow);">Building content</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill yellow" style="width:40%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">40% Complete</div>
+      </div>
+    </div>
+
+    <!-- Mission Control -->
+    <div class="glass status-card">
+      <div class="card-header">
+        <span class="card-title">🎛️ Mission Control</span>
+        <span class="card-status blue">📊 Live Dashboard</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Operations dashboard</div>
+        <a href="https://mission-control-rho-amber.vercel.app" target="_blank">mission-control-rho-amber.vercel.app ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:var(--cyan);">Version 2 Active</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill blue" style="width:90%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Operational</div>
+      </div>
+    </div>
+
+    <!-- Leads Tracker -->
     <div class="glass status-card">
       <div class="card-header">
         <span class="card-title">📋 Leads Tracker</span>
         <span class="card-status green">✅ Active</span>
       </div>
       <div class="card-body">
-        7 total · 2 active · <strong style="color:#fca5a5">1 urgent</strong><br>
-        <a href="https://leads-tracker-eta.vercel.app/" target="_blank">Open Tracker ↗</a>
+        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Client leads management</div>
+        <a href="https://leads-tracker-eta.vercel.app/" target="_blank">leads-tracker-eta.vercel.app ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:#fca5a5;">1 urgent lead</span>
+        </div>
+        <div style="margin-top:.5rem;font-size:.75rem;color:var(--text);">7 total · 2 active</div>
       </div>
     </div>
-
-
-
 
   </div>
 
