@@ -1313,7 +1313,7 @@ a:hover{text-decoration:underline}
   <div id="kanban" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem;">
     
     <!-- TO DO -->
-    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-todo">
+    <div class="glass kanban-column" style="padding:.75rem;min-height:300px;" id="col-todo" data-column="todo">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
         <span style="background:var(--red);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
         TO DO <span id="count-todo" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(239,68,68,.15);padding:1px 6px;border-radius:4px;">0</span>
@@ -1325,7 +1325,7 @@ a:hover{text-decoration:underline}
     </div>
     
     <!-- IN PROGRESS -->
-    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-progress">
+    <div class="glass kanban-column" style="padding:.75rem;min-height:300px;" id="col-progress" data-column="progress">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
         <span style="background:var(--yellow);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
         IN PROGRESS <span id="count-progress" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(234,179,8,.15);padding:1px 6px;border-radius:4px;">0</span>
@@ -1334,7 +1334,7 @@ a:hover{text-decoration:underline}
     </div>
     
     <!-- DONE -->
-    <div class="glass" style="padding:.75rem;min-height:300px;" id="col-done">
+    <div class="glass kanban-column" style="padding:.75rem;min-height:300px;" id="col-done" data-column="done">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem;">
         <span style="background:var(--green);width:10px;height:10px;border-radius:50%;display:inline-block;"></span>
         DONE <span id="count-done" style="margin-left:auto;font-size:.7rem;color:var(--text-dim);background:rgba(34,197,94,.15);padding:1px 6px;border-radius:4px;">0</span>
@@ -1344,8 +1344,17 @@ a:hover{text-decoration:underline}
   </div>
 
   <style>
-    .task-card{background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:8px;padding:.5rem .6rem;margin-bottom:.4rem;font-size:.75rem;cursor:pointer;transition:all .2s;position:relative;}
+    /* Kanban Styles */
+    .task-card{
+      background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:8px;
+      padding:.5rem .6rem;margin-bottom:.4rem;font-size:.75rem;cursor:pointer;transition:all .2s;
+      position:relative;user-select:none;touch-action:none;min-height:44px;
+    }
     .task-card:hover{background:rgba(255,255,255,.08);border-color:var(--purple);}
+    .task-card.dragging{
+      opacity:0.8;transform:scale(1.02);z-index:1000;box-shadow:0 8px 24px rgba(168,85,247,.3);
+      border-color:var(--purple);background:rgba(168,85,247,.15);
+    }
     .task-card .task-text{line-height:1.4;margin-bottom:.3rem;}
     .task-card .task-meta{display:flex;gap:.3rem;flex-wrap:wrap;}
     .task-tag{font-size:.6rem;padding:1px 5px;border-radius:3px;display:inline-block;}
@@ -1354,12 +1363,34 @@ a:hover{text-decoration:underline}
     .tag-website{background:rgba(6,182,212,.2);color:#67e8f9;}
     .tag-leads{background:rgba(168,85,247,.2);color:#d8b4fe;}
     .tag-compliance{background:rgba(239,68,68,.15);color:#fca5a5;}
-    .task-actions{display:none;position:absolute;top:.3rem;right:.3rem;gap:.2rem;}
+    .task-actions{display:none;position:absolute;top:.3rem;right:.3rem;gap:.2rem;z-index:5;}
     .task-card:hover .task-actions{display:flex;}
-    .task-btn{background:rgba(255,255,255,.1);border:none;color:var(--text);padding:2px 5px;border-radius:4px;cursor:pointer;font-size:.65rem;}
-    .task-btn:hover{background:rgba(255,255,255,.2);}
+    .task-btn{
+      background:rgba(255,255,255,.15);border:none;color:var(--text);padding:4px 7px;
+      border-radius:4px;cursor:pointer;font-size:.7rem;min-width:24px;min-height:24px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .task-btn:hover{background:rgba(255,255,255,.3);transform:scale(1.1);}
+    
+    /* Drop Zone Styles */
+    .kanban-column{transition:all .3s ease;position:relative;}
+    .kanban-column.drop-target{
+      background:rgba(168,85,247,.08);border:2px dashed var(--purple);
+      transform:scale(1.02);
+    }
+    .kanban-column.drop-target::after{
+      content:'📝 Drop task here';position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);color:var(--purple);font-size:.8rem;
+      background:rgba(168,85,247,.2);padding:.5rem 1rem;border-radius:6px;
+      pointer-events:none;z-index:10;
+    }
+    
+    /* Mobile Optimizations */
     @media(max-width:640px){
       #kanban{grid-template-columns:1fr;gap:.5rem;}
+      .task-card{min-height:50px;}
+      .task-actions{display:flex;}
+      .task-btn{min-width:32px;min-height:32px;font-size:.8rem;}
     }
   </style>
 
@@ -1413,17 +1444,23 @@ a:hover{text-decoration:underline}
       data[col].forEach(task=>{
         const card=document.createElement('div');
         card.className='task-card';
+        card.dataset.taskId=task.id;
+        card.dataset.column=col;
         card.innerHTML=`
           <div class="task-actions">
-            ${col!=='todo'?'<button class="task-btn" onclick="moveTask(${task.id},\'left\')" title="Move left">◀</button>':''}
-            ${col!=='done'?'<button class="task-btn" onclick="moveTask(${task.id},\'right\')" title="Move right">▶</button>':''}
-            <button class="task-btn" onclick="deleteTask(${task.id})" title="Delete" style="color:#fca5a5;">✕</button>
+            ${col!=='todo'?'<button class="task-btn" onclick="moveTask('+task.id+',\'left\')" title="Move left">◀</button>':''}
+            ${col!=='done'?'<button class="task-btn" onclick="moveTask('+task.id+',\'right\')" title="Move right">▶</button>':''}
+            <button class="task-btn" onclick="deleteTask('+task.id+')" title="Delete" style="color:#fca5a5;">✕</button>
           </div>
           <div class="task-text">${task.text}</div>
           <div class="task-meta">
             ${task.tags.map(t=>'<span class="task-tag tag-'+t+'">'+t+'</span>').join('')}
           </div>
         `;
+        
+        // Add touch/drag event listeners
+        setupDragAndDrop(card);
+        
         el.appendChild(card);
       });
     });
@@ -1464,6 +1501,164 @@ a:hover{text-decoration:underline}
     saveKanban(data);
     renderKanban();
     input.value='';
+  }
+  
+  // Touch/Drag and Drop Functionality
+  let dragState = {
+    isDragging: false,
+    dragElement: null,
+    startColumn: null,
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentY: 0,
+    offset: { x: 0, y: 0 }
+  };
+  
+  function setupDragAndDrop(card) {
+    // Mouse events
+    card.addEventListener('mousedown', handleStart);
+    card.addEventListener('dragstart', e => e.preventDefault());
+    
+    // Touch events  
+    card.addEventListener('touchstart', handleStart, { passive: false });
+    
+    function handleStart(e) {
+      if (e.target.classList.contains('task-btn')) return; // Don't drag on buttons
+      
+      e.preventDefault();
+      dragState.isDragging = true;
+      dragState.dragElement = card;
+      dragState.startColumn = card.dataset.column;
+      
+      const rect = card.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      
+      dragState.startX = clientX;
+      dragState.startY = clientY;
+      dragState.offset.x = clientX - rect.left;
+      dragState.offset.y = clientY - rect.top;
+      
+      card.classList.add('dragging');
+      card.style.position = 'fixed';
+      card.style.zIndex = '1000';
+      card.style.pointerEvents = 'none';
+      card.style.width = rect.width + 'px';
+      card.style.left = rect.left + 'px';
+      card.style.top = rect.top + 'px';
+      
+      // Add global event listeners
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchmove', handleMove, { passive: false });
+      document.addEventListener('touchend', handleEnd);
+    }
+  }
+  
+  function handleMove(e) {
+    if (!dragState.isDragging || !dragState.dragElement) return;
+    
+    e.preventDefault();
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    dragState.currentX = clientX;
+    dragState.currentY = clientY;
+    
+    // Update card position
+    dragState.dragElement.style.left = (clientX - dragState.offset.x) + 'px';
+    dragState.dragElement.style.top = (clientY - dragState.offset.y) + 'px';
+    
+    // Check drop zones
+    updateDropZones(clientX, clientY);
+  }
+  
+  function handleEnd(e) {
+    if (!dragState.isDragging || !dragState.dragElement) return;
+    
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
+    const clientY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY);
+    
+    // Find drop target
+    const dropColumn = getDropColumn(clientX, clientY);
+    
+    // Reset drag element
+    dragState.dragElement.classList.remove('dragging');
+    dragState.dragElement.style.position = '';
+    dragState.dragElement.style.zIndex = '';
+    dragState.dragElement.style.pointerEvents = '';
+    dragState.dragElement.style.width = '';
+    dragState.dragElement.style.left = '';
+    dragState.dragElement.style.top = '';
+    
+    // Clear drop zones
+    document.querySelectorAll('.kanban-column').forEach(col => {
+      col.classList.remove('drop-target');
+    });
+    
+    // Move task if dropped on different column
+    if (dropColumn && dropColumn !== dragState.startColumn) {
+      const taskId = parseInt(dragState.dragElement.dataset.taskId);
+      moveTaskToColumn(taskId, dropColumn);
+    }
+    
+    // Reset drag state
+    dragState.isDragging = false;
+    dragState.dragElement = null;
+    dragState.startColumn = null;
+    
+    // Remove global event listeners
+    document.removeEventListener('mousemove', handleMove);
+    document.removeEventListener('mouseup', handleEnd);
+    document.removeEventListener('touchmove', handleMove);
+    document.removeEventListener('touchend', handleEnd);
+  }
+  
+  function updateDropZones(clientX, clientY) {
+    document.querySelectorAll('.kanban-column').forEach(col => {
+      const rect = col.getBoundingClientRect();
+      const isOver = clientX >= rect.left && clientX <= rect.right && 
+                     clientY >= rect.top && clientY <= rect.bottom;
+      
+      col.classList.toggle('drop-target', isOver);
+    });
+  }
+  
+  function getDropColumn(clientX, clientY) {
+    const columns = document.querySelectorAll('.kanban-column');
+    for (const col of columns) {
+      const rect = col.getBoundingClientRect();
+      if (clientX >= rect.left && clientX <= rect.right && 
+          clientY >= rect.top && clientY <= rect.bottom) {
+        return col.dataset.column;
+      }
+    }
+    return null;
+  }
+  
+  function moveTaskToColumn(taskId, targetColumn) {
+    const data = getKanban();
+    const columnMap = { todo: 'todo', progress: 'progress', done: 'done' };
+    const targetCol = columnMap[targetColumn];
+    
+    if (!targetCol) return;
+    
+    // Find and remove task from current column
+    let task = null;
+    ['todo', 'progress', 'done'].forEach(col => {
+      const index = data[col].findIndex(t => t.id === taskId);
+      if (index > -1) {
+        task = data[col].splice(index, 1)[0];
+      }
+    });
+    
+    // Add to target column
+    if (task) {
+      data[targetCol].unshift(task);
+      saveKanban(data);
+      renderKanban();
+    }
   }
   
   renderKanban();
@@ -2013,10 +2208,22 @@ a:hover{text-decoration:underline}
   <!-- ═══ Cost Tracking ═══ -->
   <div class="section-title">💰 Cost Tracking</div>
   
-  <div id="cost-dashboard"></div>
-  <div id="cost-task-log"></div>
-  <div id="cost-agent-breakdown"></div>
-  <div id="cost-model-ref"></div>
+  <div class="glass" style="margin-bottom:1.5rem;border-radius:1rem;overflow:hidden;">
+    <div class="accordion-header" onclick="toggleCostTracking(this)" style="padding:1rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;background:rgba(34,197,94,.08);border-bottom:1px solid rgba(34,197,94,.2);transition:all .3s;">
+      <span style="font-size:1.2rem;">💰</span>
+      <span style="font-weight:700;font-size:.9rem;">Cost Tracking & Daily Breakdown</span>
+      <span id="cost-summary-badge" style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.25);padding:3px 8px;border-radius:4px;color:var(--green);">Loading...</span>
+      <span class="accordion-chevron" style="font-size:.8rem;transition:transform .3s;color:var(--green);">▼</span>
+    </div>
+    <div class="accordion-content" style="max-height:0;overflow:hidden;transition:max-height .4s ease;">
+      <div style="padding:1.25rem;">
+        <div id="cost-dashboard"></div>
+        <div id="cost-historical-breakdown"></div>
+        <div id="cost-agent-breakdown"></div>
+        <div id="cost-model-ref"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══ Quick Actions ═══ -->
   <div class="section-title">⚡ Quick Actions</div>
@@ -2042,41 +2249,45 @@ a:hover{text-decoration:underline}
 // MISSION CONTROL — LIVE WIDGETS
 // ═══════════════════════════════════════════
 
-// ── COST DASHBOARD (from real cost-data.js) ──
+// ── Enhanced COST DASHBOARD with Historical Data ──
 function renderCostDashboard(){
   if(typeof COST_DATA==='undefined')return;
   const d=COST_DATA;
   const limitColor=d.over_limit?'var(--red)':'var(--green)';
   const limitIcon=d.over_limit?'🚨':'✅';
   
+  // Update summary badge
+  const badge=document.getElementById('cost-summary-badge');
+  if(badge) badge.textContent=`Today: $${d.today_total.toFixed(2)} • Month: $${d.month_total.toFixed(2)}`;
+  
   // Summary cards
   const dash=document.getElementById('cost-dashboard');
   if(dash) dash.innerHTML=`
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1rem;">
-      <div class="glass" style="padding:1rem;text-align:center;${d.over_limit?'border:1px solid var(--red);':''}">
+      <div style="padding:1rem;text-align:center;background:rgba(255,255,255,.04);border:1px solid ${d.over_limit?'var(--red)':'var(--glass-border)'};border-radius:10px;">
         <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Today ${limitIcon}</div>
         <div style="font-size:1.6rem;font-weight:800;color:${limitColor};margin:.2rem 0;">$${d.today_total.toFixed(2)}</div>
         <div style="font-size:.65rem;color:var(--text-dim);">${d.today} • Limit: $${d.daily_limit}</div>
         ${d.over_limit?'<div style="font-size:.65rem;color:var(--red);font-weight:700;margin-top:.2rem;">⚠️ OVER $10 DAILY LIMIT</div>':''}
       </div>
-      <div class="glass" style="padding:1rem;text-align:center;">
+      <div style="padding:1rem;text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;">
         <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Week</div>
         <div style="font-size:1.6rem;font-weight:800;color:var(--cyan);margin:.2rem 0;">$${d.week_total.toFixed(2)}</div>
         <div style="font-size:.65rem;color:var(--text-dim);">Last 7 days</div>
       </div>
-      <div class="glass" style="padding:1rem;text-align:center;">
+      <div style="padding:1rem;text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;">
         <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">This Month</div>
         <div style="font-size:1.6rem;font-weight:800;color:var(--purple);margin:.2rem 0;">$${d.month_total.toFixed(2)}</div>
         <div style="font-size:.65rem;color:var(--text-dim);">April 2026</div>
       </div>
-      <div class="glass" style="padding:1rem;text-align:center;">
+      <div style="padding:1rem;text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;">
         <div style="font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">All Time</div>
         <div style="font-size:1.6rem;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:.2rem 0;">$${d.all_total.toFixed(2)}</div>
         <div style="font-size:.65rem;color:var(--text-dim);">Since 22 Mar 2026</div>
       </div>
     </div>
     <!-- Daily spend bar chart -->
-    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
+    <div style="padding:1rem;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;margin-bottom:1rem;">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📊 Daily Spend (Last 14 Days)</div>
       <div style="display:flex;align-items:flex-end;gap:3px;height:80px;">
         ${d.daily_history.slice().reverse().map(day=>{
@@ -2096,27 +2307,46 @@ function renderCostDashboard(){
       </div>
     </div>`;
   
-  // Task log
-  const taskLog=document.getElementById('cost-task-log');
-  if(taskLog && d.today_tasks.length) taskLog.innerHTML=`
-    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📝 Today's Task Costs (${d.today_tasks.length} tasks)</div>
-      <div style="max-height:250px;overflow-y:auto;">
-        ${d.today_tasks.map(t=>{
-          const costColor=t.est_cost>=3?'var(--red)':t.est_cost>=1?'var(--yellow)':'var(--green)';
-          return '<div style="padding:.35rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid '+costColor+';border-radius:4px;margin-bottom:.3rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;">'
-            +'<div><div style="color:var(--text-bright);">'+t.task+'</div>'
-            +'<div style="font-size:.65rem;color:var(--text-dim);">'+t.agent+' • '+t.model.split('/').pop()+' • '+t.time+'</div></div>'
-            +'<div style="font-weight:700;color:'+costColor+';white-space:nowrap;margin-left:.5rem;">$'+t.est_cost.toFixed(2)+'</div>'
-            +'</div>';
-        }).join('')}
-      </div>
+  // Historical Daily Breakdown
+  const historicalEl=document.getElementById('cost-historical-breakdown');
+  if(historicalEl) historicalEl.innerHTML=`
+    <div style="margin-bottom:1rem;">
+      <div style="font-weight:700;color:var(--purple);font-size:.95rem;margin-bottom:.75rem;">📅 Historical Daily Breakdown</div>
+      ${d.daily_history.slice().reverse().slice(0,10).map(day=>{
+        const dayTasks=d.all_tasks?d.all_tasks.filter(t=>t.date===day.date):[];
+        const todayTasks=day.date===d.today?d.today_tasks:dayTasks;
+        const color=day.cost>10?'var(--red)':day.cost>5?'var(--yellow)':'var(--green)';
+        const dayName=new Date(day.date).toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+        
+        return `<details style="margin-bottom:.5rem;" ${day.date===d.today?'open':''}>
+          <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;display:flex;justify-content:space-between;align-items:center;">
+            <span>📅 ${dayName}</span>
+            <span style="color:${color};font-weight:700;">$${day.cost.toFixed(2)}</span>
+          </summary>
+          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
+            ${todayTasks && todayTasks.length ? `
+              <div style="display:grid;gap:.4rem;font-size:.8rem;">
+                ${todayTasks.map(t=>{
+                  const costColor=t.est_cost>=3?'var(--red)':t.est_cost>=1?'var(--yellow)':'var(--green)';
+                  return `<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(255,255,255,.03);border-left:2px solid ${costColor};border-radius:6px;">
+                    <div style="flex:1;">
+                      <div style="color:var(--text-bright);font-size:.75rem;">${t.task}</div>
+                      <div style="color:var(--text-dim);font-size:.65rem;">${t.agent} • ${t.model.split('/').pop()} • ${t.time}</div>
+                    </div>
+                    <div style="font-weight:700;color:${costColor};white-space:nowrap;">$${t.est_cost.toFixed(2)}</div>
+                  </div>`;
+                }).join('')}
+              </div>
+            ` : '<div style="color:var(--text-dim);font-style:italic;text-align:center;padding:.5rem;">No detailed task data available for this date</div>'}
+          </div>
+        </details>`;
+      }).join('')}
     </div>`;
   
   // Agent breakdown
   const agentEl=document.getElementById('cost-agent-breakdown');
   if(agentEl) agentEl.innerHTML=`
-    <div class="glass" style="padding:1rem;margin-bottom:1rem;">
+    <div style="padding:1rem;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;margin-bottom:1rem;">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">🤖 Agent Cost Breakdown</div>
       <table style="width:100%;border-collapse:collapse;font-size:.8rem;">
         <tr style="border-bottom:1px solid var(--glass-border);">
@@ -2143,8 +2373,8 @@ function renderCostDashboard(){
   // Model pricing
   const modelRef=document.getElementById('cost-model-ref');
   if(modelRef) modelRef.innerHTML=`
-    <div class="glass" style="padding:1rem;margin-bottom:1.5rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📊 Model Pricing</div>
+    <div style="padding:1rem;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;">
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem;">📊 Model Pricing Reference</div>
       <table style="width:100%;border-collapse:collapse;font-size:.75rem;">
         <tr style="border-bottom:1px solid var(--glass-border);"><th style="text-align:left;padding:.3rem;color:var(--text-dim);">Model</th><th style="text-align:right;padding:.3rem;color:var(--text-dim);">In/1M</th><th style="text-align:right;padding:.3rem;color:var(--text-dim);">Out/1M</th><th style="text-align:left;padding:.3rem;color:var(--text-dim);">Use</th></tr>
         <tr style="border-bottom:1px solid var(--glass-border);"><td style="padding:.3rem;"><strong>Opus 4-6</strong></td><td style="padding:.3rem;text-align:right;">$15</td><td style="padding:.3rem;text-align:right;">$75</td><td style="padding:.3rem;color:var(--purple);">Complex reasoning</td></tr>
@@ -2611,6 +2841,34 @@ function toggleProjectDocs(){
   }else{
     el.classList.add('open');
     chevron.style.transform='rotate(90deg)';
+  }
+}
+
+function toggleCostTracking(header){
+  const content = header.nextElementSibling;
+  const chevron = header.querySelector('.accordion-chevron');
+  const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
+  
+  if (isOpen) {
+    content.style.maxHeight = '0px';
+    chevron.style.transform = 'rotate(0deg)';
+  } else {
+    content.style.maxHeight = '2000px';
+    chevron.style.transform = 'rotate(180deg)';
+  }
+}
+
+function toggleMemorySection(header){
+  const content = header.nextElementSibling;
+  const chevron = header.querySelector('.accordion-chevron');
+  const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
+  
+  if (isOpen) {
+    content.style.maxHeight = '0px';
+    chevron.style.transform = 'rotate(0deg)';
+  } else {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    chevron.style.transform = 'rotate(180deg)';
   }
 }
 
