@@ -473,6 +473,347 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- ═══ CRON JOBS & AUTOMATION ═══ -->
+  <div class="document-accordion-item glass" data-category="cron jobs automation scheduling tasks" style="margin-bottom:1.5rem;border-radius:1rem;overflow:hidden;">
+    <div class="accordion-header" onclick="toggleDocumentAccordion(this)" style="padding:1rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;background:rgba(34,197,94,.08);border-bottom:1px solid rgba(34,197,94,.2);transition:all .3s;">
+      <span style="font-size:1.2rem;">⏰</span>
+      <span style="font-weight:700;font-size:.9rem;">Cron Jobs & Automation</span>
+      <span style="margin-left:auto;font-size:.65rem;background:rgba(34,197,94,.25);padding:3px 8px;border-radius:4px;color:var(--green);">10 active</span>
+      <span class="accordion-chevron" style="font-size:.8rem;transition:transform .3s;color:var(--green);">▼</span>
+    </div>
+    <div class="accordion-content" style="max-height:0;overflow:hidden;transition:max-height .4s ease;">
+      <div style="padding:1.25rem;">
+        
+        <!-- Summary Stats -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.75rem;margin-bottom:1.25rem;padding:.75rem;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">10</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Total Jobs</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">94%</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Success Rate</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">✅</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Last Run</div>
+          </div>
+        </div>
+
+        <!-- Daily Execution Log -->
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-weight:700;color:var(--green);font-size:.95rem;margin-bottom:.75rem;">📊 Daily Execution Log (Last 7 Days)</div>
+          
+          <!-- Friday, 3 April 2026 -->
+          <details style="margin-bottom:.75rem;" open>
+            <summary style="padding:.6rem .75rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Friday, 3 April 2026 <span style="color:var(--green);font-weight:400;margin-left:.5rem;">(8 runs)</span>
+            </summary>
+            <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
+              <div style="display:grid;gap:.4rem;font-size:.8rem;">
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">4:00 AM</span>
+                  <span style="flex:1;">Autonomous business progress task</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">45s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">6:00 AM</span>
+                  <span style="flex:1;">Daily useful surprise</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">23s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">7:00 AM</span>
+                  <span style="flex:1;">Morning Brief</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">12s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(239,68,68,.06);border-radius:6px;">
+                  <span style="color:var(--red);">❌</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">8:00 AM</span>
+                  <span style="flex:1;">Email triage</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--red);font-size:.7rem;">Error: Outbound not configured</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">9:00 AM</span>
+                  <span style="flex:1;">Court date monitor</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">8s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">1:00 PM</span>
+                  <span style="flex:1;">Leads monitoring</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
+                  <span style="color:var(--green);font-size:.7rem;">6s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">2:00 PM</span>
+                  <span style="flex:1;">Email intake triage</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">18s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">5:00 PM</span>
+                  <span style="flex:1;">Daily leads update</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
+                  <span style="color:var(--green);font-size:.7rem;">11s</span>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Thursday, 2 April 2026 -->
+          <details style="margin-bottom:.75rem;">
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Thursday, 2 April 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(7 runs)</span>
+            </summary>
+            <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
+              <div style="display:grid;gap:.4rem;font-size:.8rem;">
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">7:00 AM</span>
+                  <span style="flex:1;">Morning Brief</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">15s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">8:00 AM</span>
+                  <span style="flex:1;">Email triage</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">22s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;">
+                  <span style="color:var(--yellow);">⏸️</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">9:00 AM</span>
+                  <span style="flex:1;">Court date monitor</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(—)</span>
+                  <span style="color:var(--yellow);font-size:.7rem;">Skipped (no changes)</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">1:00 PM</span>
+                  <span style="flex:1;">Leads monitoring</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
+                  <span style="color:var(--green);font-size:.7rem;">4s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">2:00 PM</span>
+                  <span style="flex:1;">Email intake triage</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
+                  <span style="color:var(--green);font-size:.7rem;">16s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">5:00 PM</span>
+                  <span style="flex:1;">Daily leads update</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
+                  <span style="color:var(--green);font-size:.7rem;">9s</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
+                  <span style="color:var(--green);">✅</span>
+                  <span style="color:var(--text-dim);font-size:.75rem;">11:30 PM</span>
+                  <span style="flex:1;">BAS deadline reminder</span>
+                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
+                  <span style="color:var(--green);font-size:.7rem;">3s</span>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Previous days collapsed -->
+          <details style="margin-bottom:.75rem;">
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Wednesday, 1 April 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(6 runs)</span>
+            </summary>
+          </details>
+
+          <details style="margin-bottom:.75rem;">
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Tuesday, 31 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(5 runs)</span>
+            </summary>
+          </details>
+
+          <details style="margin-bottom:.75rem;">
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Monday, 30 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(7 runs)</span>
+            </summary>
+          </details>
+
+          <details style="margin-bottom:.75rem;">
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Sunday, 29 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(2 runs)</span>
+            </summary>
+          </details>
+
+          <details>
+            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
+              📅 Saturday, 28 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(3 runs)</span>
+            </summary>
+          </details>
+        </div>
+
+        <!-- Active Jobs Overview -->
+        <div style="margin-bottom:1rem;">
+          <div style="font-weight:700;color:var(--cyan);font-size:.95rem;margin-bottom:.75rem;">⚡ Active Jobs Overview</div>
+          <div style="display:grid;gap:.5rem;">
+            <!-- Critical Jobs -->
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">🌅 Morning Brief</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Daily court diary, calendar, urgent tasks</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 7:00 AM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">Every day</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">📧 Email Triage</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Find urgent emails needing response</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 8:00 AM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">8am, 2pm daily</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">⚖️ Court Date Monitor</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Check for court date changes</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 9:00 AM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">9am daily</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">🔍 Leads Monitoring</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">SMS lead detection & forwarding</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 1:00 PM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">8am, 1pm daily</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">📊 Daily Leads Update</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Sync leads tracker with new data</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 5:00 PM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">5pm daily</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">🏢 Business Progress Task</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Autonomous practice management</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 4:00 AM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">4am daily</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--green);">🎁 Daily Useful Surprise</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Helpful insights & suggestions</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--green);font-weight:600;">Next: 6:00 AM</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">6am daily</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weekly/Special Jobs -->
+            <div style="padding:.6rem .75rem;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--purple);">💰 BAS Deadline Reminder</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">ATO compliance deadlines</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--purple);font-weight:600;">Next: 28 Apr</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">Before deadlines</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--purple);">📋 Weekly Practice Review</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Performance & opportunities report</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--purple);font-weight:600;">Next: Sun 6 Apr</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">Weekly</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:.6rem .75rem;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;font-size:.85rem;color:var(--purple);">🔄 System Health Check</div>
+                  <div style="font-size:.7rem;color:var(--text-dim);">Verify all integrations working</div>
+                </div>
+                <div style="text-align:right;font-size:.75rem;">
+                  <div style="color:var(--purple);font-weight:600;">Next: Mon 7 Apr</div>
+                  <div style="color:var(--text-dim);font-size:.65rem;">Weekly</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Summary -->
+        <div style="padding:.75rem;background:rgba(255,255,255,.03);border-radius:8px;border-left:3px solid var(--green);">
+          <div style="font-size:.85rem;color:var(--green);font-weight:700;margin-bottom:.25rem;">📈 Performance Summary</div>
+          <div style="font-size:.75rem;color:var(--text-dim);">
+            <strong>Last 24 hours:</strong> 15 jobs executed • 1 failure (email outbound config) • Average duration: 14.2s<br>
+            <strong>This week:</strong> 94% success rate • Total execution time: 18.3 minutes • Cost: ~$2.40 in API calls<br>
+            <strong>ROI Impact:</strong> Automated monitoring prevented 2 missed leads • Saved ~4 hours of manual checking
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ FINANCE SNAPSHOT ═══ -->
   <div class="section-title">💼 Finance Snapshot</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1rem;" id="finance-metrics"></div>
