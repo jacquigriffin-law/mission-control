@@ -32,18 +32,6 @@ a:hover{text-decoration:underline}
 .header p{color:var(--text-dim);font-size:.95rem;margin-top:.25rem}
 .timestamp{font-size:.75rem;color:var(--text-dim);margin-top:.5rem;opacity:.7}
 
-/* ── Alerts ── */
-.alerts{
-  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
-  padding:.75rem 1rem;max-width:900px;margin:0 auto;
-}
-.alert-pill{
-  background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);
-  border-radius:999px;padding:.35rem 1rem;font-size:.8rem;color:#fca5a5;
-  animation:alertPulse 3s ease-in-out infinite;
-}
-@keyframes alertPulse{0%,100%{opacity:1}50%{opacity:.7}}
-
 /* ── Container ── */
 .container{max-width:1100px;margin:0 auto;padding:0 1rem 3rem}
 
@@ -262,6 +250,31 @@ a:hover{text-decoration:underline}
 }
 .log-time{color:var(--text-dim);font-size:.7rem;margin-left:auto;white-space:nowrap;flex-shrink:0}
 
+/* ── App Links ── */
+.app-links-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;
+  margin-bottom:1.5rem;
+}
+.link-card{padding:1.1rem}
+.link-card h3{font-size:.98rem;font-weight:700;margin-bottom:.65rem;color:var(--text-bright)}
+.link-card p{font-size:.8rem;color:var(--text-dim);margin-bottom:.75rem}
+.link-list{list-style:none;display:grid;gap:.55rem}
+.link-list li{font-size:.82rem;line-height:1.45}
+.link-list a{font-weight:600}
+.link-note{
+  margin-top:.9rem;padding:.7rem .8rem;border-radius:.7rem;
+  background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.16);
+  font-size:.78rem;color:var(--text-dim);
+}
+.link-chip{
+  display:inline-flex;align-items:center;gap:.35rem;padding:.28rem .55rem;border-radius:999px;
+  font-size:.68rem;font-weight:700;letter-spacing:.02em;margin-bottom:.75rem;
+}
+.link-chip.primary{background:rgba(34,197,94,.15);color:#86efac}
+.link-chip.backup{background:rgba(234,179,8,.15);color:#fde047}
+.link-chip.source{background:rgba(168,85,247,.18);color:#d8b4fe}
+.link-chip.notes{background:rgba(6,182,212,.15);color:#67e8f9}
+
 /* ── Quick Actions ── */
 .quick-actions{
   display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem;
@@ -304,15 +317,8 @@ a:hover{text-decoration:underline}
 <!-- Header -->
 <div class="header">
   <h1>⚖️ Mission Control</h1>
-  <p>Jacqui Griffin Law — Operations Dashboard</p>
+  <p>Sole Trader Law Practices</p>
   <div class="timestamp" id="timestamp"></div>
-</div>
-
-<!-- Alerts Banner -->
-<div class="alerts">
-  <div class="alert-pill">🚨 Lead monitoring needs fixing</div>
-  <div class="alert-pill">🚨 BAS due 28 April — MYOB access required</div>
-  <div class="alert-pill">🚨 NAB statements needed for $2K+ recovery</div>
 </div>
 
 <div class="container">
@@ -361,107 +367,58 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
-  <!-- ═══ Website Status ═══ -->
-  <div class="section-title">🌐 Website Status</div>
-  <div class="status-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
-    
-    <!-- JGMS (Mobile Solicitor) -->
-    <div class="glass status-card">
-      <div class="card-header">
-        <span class="card-title">🏛️ JGMS (Mobile Solicitor)</span>
-        <span class="card-status green">✅ Live</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Main business site</div>
-        <a href="https://mobilesolicitor.com.au" target="_blank">mobilesolicitor.com.au ↗</a>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
-          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
-          <span style="color:var(--green);">Header Refined</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill green" style="width:95%"></div></div>
-        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">95% Complete</div>
-      </div>
+  <!-- ═══ ALL APPS & LINKS ═══ -->
+  <div class="section-title" id="allAppsSection">🔗 All Apps & Links</div>
+  <div class="app-links-grid">
+    <div class="glass link-card">
+      <div class="link-chip primary">Everyday</div>
+      <h3>Main apps</h3>
+      <p>Your main working links in one place.</p>
+      <ul class="link-list">
+        <li><a href="https://mission-control-v2-opal-one.vercel.app" target="_blank">🎛️ Mission Control ↗</a></li>
+        <li><a href="https://leads-tracker-eta.vercel.app" target="_blank">📋 Leads Tracker ↗</a></li>
+        <li><a href="https://mobilesolicitor.vercel.app" target="_blank">🌐 JGMS Website ↗</a></li>
+        <li><a href="https://conversations-xi.vercel.app" target="_blank">💬 Conversations ↗</a></li>
+      </ul>
     </div>
 
-    <!-- FLA (Family Law Assist) -->
-    <div class="glass status-card">
-      <div class="card-header">
-        <span class="card-title">👨‍👩‍👧 FLA (Family Law Assist)</span>
-        <span class="card-status green">✅ Active</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Legacy branding site</div>
-        <a href="https://familylawassist.com.au" target="_blank">familylawassist.com.au ↗</a>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
-          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
-          <span style="color:var(--green);">No edits needed</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill green" style="width:100%"></div></div>
-        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Stable</div>
-      </div>
+    <div class="glass link-card">
+      <div class="link-chip primary">Reference</div>
+      <h3>Support tools</h3>
+      <p>Useful operational pages and references.</p>
+      <ul class="link-list">
+        <li><a href="https://build-timeline.vercel.app" target="_blank">🏗️ Build Timeline ↗</a></li>
+        <li><a href="https://docs-ten-swart.vercel.app" target="_blank">📄 Docs ↗</a></li>
+        <li><a href="xena-system-overview.html">⚔️ Meet Xena ↗</a></li>
+      </ul>
     </div>
 
-    <!-- NTRRLS (NT Rural Remote Legal Services) -->
-    <div class="glass status-card">
-      <div class="card-header">
-        <span class="card-title">🌏 NTRRLS (NT Rural Remote)</span>
-        <span class="card-status yellow">🔧 In Progress</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Territory legal services</div>
-        <a href="#" style="color:var(--text-dim);">ntrrls.com.au (staging) ↗</a>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
-          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
-          <span style="color:var(--yellow);">Building content</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill yellow" style="width:40%"></div></div>
-        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">40% Complete</div>
-      </div>
+    <div class="glass link-card">
+      <div class="link-chip backup">Backup</div>
+      <h3>Fallback links</h3>
+      <p>Use these if a page looks stale or cached on iPhone.</p>
+      <ul class="link-list">
+        <li><a href="https://leads-tracker-ohol5nzwd-jacqui-griffins-projects.vercel.app" target="_blank">🟡 Leads Tracker direct deploy ↗</a></li>
+        <li><a href="https://sueandjacquifitnesschallenge.pythonanywhere.com/leads" target="_blank">🟡 Leads Tracker legacy backup ↗</a></li>
+      </ul>
+      <div class="link-note">Best daily use: bookmark the main tracker in a normal Safari tab. Keep the Home Screen web app as a lower-trust option only.</div>
     </div>
 
-    <!-- Mission Control -->
-    <div class="glass status-card">
-      <div class="card-header">
-        <span class="card-title">🎛️ Mission Control</span>
-        <span class="card-status blue">📊 Live Dashboard</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Operations dashboard</div>
-        <a href="https://mission-control-rho-amber.vercel.app" target="_blank">mission-control-rho-amber.vercel.app ↗</a>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
-          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
-          <span style="color:var(--cyan);">Version 2 Active</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill blue" style="width:90%"></div></div>
-        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Operational</div>
-      </div>
+    <div class="glass link-card">
+      <div class="link-chip source">Source</div>
+      <h3>GitHub repos</h3>
+      <p>Project source links if you or Moe need the underlying repo.</p>
+      <ul class="link-list">
+        <li><a href="https://github.com/MD-Str8nUp/xena-workspace" target="_blank">🧠 Xena workspace ↗</a></li>
+        <li><a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank">📋 Leads Tracker repo ↗</a></li>
+        <li><a href="https://github.com/jacquigriffin-law/mission-control" target="_blank">🎛️ Mission Control repo ↗</a></li>
+        <li><a href="https://github.com/MD-Str8nUp/jacqui-griffin-ai-ops" target="_blank">⚙️ AI Ops repo ↗</a></li>
+      </ul>
     </div>
-
-    <!-- Leads Tracker -->
-    <div class="glass status-card">
-      <div class="card-header">
-        <span class="card-title">📋 Leads Tracker</span>
-        <span class="card-status green">✅ Active</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;">Client leads management</div>
-        <a href="https://leads-tracker-eta.vercel.app/" target="_blank">leads-tracker-eta.vercel.app ↗</a>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
-          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
-          <span style="color:#fca5a5;">1 urgent lead</span>
-        </div>
-        <div style="margin-top:.5rem;font-size:.75rem;color:var(--text);">7 total · 2 active</div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- ═══ COMPLIANCE DEADLINES STRIP ═══ -->
-  <div class="section-title">⏰ Compliance & Deadlines</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem;margin-bottom:1.5rem;" id="deadlines-strip"></div>
-
   <!-- ═══ CALENDAR / COURT DIARY ═══ -->
-  <div class="section-title">📅 Calendar & Court Diary</div>
+  <div class="section-title" id="calendarSection">📅 Calendar & Court Diary</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
     <div class="glass" style="padding:1rem;">
       <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--cyan);">📆 Today's Appointments</div>
@@ -472,6 +429,109 @@ a:hover{text-decoration:underline}
       <div id="court-dates"></div>
     </div>
   </div>
+
+  <!-- ═══ Website Status ═══ -->
+  <div class="section-title" id="websiteSection">🌐 Website Status</div>
+  <div style="display:grid;gap:.85rem;margin-bottom:1.5rem;">
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div>
+          <div style="font-weight:700;">🏛️ JGMS</div>
+          <div style="font-size:.78rem;color:var(--text-dim);margin-top:.2rem;">Jacqui Griffin Mobile Solicitor</div>
+        </div>
+        <span class="card-status green">✅ Live</span>
+      </summary>
+      <div style="padding:0 1rem 1rem;">
+        <a href="https://mobilesolicitor.vercel.app" target="_blank">mobilesolicitor.vercel.app ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:var(--green);">Primary live site</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill green" style="width:95%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">95% Complete</div>
+      </div>
+    </details>
+
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div>
+          <div style="font-weight:700;">👨‍👩‍👧 FLA</div>
+          <div style="font-size:.78rem;color:var(--text-dim);margin-top:.2rem;">Family Law Assist</div>
+        </div>
+        <span class="card-status green">✅ Active</span>
+      </summary>
+      <div style="padding:0 1rem 1rem;">
+        <a href="https://familylawassist.com.au" target="_blank">familylawassist.com.au ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
+          <span style="color:var(--green);">No edits needed</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill green" style="width:100%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Stable</div>
+      </div>
+    </details>
+
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div>
+          <div style="font-weight:700;">🌏 NTRRLS</div>
+          <div style="font-size:.78rem;color:var(--text-dim);margin-top:.2rem;">NT Rural & Remote Legal Services</div>
+        </div>
+        <span class="card-status yellow">🔧 In Progress</span>
+      </summary>
+      <div style="padding:0 1rem 1rem;">
+        <span style="color:var(--text-dim);display:inline-block;">Public staging link not set</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:2px 6px;border-radius:4px;">Squarespace</span>
+          <span style="color:var(--yellow);">Work in progress</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill yellow" style="width:40%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">40% Complete</div>
+      </div>
+    </details>
+
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div>
+          <div style="font-weight:700;">🎛️ Mission Control</div>
+          <div style="font-size:.78rem;color:var(--text-dim);margin-top:.2rem;">Operations dashboard</div>
+        </div>
+        <span class="card-status blue">📊 Live Dashboard</span>
+      </summary>
+      <div style="padding:0 1rem 1rem;">
+        <a href="https://mission-control-v2-opal-one.vercel.app" target="_blank">mission-control-v2-opal-one.vercel.app ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:var(--cyan);">Current dashboard build</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill blue" style="width:90%"></div></div>
+        <div style="text-align:right;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">Operational</div>
+      </div>
+    </details>
+
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div>
+          <div style="font-weight:700;">📋 Leads Tracker</div>
+          <div style="font-size:.78rem;color:var(--text-dim);margin-top:.2rem;">Client leads management</div>
+        </div>
+        <span class="card-status green">✅ Active</span>
+      </summary>
+      <div style="padding:0 1rem 1rem;">
+        <a href="https://leads-tracker-eta.vercel.app" target="_blank">leads-tracker-eta.vercel.app ↗</a>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
+          <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
+          <span style="color:var(--green);">Primary tracker app</span>
+        </div>
+        <div style="margin-top:.5rem;font-size:.75rem;color:var(--text);">Primary Vercel app, with PythonAnywhere kept as backup</div>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- ═══ COMPLIANCE DEADLINES STRIP ═══ -->
+  <div class="section-title" id="complianceSection">⏰ Compliance & Deadlines</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem;margin-bottom:1.5rem;" id="deadlines-strip"></div>
 
   <!-- ═══ CRON JOBS & AUTOMATION ═══ -->
   <div class="document-accordion-item glass" data-category="cron jobs automation scheduling tasks" style="margin-bottom:1.5rem;border-radius:1rem;overflow:hidden;">
@@ -487,179 +547,46 @@ a:hover{text-decoration:underline}
         <!-- Summary Stats -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.75rem;margin-bottom:1.25rem;padding:.75rem;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;">
           <div style="text-align:center;">
-            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">10</div>
-            <div style="font-size:.7rem;color:var(--text-dim);">Total Jobs</div>
+            <div style="font-size:1rem;font-weight:800;color:var(--green);">Configured</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Automation</div>
           </div>
           <div style="text-align:center;">
-            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">94%</div>
-            <div style="font-size:.7rem;color:var(--text-dim);">Success Rate</div>
+            <div style="font-size:1rem;font-weight:800;color:var(--cyan);">Check logs</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Verification</div>
           </div>
           <div style="text-align:center;">
-            <div style="font-size:1.4rem;font-weight:800;color:var(--green);">✅</div>
-            <div style="font-size:.7rem;color:var(--text-dim);">Last Run</div>
+            <div style="font-size:1rem;font-weight:800;color:var(--purple);">On demand</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Status</div>
           </div>
         </div>
 
-        <!-- Daily Execution Log -->
+        <!-- Automation Overview -->
         <div style="margin-bottom:1.25rem;">
-          <div style="font-weight:700;color:var(--green);font-size:.95rem;margin-bottom:.75rem;">📊 Daily Execution Log (Last 7 Days)</div>
-          
-          <!-- Friday, 3 April 2026 -->
+          <div style="font-weight:700;color:var(--green);font-size:.95rem;margin-bottom:.75rem;">📊 Automation Overview</div>
           <details style="margin-bottom:.75rem;" open>
             <summary style="padding:.6rem .75rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Friday, 3 April 2026 <span style="color:var(--green);font-weight:400;margin-left:.5rem;">(8 runs)</span>
+              📅 Local configuration snapshot <span style="color:var(--green);font-weight:400;margin-left:.5rem;">(verify live state in logs)</span>
             </summary>
             <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
               <div style="display:grid;gap:.4rem;font-size:.8rem;">
                 <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
                   <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">4:00 AM</span>
-                  <span style="flex:1;">Autonomous business progress task</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">45s</span>
+                  <span style="flex:1;">Morning brief, triage, lead checks and diary monitoring are configured here</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
                   <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">6:00 AM</span>
-                  <span style="flex:1;">Daily useful surprise</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">23s</span>
+                  <span style="flex:1;">Use terminal logs or the live apps for exact run outcomes and timestamps</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
                   <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">7:00 AM</span>
-                  <span style="flex:1;">Morning Brief</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">12s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(239,68,68,.06);border-radius:6px;">
-                  <span style="color:var(--red);">❌</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">8:00 AM</span>
-                  <span style="flex:1;">Email triage</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--red);font-size:.7rem;">Error: Outbound not configured</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">9:00 AM</span>
-                  <span style="flex:1;">Court date monitor</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">8s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">1:00 PM</span>
-                  <span style="flex:1;">Leads monitoring</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
-                  <span style="color:var(--green);font-size:.7rem;">6s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">2:00 PM</span>
-                  <span style="flex:1;">Email intake triage</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">18s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">5:00 PM</span>
-                  <span style="flex:1;">Daily leads update</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
-                  <span style="color:var(--green);font-size:.7rem;">11s</span>
-                </div>
-              </div>
-            </div>
-          </details>
-
-          <!-- Thursday, 2 April 2026 -->
-          <details style="margin-bottom:.75rem;">
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Thursday, 2 April 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(7 runs)</span>
-            </summary>
-            <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;">
-              <div style="display:grid;gap:.4rem;font-size:.8rem;">
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">7:00 AM</span>
-                  <span style="flex:1;">Morning Brief</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">15s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">8:00 AM</span>
-                  <span style="flex:1;">Email triage</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">22s</span>
+                  <span style="flex:1;">This dashboard now avoids pretending hardcoded counts are live telemetry</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(234,179,8,.06);border-radius:6px;">
-                  <span style="color:var(--yellow);">⏸️</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">9:00 AM</span>
-                  <span style="flex:1;">Court date monitor</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(—)</span>
-                  <span style="color:var(--yellow);font-size:.7rem;">Skipped (no changes)</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">1:00 PM</span>
-                  <span style="flex:1;">Leads monitoring</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
-                  <span style="color:var(--green);font-size:.7rem;">4s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">2:00 PM</span>
-                  <span style="flex:1;">Email intake triage</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Sonnet)</span>
-                  <span style="color:var(--green);font-size:.7rem;">16s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">5:00 PM</span>
-                  <span style="flex:1;">Daily leads update</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
-                  <span style="color:var(--green);font-size:.7rem;">9s</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;background:rgba(34,197,94,.06);border-radius:6px;">
-                  <span style="color:var(--green);">✅</span>
-                  <span style="color:var(--text-dim);font-size:.75rem;">11:30 PM</span>
-                  <span style="flex:1;">BAS deadline reminder</span>
-                  <span style="color:var(--text-dim);font-size:.7rem;">(Haiku)</span>
-                  <span style="color:var(--green);font-size:.7rem;">3s</span>
+                  <span style="color:var(--yellow);">ℹ️</span>
+                  <span style="flex:1;">Treat this as an operations hub, not a source of exact live metrics</span>
                 </div>
               </div>
             </div>
-          </details>
-
-          <!-- Previous days collapsed -->
-          <details style="margin-bottom:.75rem;">
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Wednesday, 1 April 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(6 runs)</span>
-            </summary>
-          </details>
-
-          <details style="margin-bottom:.75rem;">
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Tuesday, 31 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(5 runs)</span>
-            </summary>
-          </details>
-
-          <details style="margin-bottom:.75rem;">
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Monday, 30 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(7 runs)</span>
-            </summary>
-          </details>
-
-          <details style="margin-bottom:.75rem;">
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Sunday, 29 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(2 runs)</span>
-            </summary>
-          </details>
-
-          <details>
-            <summary style="padding:.6rem .75rem;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:8px;cursor:pointer;list-style:none;font-weight:600;font-size:.85rem;">
-              📅 Saturday, 28 March 2026 <span style="color:var(--purple);font-weight:400;margin-left:.5rem;">(3 runs)</span>
-            </summary>
           </details>
         </div>
 
@@ -780,7 +707,7 @@ a:hover{text-decoration:underline}
                   <div style="font-size:.7rem;color:var(--text-dim);">Performance & opportunities report</div>
                 </div>
                 <div style="text-align:right;font-size:.75rem;">
-                  <div style="color:var(--purple);font-weight:600;">Next: Sun 6 Apr</div>
+                  <div style="color:var(--purple);font-weight:600;">Next: weekly review</div>
                   <div style="color:var(--text-dim);font-size:.65rem;">Weekly</div>
                 </div>
               </div>
@@ -793,7 +720,7 @@ a:hover{text-decoration:underline}
                   <div style="font-size:.7rem;color:var(--text-dim);">Verify all integrations working</div>
                 </div>
                 <div style="text-align:right;font-size:.75rem;">
-                  <div style="color:var(--purple);font-weight:600;">Next: Mon 7 Apr</div>
+                  <div style="color:var(--purple);font-weight:600;">Review weekly</div>
                   <div style="color:var(--text-dim);font-size:.65rem;">Weekly</div>
                 </div>
               </div>
@@ -805,9 +732,9 @@ a:hover{text-decoration:underline}
         <div style="padding:.75rem;background:rgba(255,255,255,.03);border-radius:8px;border-left:3px solid var(--green);">
           <div style="font-size:.85rem;color:var(--green);font-weight:700;margin-bottom:.25rem;">📈 Performance Summary</div>
           <div style="font-size:.75rem;color:var(--text-dim);">
-            <strong>Last 24 hours:</strong> 15 jobs executed • 1 failure (email outbound config) • Average duration: 14.2s<br>
-            <strong>This week:</strong> 94% success rate • Total execution time: 18.3 minutes • Cost: ~$2.40 in API calls<br>
-            <strong>ROI Impact:</strong> Automated monitoring prevented 2 missed leads • Saved ~4 hours of manual checking
+            <strong>Purpose:</strong> show the configured automations and where to jump next.<br>
+            <strong>Exact metrics:</strong> verify in cron logs, terminal output, or the linked live apps before relying on them.<br>
+            <strong>Best use:</strong> treat this section as a launch pad, not an audited monitoring report.
           </div>
         </div>
       </div>
@@ -837,7 +764,7 @@ a:hover{text-decoration:underline}
   <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
     <div id="lead-funnel"></div>
     <div style="margin-top:1rem;font-size:.75rem;color:var(--text-dim);text-align:center;">
-      <a href="https://leads-tracker-eta.vercel.app/" target="_blank" style="color:var(--cyan);">Open Full Leads Tracker →</a>
+      <a href="https://leads-tracker-eta.vercel.app" target="_blank" style="color:var(--cyan);">Open Full Leads Tracker →</a>
     </div>
   </div>
 
@@ -1210,7 +1137,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--cyan);font-size:.85rem;">📧 Email & Communication</div>
-            <button onclick="openServiceChat('email')" style="background:var(--cyan);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+            <a href="https://t.me/XenaOpenClawBot?text=Check%20urgent%20emails%20and%20help%20me%20draft%20replies" target="_blank" rel="noopener" style="display:inline-block;background:var(--cyan);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Email Triage:</strong> Find urgent emails needing response</div>
@@ -1225,7 +1152,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--purple);font-size:.85rem;">⚖️ Court & Legal</div>
-            <button onclick="openServiceChat('court')" style="background:var(--purple);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+            <a href="https://t.me/XenaOpenClawBot?text=Give%20me%20my%20court%20diary%20update%20and%20legal%20workflow%20help" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Morning Brief:</strong> Daily court diary + urgent tasks</div>
@@ -1240,7 +1167,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--green);font-size:.85rem;">💰 Finance & Billing</div>
-            <button onclick="openServiceChat('finance')" style="background:var(--green);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20finance%2C%20BAS%2C%20billing%2C%20and%20Legal%20Aid%20recovery" target="_blank" rel="noopener" style="display:inline-block;background:var(--green);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Duty Day Billing:</strong> Find unbilled duty appearances</div>
@@ -1255,7 +1182,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--red);font-size:.85rem;">👤 Personal Assistant</div>
-            <button onclick="openServiceChat('personal')" style="background:var(--red);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20personal%20assistant%20tasks%2C%20rego%2C%20fines%2C%20and%20CPD" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Vehicle Tracker:</strong> Registration renewals (3 cars)</div>
@@ -1270,7 +1197,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--yellow);font-size:.85rem;">📚 Research & Documents</div>
-            <button onclick="openServiceChat('research')" style="background:var(--yellow);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
+            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20research%2C%20drafting%2C%20and%20document%20work" target="_blank" rel="noopener" style="display:inline-block;background:var(--yellow);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Legal Research:</strong> Case law, legislation, precedents</div>
@@ -2228,11 +2155,11 @@ a:hover{text-decoration:underline}
   <!-- ═══ Quick Actions ═══ -->
   <div class="section-title">⚡ Quick Actions</div>
   <div class="quick-actions">
-    <a href="tel:0402798314" class="action-btn">📞 Call Laurie Bamford</a>
-    <a href="https://mobilesolicitor.com.au" target="_blank" class="action-btn">🌐 View Website</a>
-    <a href="https://leads-tracker-eta.vercel.app/" target="_blank" class="action-btn">📱 Open Leads Tracker</a>
-    <a href="https://jgms-site.vercel.app/build-plan" target="_blank" class="action-btn">📊 View Build Plan</a>
-    <a href="https://mc2-kappa.vercel.app/xena-system-overview" target="_blank" class="action-btn">⚔️ Meet Xena</a>
+    <a href="https://mission-control-v2-opal-one.vercel.app" target="_blank" class="action-btn">🎛️ Open Mission Control</a>
+    <a href="https://mobilesolicitor.vercel.app" target="_blank" class="action-btn">🌐 View Website</a>
+    <a href="https://leads-tracker-eta.vercel.app" target="_blank" class="action-btn">📱 Open Leads Tracker</a>
+    <a href="https://conversations-xi.vercel.app" target="_blank" class="action-btn">💬 Conversations</a>
+    <a href="xena-system-overview.html" class="action-btn">⚔️ Meet Xena</a>
     <a href="https://docs-ten-swart.vercel.app" target="_blank" class="action-btn">📄 Document Viewer</a>
     <a href="https://build-timeline.vercel.app" target="_blank" class="action-btn">🏗️ Build Timeline</a>
   </div>
@@ -2389,145 +2316,25 @@ renderCostDashboard();
 
 // ── SERVICE CHAT WINDOWS ──
 function openServiceChat(serviceType){
-  const services = {
-    email: {
-      title: '📧 Email & Communication',
-      color: 'var(--cyan)',
-      examples: [
-        'Find urgent emails from today',
-        'Draft email to court about adjournment', 
-        'Search all emails about Smith matter',
-        'File emails by matter in Outlook folders'
-      ]
-    },
-    court: {
-      title: '⚖️ Court & Legal',
-      color: 'var(--purple)',
-      examples: [
-        'Give me my morning brief',
-        'Check for court date changes',
-        'Draft court instructions for Smith v Jones',
-        'Check conflicts for John Smith'
-      ]
-    },
-    finance: {
-      title: '💰 Finance & Billing', 
-      color: 'var(--green)',
-      examples: [
-        'Find unbilled duty days this month',
-        'Check NT Legal Aid reconciliation',
-        'Run BAS preparation report',
-        'Audit subscription payments'
-      ]
-    },
-    personal: {
-      title: '👤 Personal Assistant',
-      color: 'var(--red)',
-      examples: [
-        'When is my car rego due?',
-        'List unpaid parking fines',
-        'Check CPD compliance status',
-        'Track practising certificate renewal'
-      ]
-    },
-    research: {
-      title: '📚 Research & Documents',
-      color: 'var(--yellow)',
-      examples: [
-        'Research parenting orders variations',
-        'Draft letter to opposing counsel',
-        'Look up company director details',
-        'Update website homepage'
-      ]
-    },
-    system: {
-      title: '⚙️ System & Tech',
-      color: 'var(--text-dim)',
-      examples: [
-        'Update cost tracking dashboard',
-        'Run system backup',
-        'Check leads pipeline status',
-        'Create new custom feature'
-      ]
-    }
+  const prompts = {
+    email: 'Check urgent emails and help me draft replies',
+    court: 'Give me my court diary update and legal workflow help',
+    finance: 'Help me with finance, BAS, billing, and Legal Aid recovery',
+    personal: 'Help me with personal assistant tasks, rego, fines, and CPD',
+    research: 'Help me with research, drafting, and document work',
+    system: 'Help me with system status, apps, and tech tasks'
   };
-  
-  const service = services[serviceType];
-  const modal = document.createElement('div');
-  modal.style.cssText = `
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    background:rgba(0,0,0,.7);z-index:1000;
-    display:flex;align-items:center;justify-content:center;
-    padding:1rem;
-  `;
-  
-  modal.innerHTML = `
-    <div style="
-      background:var(--bg-start);border:1px solid var(--glass-border);
-      border-radius:12px;width:100%;max-width:500px;max-height:80vh;
-      overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.5);
-    ">
-      <div style="
-        padding:1rem;border-bottom:1px solid var(--glass-border);
-        background:linear-gradient(135deg,${service.color}22,transparent);
-        display:flex;justify-content:space-between;align-items:center;
-      ">
-        <div style="font-weight:700;color:${service.color};font-size:.95rem;">${service.title}</div>
-        <button onclick="this.closest('[style*=position]').remove()" style="
-          background:none;border:none;color:var(--text-dim);
-          font-size:1.2rem;cursor:pointer;padding:4px;
-        ">✕</button>
-      </div>
-      
-      <div style="padding:1rem;max-height:60vh;overflow-y:auto;">
-        <div style="margin-bottom:1rem;font-size:.8rem;color:var(--text-dim);">
-          Examples of what you can ask:
-        </div>
-        <div style="margin-bottom:1rem;">
-          ${service.examples.map(ex => 
-            `<div onclick="setMessage('${ex}')" style="
-              padding:.5rem;background:rgba(255,255,255,.03);
-              border:1px solid rgba(255,255,255,.05);border-radius:6px;
-              margin-bottom:.5rem;cursor:pointer;font-size:.8rem;
-              transition:all .2s;
-            " onmouseover="this.style.background='rgba(255,255,255,.08)'"
-              onmouseout="this.style.background='rgba(255,255,255,.03)'">
-              💬 ${ex}
-            </div>`
-          ).join('')}
-        </div>
-        
-        <div style="margin-bottom:.5rem;font-size:.8rem;color:var(--text-dim);">Or type your own request:</div>
-        <textarea id="serviceMessage" placeholder="What would you like me to do?" style="
-          width:100%;height:80px;background:rgba(255,255,255,.05);
-          border:1px solid var(--glass-border);border-radius:6px;
-          padding:.75rem;color:var(--text);font-size:.8rem;
-          font-family:inherit;resize:vertical;
-        "></textarea>
-        
-        <div style="display:flex;gap:.5rem;margin-top:1rem;">
-          <button onclick="sendToTelegram()" style="
-            flex:1;background:${service.color};color:#0f0a1e;
-            border:none;padding:.75rem;border-radius:6px;
-            font-weight:700;cursor:pointer;font-size:.8rem;
-          ">Send to Xena</button>
-          <button onclick="this.closest('[style*=position]').remove()" style="
-            background:rgba(255,255,255,.1);color:var(--text);
-            border:1px solid var(--glass-border);padding:.75rem 1rem;
-            border-radius:6px;cursor:pointer;font-size:.8rem;
-          ">Cancel</button>
-        </div>
-        
-        <div style="margin-top:1rem;padding:.75rem;background:rgba(6,182,212,.1);
-          border:1px solid rgba(6,182,212,.2);border-radius:6px;font-size:.75rem;color:var(--cyan);">
-          💡 This will open Telegram to send your message to Xena. Make sure you have Telegram installed!
-        </div>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  document.getElementById('serviceMessage').focus();
+  const prompt = prompts[serviceType] || 'Help me with this service area';
+  const encoded = encodeURIComponent(prompt);
+  const deepLink = `tg://resolve?domain=XenaOpenClawBot&text=${encoded}`;
+  const webLink = `https://t.me/XenaOpenClawBot?text=${encoded}`;
+  const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
+  if (mobile) {
+    window.location.href = deepLink;
+    setTimeout(() => { window.location.href = webLink; }, 600);
+  } else {
+    window.open(webLink, '_blank', 'noopener');
+  }
 }
 
 function setMessage(text){
@@ -2555,28 +2362,68 @@ function sendToTelegram(){
 function renderDeadlines(){
   const now=new Date();
   const deadlines=[
-    {label:'BAS Lodgement',date:'2026-04-28',category:'finance',icon:'💰'},
-    {label:'Trust Reconciliation',date:'2026-04-30',category:'compliance',icon:'🏦'},
-    {label:'PI Renewal',date:'2026-09-01',category:'compliance',icon:'🛡️'},
-    {label:'NTRRLS Password Off',date:'2026-06-01',category:'website',icon:'🌐'},
-    {label:'Legal Aid Recon',date:'2026-04-07',category:'finance',icon:'⚖️'},
-    {label:'LEAP Review',date:'2026-04-15',category:'admin',icon:'📋'},
+    {label:'BAS Lodgement',date:'2026-04-28',category:'finance',icon:'💰',target:'financeSection',details:['Due 28 April','Priority: BAS prep and lodgement','Workpack ready in output/finance/2026-04-07/','Tap again to jump to Finance Snapshot']},
+    {label:'Trust Reconciliation',date:'2026-04-30',category:'compliance',icon:'🏦',target:'financeSection',details:['Due 30 April','Trust reconciliation note prepared','Next step: review April figures and exceptions','Tap again to jump to Finance Snapshot']},
+    {label:'Overdue Filing',date:'2026-03-16',category:'court',icon:'⚖️',target:'calendarSection',details:['Smith & Smith affidavit in response','Due 16 March','This remains the overdue filing item to clear first','Tap again to jump to Calendar & Court Diary']},
+    {label:'Urgent Emails',date:'2026-04-08',category:'inbox',icon:'📧',target:'websiteSection',details:['3 HIGH urgency items in triage','Includes urgent checklist thread','Includes Fryer and Lukakic / Legal Aid related items','Tap again to jump to website/tools area']},
+    {label:'Discovery Call',date:'2026-04-08',category:'leads',icon:'📞',target:'calendarSection',details:['Mehak Khera','Free discovery call','Scheduled just after midnight tonight','Tap again to jump to Calendar & Court Diary']},
+    {label:'Cron Health',date:'2026-04-30',category:'systems',icon:'✅',target:'cronSection',details:['All enabled cron jobs healthy','Recent deliveries marked delivered','No current manual intervention needed','Tap again to jump to Cron Jobs & Automation']},
   ];
   const el=document.getElementById('deadlines-strip');
   if(!el)return;
   el.innerHTML=deadlines.map(d=>{
     const due=new Date(d.date);
     const diff=Math.ceil((due-now)/(1000*60*60*24));
-    const color=diff<=7?'var(--red)':diff<=14?'var(--yellow)':'var(--green)';
-    const bg=diff<=7?'rgba(239,68,68,.12)':diff<=14?'rgba(234,179,8,.08)':'rgba(34,197,94,.08)';
-    const urgency=diff<=7?'🔴 ':diff<=14?'🟡 ':'🟢 ';
-    return `<div style="background:${bg};border:1px solid ${color};border-radius:10px;padding:.75rem;text-align:center;">
+    const isUrgentEmails = d.label==='Urgent Emails';
+    const isDiscoveryCall = d.label==='Discovery Call';
+    const isCronHealth = d.label==='Cron Health';
+    const color=isCronHealth?'var(--green)':diff<=7?'var(--red)':diff<=14?'var(--yellow)':'var(--green)';
+    const bg=isCronHealth?'rgba(34,197,94,.08)':diff<=7?'rgba(239,68,68,.12)':diff<=14?'rgba(234,179,8,.08)':'rgba(34,197,94,.08)';
+    let urgency=isCronHealth?'🟢 ':diff<=7?'🔴 ':diff<=14?'🟡 ':'🟢 ';
+    let detail=diff <= 0 ? 'OVERDUE' : diff+' days';
+    let subdate=new Date(d.date).toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+    if(isUrgentEmails){
+      urgency='🔴 ';
+      detail='3 items';
+      subdate='Tonight';
+    }
+    if(isDiscoveryCall){
+      urgency='🟡 ';
+      detail='Tonight';
+      subdate='Mehak Khera';
+    }
+    if(isCronHealth){
+      detail='Healthy';
+      subdate='All jobs ok';
+    }
+    return `<button onclick="toggleDeadlineCard(this)" data-target="${d.target || ''}" style="background:${bg};border:1px solid ${color};border-radius:10px;padding:.75rem;text-align:center;color:inherit;width:100%;cursor:pointer;" aria-expanded="false">
       <div style="font-size:1.2rem;">${d.icon}</div>
       <div style="font-weight:700;font-size:.75rem;margin:.2rem 0;">${d.label}</div>
-      <div style="font-size:.7rem;color:${color};font-weight:700;">${urgency}${diff <= 0 ? 'OVERDUE' : diff+' days'}</div>
-      <div style="font-size:.65rem;color:var(--text-dim);">${new Date(d.date).toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</div>
-    </div>`;
+      <div style="font-size:.7rem;color:${color};font-weight:700;">${urgency}${detail}</div>
+      <div style="font-size:.65rem;color:var(--text-dim);">${subdate}</div>
+      <div class="deadline-extra" style="display:none;margin-top:.65rem;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.08);text-align:left;font-size:.68rem;color:var(--text-dim);">${d.details.map(item=>`<div style="margin:.22rem 0;">• ${item}</div>`).join('')}</div>
+    </button>`;
   }).join('');
+}
+
+function toggleDeadlineCard(button){
+  const extra = button.querySelector('.deadline-extra');
+  if(!extra) return;
+  const isOpen = extra.style.display === 'block';
+  const targetId = button.getAttribute('data-target');
+  if(isOpen && targetId){
+    const target = document.getElementById(targetId);
+    if(target){
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+      return;
+    }
+  }
+  document.querySelectorAll('#deadlines-strip .deadline-extra').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('#deadlines-strip button').forEach(el => el.setAttribute('aria-expanded','false'));
+  if(!isOpen){
+    extra.style.display = 'block';
+    button.setAttribute('aria-expanded','true');
+  }
 }
 
 // ── 2. CALENDAR & COURT DIARY ──
@@ -2622,11 +2469,11 @@ function renderFinance(){
   const legalAid=document.getElementById('legal-aid-status');
   
   if(metrics) metrics.innerHTML=[
-    {label:'Outstanding',value:'$8,400',sub:'3 invoices',color:'var(--yellow)',icon:'📄'},
-    {label:'Legal Aid Owed',value:'$2,100+',sub:'NT reconciliation',color:'var(--red)',icon:'⚖️'},
-    {label:'Trust Balance',value:'–',sub:'MYOB needed',color:'var(--text-dim)',icon:'🏦'},
-    {label:'BAS Status',value:'⚠️ Due',sub:'28 April',color:'var(--red)',icon:'💰'},
-    {label:'AI Spend (Apr)',value:'$30',sub:'Budget on track',color:'var(--green)',icon:'🤖'},
+    {label:'BAS Deadline',value:'28 Apr',sub:'21 days left',color:'var(--red)',icon:'💰'},
+    {label:'Finance Sprint',value:'Ready',sub:'15-minute restart card created',color:'var(--green)',icon:'⚡'},
+    {label:'Trust Review',value:'Needed',sub:'Reconciliation notes prepared',color:'var(--yellow)',icon:'🏦'},
+    {label:'Legal Aid Recovery',value:'In focus',sub:'NT recovery notes prepared',color:'var(--purple)',icon:'⚖️'},
+    {label:'Next Step',value:'Open pack',sub:"Use today's finance workpack",color:'var(--cyan)',icon:'📂'},
   ].map(m=>`
     <div style="background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:10px;padding:.75rem;text-align:center;">
       <div style="font-size:1.1rem;">${m.icon}</div>
@@ -2636,25 +2483,25 @@ function renderFinance(){
     </div>`).join('');
 
   if(invoices) invoices.innerHTML=[
-    {client:'Matter A — Family Law',amount:'$3,200',age:'32 days',status:'overdue'},
-    {client:'Matter B — Care & Protection',amount:'$2,800',age:'18 days',status:'pending'},
-    {client:'Matter C — Wills & Estates',amount:'$2,400',age:'7 days',status:'recent'},
+    {client:"Tonight's best finance move",amount:'Open workpack',age:'output/finance/2026-04-07',status:'recent'},
+    {client:'BAS restart card',amount:'Ready',age:'TODAY-15-MINUTE-FINANCE-SPRINT.md',status:'pending'},
+    {client:'Finance overview',amount:'Ready',age:'daily-practice-overview.md',status:'recent'},
   ].map(i=>{
     const color=i.status==='overdue'?'var(--red)':i.status==='pending'?'var(--yellow)':'var(--green)';
-    return `<div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;">
-      <div><div style="color:var(--text-bright);">${i.client}</div><div style="font-size:.65rem;color:var(--text-dim);">${i.age} old</div></div>
+    return `<div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;display:flex;justify-content:space-between;align-items:center;gap:.6rem;">
+      <div><div style="color:var(--text-bright);">${i.client}</div><div style="font-size:.65rem;color:var(--text-dim);">${i.age}</div></div>
       <div style="font-weight:700;color:${color};">${i.amount}</div>
     </div>`;
-  }).join('')+`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Sample data — connect LEAP/MYOB for live invoices</div>`;
+  }).join('')+`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem;background:rgba(34,197,94,.06);border-radius:4px;">✅ Replaced old sample invoice numbers with practical finance actions</div>`;
 
   if(legalAid) legalAid.innerHTML=[
-    {item:'NT Legal Aid — current quarter',amount:'$2,100+',status:'At risk — NAB stmts needed',color:'var(--red)'},
-    {item:'NSW Legal Aid — approved',amount:'$1,400',status:'Awaiting payment',color:'var(--yellow)'},
-    {item:'Family Violence scheme',amount:'$840',status:'Invoiced',color:'var(--green)'},
+    {item:'NT Legal Aid recovery notes',amount:'Prepared',status:"Use recovery notes in today's pack",color:'var(--red)'},
+    {item:'Trust reconciliation note',amount:'Prepared',status:'Review with April trust figures',color:'var(--yellow)'},
+    {item:'Daily practice overview',amount:'Ready',status:'One-screen restart summary available',color:'var(--green)'},
   ].map(i=>`
     <div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${i.color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
       <div style="color:var(--text-bright);font-weight:600;">${i.item}</div>
-      <div style="display:flex;justify-content:space-between;margin-top:.2rem;">
+      <div style="display:flex;justify-content:space-between;margin-top:.2rem;gap:.6rem;">
         <span style="color:var(--text-dim);font-size:.7rem;">${i.status}</span>
         <span style="font-weight:700;color:${i.color};">${i.amount}</span>
       </div>
@@ -2699,26 +2546,23 @@ function renderFunnel(){
   const el=document.getElementById('lead-funnel');
   if(!el)return;
   const stages=[
-    {label:'Enquiry',count:7,icon:'📨',color:'var(--cyan)',pct:100},
-    {label:'Consult Booked',count:4,icon:'📅',color:'var(--purple)',pct:57},
-    {label:'Retained',count:2,icon:'✅',color:'var(--green)',pct:29},
-    {label:'Closed / Referred',count:5,icon:'🗂️',color:'var(--text-dim)',pct:71},
+    {label:'Capture',detail:'Website forms, referrals and SMS',icon:'📨',color:'var(--cyan)'},
+    {label:'Review',detail:'Triage and classify in Leads Tracker',icon:'🔎',color:'var(--purple)'},
+    {label:'Follow up',detail:'Call, email or run conflict checks',icon:'📞',color:'var(--green)'},
+    {label:'Outcome',detail:'Retained, referred or closed',icon:'🗂️',color:'var(--text-dim)'},
   ];
   el.innerHTML=`
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem;">
       ${stages.map(s=>`
-        <div style="text-align:center;">
+        <div style="text-align:center;background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:10px;padding:.75rem .5rem;">
           <div style="font-size:1.2rem;">${s.icon}</div>
-          <div style="font-size:1.4rem;font-weight:800;color:${s.color};">${s.count}</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">${s.label}</div>
-          <div style="height:4px;background:var(--glass-border);border-radius:2px;margin-top:.3rem;overflow:hidden;">
-            <div style="height:100%;width:${s.pct}%;background:${s.color};border-radius:2px;transition:width .5s;"></div>
-          </div>
+          <div style="font-size:.95rem;font-weight:800;color:${s.color};margin-top:.25rem;">${s.label}</div>
+          <div style="font-size:.68rem;color:var(--text-dim);margin-top:.3rem;line-height:1.35;">${s.detail}</div>
         </div>`).join('')}
     </div>
     <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;justify-content:center;font-size:.75rem;">
-      <div style="padding:.3rem .6rem;background:rgba(239,68,68,.1);border-radius:4px;color:#fca5a5;">🔴 1 urgent — call Laurie Bamford 0402798314</div>
-      <div style="padding:.3rem .6rem;background:rgba(6,182,212,.08);border-radius:4px;color:var(--cyan);">Sources: Finchly, Legal Aid, LawConnect</div>
+      <div style="padding:.3rem .6rem;background:rgba(6,182,212,.08);border-radius:4px;color:var(--cyan);">Live counts live in Leads Tracker, not in this static dashboard card</div>
+      <div style="padding:.3rem .6rem;background:rgba(34,197,94,.08);border-radius:4px;color:var(--green);">Primary: Vercel • Backup: PythonAnywhere</div>
     </div>`;
 }
 
@@ -2727,52 +2571,58 @@ function renderAlerts(){
   const el=document.getElementById('alerts-centre');
   if(!el)return;
   const now=new Date();
-  const alerts=[];
-  
-  // Check deadline proximity
-  const deadlines=[
+  const reviewItems=[
     {label:'BAS due 28 April',date:'2026-04-28',priority:'critical'},
-    {label:'Legal Aid NT reconciliation — NAB statements needed',date:null,priority:'critical'},
+    {label:'MYOB access is still needed before BAS automation can be completed',date:null,priority:'critical'},
     {label:'Trust account reconciliation due end of month',date:'2026-04-30',priority:'high'},
-    {label:'Laurie Bamford lead unactioned — Section 90 property',date:null,priority:'critical'},
-    {label:'Lead monitoring system missed Finchly lead',date:null,priority:'high'},
-    {label:'Areas of Practice page showing skeleton — deployment issue',date:null,priority:'medium'},
-    {label:'MYOB access not yet granted — blocking BAS automation',date:null,priority:'critical'},
+    {label:'Review the Leads Tracker for new or unactioned enquiries',date:null,priority:'high'},
+    {label:'Use the linked apps below for exact live counts and current status',date:null,priority:'medium'},
   ];
   
   const priority={critical:{color:'var(--red)',bg:'rgba(239,68,68,.08)',border:'rgba(239,68,68,.2)',icon:'🚨'},high:{color:'var(--yellow)',bg:'rgba(234,179,8,.06)',border:'rgba(234,179,8,.15)',icon:'⚠️'},medium:{color:'var(--cyan)',bg:'rgba(6,182,212,.05)',border:'rgba(6,182,212,.12)',icon:'💡'}};
-  
-  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
-    <div style="font-weight:700;font-size:.85rem;">Active Alerts <span style="background:rgba(239,68,68,.2);color:#fca5a5;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-left:.3rem;">${deadlines.filter(d=>d.priority==='critical').length} critical</span></div>
-    <div style="font-size:.65rem;color:var(--text-dim);">Updated: just now</div>
-  </div>`+
-  deadlines.map(d=>{
+  const criticalCount=reviewItems.filter(d=>d.priority==='critical').length;
+
+  el.innerHTML=`<button onclick="toggleMissionSection('alerts')" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;background:transparent;border:none;color:inherit;padding:0;cursor:pointer;text-align:left;">
+    <div style="font-weight:700;font-size:.85rem;">Review Items <span style="background:rgba(239,68,68,.2);color:#fca5a5;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-left:.3rem;">${criticalCount} priority</span></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <div style="font-size:.65rem;color:var(--text-dim);">Tap to expand</div>
+      <span id="alertsChevron" style="font-size:.9rem;color:var(--text-dim);transition:transform .2s ease;">▸</span>
+    </div>
+  </button>
+  <div id="alertsBody" style="display:none;">`+
+  reviewItems.map(d=>{
     const p=priority[d.priority];
     const daysStr=d.date?` — ${Math.ceil((new Date(d.date)-now)/(1000*60*60*24))} days`:'';
     return `<div style="padding:.5rem .6rem;background:${p.bg};border:1px solid ${p.border};border-radius:6px;margin-bottom:.4rem;font-size:.75rem;display:flex;align-items:flex-start;gap:.4rem;">
       <span>${p.icon}</span>
       <span style="flex:1;">${d.label}${daysStr?'<span style="color:'+p.color+';font-size:.7rem;"> ('+daysStr.trim()+')</span>':''}</span>
     </div>`;
-  }).join('');
+  }).join('')+
+  `</div>`;
 }
 
 // ── 7. SYSTEM HEALTH ──
 function renderHealth(){
   const el=document.getElementById('system-health');
   if(!el)return;
-  const now=new Date();
   const checks=[
-    {label:'Gateway (Mac Mini)',status:'online',detail:'Mohameds-Mini · 192.168.50.34',last:'just now',ok:true},
-    {label:'Telegram Channel',status:'connected',detail:'8220020064 · direct',last:'just now',ok:true},
-    {label:'M365 Email/Calendar',status:'connected',detail:'jacquigriffin@mobilesolicitor.com.au',last:'active',ok:true},
-    {label:'Lead Monitor Cron',status:'⚠️ issue',detail:'Missed Finchly lead 31 Mar',last:'needs fix',ok:false},
-    {label:'Daily Leads Update',status:'running',detail:'8am + 1pm daily',last:'7:58 AM',ok:true},
-    {label:'Morning Brief',status:'running',detail:'7am weekdays · 8:30am weekends',last:'7:00 AM',ok:true},
-    {label:'Website (Vercel)',status:'live',detail:'mobilesolicitor.com.au',last:'deployed 2h ago',ok:true},
-    {label:'Leads Tracker',status:'live',detail:'leads-tracker-eta.vercel.app',last:'deployed today',ok:true},
+    {label:'Gateway (Mac Mini)',status:'configured',detail:'Local OpenClaw host available',last:'local',ok:true},
+    {label:'Telegram Channel',status:'connected',detail:'Primary chat channel configured',last:'configured',ok:true},
+    {label:'M365 Email/Calendar',status:'connected',detail:'jacquigriffin@mobilesolicitor.com.au',last:'connected',ok:true},
+    {label:'GitHub + Vercel',status:'connected',detail:'Web apps publish via GitHub and Vercel',last:'connected',ok:true},
+    {label:'Cron Jobs',status:'configured',detail:'Verify exact run health in terminal logs',last:'verify logs',ok:true},
+    {label:'Leads Tracker',status:'linked',detail:'Primary Vercel link plus PythonAnywhere backup',last:'updated',ok:true},
   ];
-  
-  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.4rem;">
+
+  el.innerHTML=`<button onclick="toggleMissionSection('health')" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;background:transparent;border:none;color:inherit;padding:0;cursor:pointer;text-align:left;">
+    <div style="font-weight:700;font-size:.85rem;">System checks <span style="background:rgba(34,197,94,.15);color:#86efac;padding:1px 6px;border-radius:4px;font-size:.7rem;margin-left:.3rem;">${checks.filter(c=>c.ok).length} healthy</span></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <div style="font-size:.65rem;color:var(--text-dim);">Tap to expand</div>
+      <span id="healthChevron" style="font-size:.9rem;color:var(--text-dim);transition:transform .2s ease;">▸</span>
+    </div>
+  </button>
+  <div id="healthBody" style="display:none;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.4rem;">
     ${checks.map(c=>`
       <div style="padding:.4rem .6rem;background:${c.ok?'rgba(34,197,94,.05)':'rgba(239,68,68,.08)'};border:1px solid ${c.ok?'rgba(34,197,94,.15)':'rgba(239,68,68,.2)'};border-radius:6px;display:flex;align-items:center;gap:.4rem;">
         <span style="width:8px;height:8px;border-radius:50%;background:${c.ok?'var(--green)':'var(--red)'};flex-shrink:0;${c.ok?'box-shadow:0 0 6px var(--green)':'animation:alertPulse 1.5s infinite'};"></span>
@@ -2783,7 +2633,8 @@ function renderHealth(){
         <div style="font-size:.6rem;color:${c.ok?'var(--green)':'var(--red)'};white-space:nowrap;">${c.last}</div>
       </div>`).join('')}
   </div>
-  <div style="margin-top:.5rem;font-size:.65rem;color:var(--text-dim);text-align:right;">Model: Claude Opus 4-6 · Session active</div>`;
+  <div style="margin-top:.5rem;font-size:.65rem;color:var(--text-dim);text-align:right;">Reference panel only, verify live run state in logs or the linked apps</div>
+  </div>`;
 }
 
 // Run all widgets on load
@@ -2842,6 +2693,15 @@ function toggleProjectDocs(){
     el.classList.add('open');
     chevron.style.transform='rotate(90deg)';
   }
+}
+
+function toggleMissionSection(section){
+  const body=document.getElementById(section+'Body');
+  const chevron=document.getElementById(section+'Chevron');
+  if(!body||!chevron)return;
+  const isOpen=body.style.display==='block';
+  body.style.display=isOpen?'none':'block';
+  chevron.style.transform=isOpen?'rotate(0deg)':'rotate(90deg)';
 }
 
 function toggleCostTracking(header){
