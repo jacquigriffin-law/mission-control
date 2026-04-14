@@ -2257,6 +2257,17 @@ function openTelegramBot(){
   const ua = navigator.userAgent || '';
   const mobile = /iPhone|iPad|iPod|Android/i.test(ua);
   const inTelegramBrowser = /Telegram/i.test(ua);
+  const tgApp = window.Telegram && window.Telegram.WebApp;
+
+  if (tgApp && typeof tgApp.openTelegramLink === 'function') {
+    tgApp.openTelegramLink(webLink);
+    return;
+  }
+
+  if (tgApp && typeof tgApp.openLink === 'function' && inTelegramBrowser) {
+    tgApp.openLink(webLink);
+    return;
+  }
 
   if (inTelegramBrowser) {
     window.location.href = webLink;
