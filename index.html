@@ -2240,31 +2240,28 @@ function renderCostDashboard(){
 renderCostDashboard();
 
 // ── SERVICE CHAT WINDOWS ──
-function openServiceChat(serviceType){
-  const prompts = {
-    email: 'Check urgent emails and help me draft replies',
-    court: 'Give me my court diary update and legal workflow help',
-    finance: 'Help me with finance, BAS, billing, and Legal Aid recovery',
-    personal: 'Help me with personal assistant tasks, rego, fines, and CPD',
-    research: 'Help me with research, drafting, and document work',
-    system: 'Help me with system status, apps, and tech tasks'
-  };
-  const prompt = prompts[serviceType] || 'Help me with this service area';
+function openTelegramBot(){
   const bot = 'maddison_legal_ai_bot';
   const deepLink = `tg://resolve?domain=${bot}`;
   const webLink = `https://t.me/${bot}`;
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(prompt).catch(()=>{});
-  }
-
   const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
+
   if (mobile) {
-    window.location.href = deepLink;
-    setTimeout(() => { window.location.href = webLink; }, 650);
-  } else {
-    window.open(webLink, '_blank', 'noopener');
+    const startedAt = Date.now();
+    window.location.assign(deepLink);
+    setTimeout(() => {
+      if (document.visibilityState === 'visible' && Date.now() - startedAt < 1800) {
+        window.location.assign(webLink);
+      }
+    }, 900);
+    return;
   }
+
+  window.open(webLink, '_blank', 'noopener');
+}
+
+function openServiceChat(serviceType){
+  openTelegramBot();
 }
 
 function setMessage(text){
@@ -2278,12 +2275,7 @@ function sendToTelegram(){
     return;
   }
   
-  // Create Telegram deep link
-  const telegramUrl = 'https://t.me/maddison_legal_ai_bot';
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(message).catch(()=>{});
-  }
-  window.open(telegramUrl, '_blank', 'noopener');
+  openTelegramBot();
   
   // Close modal
   document.querySelector('[style*="position:fixed"]').remove();
