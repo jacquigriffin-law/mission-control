@@ -348,6 +348,7 @@ a:hover{text-decoration:underline}
 }
 </style>
 <script src="cost-data.js"></script>
+<script src="calendar-data.js"></script>
 </head>
 <body>
 
@@ -475,7 +476,7 @@ a:hover{text-decoration:underline}
       <div id="calendar-today"></div>
     </div>
     <div class="glass" style="padding:1rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--purple);">⚖️ Upcoming Court Dates</div>
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--purple);">🗓️ Upcoming Diary Items</div>
       <div id="court-dates"></div>
     </div>
   </div>
@@ -2483,36 +2484,46 @@ function toggleDeadlineCard(button){
 function renderCalendar(){
   const calToday=document.getElementById('calendar-today');
   const courtDates=document.getElementById('court-dates');
+  const data=typeof CALENDAR_DATA!=='undefined'?CALENDAR_DATA:null;
+  const todayItems=data?.todayItems||[];
+  const upcomingItems=data?.upcomingItems||[];
   
-  // Static data — will be live once M365 calendar is queried
-  const todayItems=[
-    {time:'9:00 AM',title:'Client call — Care & Protection',type:'call'},
-    {time:'2:00 PM',title:'Legal Aid — merit advice review',type:'admin'},
-    {time:'4:30 PM',title:'Phone consult — new enquiry',type:'consult'},
-  ];
-  const courtItems=[
-    {date:'3 Apr',court:'Children\'s Court Parramatta',matter:'Care & Protection — directions',type:'court'},
-    {date:'7 Apr',court:'Federal Circuit Court',matter:'Family law — financial orders',type:'court'},
-    {date:'14 Apr',court:'Children\'s Court Darwin (AVL)',matter:'Care & Protection — hearing',type:'court'},
-  ];
-  
-  if(calToday) calToday.innerHTML=todayItems.length?todayItems.map(i=>`
-    <div style="padding:.4rem .5rem;background:rgba(6,182,212,.06);border-left:2px solid var(--cyan);border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
-      <div style="color:var(--cyan);font-size:.7rem;">${i.time}</div>
-      <div style="color:var(--text-bright);">${i.title}</div>
-    </div>`).join('')
-    :`<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;text-align:center;padding:.5rem;">
-      No appointments today<br><a href="#" style="color:var(--cyan);font-size:.7rem;">Connect M365 calendar for live data</a>
+  function palette(kind){
+    if(kind==='court') return {bg:'rgba(239,68,68,.06)', border:'var(--red)', meta:'#fca5a5'};
+    if(kind==='cpd') return {bg:'rgba(234,179,8,.08)', border:'var(--yellow)', meta:'#fde68a'};
+    if(kind==='meeting') return {bg:'rgba(6,182,212,.06)', border:'var(--cyan)', meta:'var(--cyan)'};
+    if(kind==='admin') return {bg:'rgba(168,85,247,.08)', border:'var(--purple)', meta:'#d8b4fe'};
+    return {bg:'rgba(255,255,255,.04)', border:'var(--glass-border)', meta:'var(--text-dim)'};
+  }
+
+  function renderCard(item, showDate=false){
+    const tone=palette(item.kind);
+    const meta=showDate?item.date:item.time;
+    return `
+    <div style="padding:.4rem .5rem;background:${tone.bg};border-left:2px solid ${tone.border};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
+      <div style="color:${tone.meta};font-size:.7rem;font-weight:700;">${meta}</div>
+      <div style="color:var(--text-bright);">${item.title}</div>
+      <div style="color:var(--text-dim);font-size:.68rem;margin-top:.18rem;">${item.subtitle}</div>
+    </div>`;
+  }
+
+  if(calToday) calToday.innerHTML=todayItems.length
+    ? todayItems.map(item=>renderCard(item,false)).join('')
+    : `<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;text-align:center;padding:.5rem;">
+      No appointments in Microsoft 365 today
     </div>`;
 
-  if(courtDates) courtDates.innerHTML=courtItems.map(i=>`
-    <div style="padding:.4rem .5rem;background:rgba(239,68,68,.06);border-left:2px solid var(--red);border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
-      <div style="color:#fca5a5;font-size:.7rem;font-weight:700;">${i.date} • ${i.court}</div>
-      <div style="color:var(--text-bright);">${i.matter}</div>
-    </div>`).join('');
-    
-  // Note about live data
-  if(courtDates) courtDates.innerHTML+=`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem .4rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Sample data — live court dates need LEAP/calendar integration</div>`;
+  if(courtDates) courtDates.innerHTML=upcomingItems.length
+    ? upcomingItems.map(item=>renderCard(item,true)).join('')
+    : `<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;text-align:center;padding:.5rem;">
+      No upcoming diary items found
+    </div>`;
+
+  const refreshNote=data
+    ? `<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem .4rem;background:rgba(34,197,94,.06);border-radius:4px;">✅ ${data.source} calendar connected • privacy-safe summary • refreshed ${data.generatedDisplay}</div>`
+    : `<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem .4rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Calendar feed not loaded yet</div>`;
+
+  if(courtDates) courtDates.innerHTML+=refreshNote;
 }
 
 // ── 3. FINANCE SNAPSHOT ──
