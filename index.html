@@ -1819,15 +1819,18 @@ a:hover{text-decoration:underline}
   </details>
 
   <!-- Skills Detail -->
-  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
-    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
-      <span style="font-size:1.4rem;">🛠️</span>
-      <div>
-        <div style="font-weight:700;font-size:.95rem;">Installed Skills (9 Ready)</div>
-        <div style="font-size:.7rem;color:var(--text-dim);">Specialist capabilities loaded</div>
+  <details class="glass" style="padding:0;overflow:hidden;margin-bottom:1.5rem;">
+    <summary style="list-style:none;cursor:pointer;padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+      <div style="display:flex;align-items:center;gap:.65rem;min-width:0;">
+        <span style="font-size:1.4rem;">🛠️</span>
+        <div>
+          <div style="font-weight:700;font-size:.95rem;">Installed Skills (9 Ready)</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Specialist capabilities loaded</div>
+        </div>
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.5rem;font-size:.8rem;">
+      <div style="font-size:.72rem;color:var(--cyan);white-space:nowrap;">Tap to expand</div>
+    </summary>
+    <div style="padding:0 1.25rem 1.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.5rem;font-size:.8rem;">
       <div style="padding:.5rem .75rem;background:rgba(34,197,94,.1);border-radius:6px;display:flex;align-items:center;gap:.5rem;">
         <span style="font-size:1.1rem;">🧩</span>
         <div>
@@ -1893,10 +1896,10 @@ a:hover{text-decoration:underline}
         <span style="margin-left:auto;font-size:.65rem;background:rgba(168,85,247,.3);padding:2px 6px;border-radius:4px;color:var(--purple);">CUSTOM</span>
       </div>
     </div>
-    <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(234,179,8,.08);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;color:var(--text-dim);">
+    <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(234,179,8,.08);border-radius:6px;border-left:2px solid var(--yellow);font-size:.75rem;color:var(--text-dim);grid-column:1/-1;">
       💡 <strong>42 more skills available</strong> from OpenClaw bundled library — install on demand
     </div>
-  </div>
+  </details>
 
   <!-- ═══ Documents ═══ -->
   <div class="section-title">📄 Documents</div>
