@@ -792,13 +792,6 @@ a:hover{text-decoration:underline}
   <!-- ═══ FINANCE SNAPSHOT ═══ -->
   <div class="section-title">💼 Finance Snapshot</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1rem;" id="finance-metrics"></div>
-  <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:1.5rem;">
-    <div class="glass" style="padding:1rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--green);">⚖️ Legal Aid Pipeline</div>
-      <div id="legal-aid-status"></div>
-    </div>
-  </div>
-
   <!-- ═══ CLIENT / MATTER SNAPSHOT ═══ -->
   <div class="section-title">👥 Client & Matter Snapshot</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-bottom:1.5rem;" id="matters-grid"></div>
@@ -2403,7 +2396,6 @@ function renderMemoryJournals(){
 function renderFinance(){
   const metrics=document.getElementById('finance-metrics');
   const invoices=document.getElementById('outstanding-invoices');
-  const legalAid=document.getElementById('legal-aid-status');
   
   if(metrics) metrics.innerHTML=[
     {label:'BAS Deadline',value:'28 Apr',sub:'21 days left',color:'var(--red)',icon:'💰'},
@@ -2431,18 +2423,6 @@ function renderFinance(){
     </div>`;
   }).join('')+`<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem;background:rgba(34,197,94,.06);border-radius:4px;">✅ Replaced old sample invoice numbers with practical finance actions</div>`;
 
-  if(legalAid) legalAid.innerHTML=[
-    {item:'NT Legal Aid recovery notes',amount:'Prepared',status:"Use recovery notes in today's pack",color:'var(--red)'},
-    {item:'Trust reconciliation note',amount:'Prepared',status:'Review with April trust figures',color:'var(--yellow)'},
-    {item:'Daily practice overview',amount:'Ready',status:'One-screen restart summary available',color:'var(--green)'},
-  ].map(i=>`
-    <div style="padding:.4rem .5rem;background:rgba(255,255,255,.03);border-left:2px solid ${i.color};border-radius:4px;margin-bottom:.4rem;font-size:.75rem;">
-      <div style="color:var(--text-bright);font-weight:600;">${i.item}</div>
-      <div style="display:flex;justify-content:space-between;margin-top:.2rem;gap:.6rem;">
-        <span style="color:var(--text-dim);font-size:.7rem;">${i.status}</span>
-        <span style="font-weight:700;color:${i.color};">${i.amount}</span>
-      </div>
-    </div>`).join('');
 }
 
 // ── 4. CLIENT / MATTER SNAPSHOT ──
