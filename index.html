@@ -252,12 +252,49 @@ a:hover{text-decoration:underline}
 
 /* ── App Links ── */
 .app-links-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;
+  display:grid;gap:.85rem;
   margin-bottom:1.5rem;
 }
-.link-card{padding:1.1rem}
-.link-card h3{font-size:.98rem;font-weight:700;margin-bottom:.65rem;color:var(--text-bright)}
-.link-card p{font-size:.8rem;color:var(--text-dim);margin-bottom:.75rem}
+.link-card{
+  padding:0;
+  overflow:hidden;
+}
+.link-card summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.75rem;
+  padding:1rem 1.1rem;
+}
+.link-card summary::-webkit-details-marker{display:none}
+.link-summary-copy{
+  display:flex;
+  flex-direction:column;
+  gap:.2rem;
+  min-width:0;
+}
+.link-summary-label{
+  font-size:1rem;
+  font-weight:800;
+  color:#fff;
+}
+.link-summary-sub{
+  font-size:.78rem;
+  color:var(--text-dim);
+}
+.link-chevron{
+  color:#fff;
+  font-size:1rem;
+  transition:transform .2s ease;
+}
+.link-card[open] .link-chevron{transform:rotate(180deg)}
+.link-card-body{
+  padding:0 1.1rem 1.1rem;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.link-card-body p{font-size:.8rem;color:var(--text-dim);margin-bottom:.75rem;padding-top:.9rem}
 .link-list{list-style:none;display:grid;gap:.55rem}
 .link-list li{font-size:.82rem;line-height:1.45}
 .link-list a{font-weight:600}
@@ -268,7 +305,7 @@ a:hover{text-decoration:underline}
 }
 .link-chip{
   display:inline-flex;align-items:center;gap:.35rem;padding:.28rem .55rem;border-radius:999px;
-  font-size:.68rem;font-weight:700;letter-spacing:.02em;margin-bottom:.75rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.02em;width:fit-content;
 }
 .link-chip.primary{background:rgba(34,197,94,.15);color:#86efac}
 .link-chip.backup{background:rgba(234,179,8,.15);color:#fde047}
@@ -370,51 +407,83 @@ a:hover{text-decoration:underline}
   <!-- ═══ ALL APPS & LINKS ═══ -->
   <div class="section-title" id="allAppsSection">🔗 All Apps & Links</div>
   <div class="app-links-grid">
-    <div class="glass link-card">
-      <div class="link-chip primary">Everyday</div>
-      <h3>Main apps</h3>
-      <p>Your main working links in one place.</p>
-      <ul class="link-list">
-        <li><a href="https://mission-control-v2-opal-one.vercel.app" target="_blank">🎛️ Mission Control ↗</a></li>
-        <li><a href="https://leads-tracker-eta.vercel.app" target="_blank">📋 Leads Tracker ↗</a></li>
-        <li><a href="https://mobilesolicitor.vercel.app" target="_blank">🌐 JGMS Website ↗</a></li>
-        <li><a href="https://conversations-xi.vercel.app" target="_blank">💬 Conversations ↗</a></li>
-      </ul>
-    </div>
+    <details class="glass link-card" open>
+      <summary>
+        <div class="link-summary-copy">
+          <span class="link-chip primary">Everyday</span>
+          <span class="link-summary-label">Main apps</span>
+          <span class="link-summary-sub">Tap to open your core links.</span>
+        </div>
+        <span class="link-chevron">⌄</span>
+      </summary>
+      <div class="link-card-body">
+        <p>Your main working links in one place.</p>
+        <ul class="link-list">
+          <li><a href="https://mission-control-rho-amber.vercel.app" target="_blank">🎛️ Mission Control ↗</a></li>
+          <li><a href="https://leads-tracker-eta.vercel.app" target="_blank">📋 Leads Tracker ↗</a></li>
+          <li><a href="https://mobilesolicitor.vercel.app" target="_blank">🌐 JGMS Website ↗</a></li>
+          <li><a href="https://conversations-xi.vercel.app" target="_blank">💬 Conversations ↗</a></li>
+        </ul>
+      </div>
+    </details>
 
-    <div class="glass link-card">
-      <div class="link-chip primary">Reference</div>
-      <h3>Support tools</h3>
-      <p>Useful operational pages and references.</p>
-      <ul class="link-list">
-        <li><a href="https://build-timeline.vercel.app" target="_blank">🏗️ Build Timeline ↗</a></li>
-        <li><a href="https://docs-ten-swart.vercel.app" target="_blank">📄 Docs ↗</a></li>
-        <li><a href="xena-system-overview.html">⚔️ Meet Xena ↗</a></li>
-      </ul>
-    </div>
+    <details class="glass link-card">
+      <summary>
+        <div class="link-summary-copy">
+          <span class="link-chip primary">Reference</span>
+          <span class="link-summary-label">Support tools</span>
+          <span class="link-summary-sub">Tap to show reference links.</span>
+        </div>
+        <span class="link-chevron">⌄</span>
+      </summary>
+      <div class="link-card-body">
+        <p>Useful operational pages and references.</p>
+        <ul class="link-list">
+          <li><a href="https://build-timeline.vercel.app" target="_blank">🏗️ Build Timeline ↗</a></li>
+          <li><a href="https://docs-ten-swart.vercel.app" target="_blank">📄 Docs ↗</a></li>
+          <li><a href="xena-system-overview.html">⚔️ Meet Xena ↗</a></li>
+        </ul>
+      </div>
+    </details>
 
-    <div class="glass link-card">
-      <div class="link-chip backup">Backup</div>
-      <h3>Fallback links</h3>
-      <p>Use these if a page looks stale or cached on iPhone.</p>
-      <ul class="link-list">
-        <li><a href="https://leads-tracker-ohol5nzwd-jacqui-griffins-projects.vercel.app" target="_blank">🟡 Leads Tracker direct deploy ↗</a></li>
-        <li><a href="https://sueandjacquifitnesschallenge.pythonanywhere.com/leads" target="_blank">🟡 Leads Tracker legacy backup ↗</a></li>
-      </ul>
-      <div class="link-note">Best daily use: bookmark the main tracker in a normal Safari tab. Keep the Home Screen web app as a lower-trust option only.</div>
-    </div>
+    <details class="glass link-card">
+      <summary>
+        <div class="link-summary-copy">
+          <span class="link-chip backup">Backup</span>
+          <span class="link-summary-label">Fallback links</span>
+          <span class="link-summary-sub">Tap to show backup options.</span>
+        </div>
+        <span class="link-chevron">⌄</span>
+      </summary>
+      <div class="link-card-body">
+        <p>Use these if a page looks stale or cached on iPhone.</p>
+        <ul class="link-list">
+          <li><a href="https://leads-tracker-ohol5nzwd-jacqui-griffins-projects.vercel.app" target="_blank">🟡 Leads Tracker direct deploy ↗</a></li>
+          <li><a href="https://sueandjacquifitnesschallenge.pythonanywhere.com/leads" target="_blank">🟡 Leads Tracker legacy backup ↗</a></li>
+        </ul>
+        <div class="link-note">Best daily use: bookmark the main tracker in a normal Safari tab. Keep the Home Screen web app as a lower-trust option only.</div>
+      </div>
+    </details>
 
-    <div class="glass link-card">
-      <div class="link-chip source">Source</div>
-      <h3>GitHub repos</h3>
-      <p>Project source links if you or Moe need the underlying repo.</p>
-      <ul class="link-list">
-        <li><a href="https://github.com/MD-Str8nUp/xena-workspace" target="_blank">🧠 Xena workspace ↗</a></li>
-        <li><a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank">📋 Leads Tracker repo ↗</a></li>
-        <li><a href="https://github.com/jacquigriffin-law/mission-control" target="_blank">🎛️ Mission Control repo ↗</a></li>
-        <li><a href="https://github.com/MD-Str8nUp/jacqui-griffin-ai-ops" target="_blank">⚙️ AI Ops repo ↗</a></li>
-      </ul>
-    </div>
+    <details class="glass link-card">
+      <summary>
+        <div class="link-summary-copy">
+          <span class="link-chip source">Source</span>
+          <span class="link-summary-label">GitHub repos</span>
+          <span class="link-summary-sub">Tap to show project source links.</span>
+        </div>
+        <span class="link-chevron">⌄</span>
+      </summary>
+      <div class="link-card-body">
+        <p>Project source links if you or Moe need the underlying repo.</p>
+        <ul class="link-list">
+          <li><a href="https://github.com/MD-Str8nUp/xena-workspace" target="_blank">🧠 Xena workspace ↗</a></li>
+          <li><a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank">📋 Leads Tracker repo ↗</a></li>
+          <li><a href="https://github.com/jacquigriffin-law/mission-control" target="_blank">🎛️ Mission Control repo ↗</a></li>
+          <li><a href="https://github.com/MD-Str8nUp/jacqui-griffin-ai-ops" target="_blank">⚙️ AI Ops repo ↗</a></li>
+        </ul>
+      </div>
+    </details>
   </div>
 
   <!-- ═══ CALENDAR / COURT DIARY ═══ -->
