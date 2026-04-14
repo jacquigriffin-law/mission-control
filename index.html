@@ -349,6 +349,7 @@ a:hover{text-decoration:underline}
 </style>
 <script src="cost-data.js"></script>
 <script src="calendar-data.js"></script>
+<script src="memory-data.js"></script>
 </head>
 <body>
 
@@ -1167,7 +1168,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--cyan);font-size:.85rem;">📧 Email & Communication</div>
-            <a href="https://t.me/XenaOpenClawBot?text=Check%20urgent%20emails%20and%20help%20me%20draft%20replies" target="_blank" rel="noopener" style="display:inline-block;background:var(--cyan);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
+            <button onclick="openServiceChat('email')" style="background:var(--cyan);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Email Triage:</strong> Find urgent emails needing response</div>
@@ -1182,7 +1183,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--purple);font-size:.85rem;">⚖️ Court & Legal</div>
-            <a href="https://t.me/XenaOpenClawBot?text=Give%20me%20my%20court%20diary%20update%20and%20legal%20workflow%20help" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
+            <button onclick="openServiceChat('court')" style="background:var(--purple);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Morning Brief:</strong> Daily court diary + urgent tasks</div>
@@ -1197,7 +1198,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--green);font-size:.85rem;">💰 Finance & Billing</div>
-            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20finance%2C%20BAS%2C%20billing%2C%20and%20Legal%20Aid%20recovery" target="_blank" rel="noopener" style="display:inline-block;background:var(--green);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
+            <button onclick="openServiceChat('finance')" style="background:var(--green);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Duty Day Billing:</strong> Find unbilled duty appearances</div>
@@ -1212,7 +1213,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--red);font-size:.85rem;">👤 Personal Assistant</div>
-            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20personal%20assistant%20tasks%2C%20rego%2C%20fines%2C%20and%20CPD" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
+            <button onclick="openServiceChat('personal')" style="background:var(--red);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Vehicle Tracker:</strong> Registration renewals (3 cars)</div>
@@ -1227,7 +1228,7 @@ a:hover{text-decoration:underline}
         <div style="background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.2);border-radius:8px;padding:.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
             <div style="font-weight:700;color:var(--yellow);font-size:.85rem;">📚 Research & Documents</div>
-            <a href="https://t.me/XenaOpenClawBot?text=Help%20me%20with%20research%2C%20drafting%2C%20and%20document%20work" target="_blank" rel="noopener" style="display:inline-block;background:var(--yellow);color:#0f0a1e;text-decoration:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</a>
+            <button onclick="openServiceChat('research')" style="background:var(--yellow);color:#0f0a1e;border:none;padding:4px 8px;border-radius:4px;font-size:.7rem;cursor:pointer;font-weight:700;">Chat Now</button>
           </div>
           <div style="font-size:.75rem;line-height:1.4;color:var(--text-dim);">
             <div><strong>Legal Research:</strong> Case law, legislation, precedents</div>
@@ -1627,12 +1628,12 @@ a:hover{text-decoration:underline}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
     
     <!-- Long-Term Memory -->
-    <div class="glass" style="padding:1.25rem;">
+    <a class="glass" href="https://docs-ten-swart.vercel.app/MEMORY.md" target="_blank" style="padding:1.25rem;display:block;text-decoration:none;color:inherit;">
       <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
         <span style="font-size:1.4rem;">🏛️</span>
         <div>
           <div style="font-weight:700;font-size:.95rem;">Long-Term Memory</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">MEMORY.md — Curated knowledge</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">MEMORY.md — Curated knowledge • tap to open</div>
         </div>
       </div>
       <div style="font-size:.8rem;color:var(--text);line-height:1.6;">
@@ -1652,7 +1653,8 @@ a:hover{text-decoration:underline}
           <strong>OneDrive:</strong> NOT connected — needs Business Basic licence ($9/mo)
         </div>
       </div>
-    </div>
+      <div style="margin-top:.7rem;font-size:.72rem;color:var(--cyan);font-weight:600;">Open full MEMORY.md →</div>
+    </a>
     
     <!-- Daily Journals -->
     <div class="glass" style="padding:1.25rem;">
@@ -1660,177 +1662,13 @@ a:hover{text-decoration:underline}
         <span style="font-size:1.4rem;">📔</span>
         <div>
           <div style="font-weight:700;font-size:.95rem;">Daily Journals</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Tap to expand • <a href="https://conversations-xi.vercel.app" target="_blank" style="color:var(--cyan);">View All Conversations →</a></div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Tap to expand • <a id="journals-index-link" href="https://docs-ten-swart.vercel.app/memory/" target="_blank" style="color:var(--cyan);">Open all journals →</a></div>
         </div>
       </div>
-      <div style="font-size:.8rem;color:var(--text);">
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.15);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>3 Apr 2026</strong> — Cron Job Fix, SMS Lead Crisis Recovery</span><span style="color:var(--green);font-size:.7rem;">5.2 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Fixed ALL cron jobs — Telegram outbound was misconfigured (defaultTo missing)</div>
-            <div style="color:var(--green);">✅ 10 active cron jobs now delivering to Telegram</div>
-            <div style="color:var(--green);">✅ SMS lead monitoring working via heartbeat checks</div>
-            <div style="color:var(--red);">⚠️ Two SMS leads from April 2 still awaiting follow-up (~21 hours old)</div>
-            <div style="color:var(--text-dim);margin-top:.3rem;">Cost: ~$12 (Opus debugging session)</div>
-            <div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-04-03" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.15);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>2 Apr 2026</strong> — Duty Day Billing Audit, Lead Response Analysis</span><span style="color:var(--green);font-size:.7rem;">4.6 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Duty day billing recovery audit completed</div>
-            <div style="color:var(--green);">✅ Q3 FY2026 close-out checklist created</div>
-            <div style="color:var(--green);">✅ BAS deadline reminder cron job set (28 April)</div>
-            <div style="color:var(--green);">✅ SMS lead forwarding system verified</div>
-            <div style="color:var(--red);">🚨 Two new SMS leads detected ("Need a lawyer", "I need a lawyer for family court")</div>
-            <div style="color:var(--text-dim);margin-top:.3rem;">Cost: ~$8</div>
-            <div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-04-02" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.15);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>1 Apr 2026</strong> — Finance Workpack, Mission Control v2, 41 Scripts Deployed</span><span style="color:var(--green);font-size:.7rem;">6.4 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ ISA completion plan delivered (7 agents, 41 scripts live)</div>
-            <div style="color:var(--green);">✅ Real-time cost tracking with daily charts</div>
-            <div style="color:var(--green);">✅ Full conversation archive with chat history</div>
-            <div style="color:var(--green);">✅ Interactive chat windows for all services</div>
-            <div style="color:var(--green);">✅ Build timeline documentation</div>
-            <div style="color:var(--yellow);">⚡ M365 builds started: Email triage + Morning brief</div>
-            <div style="color:var(--text-dim);margin-top:.3rem;">Cost: ~$36 (heavy development day)</div>
-            <div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-04-01" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.15);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>31 Mar 2026</strong> — Build Plan, Leads Crisis, Mission Control</span><span style="color:var(--green);font-size:.7rem;">7.8 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Created ISA build plan with dual checklists (Jacqui + Moe)</div>
-            <div style="color:var(--green);">✅ Migrated leads tracker to Vercel — $60/year saved</div>
-            <div style="color:var(--red);">🚨 Lead monitoring MISSED Finchly lead (Laurie Bamford)</div>
-            <div style="color:var(--green);">✅ Emergency data sync — all 7 leads restored</div>
-            <div style="color:var(--green);">✅ Created Webby sub-agent for website design</div>
-            <div style="color:var(--green);">✅ Mission Control v1 deployed</div>
-            <div style="color:var(--yellow);">⚠️ Blockers: NAB statements, MYOB access (BAS due 28 Apr)</div>
-            <div style="color:var(--text-dim);margin-top:.3rem;">Cost: ~$24 • Models: Sonnet 4, Opus 4-6</div><div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-03-31" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>30 Mar 2026</strong> — M365 Fix, Leads Register Rebuild</span><span style="color:var(--text-dim);font-size:.7rem;">5.5 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Fixed M365 email fetch (was timing out on 300+ messages)</div>
-            <div style="color:var(--green);">✅ PythonAnywhere API token updated</div>
-            <div style="color:var(--green);">✅ Fixed cron jobs for lead monitoring</div>
-            <div style="color:var(--red);">🚨 Major fix: leads register accidentally overwrote real leads with spam</div>
-            <div style="color:var(--green);">✅ Restored 5 real leads, created strict classifier</div>
-            <div style="color:var(--green);">✅ Added "Actioned" tab functionality to mobile app</div>
-            <div style="color:var(--yellow);">⚠️ Lesson: Lead classification needs strict boundaries</div><div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-03-28" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div><div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-03-29" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div><div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-03-30" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>29 Mar 2026</strong> — JGMS Website Build, Finance Board</span><span style="color:var(--text-dim);font-size:.7rem;">4.9 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Built JGMS website mockup with navigation, Fees page, contact pages</div>
-            <div style="color:var(--green);">✅ Created finance-agent-priority-board.md</div>
-            <div style="color:var(--green);">✅ Fixed iPhone home-screen icon for leads app</div>
-            <div style="color:var(--green);">✅ Deployed multiple Vercel preview builds</div>
-            <div style="color:var(--cyan);">💡 Claude Code used for front-end redesign pass (~8 mins)</div><div style="margin-top:.3rem;"><a href="https://conversations-xi.vercel.app/2026-03-29" target="_blank" style="color:var(--cyan);font-size:.7rem;">💬 View Full Conversations →</a></div>
-            <div style="color:var(--yellow);">⚠️ Cost decision: Opus for complex, Sonnet for everything else</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>28 Mar 2026</strong> — Morning Brief System, Intake Checklists</span><span style="color:var(--text-dim);font-size:.7rem;">8.2 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Automated daily morning brief (7am weekdays, 8:30am weekends)</div>
-            <div style="color:var(--green);">✅ Aggregates: court diary, calendar, leads, calls</div>
-            <div style="color:var(--green);">✅ Created 4 legal intake checklists (Family, Estate, Care, Criminal)</div>
-            <div style="color:var(--green);">✅ Acuity booking calendar embedded on website</div>
-            <div style="color:var(--cyan);">💡 Court Diary Agent moved from "built" to "deployed"</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>27 Mar 2026</strong> — Squarespace JGMS, Cost Tracking</span><span style="color:var(--text-dim);font-size:.7rem;">6.8 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Squarespace login restored (session had expired)</div>
-            <div style="color:var(--green);">✅ JGMS hero section fully transformed with branding</div>
-            <div style="color:var(--green);">✅ Footer contact info updated</div>
-            <div style="color:var(--green);">✅ Blog section removed, testimonials kept</div>
-            <div style="color:var(--yellow);">⚠️ Logo still shows "Family Law Assist" — needs manual fix</div>
-            <div style="color:var(--yellow);">⚠️ Navigation menu still old structure</div>
-            <div style="color:var(--cyan);">💡 Late-night operating reset with Moe — model strategy defined</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>26 Mar 2026</strong> — ATO Research Blocked</span><span style="color:var(--text-dim);font-size:.7rem;">0.8 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--red);">❌ ATO fines research blocked — missing Brave Search API key</div>
-            <div style="color:var(--yellow);">⚠️ Web search capability needed for finance agent work</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>24 Mar 2026</strong> — Subscription Audit</span><span style="color:var(--text-dim);font-size:.7rem;">0.7 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Subscription audit triage — identified false positives</div>
-            <div style="color:var(--cyan);">💡 Legal Aid $3,811.50 flagged as likely non-subscription</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>23 Mar 2026</strong> — Memory System, Leads Microapp, Squarespace</span><span style="color:var(--text-dim);font-size:.7rem;">6.8 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Daily memory dashboard created</div>
-            <div style="color:var(--green);">✅ Leads microapp prototype built with real data feed</div>
-            <div style="color:var(--green);">✅ 255 leads captured across all 3 inboxes</div>
-            <div style="color:var(--green);">✅ Squarespace browser session logged in (ISA/Moe)</div>
-            <div style="color:var(--green);">✅ Phase 2A delivered: lead extraction, dispute resolver, VXT, subscriptions</div>
-            <div style="color:var(--cyan);">💡 FamilyProperty dispute evidence found (4 cancellation emails)</div>
-          </div>
-        </details>
-
-        <details style="margin-bottom:.4rem;">
-          <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.08);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
-            <span>📝 <strong>22 Mar 2026</strong> — Lead Rules Defined</span><span style="color:var(--text-dim);font-size:.7rem;">0.7 KB</span>
-          </summary>
-          <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
-            <div style="color:var(--green);">✅ Lead detection rules established</div>
-            <div style="color:var(--cyan);">💡 Finchly = lead, Acuity = definite lead, Legal Aid offers = lead</div>
-          </div>
-        </details>
-
+      <div id="daily-journals-list" style="font-size:.8rem;color:var(--text);">
+        <div style="padding:.7rem .8rem;background:rgba(255,255,255,.03);border-radius:8px;color:var(--text-dim);">Loading latest journals…</div>
       </div>
-      <div style="margin-top:.75rem;font-size:.7rem;color:var(--text-dim);text-align:center;">
-        📊 Total: 12 journals • ~58 KB of memory • 13 days tracked
-      </div>
+      <div id="daily-journals-stats" style="margin-top:.75rem;font-size:.7rem;color:var(--text-dim);text-align:center;"></div>
     </div>
   </div>
 
@@ -2372,12 +2210,13 @@ function openServiceChat(serviceType){
   };
   const prompt = prompts[serviceType] || 'Help me with this service area';
   const encoded = encodeURIComponent(prompt);
-  const deepLink = `tg://resolve?domain=XenaOpenClawBot&text=${encoded}`;
-  const webLink = `https://t.me/XenaOpenClawBot?text=${encoded}`;
+  const bot = 'jacqui_griffin_bot';
+  const deepLink = `tg://resolve?domain=${bot}&text=${encoded}`;
+  const webLink = `https://t.me/${bot}?text=${encoded}`;
   const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
   if (mobile) {
     window.location.href = deepLink;
-    setTimeout(() => { window.location.href = webLink; }, 600);
+    setTimeout(() => { window.location.href = webLink; }, 700);
   } else {
     window.open(webLink, '_blank', 'noopener');
   }
@@ -2395,10 +2234,8 @@ function sendToTelegram(){
   }
   
   // Create Telegram deep link
-  const telegramUrl = `https://t.me/jacqui_griffin_bot?start=${encodeURIComponent(message)}`;
-  
-  // Try to open Telegram app first, fallback to web
-  window.open(telegramUrl, '_blank');
+  const telegramUrl = `https://t.me/jacqui_griffin_bot?text=${encodeURIComponent(message)}`;
+  window.open(telegramUrl, '_blank', 'noopener');
   
   // Close modal
   document.querySelector('[style*="position:fixed"]').remove();
@@ -2516,6 +2353,31 @@ function renderCalendar(){
     : `<div style="font-size:.65rem;color:var(--text-dim);margin-top:.4rem;padding:.3rem .4rem;background:rgba(234,179,8,.06);border-radius:4px;">⚠️ Calendar feed not loaded yet</div>`;
 
   if(courtDates) courtDates.innerHTML+=refreshNote;
+}
+
+function renderMemoryJournals(){
+  const list=document.getElementById('daily-journals-list');
+  const stats=document.getElementById('daily-journals-stats');
+  const allLink=document.getElementById('journals-index-link');
+  const data=typeof MEMORY_DATA!=='undefined'?MEMORY_DATA:null;
+  if(!list) return;
+  if(!data || !data.entries || !data.entries.length){
+    list.innerHTML=`<div style="padding:.7rem .8rem;background:rgba(255,255,255,.03);border-radius:8px;color:var(--text-dim);">No journal data loaded yet.</div>`;
+    if(stats) stats.textContent='';
+    return;
+  }
+  if(allLink) allLink.href=data.journalsIndexUrl;
+  list.innerHTML=data.entries.map(entry=>`
+    <details style="margin-bottom:.4rem;">
+      <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.12);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:.75rem;">
+        <span>📝 <strong>${entry.displayDate}</strong> — ${entry.headline}</span><span style="color:var(--green);font-size:.7rem;white-space:nowrap;">${entry.sizeKb.toFixed(1)} KB</span>
+      </summary>
+      <div style="padding:.75rem;margin-top:.3rem;background:rgba(255,255,255,.03);border-radius:6px;border-left:2px solid var(--purple);font-size:.75rem;line-height:1.7;">
+        ${entry.bullets.map(b=>`<div style="color:var(--text);">• ${b}</div>`).join('')}
+        <div style="margin-top:.45rem;"><a href="${entry.url}" target="_blank" style="color:var(--cyan);font-size:.72rem;">📄 Open full journal →</a></div>
+      </div>
+    </details>`).join('');
+  if(stats) stats.textContent=`📊 Total: ${data.totalEntries} journals • ~${data.totalKb.toFixed(1)} KB • updated through ${data.latestDisplay}`;
 }
 
 // ── 3. FINANCE SNAPSHOT ──
@@ -2696,6 +2558,7 @@ function renderHealth(){
 // Run all widgets on load
 renderDeadlines();
 renderCalendar();
+renderMemoryJournals();
 renderFinance();
 renderMatters();
 renderHealth();
