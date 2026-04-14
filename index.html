@@ -483,9 +483,19 @@ a:hover{text-decoration:underline}
   </div>
 
   <!-- ═══ Website Status ═══ -->
-  <div class="section-title" id="websiteSection">🌐 Website Status</div>
-  <div style="display:grid;gap:.85rem;margin-bottom:1.5rem;">
-    <details class="glass" style="padding:0;overflow:hidden;">
+  <details class="glass" id="websiteSection" style="padding:0;overflow:hidden;margin-bottom:1.5rem;">
+    <summary style="list-style:none;cursor:pointer;padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+      <div style="display:flex;align-items:center;gap:.65rem;min-width:0;">
+        <span style="font-size:1.4rem;">🌐</span>
+        <div>
+          <div style="font-weight:700;font-size:.95rem;">Website Status</div>
+          <div style="font-size:.7rem;color:var(--text-dim);">Tap to expand</div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--cyan);white-space:nowrap;">Tap to expand</div>
+    </summary>
+    <div style="display:grid;gap:.85rem;padding:0 1.25rem 1.25rem;">
+      <details class="glass" style="padding:0;overflow:hidden;">
       <summary style="list-style:none;cursor:pointer;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
         <div>
           <div style="font-weight:700;">🏛️ JGMS</div>
@@ -551,7 +561,7 @@ a:hover{text-decoration:underline}
         <span class="card-status blue">📊 Live Dashboard</span>
       </summary>
       <div style="padding:0 1rem 1rem;">
-        <a href="https://mission-control-v2-opal-one.vercel.app" target="_blank">mission-control-v2-opal-one.vercel.app ↗</a>
+        <a href="https://mission-control-rho-amber.vercel.app" target="_blank">mission-control-rho-amber.vercel.app ↗</a>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;font-size:.75rem;">
           <span style="background:rgba(6,182,212,.15);color:var(--cyan);padding:2px 6px;border-radius:4px;">Vercel</span>
           <span style="color:var(--cyan);">Current dashboard build</span>
@@ -579,7 +589,8 @@ a:hover{text-decoration:underline}
       </div>
     </details>
 
-  </div>
+    </div>
+  </details>
 
   <!-- ═══ CRON JOBS & AUTOMATION ═══ -->
   <div class="document-accordion-item glass" data-category="cron jobs automation scheduling tasks" style="margin-bottom:1.5rem;border-radius:1rem;overflow:hidden;">
