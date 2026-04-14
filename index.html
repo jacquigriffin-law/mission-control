@@ -1628,15 +1628,18 @@ a:hover{text-decoration:underline}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem;">
     
     <!-- Long-Term Memory -->
-    <a class="glass" href="https://docs-ten-swart.vercel.app/MEMORY.md" target="_blank" style="padding:1.25rem;display:block;text-decoration:none;color:inherit;">
-      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
-        <span style="font-size:1.4rem;">🏛️</span>
-        <div>
-          <div style="font-weight:700;font-size:.95rem;">Long-Term Memory</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">MEMORY.md — Curated knowledge • tap to open</div>
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div style="display:flex;align-items:center;gap:.65rem;min-width:0;">
+          <span style="font-size:1.4rem;">🏛️</span>
+          <div>
+            <div style="font-weight:700;font-size:.95rem;">Long-Term Memory</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">MEMORY.md — Curated knowledge</div>
+          </div>
         </div>
-      </div>
-      <div style="font-size:.8rem;color:var(--text);line-height:1.6;">
+        <div style="font-size:.72rem;color:var(--cyan);white-space:nowrap;">Tap to expand</div>
+      </summary>
+      <div style="padding:0 1.25rem 1.25rem;font-size:.8rem;color:var(--text);line-height:1.6;">
         <div style="padding:.4rem .6rem;background:rgba(168,85,247,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--purple);">
           <strong>M365 Connected:</strong> Email, Calendar, Tasks live since 22 Mar
         </div>
@@ -1649,27 +1652,33 @@ a:hover{text-decoration:underline}
         <div style="padding:.4rem .6rem;background:rgba(234,179,8,.1);border-radius:6px;margin-bottom:.4rem;border-left:2px solid var(--yellow);">
           <strong>IT Admin:</strong> Tim Morgan (external reseller)
         </div>
-        <div style="padding:.4rem .6rem;background:rgba(239,68,68,.1);border-radius:6px;border-left:2px solid var(--red);">
+        <div style="padding:.4rem .6rem;background:rgba(239,68,68,.1);border-radius:6px;border-left:2px solid var(--red);margin-bottom:.75rem;">
           <strong>OneDrive:</strong> NOT connected — needs Business Basic licence ($9/mo)
         </div>
+        <a href="https://docs-ten-swart.vercel.app/MEMORY.md" target="_blank" style="display:inline-block;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.25);border-radius:8px;padding:.55rem .8rem;color:var(--cyan);text-decoration:none;font-size:.78rem;font-weight:700;">Open full MEMORY.md →</a>
       </div>
-      <div style="margin-top:.7rem;font-size:.72rem;color:var(--cyan);font-weight:600;">Open full MEMORY.md →</div>
-    </a>
+    </details>
     
     <!-- Daily Journals -->
-    <div class="glass" style="padding:1.25rem;">
-      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
-        <span style="font-size:1.4rem;">📔</span>
-        <div>
-          <div style="font-weight:700;font-size:.95rem;">Daily Journals</div>
-          <div style="font-size:.7rem;color:var(--text-dim);">Tap to expand • <a id="journals-index-link" href="https://docs-ten-swart.vercel.app/memory/" target="_blank" style="color:var(--cyan);">Open all journals →</a></div>
+    <details class="glass" style="padding:0;overflow:hidden;">
+      <summary style="list-style:none;cursor:pointer;padding:1.1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
+        <div style="display:flex;align-items:center;gap:.65rem;min-width:0;">
+          <span style="font-size:1.4rem;">📔</span>
+          <div>
+            <div style="font-weight:700;font-size:.95rem;">Daily Journals</div>
+            <div style="font-size:.7rem;color:var(--text-dim);">Live journal files from memory/</div>
+          </div>
         </div>
+        <div style="font-size:.72rem;color:var(--cyan);white-space:nowrap;">Tap to expand</div>
+      </summary>
+      <div style="padding:0 1.25rem 1.25rem;">
+        <div style="font-size:.7rem;color:var(--text-dim);margin-bottom:.75rem;">Newest first • <a id="journals-index-link" href="https://docs-ten-swart.vercel.app/memory/" target="_blank" style="color:var(--cyan);">Open all journals →</a></div>
+        <div id="daily-journals-list" style="font-size:.8rem;color:var(--text);">
+          <div style="padding:.7rem .8rem;background:rgba(255,255,255,.03);border-radius:8px;color:var(--text-dim);">Loading latest journals…</div>
+        </div>
+        <div id="daily-journals-stats" style="margin-top:.75rem;font-size:.7rem;color:var(--text-dim);text-align:center;"></div>
       </div>
-      <div id="daily-journals-list" style="font-size:.8rem;color:var(--text);">
-        <div style="padding:.7rem .8rem;background:rgba(255,255,255,.03);border-radius:8px;color:var(--text-dim);">Loading latest journals…</div>
-      </div>
-      <div id="daily-journals-stats" style="margin-top:.75rem;font-size:.7rem;color:var(--text-dim);text-align:center;"></div>
-    </div>
+    </details>
   </div>
 
   <!-- Workspace Files - Expandable -->
@@ -2209,14 +2218,18 @@ function openServiceChat(serviceType){
     system: 'Help me with system status, apps, and tech tasks'
   };
   const prompt = prompts[serviceType] || 'Help me with this service area';
-  const encoded = encodeURIComponent(prompt);
-  const bot = 'jacqui_griffin_bot';
-  const deepLink = `tg://resolve?domain=${bot}&text=${encoded}`;
-  const webLink = `https://t.me/${bot}?text=${encoded}`;
+  const bot = 'maddison_legal_ai_bot';
+  const deepLink = `tg://resolve?domain=${bot}`;
+  const webLink = `https://t.me/${bot}`;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(prompt).catch(()=>{});
+  }
+
   const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
   if (mobile) {
     window.location.href = deepLink;
-    setTimeout(() => { window.location.href = webLink; }, 700);
+    setTimeout(() => { window.location.href = webLink; }, 650);
   } else {
     window.open(webLink, '_blank', 'noopener');
   }
@@ -2234,7 +2247,10 @@ function sendToTelegram(){
   }
   
   // Create Telegram deep link
-  const telegramUrl = `https://t.me/jacqui_griffin_bot?text=${encodeURIComponent(message)}`;
+  const telegramUrl = 'https://t.me/maddison_legal_ai_bot';
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(message).catch(()=>{});
+  }
   window.open(telegramUrl, '_blank', 'noopener');
   
   // Close modal
