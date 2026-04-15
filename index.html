@@ -2435,13 +2435,16 @@ function renderMemoryJournals(){
   const allLink=document.getElementById('journals-index-link');
   const data=typeof MEMORY_DATA!=='undefined'?MEMORY_DATA:null;
   if(!list) return;
-  if(!data || !data.entries || !data.entries.length){
+  const recentEntries=data?.recentEntries?.length?data.recentEntries:data?.entries;
+  const olderEntries=data?.olderEntries||[];
+  if(!data || !recentEntries || !recentEntries.length){
     list.innerHTML=`<div style="padding:.7rem .8rem;background:rgba(255,255,255,.03);border-radius:8px;color:var(--text-dim);">No journal data loaded yet.</div>`;
     if(stats) stats.textContent='';
     return;
   }
   if(allLink) allLink.href=data.journalsIndexUrl;
-  list.innerHTML=data.entries.map(entry=>`
+
+  const recentMarkup=recentEntries.map(entry=>`
     <details style="margin-bottom:.4rem;">
       <summary style="padding:.5rem .6rem;background:rgba(168,85,247,.12);border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:.75rem;">
         <span>📝 <strong>${entry.displayDate}</strong> — ${entry.headline}</span><span style="color:var(--green);font-size:.7rem;white-space:nowrap;">${entry.sizeKb.toFixed(1)} KB</span>
@@ -2451,6 +2454,23 @@ function renderMemoryJournals(){
         <div style="margin-top:.45rem;"><a href="${entry.url}" target="_blank" style="color:var(--cyan);font-size:.72rem;">📄 Open full journal →</a></div>
       </div>
     </details>`).join('');
+
+  const olderMarkup=olderEntries.length?`
+    <details style="margin-top:.65rem;">
+      <summary style="padding:.6rem .7rem;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.16);border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:.75rem;color:var(--text-bright);font-size:.78rem;">
+        <span>🗂️ Other journal dates</span>
+        <span style="color:var(--cyan);font-size:.72rem;white-space:nowrap;">${olderEntries.length} more</span>
+      </summary>
+      <div style="padding:.7rem;margin-top:.35rem;background:rgba(255,255,255,.03);border-radius:8px;display:grid;gap:.4rem;">
+        ${olderEntries.map(entry=>`
+          <a href="${entry.url}" target="_blank" style="display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.5rem .6rem;border-radius:6px;background:rgba(255,255,255,.02);text-decoration:none;color:var(--text);font-size:.74rem;">
+            <span><strong>${entry.displayDate}</strong> — ${entry.headline}</span>
+            <span style="color:var(--green);font-size:.68rem;white-space:nowrap;">${entry.sizeKb.toFixed(1)} KB</span>
+          </a>`).join('')}
+      </div>
+    </details>`:'';
+
+  list.innerHTML=recentMarkup+olderMarkup;
   if(stats) stats.textContent=`📊 Total: ${data.totalEntries} journals • ~${data.totalKb.toFixed(1)} KB • updated through ${data.latestDisplay}`;
 }
 
