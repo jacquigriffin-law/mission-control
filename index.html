@@ -2693,11 +2693,31 @@ renderMatters();
 renderHealth();
 
 // ── Timestamp ──
-// Timestamp
+function formatSydneyTime(date,{includeSeconds=false}={}){
+  const opts={
+    timeZone:'Australia/Sydney',
+    weekday:'short',
+    day:'numeric',
+    month:'short',
+    year:'numeric',
+    hour:'numeric',
+    minute:'2-digit',
+    ...(includeSeconds?{second:'2-digit'}:{}),
+    hour12:true
+  };
+  return date.toLocaleString('en-AU',opts);
+}
+
 function updateTime(){
   const now=new Date();
-  const opts={timeZone:'Australia/Sydney',weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'};
-  document.getElementById('timestamp').textContent='Last refreshed: '+now.toLocaleString('en-AU',opts);
+  const updatedAtRaw=document.lastModified;
+  const updatedAt=updatedAtRaw?new Date(updatedAtRaw):null;
+  const updatedText=updatedAt&&!Number.isNaN(updatedAt.getTime())
+    ? formatSydneyTime(updatedAt)
+    : 'Unavailable';
+
+  document.getElementById('timestamp').innerHTML=
+    `Dashboard updated: <strong>${updatedText}</strong> · Live time: ${formatSydneyTime(now,{includeSeconds:true})}`;
 }
 updateTime();setInterval(updateTime,1000);
 
