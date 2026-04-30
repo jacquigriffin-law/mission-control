@@ -170,36 +170,6 @@ a:hover{text-decoration:underline}
 .link-chip.source{background:rgba(168,85,247,.18);color:#d8b4fe}
 .link-chip.notes{background:rgba(6,182,212,.15);color:#67e8f9}
 
-/* ── Themis mobile accordions ── */
-.themis-accordion{
-  padding:0!important;
-  overflow:hidden;
-  cursor:pointer;
-  -webkit-tap-highlight-color:rgba(6,182,212,.18);
-}
-.themis-accordion-toggle{
-  width:100%;
-  appearance:none;-webkit-appearance:none;
-  border:0;background:transparent;color:inherit;font:inherit;text-align:left;
-  cursor:pointer;min-height:52px;
-  display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;
-  padding:1rem;
-}
-.themis-accordion-title{display:flex;flex-direction:column;gap:.45rem;min-width:0}
-.themis-chevron{
-  flex:0 0 auto;color:var(--text-dim);font-weight:900;font-size:1rem;
-  transition:transform .18s ease,color .18s ease;margin-top:.15rem;
-}
-.themis-accordion.is-open .themis-chevron{transform:rotate(180deg);color:#fff}
-.themis-accordion-body{
-  padding:0 1rem 1rem;color:var(--text-dim);font-size:.86rem;line-height:1.55;
-}
-.themis-accordion:not(.is-open) .themis-accordion-body{display:none!important}
-.themis-accordion-toggle:focus-visible{
-  outline:2px solid rgba(6,182,212,.65);outline-offset:3px;border-radius:.85rem;
-}
-.themis-tap-hint{font-size:.72rem;color:var(--text-dim);margin-top:.2rem}
-
 /* ── Quick Actions ── */
 .quick-actions{
   display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem;
@@ -390,41 +360,34 @@ html,body{max-width:100%;overflow-x:hidden}
   <!-- ═══ THEMIS / COURT DIARY ═══ -->
   <div class="section-title" id="themisPriority">⚖️ Calendar — Court Diary & Risk</div>
   <div class="glass" id="themisAccessPanel" style="padding:1rem 1.1rem;margin-bottom:1.5rem;border-left:4px solid var(--yellow);">
-    <div style="display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:.55rem;">
+    <div style="display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:.85rem;">
       <div>
-        <div style="font-weight:900;color:var(--text-bright);font-size:1rem;">⚖️ Themis review queue</div>
-        <div class="card-body">Court diary safety engine. Review-first: no calendar changes and no outbound messages unless Jacqui approves.</div>
+        <div style="font-weight:900;color:var(--text-bright);font-size:1rem;">⚖️ Themis court diary safety</div>
+        <div class="card-body">This panel is a status/explanation panel. It does <b>not</b> run tasks inside Mission Control yet.</div>
       </div>
-      <span class="card-status yellow">Daily 5pm alert</span>
+      <span class="card-status yellow">Daily 5pm alert live</span>
     </div>
+
+    <div class="link-note" style="margin-bottom:1rem;background:rgba(234,179,8,.1);border-color:rgba(234,179,8,.22);">
+      <b>What is live now:</b> Xena/Themis can run the scan from chat, and the scheduled 5pm Telegram alert is active. Mission Control is not yet a live approve/dismiss task board.
+    </div>
+
     <div class="status-grid" style="margin:0 0 .75rem;">
-      <div class="glass status-card themis-accordion is-open">
-        <button class="themis-accordion-toggle" type="button" aria-expanded="true">
-          <span class="themis-accordion-title"><span class="card-title">How to use</span><span class="card-status blue">Now</span><span class="themis-tap-hint">Tap card to close</span></span>
-          <span class="themis-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="themis-accordion-body">Ask Xena: “Run Themis”, “Check my court diary risks”, or “Show Themis pending items”.</div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Run Themis now</div><span class="card-status blue">Chat command</span></div>
+        <div class="card-body">Message Xena: <b>Run Themis now</b>. Xena will scan and return actual review items in Telegram.</div>
       </div>
-      <div class="glass status-card themis-accordion">
-        <button class="themis-accordion-toggle" type="button" aria-expanded="false">
-          <span class="themis-accordion-title"><span class="card-title">What it checks</span><span class="card-status yellow">Safety</span><span class="themis-tap-hint">Tap card to open</span></span>
-          <span class="themis-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="themis-accordion-body">Changed dates, no future date, Children’s Court PDFs/OCR, double-booked/no-agent warnings, urgent today/tomorrow risks, and Children’s Court list PDF/OCR gaps.</div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Daily alert</div><span class="card-status green">Scheduled</span></div>
+        <div class="card-body">A 5:00pm Sydney-time alert is scheduled. It summarises court diary risks only; it does not change Exchange automatically.</div>
       </div>
-      <div class="glass status-card themis-accordion">
-        <button class="themis-accordion-toggle" type="button" aria-expanded="false">
-          <span class="themis-accordion-title"><span class="card-title">Next UI step</span><span class="card-status blue">Planned</span><span class="themis-tap-hint">Tap card to open</span></span>
-          <span class="themis-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="themis-accordion-body">Live THEMIS cards with approve/dismiss actions inside this Calendar tab.</div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">What Themis checks</div><span class="card-status yellow">Safety</span></div>
+        <div class="card-body">Changed dates, no future date, Children’s Court PDFs/OCR, double-booked/no-agent warnings, and urgent today/tomorrow diary risks.</div>
       </div>
-      <div class="glass status-card themis-accordion">
-        <button class="themis-accordion-toggle" type="button" aria-expanded="false">
-          <span class="themis-accordion-title"><span class="card-title">Daily alert</span><span class="card-status yellow">5pm Sydney</span><span class="themis-tap-hint">Tap card to open</span></span>
-          <span class="themis-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="themis-accordion-body">Scheduled for 5:00pm Sydney time. It will summarise risks and recommended review steps, not alter Exchange automatically.</div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Not built yet</div><span class="card-status yellow">Pending UI</span></div>
+        <div class="card-body">Live approve/dismiss task cards inside Mission Control are still a future build. Until then, review happens in Telegram.</div>
       </div>
     </div>
   </div>
@@ -2876,29 +2839,6 @@ function setMissionTab(tab,{updateHash=true,scroll=false}={}){
   }
 }
 
-function initThemisAccordions(){
-  document.querySelectorAll('#themisAccessPanel .themis-accordion').forEach((card)=>{
-    const button=card.querySelector('.themis-accordion-toggle');
-    const hint=card.querySelector('.themis-tap-hint');
-    const setOpen=(open)=>{
-      card.classList.toggle('is-open',open);
-      button?.setAttribute('aria-expanded',open?'true':'false');
-      if(hint)hint.textContent=open?'Tap card to close':'Tap card to open';
-    };
-    setOpen(card.classList.contains('is-open'));
-    const toggle=(event)=>{
-      event.preventDefault();
-      event.stopPropagation();
-      setOpen(!card.classList.contains('is-open'));
-    };
-    card.addEventListener('click',toggle);
-    button?.addEventListener('click',toggle);
-    card.addEventListener('keydown',(event)=>{
-      if(event.key==='Enter'||event.key===' '){toggle(event);}
-    });
-  });
-}
-
 function initMissionTabs(){
   prepareMissionTabs();
   document.querySelectorAll('.mission-tab').forEach(btn=>{
@@ -2912,7 +2852,6 @@ function initMissionTabs(){
   });
 }
 initMissionTabs();
-initThemisAccordions();
 
 // ── Timestamp ──
 function formatSydneyTime(date,{includeSeconds=false}={}){
