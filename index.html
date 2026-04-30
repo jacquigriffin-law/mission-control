@@ -374,8 +374,20 @@ html,body{max-width:100%;overflow-x:hidden}
 
     <div class="status-grid" style="margin:0 0 .75rem;">
       <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Latest scan outcome</div><span class="card-status yellow">28 pending</span></div>
+        <div class="card-body"><b>Run:</b> Fri 1 May, 2:27am Sydney. Scanned 96 emails, 56 court-list hits, 15 future calendar events, 100 historical events and 34 court-list attachments. Result: 28 review-first items for triage.</div>
+      </div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Main risk category</div><span class="card-status yellow">No future date</span></div>
+        <div class="card-body">Eight matters were flagged as having no obvious future court date in Exchange. Names are deliberately not shown on this public/static dashboard; ask Xena for the full Themis report in Telegram.</div>
+      </div>
+      <div class="glass status-card">
+        <div class="card-header"><div class="card-title">Court-list noise</div><span class="card-status yellow">Needs triage</span></div>
+        <div class="card-body">Many Children’s Court list findings are unmatched-list-line warnings. Treat them as prompts to review, not confirmed diary failures, until Themis is refined.</div>
+      </div>
+      <div class="glass status-card">
         <div class="card-header"><div class="card-title">Run Themis now</div><span class="card-status blue">Chat command</span></div>
-        <div class="card-body">Message Xena: <b>Run Themis now</b>. Xena will scan and return actual review items in Telegram.</div>
+        <div class="card-body">Message Xena: <b>Run Themis now</b>. Xena will scan and return actual review items in Telegram. Mission Control is not yet a live approve/dismiss task board.</div>
       </div>
       <div class="glass status-card">
         <div class="card-header"><div class="card-title">Daily alert</div><span class="card-status green">Scheduled</span></div>
@@ -384,10 +396,6 @@ html,body{max-width:100%;overflow-x:hidden}
       <div class="glass status-card">
         <div class="card-header"><div class="card-title">What Themis checks</div><span class="card-status yellow">Safety</span></div>
         <div class="card-body">Changed dates, no future date, Children’s Court PDFs/OCR, double-booked/no-agent warnings, and urgent today/tomorrow diary risks.</div>
-      </div>
-      <div class="glass status-card">
-        <div class="card-header"><div class="card-title">Not built yet</div><span class="card-status yellow">Pending UI</span></div>
-        <div class="card-body">Live approve/dismiss task cards inside Mission Control are still a future build. Until then, review happens in Telegram.</div>
       </div>
     </div>
   </div>
