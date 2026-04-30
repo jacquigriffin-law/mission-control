@@ -2771,10 +2771,9 @@ function prepareMissionTabs(){
     }else if(child.id==='websiteSection'){
       current='crm';
     }else if(child.classList.contains('document-accordion-item')){
-      const t=(child.textContent||'').toLowerCase();
-      if(t.includes('cron jobs')||t.includes('automation'))current='overview';
-      else if(t.includes('cost tracking'))current='overview';
-      else current='tasks';
+      // Accordion/reference material is useful, but not an attention-today item.
+      // Keep it out of Overview so the first tab stays concise.
+      current='tasks';
     }
     if(current){
       child.dataset.missionTab=current;
