@@ -268,15 +268,13 @@ html,body{max-width:100%;overflow-x:hidden}
 
   <!-- ═══ Moe-style Top Tabs ═══ -->
   <nav class="mission-tabs-wrap" aria-label="Mission Control tabs">
-    <div class="mission-tab-kicker">Moe-style tabs — Jacqui Griffin Law</div>
+    <div class="mission-tab-kicker">Practice dashboard tabs — Jacqui Griffin Law</div>
     <div class="mission-tabs" role="tablist" aria-label="Mission Control sections">
       <button class="mission-tab" type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
       <button class="mission-tab" type="button" role="tab" data-tab="crm" aria-selected="false">CRM</button>
       <button class="mission-tab" type="button" role="tab" data-tab="agents" aria-selected="false">Agents</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="jarvis" aria-selected="false">Jarvis</button>
       <button class="mission-tab" type="button" role="tab" data-tab="calendar" aria-selected="false">Calendar</button>
       <button class="mission-tab" type="button" role="tab" data-tab="tasks" aria-selected="false">Tasks</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="leadScraper" aria-selected="false">Lead Scraper</button>
     </div>
   </nav>
 
@@ -2713,16 +2711,14 @@ renderHealth();
 
 // ── Moe-style top tab navigation ──
 const missionTabLabels={
-  overview:'Overview',crm:'CRM',agents:'Agents',jarvis:'Jarvis',calendar:'Calendar',tasks:'Tasks',leadScraper:'Lead Scraper'
+  overview:'Overview',crm:'CRM',agents:'Agents',calendar:'Calendar',tasks:'Tasks'
 };
 const missionHashToTab={
-  overview:'overview',daily:'overview',dailyCommandCentre:'overview',finance:'overview',plutusFinance:'overview',financeSection:'overview',
-  crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'crm',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',
+  overview:'overview',daily:'overview',dailyCommandCentre:'overview',finance:'overview',plutusFinance:'overview',financeSection:'overview',systemHealth:'overview',automation:'overview',cronSection:'overview',
+  crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'crm',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',leadScraper:'crm',lead_scraper:'crm',scraper:'crm',
   agents:'agents',agentsSection:'agents',xena:'agents',themis:'agents',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',aresConflictCompliance:'agents',hephaestusDocuments:'agents',
-  jarvis:'jarvis',automation:'jarvis',cronSection:'jarvis',systemHealth:'jarvis',quickActions:'jarvis',allAppsSection:'jarvis',
   calendar:'calendar',calendarSection:'calendar',court:'calendar',themisPriority:'calendar',
-  tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',
-  leadScraper:'leadScraper',lead_scraper:'leadScraper',scraper:'leadScraper'
+  tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',quickActions:'tasks',allAppsSection:'tasks'
 };
 function inferMissionTabForTitle(el){
   const id=el.id||'';
@@ -2730,8 +2726,8 @@ function inferMissionTabForTitle(el){
   if(id==='dailyCommandCentre'||text.includes('finance snapshot')||text.includes('client & matter'))return'overview';
   if(id==='leadflowFollowUp'||id==='marketingWebsites'||text.includes('leadflow')||text.includes('marketing'))return'crm';
   if(id==='agentsSection'||id==='aresConflictCompliance'||id==='hephaestusDocuments')return'agents';
-  if(text.includes('system health'))return'jarvis';
-  if(id==='allAppsSection'||text.includes('quick actions'))return'jarvis';
+  if(text.includes('system health'))return'overview';
+  if(id==='allAppsSection'||text.includes('quick actions'))return'tasks';
   if(id==='calendarSection'||id==='themisPriority'||text.includes('calendar')||text.includes('court diary'))return'calendar';
   if(id==='practiceAdminTasks'||text.includes('task board')||text.includes('memory')||text.includes('documents'))return'tasks';
   return null;
@@ -2752,7 +2748,7 @@ function prepareMissionTabs(){
       current='crm';
     }else if(child.classList.contains('document-accordion-item')){
       const t=(child.textContent||'').toLowerCase();
-      if(t.includes('cron jobs')||t.includes('automation'))current='jarvis';
+      if(t.includes('cron jobs')||t.includes('automation'))current='overview';
       else if(t.includes('cost tracking'))current='overview';
       else current='tasks';
     }
