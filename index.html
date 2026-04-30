@@ -373,6 +373,35 @@ html,body{max-width:100%;overflow-x:hidden}
   .status-card *,.link-card *{max-width:100%!important}
   .card-body{width:100%!important;display:block!important}
 }
+
+/* ── Moe-style tabbed dashboard nav ── */
+.mission-tabs-wrap{
+  position:sticky;top:0;z-index:30;margin:1rem 0 1.4rem;padding:.55rem;
+  background:rgba(15,10,30,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.1);border-radius:1rem;box-shadow:0 14px 40px rgba(0,0,0,.24);
+}
+.mission-tabs{display:flex;gap:.45rem;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.mission-tabs::-webkit-scrollbar{display:none}
+.mission-tab{
+  min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+  flex:0 0 auto;padding:.7rem .95rem;border:1px solid rgba(255,255,255,.1);border-radius:.85rem;
+  background:rgba(255,255,255,.045);color:var(--text-dim);font:inherit;font-size:.84rem;font-weight:800;
+  cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
+}
+.mission-tab:hover{background:rgba(168,85,247,.16);color:var(--text-bright);transform:translateY(-1px)}
+.mission-tab[aria-selected="true"]{
+  color:#fff;border-color:rgba(6,182,212,.45);
+  background:linear-gradient(135deg,rgba(168,85,247,.32),rgba(6,182,212,.22));
+  box-shadow:0 8px 24px rgba(6,182,212,.12);
+}
+.mission-tab-kicker{font-size:.72rem;color:var(--text-dim);padding:.15rem .45rem .45rem;font-weight:700}
+.tab-hidden{display:none!important}
+@media(max-width:640px){
+  .mission-tabs-wrap{margin:.85rem -.15rem 1rem;border-radius:.9rem;padding:.45rem;top:0}
+  .mission-tab{padding:.65rem .82rem;font-size:.8rem}
+  .mission-tab-kicker{font-size:.68rem;padding:.1rem .35rem .4rem}
+}
+
 </style>
 <script src="cost-data.js"></script>
 <script src="calendar-data.js"></script>
@@ -432,6 +461,23 @@ html,body{max-width:100%;overflow-x:hidden}
       </div>
     </div>
   </div>
+
+  <!-- ═══ Moe-style Tab Navigation ═══ -->
+  <nav class="mission-tabs-wrap" aria-label="Mission Control dashboard tabs">
+    <div class="mission-tab-kicker">Tap a tab — Moe-style dashboard view</div>
+    <div class="mission-tabs" role="tablist" aria-label="Mission Control sections">
+      <button class="mission-tab" type="button" role="tab" data-tab="daily" aria-selected="true">⚡ Daily</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="leadflow" aria-selected="false">📋 LeadFlow</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="themis" aria-selected="false">⚖️ Themis</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="admin" aria-selected="false">✅ Admin</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="finance" aria-selected="false">💼 Finance</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="websites" aria-selected="false">🌐 Websites</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="apps" aria-selected="false">🔗 Apps</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="calendar" aria-selected="false">📅 Calendar</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="automation" aria-selected="false">⏰ Automation</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="documents" aria-selected="false">📄 Docs</button>
+    </div>
+  </nav>
 
 
   <!-- ═══ DAILY COMMAND CENTRE ═══ -->
@@ -2837,6 +2883,90 @@ renderMemoryJournals();
 renderFinance();
 renderMatters();
 renderHealth();
+
+
+// ── Moe-style tabbed dashboard navigation ──
+const missionTabLabels={
+  daily:'Daily Command Centre',leadflow:'LeadFlow & Follow-up',themis:'Themis Court Diary',admin:'Practice Admin',
+  finance:'Finance / Plutus',websites:'Marketing & Websites',apps:'Apps & Links',calendar:'Calendar & Court Diary',
+  automation:'Automation & Health',documents:'Documents & Memory'
+};
+const missionHashToTab={
+  daily:'daily',dailyCommandCentre:'daily',leadflow:'leadflow',leadflowFollowUp:'leadflow',themis:'themis',themisPriority:'themis',
+  admin:'admin',practiceAdminTasks:'admin',taskBoard:'admin',finance:'finance',plutusFinance:'finance',financeSection:'finance',
+  websites:'websites',marketingWebsites:'websites',websiteSection:'websites',apps:'apps',allAppsSection:'apps',quickActions:'apps',
+  calendar:'calendar',calendarSection:'calendar',automation:'automation',cronSection:'automation',documents:'documents',memory:'documents'
+};
+function inferMissionTabForTitle(el){
+  const id=el.id||'';
+  const text=(el.textContent||'').toLowerCase();
+  if(id==='dailyCommandCentre')return'daily';
+  if(id==='leadflowFollowUp')return'leadflow';
+  if(id==='themisPriority')return'themis';
+  if(id==='practiceAdminTasks'||text.includes('task board')||text.includes('client & matter'))return'admin';
+  if(id==='plutusFinance'||text.includes('finance snapshot'))return'finance';
+  if(id==='marketingWebsites')return'websites';
+  if(id==='allAppsSection'||text.includes('quick actions'))return'apps';
+  if(id==='calendarSection')return'calendar';
+  if(text.includes('system health'))return'automation';
+  if(text.includes('memory')||text.includes('documents'))return'documents';
+  return null;
+}
+function prepareMissionTabs(){
+  const container=document.querySelector('.container');
+  if(!container)return;
+  let current=null;
+  const children=[...container.children];
+  for(const child of children){
+    if(child.classList.contains('mission-tabs-wrap')||child.classList.contains('office-wrapper')){
+      child.dataset.alwaysVisible='true';
+      continue;
+    }
+    if(child.classList.contains('section-title')){
+      current=inferMissionTabForTitle(child)||current;
+    }else if(child.id==='websiteSection'){
+      current='websites';
+    }else if(child.classList.contains('document-accordion-item')){
+      const t=(child.textContent||'').toLowerCase();
+      if(t.includes('cron jobs')||t.includes('automation'))current='automation';
+      if(t.includes('cost tracking'))current='finance';
+    }
+    if(current){
+      child.dataset.missionTab=current;
+      child.setAttribute('role','tabpanel');
+      child.setAttribute('aria-label',missionTabLabels[current]||current);
+    }
+  }
+}
+function setMissionTab(tab,{updateHash=true,scroll=false}={}){
+  const valid=document.querySelector(`.mission-tab[data-tab="${tab}"]`);
+  if(!valid)tab='daily';
+  document.querySelectorAll('.mission-tab').forEach(btn=>{
+    const active=btn.dataset.tab===tab;
+    btn.setAttribute('aria-selected',active?'true':'false');
+    if(active)btn.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  });
+  document.querySelectorAll('[data-mission-tab]').forEach(el=>{
+    const active=el.dataset.missionTab===tab;
+    el.classList.toggle('tab-hidden',!active);
+    el.toggleAttribute('hidden',!active);
+  });
+  if(updateHash&&missionHashToTab[tab])history.replaceState(null,'',`#${tab}`);
+  if(scroll)document.querySelector('.mission-tabs-wrap')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function initMissionTabs(){
+  prepareMissionTabs();
+  document.querySelectorAll('.mission-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>setMissionTab(btn.dataset.tab,{updateHash:true,scroll:false}));
+  });
+  const fromHash=missionHashToTab[(location.hash||'').replace('#','')]||'daily';
+  setMissionTab(fromHash,{updateHash:false});
+  window.addEventListener('hashchange',()=>{
+    const next=missionHashToTab[(location.hash||'').replace('#','')];
+    if(next)setMissionTab(next,{updateHash:false,scroll:true});
+  });
+}
+initMissionTabs();
 
 // ── Timestamp ──
 function formatSydneyTime(date,{includeSeconds=false}={}){
