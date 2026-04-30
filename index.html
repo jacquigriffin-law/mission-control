@@ -266,17 +266,17 @@ html,body{max-width:100%;overflow-x:hidden}
 
 <div class="container">
 
-  <!-- ═══ Agent Tab Navigation ═══ -->
-  <nav class="mission-tabs-wrap" aria-label="Mission Control agent tabs">
-    <div class="mission-tab-kicker">Agent tabs — choose who you need</div>
-    <div class="mission-tabs" role="tablist" aria-label="Mission Control agents">
-      <button class="mission-tab" type="button" role="tab" data-tab="xena" aria-selected="true">⚔️ Xena</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="hermes" aria-selected="false">📋 Hermes</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="themis" aria-selected="false">⚖️ Themis</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="ares" aria-selected="false">🛡️ Ares</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="hephaestus" aria-selected="false">📄 Hephaestus</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="plutus" aria-selected="false">💼 Plutus</button>
-      <button class="mission-tab" type="button" role="tab" data-tab="gabrielle" aria-selected="false">✅ Gabrielle</button>
+  <!-- ═══ Moe-style Top Tabs ═══ -->
+  <nav class="mission-tabs-wrap" aria-label="Mission Control tabs">
+    <div class="mission-tab-kicker">Moe-style tabs — Jacqui Griffin Law</div>
+    <div class="mission-tabs" role="tablist" aria-label="Mission Control sections">
+      <button class="mission-tab" type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="crm" aria-selected="false">CRM</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="agents" aria-selected="false">Agents</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="jarvis" aria-selected="false">Jarvis</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="calendar" aria-selected="false">Calendar</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="tasks" aria-selected="false">Tasks</button>
+      <button class="mission-tab" type="button" role="tab" data-tab="leadScraper" aria-selected="false">Lead Scraper</button>
     </div>
   </nav>
 
@@ -308,6 +308,18 @@ html,body{max-width:100%;overflow-x:hidden}
       <div class="card-header"><div class="card-title">💓 Heartbeat Alerts</div><span class="card-status blue">Quiet unless needed</span></div>
       <div class="card-body">Periodic checks for urgent leads, SMS, triage and diary risks. Quiet unless material.</div>
     </div>
+  </div>
+
+  <!-- ═══ AGENTS ═══ -->
+  <div class="section-title" id="agentsSection">🤖 Agents</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">⚔️ Xena</div><span class="card-status green">Orchestrator</span></div><div class="card-body">Main coordinator: daily command, routing, system overview and decision support.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">📋 Hermes</div><span class="card-status green">Intake</span></div><div class="card-body">LeadFlow, inbox review, SMS leads, client follow-up and intake workflow.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">⚖️ Themis</div><span class="card-status yellow">Court diary</span></div><div class="card-body">Court dates, adjournments, no-future-date checks, list monitoring and morning brief.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">🛡️ Ares</div><span class="card-status blue">Conflicts</span></div><div class="card-body">Conflict checks and compliance logging, with LEAP confirmation where needed.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">📄 Hephaestus</div><span class="card-status blue">Documents</span></div><div class="card-body">Court material, filing packs, chronologies, templates and draft-first correspondence.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">💼 Plutus</div><span class="card-status yellow">Finance</span></div><div class="card-body">BAS, MYOB, trust review, subscriptions and finance evidence packs.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">✅ Gabrielle</div><span class="card-status blue">Support</span></div><div class="card-body">Tasks, admin coordination, apps, travel/admin support and reminders.</div></div>
   </div>
 
   <!-- ═══ LEADFLOW & FOLLOW-UP ═══ -->
@@ -2699,30 +2711,29 @@ renderMatters();
 renderHealth();
 
 
-// ── Agent tabbed dashboard navigation ──
+// ── Moe-style top tab navigation ──
 const missionTabLabels={
-  xena:'Xena — Command Centre',hermes:'Hermes — Intake & Leads',themis:'Themis — Court Diary',ares:'Ares — Conflict & Compliance',
-  hephaestus:'Hephaestus — Documents',plutus:'Plutus — Finance',gabrielle:'Gabrielle — Admin & Support'
+  overview:'Overview',crm:'CRM',agents:'Agents',jarvis:'Jarvis',calendar:'Calendar',tasks:'Tasks',leadScraper:'Lead Scraper'
 };
 const missionHashToTab={
-  xena:'xena',daily:'xena',dailyCommandCentre:'xena',automation:'xena',cronSection:'xena',systemHealth:'xena',
-  hermes:'hermes',leadflow:'hermes',leadflowFollowUp:'hermes',inbox:'hermes',leads:'hermes',
-  themis:'themis',themisPriority:'themis',calendar:'themis',calendarSection:'themis',court:'themis',
-  ares:'ares',aresConflictCompliance:'ares',conflict:'ares',compliance:'ares',
-  hephaestus:'hephaestus',hephaestusDocuments:'hephaestus',documents:'hephaestus',memory:'hephaestus',
-  plutus:'plutus',finance:'plutus',plutusFinance:'plutus',financeSection:'plutus',
-  gabrielle:'gabrielle',admin:'gabrielle',practiceAdminTasks:'gabrielle',taskBoard:'gabrielle',apps:'gabrielle',allAppsSection:'gabrielle',quickActions:'gabrielle',websites:'gabrielle',marketingWebsites:'gabrielle',websiteSection:'gabrielle'
+  overview:'overview',daily:'overview',dailyCommandCentre:'overview',finance:'overview',plutusFinance:'overview',financeSection:'overview',
+  crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'crm',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',
+  agents:'agents',agentsSection:'agents',xena:'agents',themis:'agents',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',aresConflictCompliance:'agents',hephaestusDocuments:'agents',
+  jarvis:'jarvis',automation:'jarvis',cronSection:'jarvis',systemHealth:'jarvis',quickActions:'jarvis',allAppsSection:'jarvis',
+  calendar:'calendar',calendarSection:'calendar',court:'calendar',themisPriority:'calendar',
+  tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',
+  leadScraper:'leadScraper',lead_scraper:'leadScraper',scraper:'leadScraper'
 };
 function inferMissionTabForTitle(el){
   const id=el.id||'';
   const text=(el.textContent||'').toLowerCase();
-  if(id==='dailyCommandCentre'||text.includes('system health'))return'xena';
-  if(id==='leadflowFollowUp'||text.includes('leadflow'))return'hermes';
-  if(id==='themisPriority'||id==='calendarSection'||text.includes('court diary')||text.includes('calendar'))return'themis';
-  if(id==='aresConflictCompliance'||text.includes('conflict')||text.includes('compliance'))return'ares';
-  if(id==='hephaestusDocuments'||text.includes('memory')||text.includes('documents'))return'hephaestus';
-  if(id==='plutusFinance'||text.includes('finance snapshot')||text.includes('finance'))return'plutus';
-  if(id==='practiceAdminTasks'||id==='allAppsSection'||id==='marketingWebsites'||text.includes('task board')||text.includes('client & matter')||text.includes('quick actions'))return'gabrielle';
+  if(id==='dailyCommandCentre'||text.includes('finance snapshot')||text.includes('client & matter'))return'overview';
+  if(id==='leadflowFollowUp'||id==='marketingWebsites'||text.includes('leadflow')||text.includes('marketing'))return'crm';
+  if(id==='agentsSection'||id==='aresConflictCompliance'||id==='hephaestusDocuments')return'agents';
+  if(text.includes('system health'))return'jarvis';
+  if(id==='allAppsSection'||text.includes('quick actions'))return'jarvis';
+  if(id==='calendarSection'||id==='themisPriority'||text.includes('calendar')||text.includes('court diary'))return'calendar';
+  if(id==='practiceAdminTasks'||text.includes('task board')||text.includes('memory')||text.includes('documents'))return'tasks';
   return null;
 }
 function prepareMissionTabs(){
@@ -2738,12 +2749,12 @@ function prepareMissionTabs(){
     if(child.classList.contains('section-title')){
       current=inferMissionTabForTitle(child)||current;
     }else if(child.id==='websiteSection'){
-      current='gabrielle';
+      current='crm';
     }else if(child.classList.contains('document-accordion-item')){
       const t=(child.textContent||'').toLowerCase();
-      if(t.includes('cost tracking'))current='plutus';
-      else if(t.includes('cron jobs')||t.includes('automation'))current='xena';
-      else current='hephaestus';
+      if(t.includes('cron jobs')||t.includes('automation'))current='jarvis';
+      else if(t.includes('cost tracking'))current='overview';
+      else current='tasks';
     }
     if(current){
       child.dataset.missionTab=current;
@@ -2754,7 +2765,7 @@ function prepareMissionTabs(){
 }
 function setMissionTab(tab,{updateHash=true,scroll=false}={}){
   const valid=document.querySelector(`.mission-tab[data-tab="${tab}"]`);
-  if(!valid)tab='xena';
+  if(!valid)tab='overview';
   document.querySelectorAll('.mission-tab').forEach(btn=>{
     const active=btn.dataset.tab===tab;
     btn.setAttribute('aria-selected',active?'true':'false');
@@ -2773,7 +2784,7 @@ function initMissionTabs(){
   document.querySelectorAll('.mission-tab').forEach(btn=>{
     btn.addEventListener('click',()=>setMissionTab(btn.dataset.tab,{updateHash:true,scroll:false}));
   });
-  const fromHash=missionHashToTab[(location.hash||'').replace('#','')]||'xena';
+  const fromHash=missionHashToTab[(location.hash||'').replace('#','')]||'overview';
   setMissionTab(fromHash,{updateHash:false});
   window.addEventListener('hashchange',()=>{
     const next=missionHashToTab[(location.hash||'').replace('#','')];
