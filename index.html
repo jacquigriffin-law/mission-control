@@ -358,17 +358,6 @@ html,body{max-width:100%;overflow-x:hidden}
 
   <!-- ═══ THEMIS / COURT DIARY ═══ -->
   <div class="section-title" id="themisPriority">⚖️ Calendar — Court Diary & Risk</div>
-  <div class="status-grid" style="margin-bottom:1rem;">
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Today</div><span class="card-status green">Now</span></div><div class="card-body">What is listed today and what needs immediate attendance, agent confirmation or document action.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Tomorrow</div><span class="card-status yellow">Prepare</span></div><div class="card-body">Tomorrow’s court, conferences, calls and diary risks before they become morning emergencies.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Next 7 days</div><span class="card-status blue">Plan</span></div><div class="card-body">Near-term matters, filing deadlines, travel/time conflicts and workload pinch points.</div></div>
-  </div>
-  <div class="status-grid" style="margin-bottom:1.5rem;">
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Changed dates</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Detect adjournment/change emails, propose the new future date and mark the old entry “admin adjourned”.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">No future date</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Find matters with no next court date, then search emails and attachments for agent outcomes.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Court list PDFs</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Read weekly/day-before Children’s Court lists and urgent-alert if tomorrow’s matter is missing from Exchange.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Double-booked/no agent</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">If two matters clash and no agent name is recorded, alert before it becomes a court problem.</div></div>
-  </div>
   <div class="glass" id="themisAccessPanel" style="padding:1rem 1.1rem;margin-bottom:1.5rem;border-left:4px solid var(--yellow);">
     <div style="display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:.55rem;">
       <div>
@@ -384,6 +373,19 @@ html,body{max-width:100%;overflow-x:hidden}
     </div>
     <div class="link-note"><b>Daily alert:</b> scheduled for 5:00pm Sydney time. It will summarise risks and recommended review steps, not alter Exchange automatically.</div>
   </div>
+
+  <div class="status-grid" style="margin-bottom:1rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Today</div><span class="card-status green">Now</span></div><div class="card-body">What is listed today and what needs immediate attendance, agent confirmation or document action.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Tomorrow</div><span class="card-status yellow">Prepare</span></div><div class="card-body">Tomorrow’s court, conferences, calls and diary risks before they become morning emergencies.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Next 7 days</div><span class="card-status blue">Plan</span></div><div class="card-body">Near-term matters, filing deadlines, travel/time conflicts and workload pinch points.</div></div>
+  </div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Changed dates</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Detect adjournment/change emails, propose the new future date and mark the old entry “admin adjourned”.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">No future date</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Find matters with no next court date, then search emails and attachments for agent outcomes.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Court list PDFs</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Read weekly/day-before Children’s Court lists and urgent-alert if tomorrow’s matter is missing from Exchange.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Double-booked/no agent</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">If two matters clash and no agent name is recorded, alert before it becomes a court problem.</div></div>
+  </div>
+
 
   <!-- ═══ CONFLICT & COMPLIANCE ═══ -->
   <div class="section-title" id="aresConflictCompliance">🛡️ Conflict & Compliance</div>
@@ -2753,8 +2755,8 @@ const missionTabLabels={
 const missionHashToTab={
   overview:'overview',daily:'overview',dailyCommandCentre:'overview',
   crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'agents',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',leadScraper:'crm',lead_scraper:'crm',scraper:'crm',
-  agents:'agents',agentsSection:'agents',xena:'agents',themis:'agents',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',
-  calendar:'calendar',calendarSection:'calendar',court:'calendar',themisPriority:'calendar',
+  agents:'agents',agentsSection:'agents',xena:'agents',themis:'calendar',themisAccessPanel:'calendar',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',
+  calendar:'calendar',calendarSection:'calendar',court:'calendar',themisPriority:'calendar',themisReview:'calendar',themisQueue:'calendar',
   tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',quickActions:'tasks',allAppsSection:'tasks',finance:'tasks',plutusFinance:'tasks',financeSection:'tasks',systemHealth:'tasks',automation:'tasks',cronSection:'tasks',aresConflictCompliance:'tasks',hephaestusDocuments:'tasks'
 };
 function inferMissionTabForTitle(el){
@@ -2812,6 +2814,10 @@ function setMissionTab(tab,{updateHash=true,scroll=false}={}){
   });
   if(updateHash&&missionHashToTab[tab])history.replaceState(null,'',`#${tab}`);
   if(scroll)document.querySelector('.mission-tabs-wrap')?.scrollIntoView({behavior:'smooth',block:'start'});
+  const hash=(location.hash||'').replace('#','');
+  if(['themis','themisAccessPanel','themisReview','themisQueue'].includes(hash)){
+    setTimeout(()=>document.getElementById('themisAccessPanel')?.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  }
 }
 function initMissionTabs(){
   prepareMissionTabs();
