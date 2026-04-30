@@ -279,32 +279,36 @@ html,body{max-width:100%;overflow-x:hidden}
   </nav>
 
 
-  <!-- ═══ DAILY COMMAND CENTRE ═══ -->
-  <div class="section-title" id="dailyCommandCentre">⚡ Daily Command Centre</div>
+  <!-- ═══ OVERVIEW / ATTENTION TODAY ═══ -->
+  <div class="section-title" id="dailyCommandCentre">⚡ What needs Jacqui’s attention today?</div>
+  <div class="glass" style="padding:1rem 1.1rem;margin-bottom:1rem;border-left:4px solid var(--cyan);">
+    <div style="font-weight:800;color:var(--text-bright);margin-bottom:.35rem;">Overview is deliberately short.</div>
+    <div class="card-body">This tab should only show items that need a decision, a reply, or a same-day check. Everything else belongs in CRM, Agents, Calendar or Tasks.</div>
+  </div>
   <div class="status-grid" style="margin-bottom:1.5rem;">
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">🌅 Morning Brief</div><span class="card-status green">Daily</span></div>
-      <div class="card-body">Court diary, calendar, lead/call snapshot and urgent items. Best first check each morning.</div>
+      <div class="card-header"><div class="card-title">⚖️ Court risks today / tomorrow</div><span class="card-status yellow">Check first</span></div>
+      <div class="card-body">Court appearances, Children’s Court list surprises, changed dates, double-bookings and no-future-date warnings.</div>
     </div>
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">🚨 Urgent Leads</div><span class="card-status green">Business hours</span></div>
-      <div class="card-body">Legal Aid, Finchly, LawConnect and portal referrals. Urgent court leads surface immediately.</div>
+      <div class="card-header"><div class="card-title">🚨 New or urgent leads</div><span class="card-status green">Revenue</span></div>
+      <div class="card-body">Legal Aid, Finchly, LawConnect, Facebook/group enquiries and portal referrals that need same-day action.</div>
     </div>
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">📱 SMS Leads</div><span class="card-status yellow">Watch</span></div>
-      <div class="card-body">Forwarded iPhone SMS leads. Highest-conversion channel; needs fast follow-up.</div>
+      <div class="card-header"><div class="card-title">📱 SMS leads needing response</div><span class="card-status yellow">Fast follow-up</span></div>
+      <div class="card-body">Forwarded iPhone SMS leads. Highest-conversion channel; review quickly before warm leads go cold.</div>
     </div>
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">📧 Email Triage</div><span class="card-status blue">8am + 2pm</span></div>
-      <div class="card-body">Questions and emails needing a response, with high-priority items pulled forward.</div>
+      <div class="card-header"><div class="card-title">📧 Emails needing Jacqui</div><span class="card-status blue">Triage</span></div>
+      <div class="card-body">Only emails requiring your judgement, urgent client response, Legal Aid action, or court-risk review.</div>
     </div>
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">⚖️ Court Date Changes</div><span class="card-status yellow">Approve/dismiss</span></div>
-      <div class="card-body">Adjourned, vacated, relisted or changed dates. CRT IDs stay review-first.</div>
+      <div class="card-header"><div class="card-title">🔁 Follow-ups due</div><span class="card-status yellow">Don’t lose them</span></div>
+      <div class="card-body">Prospective clients, documents requested, Legal Aid outcomes, and matters waiting for someone to reply.</div>
     </div>
     <div class="glass status-card">
-      <div class="card-header"><div class="card-title">💓 Heartbeat Alerts</div><span class="card-status blue">Quiet unless needed</span></div>
-      <div class="card-body">Periodic checks for urgent leads, SMS, triage and diary risks. Quiet unless material.</div>
+      <div class="card-header"><div class="card-title">💼 Finance / compliance warnings</div><span class="card-status blue">Watch</span></div>
+      <div class="card-body">BAS, trust, billing, practising/admin deadlines, unpaid fines or anything that could create external trouble.</div>
     </div>
   </div>
 
@@ -321,7 +325,15 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
 
   <!-- ═══ LEADFLOW & FOLLOW-UP ═══ -->
-  <div class="section-title" id="leadflowFollowUp">📋 LeadFlow & Follow-up</div>
+  <div class="section-title" id="leadflowFollowUp">📋 CRM — LeadFlow, Inbox & Follow-up</div>
+  <div class="status-grid" style="margin-bottom:1rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">New leads</div><span class="card-status green">Capture</span></div><div class="card-body">Fresh enquiries from web, SMS, Legal Aid, Finchly, LawConnect, Facebook/group sources and referrals.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Prospective client follow-up</div><span class="card-status yellow">Nurture</span></div><div class="card-body">People who have replied, sent documents, need another call, or are becoming clients but not yet in LEAP.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Ready to open in LEAP</div><span class="card-status blue">Next step</span></div><div class="card-body">Matters reviewed and ready for conflict check / retainer / LEAP file opening.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Inbox review</div><span class="card-status blue">3 inboxes + SMS</span></div><div class="card-body">JGMS, Family Law Assist, NT Rural/Remote and SMS forwards — review-first, no auto-send or mailbox mutation.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Lead sources</div><span class="card-status green">Track</span></div><div class="card-body">Legal Aid, Finchly, LawConnect, website, SMS, referrals, Facebook/group requests and direct email.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Closed / declined</div><span class="card-status blue">Clean pipeline</span></div><div class="card-body">No capacity, out of area, no response, referred elsewhere or not a suitable matter.</div></div>
+  </div>
   <div class="app-links-grid">
     <details class="glass link-card" open>
       <summary>
@@ -345,7 +357,12 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
 
   <!-- ═══ THEMIS / COURT DIARY ═══ -->
-  <div class="section-title" id="themisPriority">⚖️ Themis — Court Diary Priority</div>
+  <div class="section-title" id="themisPriority">⚖️ Calendar — Court Diary & Risk</div>
+  <div class="status-grid" style="margin-bottom:1rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Today</div><span class="card-status green">Now</span></div><div class="card-body">What is listed today and what needs immediate attendance, agent confirmation or document action.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Tomorrow</div><span class="card-status yellow">Prepare</span></div><div class="card-body">Tomorrow’s court, conferences, calls and diary risks before they become morning emergencies.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Next 7 days</div><span class="card-status blue">Plan</span></div><div class="card-body">Near-term matters, filing deadlines, travel/time conflicts and workload pinch points.</div></div>
+  </div>
   <div class="status-grid" style="margin-bottom:1.5rem;">
     <div class="glass status-card"><div class="card-header"><div class="card-title">Changed dates</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Detect adjournment/change emails, propose the new future date and mark the old entry “admin adjourned”.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">No future date</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Find matters with no next court date, then search emails and attachments for agent outcomes.</div></div>
@@ -361,11 +378,16 @@ html,body{max-width:100%;overflow-x:hidden}
     <div class="glass status-card"><div class="card-header"><div class="card-title">LEAP dependency</div><span class="card-status yellow">Pending</span></div><div class="card-body">Jacqui wants to check LEAP's newer CRM/conflict tools before overbuilding a separate system.</div></div>
   </div>
 
-  <!-- ═══ PRACTICE ADMIN / TASKS ═══ -->
-  <div class="section-title" id="practiceAdminTasks">✅ Practice Admin & Tasks</div>
-  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
-    <div style="font-weight:800;color:var(--cyan);margin-bottom:.5rem;">Daily legal task table — proposed next build</div>
-    <div class="card-body">Read current LEAP/Outlook task proxy notes and chasing emails, then show matter, next court date, filing deadline, action required, urgency and suggested next step. This is for filing on time and not relying on one iPhone task circle per matter.</div>
+  <!-- ═══ TASKS ═══ -->
+  <div class="section-title" id="practiceAdminTasks">✅ Tasks — Work Queue</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Urgent legal tasks</div><span class="card-status yellow">Today</span></div><div class="card-body">Matter tasks that affect court, clients, Legal Aid, deadlines or risk exposure.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Filing deadlines</div><span class="card-status yellow">Critical</span></div><div class="card-body">Affidavits, evidence, court books, subpoenas, orders and filing dates that must not slip.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Follow-ups</div><span class="card-status blue">Chase</span></div><div class="card-body">Clients, other solicitors, Legal Aid, agents, barristers and service providers waiting on reply.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Admin tasks</div><span class="card-status blue">Support</span></div><div class="card-body">General practice admin, reminders, bookings, websites, systems and non-legal errands.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Finance tasks</div><span class="card-status blue">Plutus</span></div><div class="card-body">BAS, MYOB, trust, invoices, subscriptions, reimbursements and payment evidence.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Waiting on Jacqui</div><span class="card-status yellow">Decision</span></div><div class="card-body">Drafts, conflict decisions, file-opening approvals, replies or tasks needing practitioner judgement.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Completed / parked</div><span class="card-status green">Archive</span></div><div class="card-body">Finished work, deferred ideas, and parked items that should not clutter today’s attention list.</div></div>
   </div>
 
   <!-- ═══ FINANCE / PLUTUS ═══ -->
@@ -450,14 +472,14 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
 
   <!-- ═══ CALENDAR / COURT DIARY ═══ -->
-  <div class="section-title" id="calendarSection">📅 Calendar & Court Diary</div>
+  <div class="section-title" id="calendarSection">📅 Calendar — Today / Tomorrow / Next 7 Days</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
     <div class="glass" style="padding:1rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--cyan);">📆 Today's Appointments</div>
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--cyan);">📆 Today</div>
       <div id="calendar-today"></div>
     </div>
     <div class="glass" style="padding:1rem;">
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--purple);">🗓️ Upcoming Diary Items</div>
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem;color:var(--purple);">🗓️ Tomorrow + next 7 days</div>
       <div id="court-dates"></div>
     </div>
   </div>
