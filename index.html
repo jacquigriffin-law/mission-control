@@ -370,8 +370,8 @@ html,body{max-width:100%;overflow-x:hidden}
     <div class="glass status-card"><div class="card-header"><div class="card-title">Double-booked/no agent</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">If two matters clash and no agent name is recorded, alert before it becomes a court problem.</div></div>
   </div>
 
-  <!-- ═══ ARES / CONFLICT & COMPLIANCE ═══ -->
-  <div class="section-title" id="aresConflictCompliance">🛡️ Ares — Conflict & Compliance</div>
+  <!-- ═══ CONFLICT & COMPLIANCE ═══ -->
+  <div class="section-title" id="aresConflictCompliance">🛡️ Conflict & Compliance</div>
   <div class="status-grid" style="margin-bottom:1.5rem;">
     <div class="glass status-card"><div class="card-header"><div class="card-title">Conflict checks</div><span class="card-status yellow">Review-first</span></div><div class="card-body">Mobile-first conflict checking across available Microsoft 365 traces, with LEAP history still requiring human/LEAP confirmation.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Compliance log</div><span class="card-status blue">Append-only</span></div><div class="card-body">Keep conflict-check evidence and review outcomes logged without deleting past entries.</div></div>
@@ -385,13 +385,13 @@ html,body{max-width:100%;overflow-x:hidden}
     <div class="glass status-card"><div class="card-header"><div class="card-title">Filing deadlines</div><span class="card-status yellow">Critical</span></div><div class="card-body">Affidavits, evidence, court books, subpoenas, orders and filing dates that must not slip.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Follow-ups</div><span class="card-status blue">Chase</span></div><div class="card-body">Clients, other solicitors, Legal Aid, agents, barristers and service providers waiting on reply.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Admin tasks</div><span class="card-status blue">Support</span></div><div class="card-body">General practice admin, reminders, bookings, websites, systems and non-legal errands.</div></div>
-    <div class="glass status-card"><div class="card-header"><div class="card-title">Finance tasks</div><span class="card-status blue">Plutus</span></div><div class="card-body">BAS, MYOB, trust, invoices, subscriptions, reimbursements and payment evidence.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Finance tasks</div><span class="card-status blue">Finance</span></div><div class="card-body">BAS, MYOB, trust, invoices, subscriptions, reimbursements and payment evidence.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Waiting on Jacqui</div><span class="card-status yellow">Decision</span></div><div class="card-body">Drafts, conflict decisions, file-opening approvals, replies or tasks needing practitioner judgement.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Completed / parked</div><span class="card-status green">Archive</span></div><div class="card-body">Finished work, deferred ideas, and parked items that should not clutter today’s attention list.</div></div>
   </div>
 
-  <!-- ═══ FINANCE / PLUTUS ═══ -->
-  <div class="section-title" id="plutusFinance">💼 Finance / Plutus</div>
+  <!-- ═══ FINANCE TASKS ═══ -->
+  <div class="section-title" id="plutusFinance">💼 Finance & Compliance Tasks</div>
   <div class="status-grid" style="margin-bottom:1.5rem;">
     <div class="glass status-card"><div class="card-header"><div class="card-title">MYOB / BAS</div><span class="card-status blue">Useful</span></div><div class="card-body">Bank feeds, reconciliation, BAS preparation support and flagged items for human review.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Dispute evidence</div><span class="card-status blue">On request</span></div><div class="card-body">Find payment/cancellation evidence for FamilyProperty, insurance and similar disputes.</div></div>
@@ -1943,7 +1943,7 @@ html,body{max-width:100%;overflow-x:hidden}
   </details>
 
   <!-- ═══ HEPHAESTUS / DOCUMENTS ═══ -->
-  <div class="section-title" id="hephaestusDocuments">📄 Hephaestus — Documents & Filing</div>
+  <div class="section-title" id="hephaestusDocuments">📄 Documents & Filing</div>
   <div class="status-grid" style="margin-bottom:1.5rem;">
     <div class="glass status-card"><div class="card-header"><div class="card-title">Court material</div><span class="card-status blue">Draft support</span></div><div class="card-body">Chronologies, court instructions, filing packs and review-ready drafts for Jacqui to approve.</div></div>
     <div class="glass status-card"><div class="card-header"><div class="card-title">Email-to-matter filing</div><span class="card-status yellow">Useful next</span></div><div class="card-body">Identify matter emails and suggest filing locations without moving or deleting originals automatically.</div></div>
@@ -2736,22 +2736,24 @@ const missionTabLabels={
   overview:'Overview',crm:'CRM',agents:'Agents',calendar:'Calendar',tasks:'Tasks'
 };
 const missionHashToTab={
-  overview:'overview',daily:'overview',dailyCommandCentre:'overview',finance:'overview',plutusFinance:'overview',financeSection:'overview',systemHealth:'overview',automation:'overview',cronSection:'overview',
-  crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'crm',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',leadScraper:'crm',lead_scraper:'crm',scraper:'crm',
-  agents:'agents',agentsSection:'agents',xena:'agents',themis:'agents',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',aresConflictCompliance:'agents',hephaestusDocuments:'agents',
+  overview:'overview',daily:'overview',dailyCommandCentre:'overview',
+  crm:'crm',leadflow:'crm',leadflowFollowUp:'crm',hermes:'agents',inbox:'crm',leads:'crm',marketingWebsites:'crm',websiteSection:'crm',leadScraper:'crm',lead_scraper:'crm',scraper:'crm',
+  agents:'agents',agentsSection:'agents',xena:'agents',themis:'agents',ares:'agents',hephaestus:'agents',plutus:'agents',gabrielle:'agents',
   calendar:'calendar',calendarSection:'calendar',court:'calendar',themisPriority:'calendar',
-  tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',quickActions:'tasks',allAppsSection:'tasks'
+  tasks:'tasks',admin:'tasks',practiceAdminTasks:'tasks',taskBoard:'tasks',memory:'tasks',documents:'tasks',quickActions:'tasks',allAppsSection:'tasks',finance:'tasks',plutusFinance:'tasks',financeSection:'tasks',systemHealth:'tasks',automation:'tasks',cronSection:'tasks',aresConflictCompliance:'tasks',hephaestusDocuments:'tasks'
 };
 function inferMissionTabForTitle(el){
   const id=el.id||'';
   const text=(el.textContent||'').toLowerCase();
-  if(id==='dailyCommandCentre'||text.includes('finance snapshot')||text.includes('client & matter'))return'overview';
+  // Keep each tab distinct: Overview is only the attention-today dashboard;
+  // Agents is only the canonical agent roster; operational work lives in CRM,
+  // Calendar or Tasks so the same agent cards do not repeat everywhere.
+  if(id==='dailyCommandCentre')return'overview';
   if(id==='leadflowFollowUp'||id==='marketingWebsites'||text.includes('leadflow')||text.includes('marketing'))return'crm';
-  if(id==='agentsSection'||id==='aresConflictCompliance'||id==='hephaestusDocuments')return'agents';
-  if(text.includes('system health'))return'overview';
-  if(id==='allAppsSection'||text.includes('quick actions'))return'tasks';
+  if(id==='agentsSection')return'agents';
   if(id==='calendarSection'||id==='themisPriority'||text.includes('calendar')||text.includes('court diary'))return'calendar';
-  if(id==='practiceAdminTasks'||text.includes('task board')||text.includes('memory')||text.includes('documents'))return'tasks';
+  if(id==='practiceAdminTasks'||id==='aresConflictCompliance'||id==='plutusFinance'||id==='hephaestusDocuments')return'tasks';
+  if(id==='allAppsSection'||text.includes('quick actions')||text.includes('task board')||text.includes('memory')||text.includes('documents')||text.includes('finance snapshot')||text.includes('client & matter')||text.includes('system health'))return'tasks';
   return null;
 }
 function prepareMissionTabs(){
