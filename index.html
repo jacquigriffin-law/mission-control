@@ -30,7 +30,7 @@ a:hover{text-decoration:underline}
   background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .header p{color:var(--text-dim);font-size:.95rem;margin-top:.25rem}
-.timestamp{font-size:.75rem;color:var(--text-dim);margin-top:.5rem;opacity:.7}
+.timestamp{font-size:.75rem;color:var(--text-dim);margin:.5rem auto 0;opacity:.7;max-width:92vw;overflow-wrap:anywhere}
 
 /* ── Container ── */
 .container{max-width:1100px;margin:0 auto;padding:0 1rem 3rem}
@@ -195,9 +195,9 @@ a:hover{text-decoration:underline}
 }
 .status-card{padding:1.25rem;transition:transform .2s}
 .status-card:hover{transform:translateY(-2px)}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
-.card-title{font-weight:700;font-size:1rem}
-.card-status{font-size:.75rem;padding:.2rem .6rem;border-radius:999px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem}
+.card-title{font-weight:700;font-size:1rem;min-width:0}
+.card-status{font-size:.75rem;padding:.2rem .6rem;border-radius:999px;white-space:normal;max-width:100%;line-height:1.25}
 .card-status.green{background:rgba(34,197,94,.15);color:#86efac}
 .card-status.yellow{background:rgba(234,179,8,.15);color:#fde047}
 .card-status.blue{background:rgba(6,182,212,.15);color:#67e8f9}
@@ -346,6 +346,33 @@ a:hover{text-decoration:underline}
   .agent-emoji{font-size:1.6rem}
   .alerts{flex-direction:column;align-items:center}
 }
+
+/* Xena mobile overflow guard */
+html,body{max-width:100%;overflow-x:hidden}
+.container,.glass,.status-card,.link-card{min-width:0;max-width:100%}
+.status-grid{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.card-body{overflow-wrap:anywhere}
+@media(max-width:640px){
+  .timestamp{display:block;width:100%;white-space:normal;line-height:1.35}
+  .card-header{display:block}
+  .card-status{display:inline-block;margin-top:.4rem;max-width:100%}
+}
+
+@media(max-width:640px){
+  .container{padding-left:.75rem!important;padding-right:.75rem!important;overflow:visible}
+  .status-grid{display:block!important}
+  .status-card{display:block!important;width:100%!important;margin-bottom:.75rem;padding:1rem!important;overflow:visible!important}
+  .card-body{font-size:.9rem!important;line-height:1.55!important;white-space:normal!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+  .office{height:260px}
+  .agent-name{font-size:.68rem}
+  .agent-role{display:none}
+}
+
+@media(max-width:640px){
+  .status-card,.link-card,.glass{max-width:calc(100vw - 1.5rem)!important}
+  .status-card *,.link-card *{max-width:100%!important}
+  .card-body{width:100%!important;display:block!important}
+}
 </style>
 <script src="cost-data.js"></script>
 <script src="calendar-data.js"></script>
@@ -404,6 +431,92 @@ a:hover{text-decoration:underline}
         <div class="agent-desk"></div>
       </div>
     </div>
+  </div>
+
+
+  <!-- ═══ DAILY COMMAND CENTRE ═══ -->
+  <div class="section-title" id="dailyCommandCentre">⚡ Daily Command Centre</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">🌅 Morning Brief</div><span class="card-status green">Daily</span></div>
+      <div class="card-body">Court diary, calendar, lead/call snapshot and urgent items. Best first check each morning.</div>
+    </div>
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">🚨 Urgent Leads</div><span class="card-status green">Business hours</span></div>
+      <div class="card-body">Legal Aid, Finchly, LawConnect and portal referrals. Urgent court leads surface immediately.</div>
+    </div>
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">📱 SMS Leads</div><span class="card-status yellow">Watch</span></div>
+      <div class="card-body">Forwarded iPhone SMS leads. Highest-conversion channel; needs fast follow-up.</div>
+    </div>
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">📧 Email Triage</div><span class="card-status blue">8am + 2pm</span></div>
+      <div class="card-body">Questions and emails needing a response, with high-priority items pulled forward.</div>
+    </div>
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">⚖️ Court Date Changes</div><span class="card-status yellow">Approve/dismiss</span></div>
+      <div class="card-body">Adjourned, vacated, relisted or changed dates. CRT IDs stay review-first.</div>
+    </div>
+    <div class="glass status-card">
+      <div class="card-header"><div class="card-title">💓 Heartbeat Alerts</div><span class="card-status blue">Quiet unless needed</span></div>
+      <div class="card-body">Periodic checks for urgent leads, SMS, triage and diary risks. Quiet unless material.</div>
+    </div>
+  </div>
+
+  <!-- ═══ LEADFLOW & FOLLOW-UP ═══ -->
+  <div class="section-title" id="leadflowFollowUp">📋 LeadFlow & Follow-up</div>
+  <div class="app-links-grid">
+    <details class="glass link-card" open>
+      <summary>
+        <div class="link-summary-copy">
+          <span class="link-chip primary">Live</span>
+          <span class="link-summary-label">LeadFlow live app</span>
+          <span class="link-summary-sub">Leads, inbox, follow-up and prospective-client tracking.</span>
+        </div>
+        <span class="link-chevron">⌄</span>
+      </summary>
+      <div class="link-card-body">
+        <p>Use LeadFlow for new leads and for people who are becoming clients but still need follow-up.</p>
+        <ul class="link-list">
+          <li><a href="https://leads-tracker-eta.vercel.app" target="_blank">📋 Open LeadFlow live ↗</a></li>
+          <li><a href="https://leads-tracker-demo.vercel.app" target="_blank">🧪 Open demo-safe LeadFlow ↗</a></li>
+          <li><a href="../output/leadflow-14-day-capture-audit.md" target="_blank">🔎 14-day LeadFlow capture audit ↗</a></li>
+        </ul>
+        <div class="link-note"><b>Next improvement:</b> add unmatched-reply tracking so SMS/email replies from prospective clients are linked to a LeadFlow record or flagged for manual add.</div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ═══ THEMIS / COURT DIARY ═══ -->
+  <div class="section-title" id="themisPriority">⚖️ Themis — Court Diary Priority</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Changed dates</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Detect adjournment/change emails, propose the new future date and mark the old entry “admin adjourned”.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">No future date</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Find matters with no next court date, then search emails and attachments for agent outcomes.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Court list PDFs</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">Read weekly/day-before Children’s Court lists and urgent-alert if tomorrow’s matter is missing from Exchange.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Double-booked/no agent</div><span class="card-status yellow">Priority 1</span></div><div class="card-body">If two matters clash and no agent name is recorded, alert before it becomes a court problem.</div></div>
+  </div>
+
+  <!-- ═══ PRACTICE ADMIN / TASKS ═══ -->
+  <div class="section-title" id="practiceAdminTasks">✅ Practice Admin & Tasks</div>
+  <div class="glass" style="padding:1.25rem;margin-bottom:1.5rem;">
+    <div style="font-weight:800;color:var(--cyan);margin-bottom:.5rem;">Daily legal task table — proposed next build</div>
+    <div class="card-body">Read current LEAP/Outlook task proxy notes and chasing emails, then show matter, next court date, filing deadline, action required, urgency and suggested next step. This is for filing on time and not relying on one iPhone task circle per matter.</div>
+  </div>
+
+  <!-- ═══ FINANCE / PLUTUS ═══ -->
+  <div class="section-title" id="plutusFinance">💼 Finance / Plutus</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">MYOB / BAS</div><span class="card-status blue">Useful</span></div><div class="card-body">Bank feeds, reconciliation, BAS preparation support and flagged items for human review.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Dispute evidence</div><span class="card-status blue">On request</span></div><div class="card-body">Find payment/cancellation evidence for FamilyProperty, insurance and similar disputes.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Subscriptions</div><span class="card-status blue">Periodic</span></div><div class="card-body">Review recurring payments and tech subscriptions so unused tools can be cancelled.</div></div>
+  </div>
+
+  <!-- ═══ MARKETING / WEBSITES ═══ -->
+  <div class="section-title" id="marketingWebsites">🌐 Marketing & Websites</div>
+  <div class="status-grid" style="margin-bottom:1.5rem;">
+    <div class="glass status-card"><div class="card-header"><div class="card-title">JGMS website</div><span class="card-status green">Live</span></div><div class="card-body"><a href="https://mobilesolicitor.vercel.app" target="_blank">Open site ↗</a><br>Design is mostly settled; copy accuracy can still be refined.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Family Law Assist</div><span class="card-status yellow">Traffic</span></div><div class="card-body">High enquiry volume. Useful next step: common enquiry draft responses and follow-up tracking.</div></div>
+    <div class="glass status-card"><div class="card-header"><div class="card-title">Northern Territory</div><span class="card-status yellow">Later</span></div><div class="card-body">Future website/content plan for Territory work, reviews, reputation and referral-source tracking.</div></div>
   </div>
 
   <!-- ═══ ALL APPS & LINKS ═══ -->
@@ -1381,7 +1494,34 @@ a:hover{text-decoration:underline}
       .task-actions{display:flex;}
       .task-btn{min-width:32px;min-height:32px;font-size:.8rem;}
     }
-  </style>
+  
+/* Xena mobile overflow guard */
+html,body{max-width:100%;overflow-x:hidden}
+.container,.glass,.status-card,.link-card{min-width:0;max-width:100%}
+.status-grid{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.card-body{overflow-wrap:anywhere}
+@media(max-width:640px){
+  .timestamp{display:block;width:100%;white-space:normal;line-height:1.35}
+  .card-header{display:block}
+  .card-status{display:inline-block;margin-top:.4rem;max-width:100%}
+}
+
+@media(max-width:640px){
+  .container{padding-left:.75rem!important;padding-right:.75rem!important;overflow:visible}
+  .status-grid{display:block!important}
+  .status-card{display:block!important;width:100%!important;margin-bottom:.75rem;padding:1rem!important;overflow:visible!important}
+  .card-body{font-size:.9rem!important;line-height:1.55!important;white-space:normal!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+  .office{height:260px}
+  .agent-name{font-size:.68rem}
+  .agent-role{display:none}
+}
+
+@media(max-width:640px){
+  .status-card,.link-card,.glass{max-width:calc(100vw - 1.5rem)!important}
+  .status-card *,.link-card *{max-width:100%!important}
+  .card-body{width:100%!important;display:block!important}
+}
+</style>
 
   <script>
   // Kanban Task Board with localStorage persistence
@@ -2723,7 +2863,7 @@ function updateTime(){
     : 'Unavailable';
 
   document.getElementById('timestamp').innerHTML=
-    `Dashboard updated: <strong>${updatedText}</strong> · Live time: ${formatSydneyTime(now,{includeSeconds:true})}`;
+    `Updated: <strong>${updatedText}</strong><br>Live: ${formatSydneyTime(now,{includeSeconds:true})}`;
 }
 updateTime();setInterval(updateTime,1000);
 
