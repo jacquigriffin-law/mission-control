@@ -191,6 +191,32 @@ a:hover{text-decoration:underline}
 .gauto{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));gap:.55rem}
 @media(max-width:480px){.g2{grid-template-columns:1fr}}
 
+/* ── Health card grid ── */
+.health-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+  gap:.55rem;margin-bottom:.9rem;
+}
+.health-card{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:.75rem .85rem;
+}
+.health-card.red{border-left:3px solid var(--red)}
+.health-card.amber{border-left:3px solid var(--amber)}
+.health-card.green{border-left:3px solid var(--green)}
+.health-card.blue{border-left:3px solid var(--blue)}
+.hc-val{
+  font-family:var(--font-display);
+  font-size:1.35rem;font-weight:700;
+  color:var(--amber-text);line-height:1;
+  margin-bottom:.22rem;
+}
+.hc-val.placeholder{color:var(--text-3);font-size:1rem}
+.hc-label{font-size:.63rem;color:var(--text-3);line-height:1.35}
+.hc-sub{font-size:.61rem;color:var(--text-3);margin-top:.18rem;font-style:italic}
+
 /* ── Action link ── */
 .action-link{
   display:flex;align-items:center;justify-content:space-between;gap:.75rem;
@@ -330,6 +356,17 @@ a:hover{text-decoration:underline}
   margin-bottom:.7rem;line-height:1.55;
 }
 
+/* ── Rule note ── */
+.rule-note{
+  padding:.65rem .8rem;
+  background:rgba(61,111,140,.06);
+  border:1px solid rgba(61,111,140,.18);
+  border-left:3px solid var(--blue);
+  border-radius:var(--radius);
+  font-size:.77rem;color:var(--text-2);
+  margin-bottom:.7rem;line-height:1.55;
+}
+
 /* ── Divider ── */
 .div{border:none;border-top:1px solid var(--border);margin:.9rem 0}
 
@@ -341,6 +378,16 @@ a:hover{text-decoration:underline}
 .mem-entry:last-child{border-bottom:none}
 .mem-date{font-size:.68rem;color:var(--text-3);margin-bottom:.18rem}
 .mem-hl{font-weight:600;color:var(--text);margin-bottom:.22rem;line-height:1.35}
+
+/* ── Plutus prompt ── */
+.plutus-prompt{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.55rem .8rem;margin-top:.55rem;
+  background:rgba(201,146,46,.05);
+  border:1px dashed rgba(201,146,46,.22);
+  border-radius:6px;font-size:.75rem;color:var(--text-3);
+}
+.plutus-prompt strong{color:var(--amber-text)}
 
 /* ── Footer ── */
 .mc-footer{
@@ -365,119 +412,317 @@ a:hover{text-decoration:underline}
 <!-- ── Status strip ── -->
 <div class="status-strip">
   <div class="status-pill amber"><span class="sp-dot"></span>7 court items — action needed</div>
-  <div class="status-pill amber"><span class="sp-dot"></span>Themis queue open</div>
+  <div class="status-pill amber"><span class="sp-dot"></span>BAS — verify status</div>
   <div class="status-pill green"><span class="sp-dot"></span>LeadFlow live</div>
   <div class="status-pill green"><span class="sp-dot"></span>Crons running</div>
-  <div class="status-pill amber"><span class="sp-dot"></span>BAS — verify status</div>
+  <div class="status-pill amber"><span class="sp-dot"></span>$2K+ Legal Aid recovery pending</div>
 </div>
 
 <!-- ── Tab nav ── -->
 <nav class="tab-nav-wrap" aria-label="Dashboard tabs">
   <div class="tab-nav" role="tablist">
-    <button class="tab-btn" role="tab" data-panel="today"     aria-selected="true" >Today</button>
-    <button class="tab-btn" role="tab" data-panel="leads"     aria-selected="false">Leads &amp; Intake</button>
-    <button class="tab-btn" role="tab" data-panel="court"     aria-selected="false">Court Diary</button>
-    <button class="tab-btn" role="tab" data-panel="finance"   aria-selected="false">Finance</button>
-    <button class="tab-btn" role="tab" data-panel="docs"      aria-selected="false">Documents</button>
-    <button class="tab-btn" role="tab" data-panel="systems"   aria-selected="false">Systems</button>
-    <button class="tab-btn" role="tab" data-panel="reference" aria-selected="false">Reference</button>
+    <button class="tab-btn" role="tab" data-panel="today"      aria-selected="true" >Today</button>
+    <button class="tab-btn" role="tab" data-panel="money"      aria-selected="false">Money</button>
+    <button class="tab-btn" role="tab" data-panel="leads"      aria-selected="false">Leads</button>
+    <button class="tab-btn" role="tab" data-panel="court"      aria-selected="false">Court</button>
+    <button class="tab-btn" role="tab" data-panel="clientwork" aria-selected="false">Client Work</button>
+    <button class="tab-btn" role="tab" data-panel="tools"      aria-selected="false">Tools</button>
   </div>
 </nav>
 
 <main class="tab-panels">
 
   <!-- ══════════════════════════════════════
-       TAB 1 — TODAY / NEEDS JACQUI'S ATTENTION
+       TAB 1 — TODAY
+       Practice summary · what needs action today
        ══════════════════════════════════════ -->
   <section class="tab-panel active" id="panel-today" role="tabpanel">
 
-    <div class="sec-h">Today — What needs action <span class="sec-sub">Message Xena for live status</span></div>
+    <div class="sec-h">Today <span class="sec-sub">Last known state — message Xena for live update</span></div>
 
-    <div class="note">This panel shows the <strong>last known state</strong> from automated scans. For a live update, message Xena: <em>Run daily brief</em> or <em>Run Themis now</em>.</div>
-
-    <div class="sec-h" style="margin-top:.2rem;">Quick access <span class="sec-sub">Laptop · opens new tab</span></div>
-
-    <a href="https://to-do.office.com" target="_blank" rel="noopener" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">✅ Open Microsoft To Do</div>
-        <div class="al-sub">to-do.office.com · tasks &amp; Themis review queue</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
-    <a href="https://outlook.office.com/calendar" target="_blank" rel="noopener" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">📅 Open Outlook Calendar</div>
-        <div class="al-sub">outlook.office.com/calendar · diary &amp; court dates</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
+    <div class="g2" style="margin-bottom:.65rem;">
+      <a href="https://to-do.office.com" target="_blank" rel="noopener" class="action-link" style="margin-bottom:0;">
+        <div class="al-copy">
+          <div class="al-label">✅ Microsoft To Do</div>
+          <div class="al-sub">to-do.office.com</div>
+        </div>
+        <span class="al-arr">↗</span>
+      </a>
+      <a href="https://outlook.office.com/calendar" target="_blank" rel="noopener" class="action-link" style="margin-bottom:0;">
+        <div class="al-copy">
+          <div class="al-label">📅 Outlook Calendar</div>
+          <div class="al-sub">outlook.office.com/calendar</div>
+        </div>
+        <span class="al-arr">↗</span>
+      </a>
+    </div>
 
     <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Court &amp; deadlines <span class="sec-sub">Themis · Fri 1 May, 3:30am scan</span></div>
 
     <div class="card lr">
       <div class="card-row">
         <div class="card-title">⚖️ Court diary risks</div>
-        <span class="badge amber">7 items in queue</span>
+        <span class="badge red">7 items</span>
       </div>
       <div class="card-body">
-        Six matters have <strong>no future court date</strong> in Exchange. One Children's Court list match. Sealey and Bedford confirmed as false positives and removed.<br>
-        <em>Last Themis scan: Fri 1 May, 3:30am Sydney.</em>
+        Six matters have <strong>no future court date</strong> in Exchange. One Children's Court list match. Sealey and Bedford confirmed false positives and removed.<br>
+        Task list: <strong>Themis Review Queue</strong> in Microsoft To Do.
       </div>
       <div style="margin-top:.65rem;font-size:.79rem;color:var(--amber-text);">→ Message Xena: <strong>Run Themis now</strong></div>
     </div>
+
+    <div class="card lb">
+      <div class="card-row">
+        <div class="card-title">📋 Deadline Radar</div>
+        <span class="badge blue">Check To Do</span>
+      </div>
+      <div class="card-body">Upcoming filing and limitation deadlines. Review <strong>Deadline Radar</strong> list in Microsoft To Do. Completed items are copied to LEAP matter chronology.</div>
+    </div>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Client work today</div>
+
+    <div class="card la">
+      <div class="card-row">
+        <div class="card-title">✅ Client Tasks due</div>
+        <span class="badge amber">Check To Do</span>
+      </div>
+      <div class="card-body">Review <strong>Client Tasks</strong> list in Microsoft To Do for items due today or overdue. Completed tasks are added to the LEAP matter chronology.</div>
+    </div>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Leads <span class="sec-sub">LeadFlow · highest-conversion: SMS</span></div>
 
     <div class="card la">
       <div class="card-row">
         <div class="card-title">📱 Leads needing response</div>
         <span class="badge amber">Check LeadFlow</span>
       </div>
-      <div class="card-body">SMS leads are highest-conversion — check before warm leads go cold. Legal Aid, Finchly, LawConnect and Facebook referrals may need same-day action.</div>
+      <div class="card-body">SMS, Legal Aid, Finchly, LawConnect and Facebook referrals. Same-day action for hot leads.</div>
       <div style="margin-top:.65rem"><a href="https://leads-tracker-eta.vercel.app" target="_blank" style="font-size:.79rem;font-weight:700;">→ Open LeadFlow ↗</a></div>
     </div>
 
-    <div class="card la">
-      <div class="card-row">
-        <div class="card-title">📧 Emails needing Jacqui</div>
-        <span class="badge n">3 inboxes + SMS</span>
-      </div>
-      <div class="card-body">Items requiring your judgement, urgent client response, Legal Aid action or court-risk review. JGMS, Family Law Assist, NT Rural/Remote and SMS forwards.</div>
-    </div>
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Finance red flags</div>
 
-    <div class="card la">
+    <div class="card lr">
       <div class="card-row">
-        <div class="card-title">🔁 Follow-ups due</div>
-        <span class="badge n">Don't lose them</span>
+        <div class="card-title">💰 Money alerts</div>
+        <span class="badge amber">Action needed</span>
       </div>
-      <div class="card-body">Prospective clients, documents requested, Legal Aid outcomes and matters waiting on a reply. Check LeadFlow pipeline for stale items.</div>
-    </div>
-
-    <div class="card lb">
-      <div class="card-row">
-        <div class="card-title">💼 Finance / compliance</div>
-        <span class="badge blue">Watch</span>
+      <div class="card-body">
+        <strong>BAS:</strong> Q3 FY2026 — verify current status with Xena or Plutus.<br>
+        <strong>Legal Aid:</strong> $2K+ in unclaimed duty day payments — ask Plutus to run recovery plan.<br>
+        <strong>Trust:</strong> March 2026 reconciliation — confirm completion with MYOB.
       </div>
-      <div class="card-body">BAS, trust, billing, practising/admin deadlines and unpaid items. See Finance tab for detail.</div>
+      <div style="margin-top:.65rem;font-size:.79rem;color:var(--amber-text);">→ See Money tab for full detail</div>
     </div>
 
     <hr class="div">
-
-    <div class="sec-h" style="margin-top:.2rem;">Diary — next appointments <span class="sec-sub">From Microsoft 365</span></div>
+    <div class="sec-h" style="margin-top:.2rem;">Diary — today &amp; upcoming <span class="sec-sub">From Microsoft 365</span></div>
     <div id="today-cal"></div>
     <div id="upcoming-cal"></div>
 
   </section>
 
   <!-- ══════════════════════════════════════
-       TAB 2 — LEADS & INTAKE
+       TAB 2 — MONEY
+       Practice finance cockpit · Plutus
+       ══════════════════════════════════════ -->
+  <section class="tab-panel" id="panel-money" role="tabpanel">
+
+    <div class="sec-h">Money <span class="sec-sub">Practice finance cockpit · Plutus</span></div>
+
+    <!-- Practice health cards -->
+    <div class="sec-h" style="font-size:.85rem;margin-top:.2rem;">Practice health <span class="sec-sub">Placeholders — connect via MYOB</span></div>
+
+    <div class="health-grid">
+      <div class="health-card blue">
+        <div class="hc-val placeholder">— · —</div>
+        <div class="hc-label">Cash at bank</div>
+        <div class="hc-sub">Needs MYOB export</div>
+      </div>
+      <div class="health-card amber">
+        <div class="hc-val placeholder">— · —</div>
+        <div class="hc-label">Monthly revenue<br>target vs actual</div>
+        <div class="hc-sub">Not yet connected</div>
+      </div>
+      <div class="health-card red">
+        <div class="hc-val placeholder">— · —</div>
+        <div class="hc-label">Invoices issued<br>&amp; unpaid</div>
+        <div class="hc-sub">Run Plutus invoice scan</div>
+      </div>
+      <div class="health-card amber">
+        <div class="hc-val placeholder">— · —</div>
+        <div class="hc-label">Invoices to pay<br>(creditors)</div>
+        <div class="hc-sub">Review in MYOB</div>
+      </div>
+    </div>
+
+    <div class="plutus-prompt">
+      💼 <span>Ask Plutus: <strong>Run practice health summary</strong> — pulls MYOB export data into each card above.</span>
+    </div>
+
+    <div id="finance-metrics" style="margin-top:.9rem;"></div>
+
+    <hr class="div">
+
+    <!-- Legal Aid & duty day recovery -->
+    <div class="sec-h" style="margin-top:.2rem;">Legal Aid &amp; duty day recovery <span class="sec-sub">$2K+ potential</span></div>
+
+    <div class="card lr">
+      <div class="card-row">
+        <div class="card-title">📋 Legal Aid claims pending</div>
+        <span class="badge red">Action needed</span>
+      </div>
+      <div class="card-body">
+        $1,075 in unclaimed Legal Aid payments identified. 4 × $275 = $1,100 in claims outstanding.<br>
+        <strong>5 unbilled duty days</strong> across Jan–Mar 2026 remain unrecovered.
+      </div>
+      <div class="plutus-prompt" style="margin-top:.55rem;">
+        💼 <span>Ask Plutus: <strong>Run NT Legal Aid recovery plan</strong></span>
+      </div>
+    </div>
+
+    <div class="card la">
+      <div class="card-row">
+        <div class="card-title">⚖️ Duty day billing recovery</div>
+        <span class="badge amber">5 days unbilled</span>
+      </div>
+      <div class="card-body">Jan–Mar 2026: 5 duty days identified with no corresponding billing entry in MYOB. Each duty day = $275 minimum. Review attendance records and raise invoices.</div>
+    </div>
+
+    <hr class="div">
+
+    <!-- Compliance -->
+    <div class="sec-h" style="margin-top:.2rem;">Compliance &amp; reporting</div>
+
+    <div class="card la">
+      <div class="card-row"><div class="card-title">📊 BAS / GST status</div><span class="badge amber">Verify now</span></div>
+      <div class="card-body">
+        Q3 FY2026 (Jan–Mar 2026) BAS source pack manifest created. Past deadline was 28 April 2026.<br>
+        Confirm current lodgement status with ATO or Plutus before taking further action.
+      </div>
+      <div class="plutus-prompt" style="margin-top:.55rem;">
+        💼 <span>Ask Plutus: <strong>What is the current BAS status?</strong></span>
+      </div>
+    </div>
+
+    <div class="card lb">
+      <div class="card-row"><div class="card-title">🏦 Trust reconciliation</div><span class="badge blue">Monthly</span></div>
+      <div class="card-body">
+        March 2026 trust source pack manifest created: bank statement, ledger, liability summary, receipts, payments, exceptions log.<br>
+        Confirm completion with MYOB. Next: April 2026 reconciliation due.
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <!-- Outgoings -->
+    <div class="sec-h" style="margin-top:.2rem;">Outgoings &amp; leakage</div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-title">💸 Direct debits &amp; subscriptions</div><span class="badge amber">Review due</span></div>
+      <div class="card-body">Recurring payments review: cancel unused tools and reduce tech spend. Subscription audit triage document exists in workspace output. Identify money leakage — tools not actively used.</div>
+      <div class="plutus-prompt" style="margin-top:.55rem;">
+        💼 <span>Ask Plutus: <strong>Run subscription audit</strong></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-title">📤 MYOB / export status</div><span class="badge n">Partial access</span></div>
+      <div class="card-body">MYOB access is manual export only — BAS and billing automation require a MYOB export file. Provide export file to Plutus to run full analysis.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-title">🔍 Money leakage alerts</div><span class="badge n">On request</span></div>
+      <div class="card-body">Spot double-billing, duplicate subscriptions, cancelled-but-still-charging services, or unusual payment patterns. Ask Plutus to review bank export.</div>
+      <div class="plutus-prompt" style="margin-top:.55rem;">
+        💼 <span>Ask Plutus: <strong>Find money leakage in last 90 days</strong></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-title">📁 Dispute evidence</div><span class="badge n">On request</span></div>
+      <div class="card-body">Find payment/cancellation evidence for FamilyProperty, insurance and similar disputes. Ask Plutus.</div>
+    </div>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">AI system costs <span class="sec-sub">From cost-data.js</span></div>
+    <div id="cost-agents"></div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       TAB 3 — LEADS
+       LeadFlow · Hermes
        ══════════════════════════════════════ -->
   <section class="tab-panel" id="panel-leads" role="tabpanel">
 
-    <div class="sec-h">Leads &amp; Intake <span class="sec-sub">Hermes · LeadFlow</span></div>
+    <div class="sec-h">Leads <span class="sec-sub">LeadFlow · Hermes</span></div>
 
     <a href="https://leads-tracker-eta.vercel.app" target="_blank" class="action-link">
       <div class="al-copy">
         <div class="al-label">📋 LeadFlow — live app</div>
         <div class="al-sub">leads-tracker-eta.vercel.app · auto-updating</div>
+      </div>
+      <span class="al-arr">↗</span>
+    </a>
+
+    <hr class="div">
+
+    <!-- Status cards: counts as placeholders -->
+    <div class="g2" style="margin-bottom:.65rem;">
+      <div class="health-card red">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Urgent leads<br>needing same-day response</div>
+        <div class="hc-sub">Open LeadFlow to check</div>
+      </div>
+      <div class="health-card amber">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Follow-up queue<br>awaiting response</div>
+        <div class="hc-sub">SMS, email, calls</div>
+      </div>
+      <div class="health-card blue">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Ready to open<br>in LEAP</div>
+        <div class="hc-sub">Conflict check done</div>
+      </div>
+      <div class="health-card">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Stale leads<br>gone cold (&gt;7 days)</div>
+        <div class="hc-sub">Review &amp; close or re-engage</div>
+      </div>
+    </div>
+
+    <div class="card lr">
+      <div class="card-row"><div class="card-title">🔥 Urgent — respond today</div><span class="badge red">Highest priority</span></div>
+      <div class="card-body">SMS leads are highest-conversion. Same-day action required for Legal Aid, Finchly, LawConnect, website, Facebook/group referrals.</div>
+      <div style="margin-top:.65rem"><a href="https://leads-tracker-eta.vercel.app" target="_blank" style="font-size:.79rem;font-weight:700;">→ Open LeadFlow ↗</a></div>
+    </div>
+
+    <div class="card la">
+      <div class="card-row"><div class="card-title">🔁 Follow-up queue</div><span class="badge amber">Nurture</span></div>
+      <div class="card-body">Replied leads, documents sent, awaiting another call. Check LeadFlow pipeline daily — warm leads go cold fast.</div>
+    </div>
+
+    <div class="card lb">
+      <div class="card-row"><div class="card-title">📁 Ready to open in LEAP</div><span class="badge blue">Next step</span></div>
+      <div class="card-body">Conflict check complete and retainer confirmed. Move to LEAP file opening — do not let these sit.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-row"><div class="card-title">🧊 Stale leads</div><span class="badge n">Review</span></div>
+      <div class="card-body">Leads with no activity in 7+ days. Close, re-engage or refer elsewhere. Do not let pipeline bloat mask real numbers.</div>
+    </div>
+
+    <hr class="div">
+
+    <a href="../output/leadflow-14-day-capture-audit.md" target="_blank" class="action-link">
+      <div class="al-copy">
+        <div class="al-label">🔎 14-day capture audit</div>
+        <div class="al-sub">output/leadflow-14-day-capture-audit.md</div>
       </div>
       <span class="al-arr">↗</span>
     </a>
@@ -490,324 +735,202 @@ a:hover{text-decoration:underline}
       <span class="al-arr">↗</span>
     </a>
 
-    <a href="../output/leadflow-14-day-capture-audit.md" target="_blank" class="action-link">
+  </section>
+
+  <!-- ══════════════════════════════════════
+       TAB 4 — COURT
+       Summary only · tasks stay in To Do
+       ══════════════════════════════════════ -->
+  <section class="tab-panel" id="panel-court" role="tabpanel">
+
+    <div class="sec-h">Court <span class="sec-sub">Themis · summary only — tasks in To Do</span></div>
+
+    <!-- Summary counts -->
+    <div class="health-grid" style="margin-bottom:.9rem;">
+      <div class="health-card red">
+        <div class="hc-val">7</div>
+        <div class="hc-label">Court diary risks<br>(Themis queue)</div>
+        <div class="hc-sub">Fri 1 May, 3:30am scan</div>
+      </div>
+      <div class="health-card blue">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Deadline Radar<br>items outstanding</div>
+        <div class="hc-sub">Check To Do</div>
+      </div>
+      <div class="health-card amber">
+        <div class="hc-val">6</div>
+        <div class="hc-label">Matters with<br>no future date</div>
+        <div class="hc-sub">In Exchange</div>
+      </div>
+      <div class="health-card">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Tomorrow<br>court dates</div>
+        <div class="hc-sub">Check Outlook Calendar</div>
+      </div>
+    </div>
+
+    <div class="note">
+      Actual task handling stays in <strong>Microsoft To Do → Themis Review Queue</strong>. This tab is a summary view only — check To Do to action items.
+    </div>
+
+    <a href="https://to-do.office.com" target="_blank" rel="noopener" class="action-link">
       <div class="al-copy">
-        <div class="al-label">🔎 14-day capture audit</div>
-        <div class="al-sub">Local file · review lead source coverage</div>
+        <div class="al-label">✅ Open Microsoft To Do — Themis Review Queue</div>
+        <div class="al-sub">to-do.office.com · action court items here</div>
       </div>
       <span class="al-arr">↗</span>
     </a>
 
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Pipeline stages</div>
-
-    <div class="card lg">
-      <div class="card-row"><div class="card-title">New leads</div><span class="badge green">Capture</span></div>
-      <div class="card-body">Legal Aid, Finchly, LawConnect, website, SMS, Facebook/group referrals and direct email. Same-day action required for hot leads.</div>
-    </div>
-    <div class="card la">
-      <div class="card-row"><div class="card-title">Prospective client follow-up</div><span class="badge amber">Nurture</span></div>
-      <div class="card-body">Replied, sent documents, need another call or becoming clients but not yet in LEAP.</div>
-    </div>
-    <div class="card lb">
-      <div class="card-row"><div class="card-title">Ready to open in LEAP</div><span class="badge blue">Next step</span></div>
-      <div class="card-body">Reviewed and ready for conflict check / retainer / LEAP file opening.</div>
-    </div>
-    <div class="card">
-      <div class="card-row"><div class="card-title">Closed / declined</div><span class="badge n">Archive</span></div>
-      <div class="card-body">No capacity, out of area, no response, referred elsewhere or not a suitable matter.</div>
-    </div>
-
-    <div class="note" style="margin-top:.75rem;">
-      <strong>Next improvement:</strong> Add unmatched-reply tracking so SMS/email replies from prospective clients are linked to a LeadFlow record or flagged for manual add.
-    </div>
-
-  </section>
-
-  <!-- ══════════════════════════════════════
-       TAB 3 — COURT DIARY & DEADLINES
-       ══════════════════════════════════════ -->
-  <section class="tab-panel" id="panel-court" role="tabpanel">
-
-    <div class="sec-h">Court Diary &amp; Deadlines <span class="sec-sub">Themis · 5pm alert live</span></div>
-
-    <div class="card la">
-      <div class="card-row">
-        <div class="card-title">Themis review queue</div>
-        <span class="badge amber">7 actionable items</span>
+    <a href="https://outlook.office.com/calendar" target="_blank" rel="noopener" class="action-link">
+      <div class="al-copy">
+        <div class="al-label">📅 Outlook Calendar — check tomorrow's dates</div>
+        <div class="al-sub">outlook.office.com/calendar</div>
       </div>
-      <div class="card-body">
-        <strong>Last scan:</strong> Fri 1 May, 3:30am Sydney.<br>
-        Six matters flagged <em>no future court date</em> in Exchange. One Children's Court list match. Sealey and Bedford confirmed false positives and removed.<br>
-        Matter names held in Microsoft To Do list <strong>Themis Review Queue</strong>, not on this public dashboard.
-      </div>
-      <div style="margin-top:.65rem;font-size:.79rem;color:var(--amber-text);">→ Message Xena: <strong>Run Themis now</strong></div>
-    </div>
-
-    <div class="g2">
-      <div class="card">
-        <div class="card-row"><div class="card-title">No future date</div><span class="badge amber">6 matters</span></div>
-        <div class="card-body">Matters with no next court date in Exchange. Search emails and attachments for agent outcomes.</div>
-      </div>
-      <div class="card">
-        <div class="card-row"><div class="card-title">Court-list noise</div><span class="badge amber">Needs triage</span></div>
-        <div class="card-body">Children's Court list findings may be unmatched-line warnings. Treat as prompts to review, not confirmed diary failures.</div>
-      </div>
-      <div class="card">
-        <div class="card-row"><div class="card-title">Changed dates</div><span class="badge amber">Priority 1</span></div>
-        <div class="card-body">Adjournment/change emails → propose new date and mark old entry "admin adjourned".</div>
-      </div>
-      <div class="card">
-        <div class="card-row"><div class="card-title">Double-booked / no agent</div><span class="badge amber">Priority 1</span></div>
-        <div class="card-body">Two matters clashing with no agent recorded → alert before it becomes a court problem.</div>
-      </div>
-    </div>
+      <span class="al-arr">↗</span>
+    </a>
 
     <hr class="div">
     <div class="sec-h" style="margin-top:.2rem;">Upcoming diary <span class="sec-sub">From Microsoft 365</span></div>
     <div id="court-cal"></div>
 
-    <div class="note" style="margin-top:.75rem;">
-      Scheduled 5:00pm Sydney alert summarises diary risks only — it does not change Exchange automatically.
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Themis detail</div>
+
+    <div class="card la">
+      <div class="card-row">
+        <div class="card-title">No future court date — 6 matters</div>
+        <span class="badge amber">Search emails</span>
+      </div>
+      <div class="card-body">Matters with no next court date in Exchange. Search emails and attachments for adjournment outcomes. Matter names in Themis Review Queue (To Do — not on this dashboard).</div>
     </div>
+
+    <div class="card">
+      <div class="card-row">
+        <div class="card-title">Court-list noise</div>
+        <span class="badge n">Triage</span>
+      </div>
+      <div class="card-body">Children's Court list findings may be unmatched-line warnings. Treat as prompts to review, not confirmed diary failures.</div>
+    </div>
+
+    <div style="margin-top:.65rem;font-size:.79rem;color:var(--amber-text);padding:.1rem 0;">→ Message Xena: <strong>Run Themis now</strong> for a fresh scan.</div>
 
   </section>
 
   <!-- ══════════════════════════════════════
-       TAB 4 — FINANCE / PLUTUS
+       TAB 5 — CLIENT WORK
+       Tasks · Chronology · LEAP
        ══════════════════════════════════════ -->
-  <section class="tab-panel" id="panel-finance" role="tabpanel">
+  <section class="tab-panel" id="panel-clientwork" role="tabpanel">
 
-    <div class="sec-h">Finance / Plutus <span class="sec-sub">BAS · MYOB · Trust · Subscriptions</span></div>
+    <div class="sec-h">Client Work <span class="sec-sub">Tasks · Chronology · LEAP</span></div>
 
-    <div id="finance-metrics"></div>
+    <div class="rule-note">
+      <strong>Standing rule:</strong> when a Client Task or Deadline Radar item is completed, the outcome is added to the <strong>LEAP matter chronology</strong> for that file. This keeps the matter record complete without a separate step.
+    </div>
+
+    <a href="https://to-do.office.com" target="_blank" rel="noopener" class="action-link">
+      <div class="al-copy">
+        <div class="al-label">✅ Microsoft To Do — Client Tasks</div>
+        <div class="al-sub">to-do.office.com · manage tasks per matter here</div>
+      </div>
+      <span class="al-arr">↗</span>
+    </a>
+
+    <hr class="div">
+
+    <!-- Client tasks summary -->
+    <div class="sec-h" style="margin-top:.2rem;">Client task status</div>
+
+    <div class="health-grid" style="margin-bottom:.9rem;">
+      <div class="health-card red">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Overdue client<br>follow-ups</div>
+        <div class="hc-sub">Check To Do now</div>
+      </div>
+      <div class="health-card amber">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Client Tasks<br>due this week</div>
+        <div class="hc-sub">From To Do</div>
+      </div>
+      <div class="health-card blue">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Deadline Radar<br>items active</div>
+        <div class="hc-sub">Filing &amp; limitation dates</div>
+      </div>
+      <div class="health-card">
+        <div class="hc-val placeholder">—</div>
+        <div class="hc-label">Matters awaiting<br>client response</div>
+        <div class="hc-sub">Documents, calls pending</div>
+      </div>
+    </div>
+
+    <div class="card lr">
+      <div class="card-row">
+        <div class="card-title">⏰ Overdue client follow-ups</div>
+        <span class="badge red">Check now</span>
+      </div>
+      <div class="card-body">Client Tasks with a due date in the past and not yet marked complete. Review in Microsoft To Do. Each completed follow-up should be noted in the LEAP matter chronology.</div>
+      <div style="margin-top:.65rem"><a href="https://to-do.office.com" target="_blank" style="font-size:.79rem;font-weight:700;">→ Open To Do ↗</a></div>
+    </div>
 
     <div class="card la">
-      <div class="card-row"><div class="card-title">BAS / ATO</div><span class="badge amber">Verify status</span></div>
-      <div class="card-body">Q3 FY2026 (Jan–Mar 2026) BAS source pack manifest created. Confirm period and due date with Plutus/MYOB exports before lodging. Past BAS deadline was 28 April — verify current status with Xena.</div>
+      <div class="card-row">
+        <div class="card-title">📋 Tasks / matter chronology</div>
+        <span class="badge amber">Rule active</span>
+      </div>
+      <div class="card-body">
+        Client Tasks in Microsoft To Do represent per-matter actions. When completed:<br>
+        1. Mark done in To Do.<br>
+        2. Add outcome note to LEAP matter chronology (date, action, result).<br>
+        This replaces the need to maintain a separate task log in LEAP.
+      </div>
     </div>
 
     <div class="card lb">
-      <div class="card-row"><div class="card-title">Trust reconciliation</div><span class="badge blue">Monthly</span></div>
-      <div class="card-body">March 2026 trust source pack manifest created (bank statement, ledger, liability summary, receipts, payments, exceptions log). Confirm completion with MYOB.</div>
-    </div>
-
-    <div class="card lb">
-      <div class="card-row"><div class="card-title">NT Legal Aid recovery</div><span class="badge blue">$2K+ potential</span></div>
-      <div class="card-body">5 unbilled duty days across Jan–Mar 2026. $1,075 in unclaimed legal aid payments. 4 × $275 = $1,100 in claims. Ask Plutus: <em>Run NT Legal Aid recovery plan</em>.</div>
-    </div>
-
-    <div class="card">
-      <div class="card-row"><div class="card-title">Subscriptions review</div><span class="badge n">Periodic</span></div>
-      <div class="card-body">Review recurring payments and tech subscriptions to cancel unused tools. Subscription audit triage document exists in workspace output.</div>
-    </div>
-
-    <div class="card">
-      <div class="card-row"><div class="card-title">Dispute evidence</div><span class="badge n">On request</span></div>
-      <div class="card-body">Find payment/cancellation evidence for FamilyProperty, insurance and similar disputes. Ask Plutus.</div>
+      <div class="card-row">
+        <div class="card-title">📅 Deadline Radar outcomes → LEAP</div>
+        <span class="badge blue">Rule active</span>
+      </div>
+      <div class="card-body">When Deadline Radar items are cleared (filing done, limitation noted, hearing confirmed), the outcome is added to LEAP chronology. Xena or Gabrielle can action this.</div>
     </div>
 
     <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">AI system costs <span class="sec-sub">From cost-data.js</span></div>
-    <div id="cost-agents"></div>
-
-  </section>
-
-  <!-- ══════════════════════════════════════
-       TAB 5 — DOCUMENTS & DRAFTS
-       ══════════════════════════════════════ -->
-  <section class="tab-panel" id="panel-docs" role="tabpanel">
-
-    <div class="sec-h">Documents &amp; Drafts <span class="sec-sub">Hephaestus</span></div>
-
-    <div class="note">Hephaestus handles court material, filing packs, chronologies, templates and draft-first correspondence. Route via Xena or ask Hephaestus directly in Telegram.</div>
+    <div class="sec-h" style="margin-top:.2rem;">Document production <span class="sec-sub">Hephaestus</span></div>
 
     <div class="card">
-      <div class="card-row"><div class="card-title">What Hephaestus can produce</div></div>
+      <div class="card-row"><div class="card-title">📄 What Hephaestus can produce</div></div>
       <ul class="item-list" style="margin-top:.5rem;">
         <li>Court books and affidavits</li>
         <li>Filing packs — Children's Court, Family Court, NCAT</li>
-        <li>Chronologies (matter timeline from emails and documents)</li>
+        <li>Matter chronologies (timeline from emails and documents)</li>
         <li>Template letters and court correspondence</li>
         <li>Draft-first correspondence (Jacqui reviews before sending)</li>
         <li>Conflict check evidence packs</li>
       </ul>
-    </div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Output files</div>
-
-    <a href="../output/leadflow-14-day-capture-audit.md" target="_blank" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">🔎 LeadFlow 14-day capture audit</div>
-        <div class="al-sub">output/leadflow-14-day-capture-audit.md</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
-
-    <a href="../output/morning-brief.md" target="_blank" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">🌅 Morning brief (last run)</div>
-        <div class="al-sub">output/morning-brief.md</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
-
-    <a href="../output/openclaw-seven-agent-review-jacqui-comments.html" target="_blank" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">📄 Seven-agent review with Jacqui's comments</div>
-        <div class="al-sub">output/openclaw-seven-agent-review-jacqui-comments.html</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
-
-    <a href="xena-system-overview.html" target="_blank" class="action-link">
-      <div class="al-copy">
-        <div class="al-label">⚙️ Xena system overview</div>
-        <div class="al-sub">mission-control/xena-system-overview.html</div>
-      </div>
-      <span class="al-arr">↗</span>
-    </a>
-
-  </section>
-
-  <!-- ══════════════════════════════════════
-       TAB 6 — SYSTEMS & BLOCKERS
-       ══════════════════════════════════════ -->
-  <section class="tab-panel" id="panel-systems" role="tabpanel">
-
-    <div class="sec-h">Agents <span class="sec-sub">7 agents — one summary</span></div>
-
-    <div class="agent-grid">
-      <div class="agent-card">
-        <div class="agent-name">⚔️ Xena</div>
-        <div class="agent-role">Orchestrator · daily command, routing, decisions</div>
-        <span class="agent-st green">Active</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">📋 Hermes</div>
-        <div class="agent-role">Intake · leads, inbox, SMS, follow-up</div>
-        <span class="agent-st green">Active</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">⚖️ Themis</div>
-        <div class="agent-role">Court diary · dates, risks, no-future-date</div>
-        <span class="agent-st amber">Queue: 7</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">🛡️ Ares</div>
-        <div class="agent-role">Conflicts · compliance logging, LEAP confirmation</div>
-        <span class="agent-st blue">On request</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">📄 Hephaestus</div>
-        <div class="agent-role">Documents · court material, filing packs, drafts</div>
-        <span class="agent-st blue">On request</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">💼 Plutus</div>
-        <div class="agent-role">Finance · BAS, MYOB, trust, subscriptions</div>
-        <span class="agent-st amber">BAS pending</span>
-      </div>
-      <div class="agent-card">
-        <div class="agent-name">✅ Gabrielle</div>
-        <div class="agent-role">Support · tasks, admin, travel, reminders</div>
-        <span class="agent-st green">Active</span>
-      </div>
-    </div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Active blockers</div>
-
-    <div class="blocker">
-      <i class="blocker-icon">⚠</i>
-      <div><strong>MYOB access</strong> — BAS automation needs MYOB export access to run fully. Manual export → Plutus will process.</div>
-    </div>
-    <div class="blocker">
-      <i class="blocker-icon">⚠</i>
-      <div><strong>LEAP conflict tools</strong> — Jacqui is reviewing LEAP's newer CRM/conflict tools before building a separate system. Marked pending.</div>
-    </div>
-    <div class="blocker">
-      <i class="blocker-icon">⚠</i>
-      <div><strong>Themis in Mission Control</strong> — Themis results currently delivered via Telegram only. Mission Control is not yet a live approve/dismiss task board.</div>
-    </div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Cron jobs <span class="sec-sub">Configured schedules — verify in logs</span></div>
-
-    <div class="card">
-      <div class="cron-row"><span class="cron-name">🌅 Morning brief</span><span class="cron-time">7:00 AM daily</span></div>
-      <div class="cron-row"><span class="cron-name">📧 Email triage</span><span class="cron-time">8:00 AM + 2:00 PM</span></div>
-      <div class="cron-row"><span class="cron-name">⚖️ Court date monitor</span><span class="cron-time">9:00 AM daily</span></div>
-      <div class="cron-row"><span class="cron-name">🔍 Leads monitoring</span><span class="cron-time">8:00 AM + 1:00 PM</span></div>
-      <div class="cron-row"><span class="cron-name">📊 Daily leads update</span><span class="cron-time">5:00 PM daily</span></div>
-      <div class="cron-row"><span class="cron-name">🏢 Business progress task</span><span class="cron-time">4:00 AM daily</span></div>
-      <div class="cron-row"><span class="cron-name">🎁 Daily useful surprise</span><span class="cron-time">6:00 AM daily</span></div>
-      <div class="cron-row"><span class="cron-name">💰 BAS deadline reminder</span><span class="cron-time">Before deadlines</span></div>
-      <div class="cron-row"><span class="cron-name">📋 Weekly practice review</span><span class="cron-time">Weekly</span></div>
-      <div class="cron-row"><span class="cron-name">🔄 System health check</span><span class="cron-time">Weekly</span></div>
-    </div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Integrations</div>
-
-    <div class="card lg">
-      <div style="font-weight:700;font-size:.82rem;color:var(--text);margin-bottom:.55rem;">Connected</div>
-      <ul class="item-list">
-        <li><span style="color:var(--green-text)">●</span> Telegram — messaging and alerts</li>
-        <li><span style="color:var(--green-text)">●</span> Microsoft 365 — email, calendar, tasks</li>
-        <li><span style="color:var(--green-text)">●</span> GitHub — code repositories</li>
-        <li><span style="color:var(--green-text)">●</span> Vercel — hosting and deployments</li>
-        <li><span style="color:var(--green-text)">●</span> Browser automation</li>
-        <li><span style="color:var(--green-text)">●</span> ElevenLabs — professional voice clone</li>
-      </ul>
-    </div>
-
-    <div class="card" style="margin-top:.45rem;">
-      <div style="font-weight:700;font-size:.82rem;color:var(--text);margin-bottom:.55rem;">Available / limited</div>
-      <ul class="item-list">
-        <li><span style="color:var(--red-text)">●</span> MYOB — needs manual export access</li>
-        <li><span style="color:var(--amber-text)">●</span> LEAP — practice management (via Zapier; reviewing native tools)</li>
-      </ul>
-    </div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Build stats</div>
-    <div class="metric-row">
-      <div class="metric"><div class="metric-val">7</div><div class="metric-label">AI agents</div></div>
-      <div class="metric"><div class="metric-val">41</div><div class="metric-label">Scripts</div></div>
-      <div class="metric"><div class="metric-val">9</div><div class="metric-label">Skills</div></div>
-      <div class="metric"><div class="metric-val">24/7</div><div class="metric-label">Uptime</div></div>
+      <div style="margin-top:.65rem;font-size:.79rem;color:var(--amber-text);">→ Message Xena or ask Hephaestus directly in Telegram.</div>
     </div>
 
   </section>
 
   <!-- ══════════════════════════════════════
-       TAB 7 — REFERENCE LINKS
+       TAB 6 — TOOLS
+       Links · Reference · Systems
        ══════════════════════════════════════ -->
-  <section class="tab-panel" id="panel-reference" role="tabpanel">
+  <section class="tab-panel" id="panel-tools" role="tabpanel">
 
-    <div class="sec-h">Main apps</div>
+    <div class="sec-h">Tools <span class="sec-sub">Apps · Reports · System overview</span></div>
 
+    <!-- Main apps -->
     <a href="https://to-do.office.com" target="_blank" rel="noopener" class="action-link">
-      <div class="al-copy"><div class="al-label">✅ Open Microsoft To Do</div><div class="al-sub">to-do.office.com</div></div>
+      <div class="al-copy"><div class="al-label">✅ Microsoft To Do</div><div class="al-sub">to-do.office.com · tasks and review queues</div></div>
       <span class="al-arr">↗</span>
     </a>
     <a href="https://outlook.office.com/calendar" target="_blank" rel="noopener" class="action-link">
-      <div class="al-copy"><div class="al-label">📅 Open Outlook Calendar</div><div class="al-sub">outlook.office.com/calendar</div></div>
+      <div class="al-copy"><div class="al-label">📅 Outlook Calendar</div><div class="al-sub">outlook.office.com/calendar · diary and court dates</div></div>
       <span class="al-arr">↗</span>
     </a>
-
     <a href="https://leads-tracker-eta.vercel.app" target="_blank" class="action-link">
       <div class="al-copy"><div class="al-label">📋 LeadFlow — live app</div><div class="al-sub">leads-tracker-eta.vercel.app</div></div>
-      <span class="al-arr">↗</span>
-    </a>
-    <a href="https://leads-tracker-demo.vercel.app" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🧪 LeadFlow — demo-safe</div><div class="al-sub">leads-tracker-demo.vercel.app · snapshot 21 Apr 2026</div></div>
-      <span class="al-arr">↗</span>
-    </a>
-    <a href="https://mission-control-rho-amber.vercel.app" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🎛️ Mission Control — live</div><div class="al-sub">mission-control-rho-amber.vercel.app</div></div>
       <span class="al-arr">↗</span>
     </a>
     <a href="https://mobilesolicitor.vercel.app" target="_blank" class="action-link">
@@ -822,69 +945,212 @@ a:hover{text-decoration:underline}
       <div class="al-copy"><div class="al-label">💬 Conversations</div><div class="al-sub">conversations-xi.vercel.app</div></div>
       <span class="al-arr">↗</span>
     </a>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Backup &amp; fallback</div>
-
-    <a href="https://leads-tracker-ohol5nzwd-jacqui-griffins-projects.vercel.app" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🟡 LeadFlow — direct deploy backup</div><div class="al-sub">Use if main app looks stale or cached on iPhone</div></div>
-      <span class="al-arr">↗</span>
-    </a>
-    <a href="https://sueandjacquifitnesschallenge.pythonanywhere.com/leads" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🟡 LeadFlow — legacy backup</div><div class="al-sub">PythonAnywhere · last resort</div></div>
-      <span class="al-arr">↗</span>
-    </a>
-
-    <div class="note">Best daily use: bookmark the main LeadFlow app in a normal Safari tab. Keep the Home Screen web app as a lower-trust option only.</div>
-
-    <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Demo</div>
-
-    <a href="https://final-hackathon-share.vercel.app/leadflow-demo-21.4.26.mp4" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🎬 LeadFlow demo video</div><div class="al-sub">21 Apr 2026</div></div>
+    <a href="https://mission-control-rho-amber.vercel.app" target="_blank" class="action-link">
+      <div class="al-copy"><div class="al-label">🎛️ Mission Control — live</div><div class="al-sub">mission-control-rho-amber.vercel.app</div></div>
       <span class="al-arr">↗</span>
     </a>
 
     <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">GitHub repos</div>
+    <div class="sec-h" style="margin-top:.2rem;">Output reports</div>
 
-    <a href="https://github.com/MD-Str8nUp/xena-workspace" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🧠 Xena workspace</div><div class="al-sub">github.com/MD-Str8nUp/xena-workspace</div></div>
+    <a href="../output/morning-brief.md" target="_blank" class="action-link">
+      <div class="al-copy"><div class="al-label">🌅 Morning brief (last run)</div><div class="al-sub">output/morning-brief.md</div></div>
       <span class="al-arr">↗</span>
     </a>
-    <a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">📋 Leads Tracker repo</div><div class="al-sub">github.com/jacquigriffin-law/leads-tracker</div></div>
+    <a href="../output/leadflow-14-day-capture-audit.md" target="_blank" class="action-link">
+      <div class="al-copy"><div class="al-label">🔎 LeadFlow 14-day capture audit</div><div class="al-sub">output/leadflow-14-day-capture-audit.md</div></div>
       <span class="al-arr">↗</span>
     </a>
-    <a href="https://github.com/jacquigriffin-law/mission-control" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🎛️ Mission Control repo</div><div class="al-sub">github.com/jacquigriffin-law/mission-control</div></div>
+    <a href="../output/openclaw-seven-agent-review-jacqui-comments.html" target="_blank" class="action-link">
+      <div class="al-copy"><div class="al-label">📄 Seven-agent review with Jacqui's comments</div><div class="al-sub">output/openclaw-seven-agent-review-jacqui-comments.html</div></div>
       <span class="al-arr">↗</span>
     </a>
-    <a href="https://github.com/MD-Str8nUp/jacqui-griffin-ai-ops" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">⚙️ AI Ops repo</div><div class="al-sub">github.com/MD-Str8nUp/jacqui-griffin-ai-ops</div></div>
+    <a href="xena-system-overview.html" target="_blank" class="action-link">
+      <div class="al-copy"><div class="al-label">⚙️ Xena system overview</div><div class="al-sub">mission-control/xena-system-overview.html</div></div>
       <span class="al-arr">↗</span>
     </a>
 
     <hr class="div">
-    <div class="sec-h" style="margin-top:.2rem;">Memory &amp; journals</div>
+    <div class="sec-h" style="margin-top:.2rem;">Security</div>
 
-    <a href="https://docs-ten-swart.vercel.app/MEMORY.md" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">🧠 Xena memory (MEMORY.md)</div><div class="al-sub">docs-ten-swart.vercel.app</div></div>
-      <span class="al-arr">↗</span>
-    </a>
-    <a href="https://docs-ten-swart.vercel.app/memory/" target="_blank" class="action-link">
-      <div class="al-copy"><div class="al-label">📚 Daily journals index</div><div class="al-sub">docs-ten-swart.vercel.app/memory/</div></div>
-      <span class="al-arr">↗</span>
-    </a>
+    <div class="card lb">
+      <div class="card-row"><div class="card-title">🔑 Bitwarden — password manager</div><span class="badge blue">Recommended</span></div>
+      <div class="card-body">
+        Use Bitwarden to store and autofill all practice credentials securely. Browser extension available for Safari on iPhone and laptop.<br>
+        <strong>Setup:</strong> install Bitwarden extension, create one strong master password, migrate passwords from iCloud Keychain gradually.
+      </div>
+    </div>
 
-    <div id="mem-recent" style="margin-top:.75rem;"></div>
+    <hr class="div">
+
+    <!-- LeadFlow backups (collapsed) -->
+    <details class="acc">
+      <summary>🟡 LeadFlow backup links <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <div class="note" style="margin-bottom:.55rem;">Best daily use: bookmark the main LeadFlow app. Use backups only if main app looks stale.</div>
+        <ul>
+          <li><a href="https://leads-tracker-demo.vercel.app" target="_blank">Demo-safe copy — snapshot 21 Apr 2026</a></li>
+          <li><a href="https://leads-tracker-ohol5nzwd-jacqui-griffins-projects.vercel.app" target="_blank">Direct deploy backup — use if main looks cached on iPhone</a></li>
+          <li><a href="https://sueandjacquifitnesschallenge.pythonanywhere.com/leads" target="_blank">Legacy backup — PythonAnywhere · last resort</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- GitHub repos (collapsed) -->
+    <details class="acc">
+      <summary>📦 GitHub repositories <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><a href="https://github.com/MD-Str8nUp/xena-workspace" target="_blank">Xena workspace</a></li>
+          <li><a href="https://github.com/jacquigriffin-law/leads-tracker" target="_blank">Leads Tracker</a></li>
+          <li><a href="https://github.com/jacquigriffin-law/mission-control" target="_blank">Mission Control</a></li>
+          <li><a href="https://github.com/MD-Str8nUp/jacqui-griffin-ai-ops" target="_blank">AI Ops</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Memory & journals (collapsed) -->
+    <details class="acc">
+      <summary>🧠 Memory &amp; journals <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><a href="https://docs-ten-swart.vercel.app/MEMORY.md" target="_blank">Xena memory (MEMORY.md)</a></li>
+          <li><a href="https://docs-ten-swart.vercel.app/memory/" target="_blank">Daily journals index</a></li>
+        </ul>
+        <div id="mem-recent" style="margin-top:.55rem;"></div>
+      </div>
+    </details>
+
+    <!-- Demo (collapsed) -->
+    <details class="acc">
+      <summary>🎬 Demo video <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li><a href="https://final-hackathon-share.vercel.app/leadflow-demo-21.4.26.mp4" target="_blank">LeadFlow demo — 21 Apr 2026</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Agent status <span class="sec-sub">Hidden unless blocked</span></div>
+
+    <!-- Blockers shown always (system health) -->
+    <div class="blocker">
+      <i class="blocker-icon">⚠</i>
+      <div><strong>MYOB access</strong> — BAS automation needs MYOB export access to run fully. Manual export → Plutus will process.</div>
+    </div>
+    <div class="blocker">
+      <i class="blocker-icon">⚠</i>
+      <div><strong>LEAP conflict tools</strong> — Jacqui is reviewing LEAP's newer CRM/conflict tools before building a separate system. Marked pending.</div>
+    </div>
+    <div class="blocker">
+      <i class="blocker-icon">⚠</i>
+      <div><strong>Themis in Mission Control</strong> — Themis results currently delivered via Telegram only. Mission Control is not yet a live approve/dismiss task board.</div>
+    </div>
+
+    <!-- Agents (collapsed) -->
+    <details class="acc" style="margin-top:.65rem;">
+      <summary>🤖 All agents — 7 active <span class="acc-arr">▼</span></summary>
+      <div class="acc-body" style="padding-top:.55rem;">
+        <div class="agent-grid">
+          <div class="agent-card">
+            <div class="agent-name">⚔️ Xena</div>
+            <div class="agent-role">Orchestrator · daily command, routing, decisions</div>
+            <span class="agent-st green">Active</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">📋 Hermes</div>
+            <div class="agent-role">Intake · leads, inbox, SMS, follow-up</div>
+            <span class="agent-st green">Active</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">⚖️ Themis</div>
+            <div class="agent-role">Court diary · dates, risks, no-future-date</div>
+            <span class="agent-st amber">Queue: 7</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">🛡️ Ares</div>
+            <div class="agent-role">Conflicts · compliance logging, LEAP confirmation</div>
+            <span class="agent-st blue">On request</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">📄 Hephaestus</div>
+            <div class="agent-role">Documents · court material, filing packs, drafts</div>
+            <span class="agent-st blue">On request</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">💼 Plutus</div>
+            <div class="agent-role">Finance · BAS, MYOB, trust, subscriptions</div>
+            <span class="agent-st amber">BAS pending</span>
+          </div>
+          <div class="agent-card">
+            <div class="agent-name">✅ Gabrielle</div>
+            <div class="agent-role">Support · tasks, admin, travel, reminders</div>
+            <span class="agent-st green">Active</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Cron jobs (collapsed) -->
+    <details class="acc">
+      <summary>⏱ Cron jobs <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <div class="card" style="margin-bottom:0;">
+          <div class="cron-row"><span class="cron-name">🌅 Morning brief</span><span class="cron-time">7:00 AM daily</span></div>
+          <div class="cron-row"><span class="cron-name">📧 Email triage</span><span class="cron-time">8:00 AM + 2:00 PM</span></div>
+          <div class="cron-row"><span class="cron-name">⚖️ Court date monitor</span><span class="cron-time">9:00 AM daily</span></div>
+          <div class="cron-row"><span class="cron-name">🔍 Leads monitoring</span><span class="cron-time">8:00 AM + 1:00 PM</span></div>
+          <div class="cron-row"><span class="cron-name">📊 Daily leads update</span><span class="cron-time">5:00 PM daily</span></div>
+          <div class="cron-row"><span class="cron-name">🏢 Business progress task</span><span class="cron-time">4:00 AM daily</span></div>
+          <div class="cron-row"><span class="cron-name">🎁 Daily useful surprise</span><span class="cron-time">6:00 AM daily</span></div>
+          <div class="cron-row"><span class="cron-name">💰 BAS deadline reminder</span><span class="cron-time">Before deadlines</span></div>
+          <div class="cron-row"><span class="cron-name">📋 Weekly practice review</span><span class="cron-time">Weekly</span></div>
+          <div class="cron-row"><span class="cron-name">🔄 System health check</span><span class="cron-time">Weekly</span></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Integrations (collapsed) -->
+    <details class="acc">
+      <summary>🔌 Integrations <span class="acc-arr">▼</span></summary>
+      <div class="acc-body">
+        <div class="card lg" style="margin-bottom:.45rem;">
+          <div style="font-weight:700;font-size:.82rem;color:var(--text);margin-bottom:.55rem;">Connected</div>
+          <ul class="item-list">
+            <li><span style="color:var(--green-text)">●</span> Telegram — messaging and alerts</li>
+            <li><span style="color:var(--green-text)">●</span> Microsoft 365 — email, calendar, tasks</li>
+            <li><span style="color:var(--green-text)">●</span> GitHub — code repositories</li>
+            <li><span style="color:var(--green-text)">●</span> Vercel — hosting and deployments</li>
+            <li><span style="color:var(--green-text)">●</span> Browser automation</li>
+            <li><span style="color:var(--green-text)">●</span> ElevenLabs — professional voice clone</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:.82rem;color:var(--text);margin-bottom:.55rem;">Available / limited</div>
+          <ul class="item-list">
+            <li><span style="color:var(--red-text)">●</span> MYOB — needs manual export access</li>
+            <li><span style="color:var(--amber-text)">●</span> LEAP — practice management (via Zapier; reviewing native tools)</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Build stats</div>
+    <div class="metric-row">
+      <div class="metric"><div class="metric-val">7</div><div class="metric-label">AI agents</div></div>
+      <div class="metric"><div class="metric-val">41</div><div class="metric-label">Scripts</div></div>
+      <div class="metric"><div class="metric-val">9</div><div class="metric-label">Skills</div></div>
+      <div class="metric"><div class="metric-val">24/7</div><div class="metric-label">Uptime</div></div>
+    </div>
 
   </section>
 
 </main>
 
 <footer class="mc-footer">
-  Jacqui Griffin Law · Mission Control · Static reference dashboard — not a live feed.<br>
+  Jacqui Griffin Law · Mission Control · Practice dashboard &amp; finance cockpit — static reference, not a live feed.<br>
   For live status, message Xena in Telegram.
 </footer>
 
@@ -901,7 +1167,7 @@ tickClock();
 setInterval(tickClock, 30000);
 
 // ── Tabs ──
-const tabBtns  = document.querySelectorAll('.tab-btn');
+const tabBtns   = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('.tab-panel');
 tabBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -962,6 +1228,7 @@ if(typeof COST_DATA !== 'undefined'){
   const over = COST_DATA.over_limit;
   const mEl = document.getElementById('finance-metrics');
   mEl.innerHTML = `
+    <div class="sec-h" style="font-size:.85rem;">AI system costs <span class="sec-sub">From cost-data.js</span></div>
     <div class="metric-row">
       <div class="metric">
         <div class="metric-val" style="color:${over?'var(--red-text)':'var(--green-text)'}">$${COST_DATA.today_total.toFixed(0)}</div>
@@ -998,7 +1265,7 @@ if(typeof COST_DATA !== 'undefined'){
   }
 }
 
-// ── Recent memory entries (Reference tab) ──
+// ── Recent memory entries (Tools tab) ──
 if(typeof MEMORY_DATA !== 'undefined' && MEMORY_DATA.recentEntries){
   const el = document.getElementById('mem-recent');
   const entries = MEMORY_DATA.recentEntries.slice(0,3);
