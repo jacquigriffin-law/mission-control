@@ -244,6 +244,22 @@ a:hover{text-decoration:underline}
 .item-list li:last-child{border-bottom:none}
 .item-list a{color:var(--amber-text)}
 
+/* ── Data tables ── */
+.table-wrap{
+  width:100%;overflow-x:auto;scrollbar-width:thin;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);margin-bottom:.65rem;
+  -webkit-overflow-scrolling:touch;
+}
+.data-table{width:100%;min-width:720px;border-collapse:collapse;font-size:.76rem;color:var(--text-2)}
+.data-table th,.data-table td{padding:.55rem .65rem;border-bottom:1px solid rgba(255,255,255,.05);text-align:left;vertical-align:top}
+.data-table th{font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--amber-text);background:var(--surface-2);white-space:nowrap}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td.num{text-align:right;color:var(--text);font-weight:700;white-space:nowrap}
+.data-table td.category{color:var(--text);font-weight:700;white-space:nowrap}
+.data-table tfoot td{background:var(--surface-2);color:var(--text);font-weight:700}
+.table-note{font-size:.72rem;color:var(--text-3);line-height:1.55;margin:-.1rem 0 .9rem}
+
 /* ── Agent grid ── */
 .agent-grid{
   display:grid;
@@ -876,6 +892,83 @@ a:hover{text-decoration:underline}
         <div class="hc-sub">Documents, calls pending</div>
       </div>
     </div>
+
+    <hr class="div">
+    <div class="sec-h" style="margin-top:.2rem;">Practice mix <span class="sec-sub">LEAP matter categories · read-only index</span></div>
+
+    <div class="table-wrap" role="region" aria-label="LEAP matter category summary" tabindex="0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Active</th>
+            <th>Historical total</th>
+            <th>Active date range</th>
+            <th>Main LEAP types included</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="category">Care &amp; Protection</td>
+            <td class="num">61</td>
+            <td class="num">585</td>
+            <td>2012-09-13 to 2026-04-27</td>
+            <td>Care Proceedings; Care &amp; Protection Proceedings; Care &amp; Protection general advice</td>
+          </tr>
+          <tr>
+            <td class="category">Family Law / Relationships</td>
+            <td class="num">13</td>
+            <td class="num">344</td>
+            <td>2008-03-10 to 2026-02-12</td>
+            <td>Children; property; financial agreements; family law general; surrogacy</td>
+          </tr>
+          <tr>
+            <td class="category">Crime / AVO</td>
+            <td class="num">9</td>
+            <td class="num">110</td>
+            <td>2006-09-11 to 2025-10-08</td>
+            <td>AVO; apprehended violence; assault; criminal; fraud/stealing/robbery</td>
+          </tr>
+          <tr>
+            <td class="category">General / Other / Unknown</td>
+            <td class="num">5</td>
+            <td class="num">67</td>
+            <td>2003-11-11 to 2018-04-17</td>
+            <td>Advice; miscellaneous; mortgage; domestic relationship agreement; unknown</td>
+          </tr>
+          <tr>
+            <td class="category">Wills &amp; Estates</td>
+            <td class="num">4</td>
+            <td class="num">49</td>
+            <td>2014-09-02 to 2026-05-02</td>
+            <td>Wills; probate; power of attorney; administration; estate disputes/planning</td>
+          </tr>
+          <tr>
+            <td class="category">Civil Litigation / Appeals</td>
+            <td class="num">2</td>
+            <td class="num">34</td>
+            <td>2025-07-24 to 2025-11-27</td>
+            <td>Local Court; District/County appeal; Supreme Court; Federal Court litigation</td>
+          </tr>
+          <tr>
+            <td class="category">Conveyancing</td>
+            <td class="num">0</td>
+            <td class="num">34</td>
+            <td>No active in-progress dates</td>
+            <td>Purchase; sale</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td class="num">94</td>
+            <td class="num">1,223</td>
+            <td colspan="2">LEAP current-flagged count: 98</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="table-note">Source: read-only LEAP conflict index exported 3 May 2026. Active means LEAP status <strong>In Progress</strong>; this is cleaner than the broader LEAP current flag because some old files still appear current.</div>
 
     <div class="card lr">
       <div class="card-row">
