@@ -989,6 +989,12 @@ h1 {
 }
 
 @media (max-width: 680px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     font-size: 14px;
   }
@@ -1077,6 +1083,18 @@ h1 {
   .tax-return-grid,
   .agent-grid {
     grid-template-columns: 1fr;
+  }
+
+  .kanban {
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .lane,
+  .task-card {
+    min-width: 0;
+    width: 100%;
   }
 
   .metric-card.wide {
