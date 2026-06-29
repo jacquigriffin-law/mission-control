@@ -678,6 +678,28 @@ h1 {
   font-size: .73rem;
 }
 
+.finance-unlock {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.finance-unlock input {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0f151d;
+  color: var(--text);
+  padding: 0 11px;
+}
+
+.finance-live-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
 .agent-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1013,6 +1035,10 @@ h1 {
   .row {
     grid-template-columns: 1fr;
   }
+
+  .finance-unlock {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -1177,25 +1203,36 @@ h1 {
 
     <section class="screen" id="finance" data-screen="finance" aria-labelledby="finance-title">
       <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for income, expenses, BAS and matter funding without real client or account figures.</p></div><span class="tag red">Private feed required</span></div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Live finance feed</h3><p>Unlocks server-side finance data from the protected Mission Control API.</p></div><span class="tag amber" id="financeLiveStatus">Locked</span></div>
+        <div class="panel-body">
+          <div class="finance-unlock">
+            <input id="financePin" type="password" autocomplete="current-password" inputmode="numeric" placeholder="Finance PIN">
+            <button class="button primary" type="button" id="loadFinanceData">Load live data</button>
+            <button class="button" type="button" id="clearFinanceData">Lock</button>
+          </div>
+          <p class="finance-live-note" id="financeLiveNote">Real figures stay server-side and only load after PIN authorisation. If no private source is connected, the API will say so and keep dashes on screen.</p>
+        </div>
+      </div>
       <div class="screen-grid">
         <div>
           <div class="panel">
             <div class="panel-head"><div><h3>Weekly income split</h3><p>Placeholder only until a private finance data feed or source report is connected.</p></div><span class="tag amber">No live figures</span></div>
             <div class="panel-body list">
-              <div class="row"><div><strong>Legal Aid NSW</strong><span>Weekly received or billable income.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Legal Aid NT</strong><span>Weekly received or billable income.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Private matters</strong><span>Weekly private client income.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Legal Aid NSW</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNsw">—</span></div>
+              <div class="row"><div><strong>Legal Aid NT</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNt">—</span></div>
+              <div class="row"><div><strong>Private matters</strong><span>Weekly private client income.</span></div><span class="tag" data-finance="weeklyIncome.privateMatters">—</span></div>
             </div>
           </div>
 
           <div class="panel">
             <div class="panel-head"><div><h3>Weekly expense outline</h3><p>ATO-style operating categories, with values hidden until verified source data exists.</p></div></div>
             <div class="panel-body list">
-              <div class="row"><div><strong>Accounting, bank fees and tax agent</strong><span>Bank charges, bookkeeping, accounting and lodgement support.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Office, software and subscriptions</strong><span>Practice systems, cloud services, stationery and office running costs.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Motor vehicle, travel and parking</strong><span>Client visits, court travel, parking, tolls and related practice travel.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Insurance, licences and professional costs</strong><span>Practising costs, cover, memberships, CPD and professional services.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Phone, internet and communications</strong><span>Mobile, internet, calling platforms and client communication tools.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Accounting, bank fees and tax agent</strong><span>Bank charges, bookkeeping, accounting and lodgement support.</span></div><span class="tag" data-finance-expense="Accounting, bank fees and tax agent">—</span></div>
+              <div class="row"><div><strong>Office, software and subscriptions</strong><span>Practice systems, cloud services, stationery and office running costs.</span></div><span class="tag" data-finance-expense="Office, software and subscriptions">—</span></div>
+              <div class="row"><div><strong>Motor vehicle, travel and parking</strong><span>Client visits, court travel, parking, tolls and related practice travel.</span></div><span class="tag" data-finance-expense="Motor vehicle, travel and parking">—</span></div>
+              <div class="row"><div><strong>Insurance, licences and professional costs</strong><span>Practising costs, cover, memberships, CPD and professional services.</span></div><span class="tag" data-finance-expense="Insurance, licences and professional costs">—</span></div>
+              <div class="row"><div><strong>Phone, internet and communications</strong><span>Mobile, internet, calling platforms and client communication tools.</span></div><span class="tag" data-finance-expense="Phone, internet and communications">—</span></div>
             </div>
           </div>
         </div>
@@ -1204,11 +1241,11 @@ h1 {
           <div class="panel">
             <div class="panel-head"><div><h3>Quarterly BAS</h3><p>Summary placeholders for GST and lodgement pressure.</p></div><span class="tag red">Source needed</span></div>
             <div class="panel-body list">
-              <div class="row"><div><strong>Quarter</strong><span>Current BAS period.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>GST collected</strong><span>Requires MYOB, bank or finance report input.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>GST paid</strong><span>Requires categorised expense source data.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Estimated net BAS</strong><span>Not calculated on this public-safe static dashboard.</span></div><span class="tag">—</span></div>
-              <div class="row"><div><strong>Lodgement status</strong><span>Needs source report confirmation before display.</span></div><span class="tag amber">Pending feed</span></div>
+              <div class="row"><div><strong>Quarter</strong><span>Current BAS period.</span></div><span class="tag" data-finance="quarterlyBas.quarter">—</span></div>
+              <div class="row"><div><strong>GST collected</strong><span>Requires MYOB, bank or finance report input.</span></div><span class="tag" data-finance="quarterlyBas.gstCollected">—</span></div>
+              <div class="row"><div><strong>GST paid</strong><span>Requires categorised expense source data.</span></div><span class="tag" data-finance="quarterlyBas.gstPaid">—</span></div>
+              <div class="row"><div><strong>Estimated net BAS</strong><span>Not calculated on this public-safe static dashboard.</span></div><span class="tag" data-finance="quarterlyBas.estimatedNetBas">—</span></div>
+              <div class="row"><div><strong>Lodgement status</strong><span>Needs source report confirmation before display.</span></div><span class="tag amber" data-finance="quarterlyBas.lodgementStatus">Pending feed</span></div>
             </div>
           </div>
 
@@ -1222,18 +1259,18 @@ h1 {
       <div class="panel">
         <div class="panel-head"><div><h3>12-month monthly income/expense projection</h3><p>Rolling projection scaffold for the next financial year view.</p></div><span class="tag">Projection</span></div>
         <div class="panel-body mini-grid">
-          <article class="mini-card"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Aug</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Sep</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Oct</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Nov</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Dec</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Jan</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Feb</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Mar</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Apr</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>May</strong><p>Income —<br>Expenses —</p></article>
-          <article class="mini-card"><strong>Jun</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Jul"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Aug"><strong>Aug</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Sep"><strong>Sep</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Oct"><strong>Oct</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Nov"><strong>Nov</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Dec"><strong>Dec</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Jan"><strong>Jan</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Feb"><strong>Feb</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Mar"><strong>Mar</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Apr"><strong>Apr</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="May"><strong>May</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Jun"><strong>Jun</strong><p>Income —<br>Expenses —</p></article>
         </div>
       </div>
 
@@ -1241,20 +1278,20 @@ h1 {
         <div class="panel">
           <div class="panel-head"><div><h3>Open matters by type</h3><p>Counts stay blank until a private matter report is available.</p></div></div>
           <div class="panel-body list">
-            <div class="row"><div><strong>Family law</strong><span>Parenting, property and related family work.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Care and protection</strong><span>Children's Court and related legal aid work.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Criminal law</strong><span>Criminal and Local Court matters.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Domestic violence orders</strong><span>ADVO/DVO work and related appearances.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Wills and estates</strong><span>Estate planning and related assistance.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Family law</strong><span>Parenting, property and related family work.</span></div><span class="tag" data-matter-type="Family law">—</span></div>
+            <div class="row"><div><strong>Care and protection</strong><span>Children's Court and related legal aid work.</span></div><span class="tag" data-matter-type="Care and protection">—</span></div>
+            <div class="row"><div><strong>Criminal law</strong><span>Criminal and Local Court matters.</span></div><span class="tag" data-matter-type="Criminal law">—</span></div>
+            <div class="row"><div><strong>Domestic violence orders</strong><span>ADVO/DVO work and related appearances.</span></div><span class="tag" data-matter-type="Domestic violence orders">—</span></div>
+            <div class="row"><div><strong>Wills and estates</strong><span>Estate planning and related assistance.</span></div><span class="tag" data-matter-type="Wills and estates">—</span></div>
           </div>
         </div>
         <div class="panel">
           <div class="panel-head"><div><h3>Open matters by funding</h3><p>Funding mix is operational only and must come from LEAP, Legal Aid or finance reports.</p></div></div>
           <div class="panel-body list">
-            <div class="row"><div><strong>Legal Aid NSW funded</strong><span>Open files funded through NSW legal aid.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Legal Aid NT funded</strong><span>Open files funded through NT legal aid.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Private funded</strong><span>Open files funded by private engagement.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Mixed or unknown</strong><span>Requires source-system review before categorisation.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Legal Aid NSW funded</strong><span>Open files funded through NSW legal aid.</span></div><span class="tag" data-matter-funding="Legal Aid NSW funded">—</span></div>
+            <div class="row"><div><strong>Legal Aid NT funded</strong><span>Open files funded through NT legal aid.</span></div><span class="tag" data-matter-funding="Legal Aid NT funded">—</span></div>
+            <div class="row"><div><strong>Private funded</strong><span>Open files funded by private engagement.</span></div><span class="tag" data-matter-funding="Private funded">—</span></div>
+            <div class="row"><div><strong>Mixed or unknown</strong><span>Requires source-system review before categorisation.</span></div><span class="tag" data-matter-funding="Mixed or unknown">—</span></div>
           </div>
         </div>
       </div>
@@ -1418,7 +1455,105 @@ h1 {
   const links = Array.from(document.querySelectorAll("a.nav-link[data-section]"));
   const screens = Array.from(document.querySelectorAll("[data-screen]"));
   const commandInput = document.getElementById("commandInput");
+  const financePin = document.getElementById("financePin");
+  const loadFinanceData = document.getElementById("loadFinanceData");
+  const clearFinanceData = document.getElementById("clearFinanceData");
+  const financeLiveStatus = document.getElementById("financeLiveStatus");
+  const financeLiveNote = document.getElementById("financeLiveNote");
   const validSections = new Set(screens.map((screen) => screen.dataset.screen));
+
+  function currency(value) {
+    if (value === null || value === undefined || value === "") return "—";
+    const number = Number(value);
+    if (!Number.isFinite(number)) return String(value);
+    return new Intl.NumberFormat("en-AU", {
+      style: "currency",
+      currency: "AUD",
+      maximumFractionDigits: 0
+    }).format(number);
+  }
+
+  function plain(value) {
+    if (value === null || value === undefined || value === "") return "—";
+    return String(value);
+  }
+
+  function pathValue(source, path) {
+    return path.split(".").reduce((current, key) => current && current[key], source);
+  }
+
+  function setFinanceStatus(text, tone = "") {
+    if (!financeLiveStatus) return;
+    financeLiveStatus.textContent = text;
+    financeLiveStatus.className = `tag ${tone}`.trim();
+  }
+
+  function applyFinanceData(data) {
+    document.querySelectorAll("[data-finance]").forEach((element) => {
+      const key = element.dataset.finance;
+      const raw = pathValue(data, key);
+      element.textContent = key.includes("lodgementStatus") || key.includes("quarter") ? plain(raw) : currency(raw);
+    });
+
+    const expenses = new Map((data.weeklyExpenses || []).map((item) => [item.category, item.amount]));
+    document.querySelectorAll("[data-finance-expense]").forEach((element) => {
+      element.textContent = currency(expenses.get(element.dataset.financeExpense));
+    });
+
+    const projections = new Map((data.projectionMonths || []).map((item) => [item.month, item]));
+    document.querySelectorAll("[data-projection-month]").forEach((element) => {
+      const item = projections.get(element.dataset.projectionMonth) || {};
+      element.querySelector("p").innerHTML = `Income ${currency(item.income)}<br>Expenses ${currency(item.expenses)}`;
+    });
+
+    const byType = new Map(((data.openMatters || {}).byType || []).map((item) => [item.type, item.count]));
+    document.querySelectorAll("[data-matter-type]").forEach((element) => {
+      element.textContent = plain(byType.get(element.dataset.matterType));
+    });
+
+    const byFunding = new Map(((data.openMatters || {}).byFunding || []).map((item) => [item.funding, item.count]));
+    document.querySelectorAll("[data-matter-funding]").forEach((element) => {
+      element.textContent = plain(byFunding.get(element.dataset.matterFunding));
+    });
+  }
+
+  async function fetchFinanceData() {
+    const pin = financePin?.value.trim();
+    if (!pin) {
+      setFinanceStatus("PIN needed", "amber");
+      financeLiveNote.textContent = "Enter the Finance PIN to request the private server-side feed.";
+      return;
+    }
+    setFinanceStatus("Loading", "blue");
+    financeLiveNote.textContent = "Requesting protected finance data...";
+
+    try {
+      const response = await fetch("/api/finance-summary", {
+        headers: { "x-finance-pin": pin },
+        cache: "no-store"
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.message || payload.error || "Finance feed unavailable");
+      }
+      applyFinanceData(payload.data);
+      setFinanceStatus(payload.data.live ? "Live" : "No source", payload.data.live ? "green" : "amber");
+      financeLiveNote.textContent = payload.data.live
+        ? `Loaded ${payload.data.source || "private finance data"}${payload.data.generatedAt ? `, generated ${payload.data.generatedAt}` : ""}.`
+        : "The protected API is working, but no private finance source is connected yet.";
+      sessionStorage.setItem("missionControlFinancePin", pin);
+    } catch (error) {
+      setFinanceStatus("Locked", "red");
+      financeLiveNote.textContent = error.message || "Could not load finance data.";
+    }
+  }
+
+  function lockFinanceData() {
+    sessionStorage.removeItem("missionControlFinancePin");
+    if (financePin) financePin.value = "";
+    setFinanceStatus("Locked", "amber");
+    financeLiveNote.textContent = "Finance feed locked on this device.";
+  }
 
   function normaliseHash(hash) {
     const candidate = (hash || "").replace("#", "").trim().toLowerCase();
@@ -1481,6 +1616,16 @@ h1 {
       commandInput.focus();
     }
   });
+
+  loadFinanceData?.addEventListener("click", fetchFinanceData);
+  clearFinanceData?.addEventListener("click", lockFinanceData);
+  financePin?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") fetchFinanceData();
+  });
+  const storedFinancePin = sessionStorage.getItem("missionControlFinancePin");
+  if (storedFinancePin && financePin) {
+    financePin.value = storedFinancePin;
+  }
 
   setActive(normaliseHash(window.location.hash), false);
 })();
