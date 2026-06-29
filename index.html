@@ -3,376 +3,1326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Mission Control - Jacqui Griffin</title>
+<title>Mission Control - Jacqui Griffin Legal Operations</title>
 <style>
-*,*::before,*::after{box-sizing:border-box}
-html{min-width:320px;background:#f4f1ea;color:#211f1a}
-body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.45;background:#f4f1ea;color:#211f1a}
-a{color:#71522a;text-decoration:none}
-a:hover{text-decoration:underline}
-button,input,select{font:inherit}
-:root{
-  --ink:#211f1a;
-  --muted:#6d665d;
-  --faint:#948b7f;
-  --paper:#fffdf8;
-  --band:#ebe5d9;
-  --line:#d8cfc1;
-  --strong:#292720;
-  --gold:#a16d1f;
-  --gold-soft:#f4ead7;
-  --green:#2f7653;
-  --green-soft:#e2f0e8;
-  --red:#a23d35;
-  --red-soft:#f5dfdc;
-  --blue:#315f7b;
-  --blue-soft:#ddebf2;
-  --shadow:0 14px 34px rgba(46,35,18,.08);
+:root {
+  color-scheme: dark;
+  --bg: #080b0f;
+  --bg-2: #0d1118;
+  --panel: #111720;
+  --panel-2: #151d28;
+  --panel-3: #0f151d;
+  --line: #253140;
+  --line-soft: #1d2632;
+  --text: #edf3fb;
+  --muted: #9ba8b7;
+  --faint: #697789;
+  --blue: #5eb1ff;
+  --blue-soft: #14324c;
+  --green: #4fd18b;
+  --green-soft: #123728;
+  --amber: #f5bd50;
+  --amber-soft: #3d2d12;
+  --red: #ff6b6b;
+  --red-soft: #3a181b;
+  --violet: #a98cff;
+  --shadow: 0 18px 44px rgba(0, 0, 0, .34);
+  --sidebar: 252px;
+  --rail: 318px;
 }
-.shell{min-height:100vh;display:flex;flex-direction:column}
-.topbar{position:sticky;top:0;z-index:30;background:rgba(255,253,248,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-.topbar-inner{max-width:1220px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{min-width:0}
-.brand-title{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:1.26rem;line-height:1.05;color:var(--strong);letter-spacing:0}
-.brand-sub{margin:.24rem 0 0;color:var(--muted);font-size:.82rem}
-.top-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
-.btn{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 13px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink);font-weight:700;font-size:.86rem;white-space:nowrap;box-shadow:0 1px 0 rgba(46,35,18,.04)}
-.btn.primary{background:var(--strong);border-color:var(--strong);color:#fff}
-.btn:focus-visible,.tab:focus-visible{outline:3px solid rgba(161,109,31,.35);outline-offset:2px}
-.status-strip{border-bottom:1px solid var(--line);background:var(--band)}
-.status-inner{max-width:1220px;margin:0 auto;padding:9px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
-.status-inner::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:var(--paper);font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap}
-.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-.pill.ok{color:var(--green);border-color:#bfd9cb;background:var(--green-soft)}
-.pill.warn{color:var(--gold);border-color:#ead2aa;background:var(--gold-soft)}
-.pill.alert{color:var(--red);border-color:#e4bab5;background:var(--red-soft)}
-.tabs-wrap{position:sticky;top:70px;z-index:25;background:#f4f1ea;border-bottom:1px solid var(--line)}
-.tabs{max-width:1220px;margin:0 auto;padding:0 16px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{height:48px;flex:0 0 auto;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted);padding:0 13px;font-weight:800;font-size:.88rem;cursor:pointer}
-.tab[aria-selected="true"]{color:var(--ink);border-color:var(--gold)}
-.main{width:100%;max-width:1220px;margin:0 auto;padding:22px 16px 42px}
-.screen{display:none}
-.screen.active{display:block}
-.screen-head{display:grid;gap:10px;margin-bottom:18px}
-.kicker{margin:0;color:var(--gold);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:0}
-.screen-title{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:2.65rem;line-height:1.02;color:var(--strong);letter-spacing:0}
-.screen-copy{margin:0;max-width:780px;color:var(--muted)}
-.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.7fr);gap:16px;align-items:start}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden}
-.panel.flat{box-shadow:none}
-.panel-head{padding:15px 16px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.panel-title{margin:0;font-weight:900;font-size:.98rem;color:var(--strong)}
-.panel-sub{margin:4px 0 0;color:var(--muted);font-size:.82rem}
-.panel-body{padding:15px 16px}
-.metric{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:100px}
-.metric-value{font-size:2rem;line-height:1;font-weight:900;color:var(--strong)}
-.metric-label{margin-top:7px;color:var(--muted);font-size:.82rem}
-.tag{display:inline-flex;align-items:center;justify-content:center;min-height:25px;padding:4px 8px;border-radius:5px;border:1px solid var(--line);background:#faf7ef;color:var(--muted);font-size:.74rem;font-weight:800;white-space:nowrap}
-.tag.ok{background:var(--green-soft);border-color:#bfd9cb;color:var(--green)}
-.tag.warn{background:var(--gold-soft);border-color:#ead2aa;color:var(--gold)}
-.tag.alert{background:var(--red-soft);border-color:#e4bab5;color:var(--red)}
-.task-list{display:grid;gap:10px}
-.task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:7px;background:#fbf8f1}
-.task-num{width:28px;height:28px;border-radius:6px;background:var(--strong);color:#fff;display:grid;place-items:center;font-size:.78rem;font-weight:900;flex-shrink:0}
-.task h3{margin:0;font-size:.95rem;color:var(--strong);letter-spacing:0}
-.task p{margin:3px 0 0;color:var(--muted);font-size:.83rem}
-.stack{display:grid;gap:12px}
-.source-table{width:100%;border-collapse:collapse;font-size:.86rem}
-.source-table th,.source-table td{text-align:left;padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.source-table th{font-size:.72rem;text-transform:uppercase;letter-spacing:0;color:var(--faint)}
-.source-table tr:last-child td{border-bottom:0}
-.link-list{display:grid;gap:8px}
-.link-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:7px;background:#fbf8f1}
-.link-row strong{display:block;color:var(--strong);font-size:.9rem}
-.link-row span{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
-.agent-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.agent{min-height:145px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
-.agent h3{margin:0;color:var(--strong);font-size:1rem}
-.agent p{margin:0;color:var(--muted);font-size:.82rem}
-.note{padding:13px 14px;border-left:4px solid var(--gold);background:var(--gold-soft);color:#5d461e;border-radius:7px;font-size:.86rem}
-.empty{padding:18px;border:1px dashed var(--line);border-radius:8px;background:#faf7ef;color:var(--muted)}
-.footer{max-width:1220px;margin:0 auto;padding:0 16px 32px;color:var(--faint);font-size:.78rem}
-@media (max-width:980px){
-  .layout{grid-template-columns:1fr}
-  .grid,.grid.two,.agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .tabs-wrap{top:69px}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-@media (max-width:640px){
-  body{font-size:15px}
-  .topbar-inner{align-items:flex-start;flex-direction:column;gap:10px}
-  .top-actions{width:100%;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
-  .tabs-wrap{top:127px}
-  .main{padding:18px 12px 34px}
-  .status-inner,.tabs,.topbar-inner,.footer{padding-left:12px;padding-right:12px}
-  .grid,.grid.two,.agent-grid{grid-template-columns:1fr}
-  .panel-head{align-items:flex-start;flex-direction:column}
-  .task{grid-template-columns:auto minmax(0,1fr)}
-  .task .tag{grid-column:2}
-  .link-row{align-items:flex-start;flex-direction:column}
-  .btn{padding-left:11px;padding-right:11px}
-  .screen-title{font-size:1.9rem}
+
+html {
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-140%);
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--sidebar) minmax(0, 1fr) var(--rail);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--line);
+  background: rgba(9, 13, 18, .96);
+  padding: 18px 14px;
+  overflow-y: auto;
+}
+
+.brand {
+  display: grid;
+  gap: 12px;
+  padding: 0 2px 18px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #33475d;
+  border-radius: 8px;
+  background: #101923;
+  color: var(--blue);
+  font-size: .92rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.brand-title {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.08rem;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.brand-subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.nav-group {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.nav-label {
+  margin: 14px 9px 5px;
+  color: var(--faint);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.nav-link {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.nav-link:hover {
+  border-color: var(--line-soft);
+  background: #101720;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-link.is-active {
+  border-color: #31516c;
+  background: #132234;
+  color: var(--text);
+}
+
+.nav-icon {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  background: #172231;
+  color: var(--blue);
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.sidebar-note {
+  margin: 18px 2px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0f151d;
+  padding: 12px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.main {
+  min-width: 0;
+  padding: 18px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  margin: -18px -18px 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 11, 15, .92);
+  padding: 13px 18px;
+  backdrop-filter: blur(12px);
+}
+
+.command {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0f151d;
+  padding: 0 12px;
+}
+
+.command-symbol {
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.command input {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.command input::placeholder {
+  color: var(--faint);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #121a24;
+  color: var(--text);
+  padding: 9px 12px;
+  font-size: .84rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.button.primary {
+  border-color: #35617f;
+  background: #14324c;
+  color: #f5fbff;
+}
+
+.button:hover {
+  border-color: #3f5369;
+  text-decoration: none;
+}
+
+.button:focus-visible,
+.nav-link:focus-visible,
+.mini-tab:focus-visible,
+.task-card:focus-within {
+  outline: 3px solid rgba(94, 177, 255, .34);
+  outline-offset: 2px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(240px, 320px);
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.hero > * {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  letter-spacing: 0;
+}
+
+h1 {
+  margin: 0;
+  max-width: 820px;
+  color: var(--text);
+  font-size: clamp(2rem, 4.5vw, 4.25rem);
+  line-height: .96;
+}
+
+.hero p {
+  margin: 12px 0 0;
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.snapshot {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 12px;
+}
+
+.snapshot strong {
+  display: block;
+  font-size: .82rem;
+}
+
+.snapshot span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.stat {
+  min-height: 88px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 12px;
+}
+
+.stat-value {
+  display: block;
+  color: var(--text);
+  font-size: 1.9rem;
+  line-height: 1;
+  font-weight: 950;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: .77rem;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.is-active {
+  display: block;
+}
+
+.screen-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(310px, .7fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.section-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+.section-title h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.section-title p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel + .panel {
+  margin-top: 14px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line-soft);
+  padding: 13px 14px;
+}
+
+.panel-head h3 {
+  margin: 0;
+  font-size: .95rem;
+}
+
+.panel-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+.tag {
+  min-height: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #121a24;
+  color: var(--muted);
+  padding: 4px 8px;
+  font-size: .7rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tag.blue {
+  border-color: #295377;
+  background: var(--blue-soft);
+  color: #a8d8ff;
+}
+
+.tag.green {
+  border-color: #24583e;
+  background: var(--green-soft);
+  color: #a8f2c8;
+}
+
+.tag.amber {
+  border-color: #715521;
+  background: var(--amber-soft);
+  color: #ffd98a;
+}
+
+.tag.red {
+  border-color: #743039;
+  background: var(--red-soft);
+  color: #ffb3b3;
+}
+
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(205px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.lane {
+  min-width: 205px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #0d141c;
+}
+
+.lane-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  border-bottom: 1px solid var(--line-soft);
+  padding: 10px;
+}
+
+.lane-head h3 {
+  margin: 0;
+  font-size: .84rem;
+}
+
+.lane-body {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+
+.task-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #121a24;
+  padding: 10px;
+}
+
+.task-card h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: .86rem;
+}
+
+.task-card p {
+  margin: 6px 0 10px;
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--faint);
+  font-size: .7rem;
+}
+
+.list {
+  display: grid;
+  gap: 9px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.row strong {
+  display: block;
+  color: var(--text);
+  font-size: .88rem;
+}
+
+.row span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mini-card {
+  min-height: 118px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 12px;
+}
+
+.mini-card strong {
+  display: block;
+  color: var(--text);
+  font-size: .9rem;
+}
+
+.mini-card p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: .77rem;
+}
+
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.agent-card {
+  min-height: 146px;
+  display: grid;
+  align-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 12px;
+}
+
+.agent-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.agent-card h3 {
+  margin: 0;
+  font-size: .95rem;
+}
+
+.agent-card p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.initial {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #31445a;
+  border-radius: 8px;
+  background: #162233;
+  color: var(--blue);
+  font-weight: 950;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.activity {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 10px;
+}
+
+.activity:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.activity-time {
+  color: var(--faint);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.activity strong {
+  display: block;
+  color: var(--text);
+  font-size: .82rem;
+}
+
+.activity span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .74rem;
+}
+
+.rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-left: 1px solid var(--line);
+  background: rgba(9, 13, 18, .96);
+  padding: 18px 14px;
+  overflow-y: auto;
+}
+
+.rail-section + .rail-section {
+  margin-top: 14px;
+}
+
+.rail-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.rail-title h2 {
+  margin: 0;
+  font-size: .92rem;
+}
+
+.status-list {
+  display: grid;
+  gap: 8px;
+}
+
+.status-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.status-dot.green {
+  background: var(--green);
+}
+
+.status-dot.amber {
+  background: var(--amber);
+}
+
+.status-dot.blue {
+  background: var(--blue);
+}
+
+.status-dot.red {
+  background: var(--red);
+}
+
+.status-item strong {
+  display: block;
+  color: var(--text);
+  font-size: .8rem;
+}
+
+.status-item span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.footer-note {
+  margin: 18px 0 0;
+  color: var(--faint);
+  font-size: .72rem;
+}
+
+.empty-state {
+  border: 1px dashed #34465a;
+  border-radius: 8px;
+  background: #0f151d;
+  padding: 18px;
+  color: var(--muted);
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 1220px) {
+  .app {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 14px 9px;
+  }
+
+  .brand-title,
+  .brand-subtitle,
+  .nav-label,
+  .nav-text,
+  .sidebar-note {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .brand {
+    place-items: center;
+  }
+
+  .nav-link {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .rail {
+    display: none;
+  }
+}
+
+@media (max-width: 920px) {
+  .topbar,
+  .hero,
+  .screen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-actions {
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .stats,
+  .mini-grid,
+  .agent-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .snapshot {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  body {
+    font-size: 14px;
+  }
+
+  .app {
+    display: block;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: auto;
+    max-height: 47vh;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+  }
+
+  .brand-title,
+  .brand-subtitle,
+  .nav-label,
+  .nav-text {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .nav-group {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    margin-top: 6px;
+    padding-bottom: 2px;
+  }
+
+  .nav-label,
+  .sidebar-note {
+    display: none;
+  }
+
+  .nav-link {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    min-height: 38px;
+  }
+
+  .main {
+    padding: 12px;
+  }
+
+  .topbar {
+    position: static;
+    margin: 0 0 14px;
+    padding: 0;
+    border-bottom: 0;
+    background: transparent;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  .stats,
+  .mini-grid,
+  .agent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 <body>
-<div class="shell">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <h1 class="brand-title">Mission Control</h1>
-        <p class="brand-sub">Jacqui Griffin legal operations cockpit</p>
+<a class="skip-link" href="#main">Skip to dashboard</a>
+<div class="app">
+  <aside class="sidebar" aria-label="Mission Control navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">OC</div>
+      <div>
+        <p class="brand-title">Mission Control</p>
+        <p class="brand-subtitle">OpenClaw operations workspace</p>
       </div>
-      <nav class="top-actions" aria-label="Quick actions">
-        <a class="btn primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">Open LeadFlow</a>
-        <a class="btn" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener">Calendar</a>
-        <a class="btn" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener">To Do</a>
-      </nav>
     </div>
-  </header>
 
-  <div class="status-strip" aria-label="Source status">
-    <div class="status-inner">
-      <span class="pill ok"><span class="dot"></span>Mission Control live</span>
-      <span class="pill warn"><span class="dot"></span>Snapshot view, not source of truth</span>
-      <span class="pill ok"><span class="dot"></span>LeadFlow linked</span>
-      <span class="pill warn"><span class="dot"></span>Microsoft 365 via Xena checks</span>
-      <span class="pill warn"><span class="dot"></span>Last updated: 28 Jun 2026, 11:45pm AEST</span>
-    </div>
-  </div>
+    <div class="nav-label">Workspace</div>
+    <nav class="nav-group" aria-label="Main sections">
+      <a class="nav-link is-active" href="#tasks" data-section="tasks"><span class="nav-icon">T</span><span class="nav-text">Tasks</span></a>
+      <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
+      <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Leads/Intake</span></a>
+      <a class="nav-link" href="#calendar" data-section="calendar"><span class="nav-icon">C</span><span class="nav-text">Calendar</span></a>
+      <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">M</span><span class="nav-text">Matters/Projects</span></a>
+      <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">S</span><span class="nav-text">Memory/Status</span></a>
+      <a class="nav-link" href="#docs" data-section="docs"><span class="nav-icon">D</span><span class="nav-text">Docs/Links</span></a>
+      <a class="nav-link" href="#people" data-section="people"><span class="nav-icon">P</span><span class="nav-text">People</span></a>
+      <a class="nav-link" href="#office" data-section="office"><span class="nav-icon">O</span><span class="nav-text">Office</span></a>
+    </nav>
 
-  <nav class="tabs-wrap" aria-label="Mission Control sections">
-    <div class="tabs" role="tablist">
-      <button class="tab" role="tab" aria-selected="true" aria-controls="today" id="tab-today" data-tab="today">Today</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="matter" id="tab-matter" data-tab="matter">Matter Tasks</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="leads" id="tab-leads" data-tab="leads">Leads</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="court" id="tab-court" data-tab="court">Court Risk</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="money" id="tab-money" data-tab="money">Money</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="apps" id="tab-apps" data-tab="apps">Apps</button>
-    </div>
-  </nav>
+    <div class="nav-label">Signals</div>
+    <nav class="nav-group" aria-label="Signal sections">
+      <a class="nav-link" href="#team" data-section="team"><span class="nav-icon">R</span><span class="nav-text">Team</span></a>
+      <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">Y</span><span class="nav-text">System</span></a>
+      <a class="nav-link" href="#radar" data-section="radar"><span class="nav-icon">R</span><span class="nav-text">Radar</span></a>
+      <a class="nav-link" href="#pipeline" data-section="pipeline"><span class="nav-icon">F</span><span class="nav-text">Pipeline</span></a>
+      <a class="nav-link" href="#feedback" data-section="feedback"><span class="nav-icon">B</span><span class="nav-text">Feedback</span></a>
+    </nav>
 
-  <main class="main">
-    <section class="screen active" id="today" role="tabpanel" aria-labelledby="tab-today">
-      <div class="screen-head">
-        <p class="kicker">First screen</p>
-        <h2 class="screen-title">What needs attention now</h2>
-        <p class="screen-copy">A short operational view for Jacqui. The dashboard points to the real tools; Xena, Microsoft 365, LeadFlow, Themis and Plutus remain the sources of truth.</p>
+    <p class="sidebar-note">Safe snapshot only. Open the linked source systems for live client, matter, billing or calendar detail.</p>
+  </aside>
+
+  <main class="main" id="main">
+    <header class="topbar">
+      <label class="command">
+        <span class="command-symbol" aria-hidden="true">/</span>
+        <span class="hidden">Search dashboard</span>
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: tasks, court, lead, BAS, memory">
+      </label>
+      <div class="top-actions" aria-label="Quick links">
+        <a class="button primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a>
+        <a class="button" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener">Calendar</a>
+        <a class="button" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener">To Do</a>
       </div>
-      <div class="layout">
-        <div class="stack">
-          <section class="panel">
-            <div class="panel-head">
-              <div>
-                <h3 class="panel-title">Top attention list</h3>
-                <p class="panel-sub">Use this as the daily triage order.</p>
-              </div>
-              <span class="tag warn">Snapshot</span>
-            </div>
-            <div class="panel-body task-list">
-              <article class="task">
-                <div class="task-num">1</div>
-                <div><h3>Court coverage and diary risk</h3><p>Check Themis before relying on Outlook alone, especially for Children Court list matches and agent coverage.</p></div>
-                <span class="tag warn">Themis</span>
-              </article>
-              <article class="task">
-                <div class="task-num">2</div>
-                <div><h3>Urgent leads and warm enquiries</h3><p>Open LeadFlow first for new SMS, Legal Aid, LawConnect, Finchly, website and Facebook enquiry items.</p></div>
-                <span class="tag alert">Same day</span>
-              </article>
-              <article class="task">
-                <div class="task-num">3</div>
-                <div><h3>Matter Tasks due or overdue</h3><p>Review the practical action list in Microsoft To Do. Keep the separate Tasks list as chronology/reference.</p></div>
-                <span class="tag warn">Matter Tasks</span>
-              </article>
-              <article class="task">
-                <div class="task-num">4</div>
-                <div><h3>Money and ATO pressure</h3><p>Plutus should surface BAS, GST, trust, Legal Aid recovery, duty billing and subscription leakage items needing approval.</p></div>
-                <span class="tag alert">Plutus</span>
-              </article>
-              <article class="task">
-                <div class="task-num">5</div>
-                <div><h3>Approvals and blockers</h3><p>Only interrupt Jacqui for items needing a decision, client action, purchase approval, filing deadline or risk sign-off.</p></div>
-                <span class="tag ok">Xena</span>
-              </article>
-            </div>
-          </section>
-          <section class="grid">
-            <article class="panel flat">
-              <div class="panel-body metric"><div><div class="metric-value">6</div><div class="metric-label">Core tabs, reduced from the older scattered layout</div></div><span class="tag ok">MVP</span></div>
-            </article>
-            <article class="panel flat">
-              <div class="panel-body metric"><div><div class="metric-value">0</div><div class="metric-label">Direct write actions from this dashboard</div></div><span class="tag warn">Link out</span></div>
-            </article>
-            <article class="panel flat">
-              <div class="panel-body metric"><div><div class="metric-value">7</div><div class="metric-label">Current agents shown in the Apps area</div></div><span class="tag ok">Roster</span></div>
-            </article>
-          </section>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">OpenClaw Mission Control</p>
+        <h1 id="page-title">A legal operations cockpit for what needs action next.</h1>
+        <p>Built as a static, privacy-preserving dashboard for Jacqui Griffin Mobile Solicitor, Family Law Assist, and NT Rural &amp; Remote Legal Services. It mirrors the Alex Finn Mission Control idea: tasks, agents, memory, documents, projects and office state in one compact view.</p>
+      </div>
+      <div class="snapshot" aria-label="Snapshot metadata">
+        <strong>Safe operating snapshot</strong>
+        <span>No confidential client details. Placeholder counts only. Sources of truth remain Microsoft 365, LeadFlow, LEAP and approved agent reports.</span>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Workspace counters">
+      <article class="stat"><span class="stat-value">14</span><span class="stat-label">Workspace sections</span></article>
+      <article class="stat"><span class="stat-value">7</span><span class="stat-label">Current agents</span></article>
+      <article class="stat"><span class="stat-value">0</span><span class="stat-label">Client names exposed</span></article>
+      <article class="stat"><span class="stat-value">3</span><span class="stat-label">Live-source links</span></article>
+      <article class="stat"><span class="stat-value">AU</span><span class="stat-label">Australian English</span></article>
+    </section>
+
+    <section class="screen is-active" id="tasks" data-screen="tasks" aria-labelledby="tasks-title">
+      <div class="section-title">
+        <div>
+          <h2 id="tasks-title">Tasks</h2>
+          <p>Kanban-style board for OpenClaw work visibility and daily triage.</p>
         </div>
-        <aside class="stack">
-          <section class="panel">
-            <div class="panel-head"><div><h3 class="panel-title">Source health</h3><p class="panel-sub">Where live detail should come from.</p></div></div>
-            <div class="panel-body">
-              <table class="source-table">
-                <tr><th>Source</th><th>Status</th></tr>
-                <tr><td>Microsoft 365</td><td><span class="tag warn">Checked by Xena</span></td></tr>
-                <tr><td>LeadFlow</td><td><span class="tag ok">Live app</span></td></tr>
-                <tr><td>Themis</td><td><span class="tag warn">Report backed</span></td></tr>
-                <tr><td>Plutus</td><td><span class="tag warn">Report backed</span></td></tr>
-                <tr><td>Mission Control</td><td><span class="tag warn">Snapshot only</span></td></tr>
-              </table>
-            </div>
-          </section>
-          <div class="note">This page should never become another task system. It is a control board that routes Jacqui to the tool or agent that owns the work.</div>
-        </aside>
+        <span class="tag amber">Snapshot</span>
+      </div>
+      <div class="kanban" aria-label="Tasks board">
+        <section class="lane" aria-labelledby="lane-inbox">
+          <div class="lane-head"><h3 id="lane-inbox">Inbox</h3><span class="tag">4</span></div>
+          <div class="lane-body">
+            <article class="task-card"><h4>Check new legal intake</h4><p>Review warm enquiries and classify as new lead, existing matter or no action.</p><div class="task-meta"><span>Hermes</span><span>Today</span></div></article>
+            <article class="task-card"><h4>Confirm diary gaps</h4><p>Cross-check court-list-only signals against the user-visible calendar.</p><div class="task-meta"><span>Themis</span><span>High</span></div></article>
+            <article class="task-card"><h4>Prepare BAS blockers</h4><p>Surface only the documents or approvals needed for finance progress.</p><div class="task-meta"><span>Plutus</span><span>Finance</span></div></article>
+            <article class="task-card"><h4>Review useful memory</h4><p>Distil durable lessons from recent daily notes without exposing private content.</p><div class="task-meta"><span>Xena</span><span>Ops</span></div></article>
+          </div>
+        </section>
+        <section class="lane" aria-labelledby="lane-next">
+          <div class="lane-head"><h3 id="lane-next">Next</h3><span class="tag blue">3</span></div>
+          <div class="lane-body">
+            <article class="task-card"><h4>Draft decision pack</h4><p>Create a short approval view for items Jacqui must decide personally.</p><div class="task-meta"><span>Gabrielle</span><span>Draft</span></div></article>
+            <article class="task-card"><h4>Check agent health</h4><p>Confirm cron, scripts and routing are producing useful work.</p><div class="task-meta"><span>Xena</span><span>System</span></div></article>
+            <article class="task-card"><h4>Marketing queue</h4><p>Keep website and Google Business Profile tasks separate from legal ops risk.</p><div class="task-meta"><span>Marketing</span><span>Low</span></div></article>
+          </div>
+        </section>
+        <section class="lane" aria-labelledby="lane-progress">
+          <div class="lane-head"><h3 id="lane-progress">In Progress</h3><span class="tag amber">2</span></div>
+          <div class="lane-body">
+            <article class="task-card"><h4>Mission Control redesign</h4><p>Static HTML/CSS/JS dashboard, no deployment, no private client data.</p><div class="task-meta"><span>Xena</span><span>Active</span></div></article>
+            <article class="task-card"><h4>LeadFlow watch</h4><p>Monitor for duplicate or resurfacing lead behaviour after past fixes.</p><div class="task-meta"><span>Hermes</span><span>Watch</span></div></article>
+          </div>
+        </section>
+        <section class="lane" aria-labelledby="lane-done">
+          <div class="lane-head"><h3 id="lane-done">Done</h3><span class="tag green">3</span></div>
+          <div class="lane-body">
+            <article class="task-card"><h4>Mission Control scoped</h4><p>Adapted to legal operations rather than a generic KPI dashboard.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></article>
+            <article class="task-card"><h4>Privacy boundary set</h4><p>Only public-safe placeholders and operational labels are shown.</p><div class="task-meta"><span>Ares</span><span>Done</span></div></article>
+            <article class="task-card"><h4>Source links retained</h4><p>LeadFlow, Outlook Calendar and Microsoft To Do remain one click away.</p><div class="task-meta"><span>Ops</span><span>Done</span></div></article>
+          </div>
+        </section>
       </div>
     </section>
 
-    <section class="screen" id="matter" role="tabpanel" aria-labelledby="tab-matter">
-      <div class="screen-head">
-        <p class="kicker">Legal work</p>
-        <h2 class="screen-title">Matter Tasks</h2>
-        <p class="screen-copy">The working legal action list. It should show what needs doing, not every chronology entry or historical task.</p>
+    <section class="screen" id="agents" data-screen="agents" aria-labelledby="agents-title">
+      <div class="section-title"><div><h2 id="agents-title">Agents</h2><p>Who is responsible for each operating lane.</p></div><span class="tag green">Roster</span></div>
+      <div class="agent-grid">
+        <article class="agent-card"><div class="agent-top"><div><h3>Xena</h3><p>Orchestrator, routing, morning brief and status synthesis.</p></div><span class="initial">X</span></div><span class="tag blue">Primary</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Hermes</h3><p>Intake, leads, email triage, client communications and personal admin.</p></div><span class="initial">H</span></div><span class="tag amber">Watch</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Themis</h3><p>Court diary, court-list checks, calendar risk and morning briefs.</p></div><span class="initial">T</span></div><span class="tag red">Risk</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Plutus</h3><p>BAS, ATO pressure, GST, Legal Aid payments and finance workflows.</p></div><span class="initial">P</span></div><span class="tag red">Priority</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Ares</h3><p>Conflict checks, compliance logging and safe operating boundaries.</p></div><span class="initial">A</span></div><span class="tag green">Ready</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Gabrielle</h3><p>Support assistant, task organisation and practical follow-up work.</p></div><span class="initial">G</span></div><span class="tag blue">Support</span></article>
+        <article class="agent-card"><div class="agent-top"><div><h3>Marketing</h3><p>Website copy, content, SEO signals and public-facing updates.</p></div><span class="initial">M</span></div><span class="tag">Queue</span></article>
       </div>
-      <div class="layout">
-        <section class="panel">
-          <div class="panel-head">
-            <div><h3 class="panel-title">Matter task board</h3><p class="panel-sub">Recommended grouping for the next version.</p></div>
-            <a class="btn" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener">Open To Do</a>
+    </section>
+
+    <section class="screen" id="leads" data-screen="leads" aria-labelledby="leads-title">
+      <div class="section-title"><div><h2 id="leads-title">Leads/Intake</h2><p>Safe view of intake channels and action states.</p></div><span class="tag blue">Open LeadFlow for detail</span></div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Intake flow</h3><p>Operational categories only.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>New enquiries</strong><span>SMS, Legal Aid, LawConnect, Finchly, website and Facebook channels.</span></div><span class="tag amber">Watch</span></div>
+            <div class="row"><div><strong>Existing matter signals</strong><span>Items that should be linked to current files rather than counted as new leads.</span></div><span class="tag blue">Classify</span></div>
+            <div class="row"><div><strong>Closed/no-action</strong><span>Noise and non-leads should stay suppressed after refresh.</span></div><span class="tag green">Durable</span></div>
           </div>
-          <div class="panel-body grid two">
-            <div class="empty"><strong>Overdue</strong><br>Items needing same-day triage and reprioritising.</div>
-            <div class="empty"><strong>Due today</strong><br>Client, court, agent and filing actions for the day.</div>
-            <div class="empty"><strong>This week</strong><br>Visible forward load without showing every future task.</div>
-            <div class="empty"><strong>Awaiting</strong><br>Separate waiting on client, court, agent, Legal Aid or finance.</div>
-            <div class="empty"><strong>Recently completed</strong><br>Short audit trail, with chronology handled outside this page.</div>
-            <div class="empty"><strong>Needs Xena</strong><br>Tasks blocked by missing source data, unclear matter match or decision.</div>
-          </div>
-        </section>
+        </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3 class="panel-title">Task source rules</h3><p class="panel-sub">Keep the operating model clean.</p></div></div>
-          <div class="panel-body task-list">
-            <article class="task"><div class="task-num">A</div><div><h3>Matter Tasks</h3><p>Practical legal action list Jacqui works from.</p></div><span class="tag ok">Use</span></article>
-            <article class="task"><div class="task-num">B</div><div><h3>Tasks</h3><p>Master LEAP-style chronology/reference, not the main working view.</p></div><span class="tag warn">Reference</span></article>
-            <article class="task"><div class="task-num">C</div><div><h3>Business & Finance</h3><p>Business, ATO, BAS, invoices and operational finance actions.</p></div><span class="tag warn">Plutus</span></article>
-          </div>
+          <div class="panel-head"><div><h3>Guardrail</h3><p>Privacy first.</p></div></div>
+          <div class="panel-body"><p class="empty-state">This dashboard intentionally avoids showing lead names, phone numbers, email addresses or matter facts. Use LeadFlow for the protected record.</p></div>
         </aside>
       </div>
     </section>
 
-    <section class="screen" id="leads" role="tabpanel" aria-labelledby="tab-leads">
-      <div class="screen-head">
-        <p class="kicker">Hermes and LeadFlow</p>
-        <h2 class="screen-title">Leads and intake</h2>
-        <p class="screen-copy">LeadFlow remains the lead system. Mission Control should only show summary pressure and open the live app.</p>
-      </div>
-      <div class="grid">
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">New leads</h3><p class="panel-sub">SMS, Legal Aid, LawConnect, Finchly, website and Facebook.</p></div><span class="tag alert">Fast</span></div><div class="panel-body"><a class="btn primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">Open LeadFlow</a></div></article>
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">Conflict check path</h3><p class="panel-sub">Ares should be one click away before opening a new matter.</p></div><span class="tag warn">Ares</span></div><div class="panel-body">Show whether a lead needs conflict check, has a pending check, or is ready for LEAP.</div></article>
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">Follow-up pressure</h3><p class="panel-sub">Warm leads go cold quickly.</p></div><span class="tag warn">Same day</span></div><div class="panel-body">Surface unanswered calls, client documents outstanding and stale enquiries without showing private content.</div></article>
-      </div>
-    </section>
-
-    <section class="screen" id="court" role="tabpanel" aria-labelledby="tab-court">
-      <div class="screen-head">
-        <p class="kicker">Themis</p>
-        <h2 class="screen-title">Court risk</h2>
-        <p class="screen-copy">This view should reconcile diary, court lists and matter data. It must not rely on Outlook alone.</p>
-      </div>
-      <div class="layout">
-        <section class="panel">
-          <div class="panel-head"><div><h3 class="panel-title">Risk categories</h3><p class="panel-sub">The labels Themis should produce.</p></div><span class="tag warn">Review</span></div>
-          <div class="panel-body task-list">
-            <article class="task"><div class="task-num">1</div><div><h3>On court list, missing from diary</h3><p>Highest priority. Show matter-safe identifier, court, time and source.</p></div><span class="tag alert">Gap</span></article>
-            <article class="task"><div class="task-num">2</div><div><h3>Double-booking or agent coverage risk</h3><p>Surface clashes, travel pressure and agent-lawyer coverage questions.</p></div><span class="tag alert">Clash</span></article>
-            <article class="task"><div class="task-num">3</div><div><h3>Already in diary</h3><p>Short confirmation list only, so Jacqui knows the check ran.</p></div><span class="tag ok">Covered</span></article>
-            <article class="task"><div class="task-num">4</div><div><h3>Unclear source match</h3><p>Only for Jacqui's own qualifying matters, not every name on a PDF list.</p></div><span class="tag warn">Check</span></article>
-          </div>
-        </section>
-        <aside class="panel">
-          <div class="panel-head"><div><h3 class="panel-title">Court source order</h3><p class="panel-sub">How the dashboard should think.</p></div></div>
-          <div class="panel-body">
-            <table class="source-table">
-              <tr><th>Step</th><th>Source</th></tr>
-              <tr><td>1</td><td>Court PDF lists and portal reports</td></tr>
-              <tr><td>2</td><td>Microsoft 365 calendar</td></tr>
-              <tr><td>3</td><td>Current/open matter and task signals</td></tr>
-              <tr><td>4</td><td>Themis summary and Xena message to Jacqui</td></tr>
-            </table>
-          </div>
-        </aside>
+    <section class="screen" id="calendar" data-screen="calendar" aria-labelledby="calendar-title">
+      <div class="section-title"><div><h2 id="calendar-title">Calendar</h2><p>Calendar and cron confirmation, adapted for legal diary risk.</p></div><span class="tag amber">Check source</span></div>
+      <div class="mini-grid">
+        <article class="mini-card"><strong>Today</strong><p>Surface only court, conference, filing and travel constraints that affect decisions.</p></article>
+        <article class="mini-card"><strong>Next 48 hours</strong><p>Compare Outlook visibility against court-list reports where relevant.</p></article>
+        <article class="mini-card"><strong>Cron checks</strong><p>Morning brief, court-date monitor, lead monitor and finance scans should report state.</p></article>
+        <article class="mini-card"><strong>Coverage</strong><p>Agent-lawyer instructions and appearances need explicit confirmation.</p></article>
+        <article class="mini-card"><strong>Gaps</strong><p>Court-list-only matters are more important than already-diarised duplicates.</p></article>
+        <article class="mini-card"><strong>Quiet time</strong><p>Escalate only urgent or decision-critical items outside ordinary hours.</p></article>
       </div>
     </section>
 
-    <section class="screen" id="money" role="tabpanel" aria-labelledby="tab-money">
-      <div class="screen-head">
-        <p class="kicker">Plutus</p>
-        <h2 class="screen-title">Money and compliance</h2>
-        <p class="screen-copy">Finance pressure should be visible early, with approvals separated from background information.</p>
-      </div>
-      <div class="grid two">
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">BAS and ATO</h3><p class="panel-sub">GST/BAS source pack, lodgement state and penalties.</p></div><span class="tag alert">Priority</span></div><div class="panel-body">Show only the next required action and what document or approval is blocking it.</div></article>
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">Legal Aid recovery</h3><p class="panel-sub">Payments, vouchers, unpaid claims and reconciliation.</p></div><span class="tag warn">Plutus</span></div><div class="panel-body">Link to the current recovery report and make missing approvals obvious.</div></article>
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">Duty-day billing</h3><p class="panel-sub">Unclaimed duty days and claim-ready items.</p></div><span class="tag warn">Billing</span></div><div class="panel-body">Summarise days detected from calendar and whether they have been claimed.</div></article>
-        <article class="panel"><div class="panel-head"><div><h3 class="panel-title">Subscriptions and leakage</h3><p class="panel-sub">Recurring costs and unused tools.</p></div><span class="tag warn">Audit</span></div><div class="panel-body">Keep this in Money, not scattered through general tasks.</div></article>
+    <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
+      <div class="section-title"><div><h2 id="matters-title">Matters/Projects</h2><p>Project-style view without client identifiers.</p></div><span class="tag">Placeholder</span></div>
+      <div class="panel">
+        <div class="panel-body list">
+          <div class="row"><div><strong>Court preparation</strong><span>Evidence, instructions, subpoenas, agent coverage and deadlines.</span></div><span class="tag red">Risk</span></div>
+          <div class="row"><div><strong>LeadFlow reliability</strong><span>Keep the intake tool stable, persistent and mobile-friendly.</span></div><span class="tag amber">Active</span></div>
+          <div class="row"><div><strong>Finance catch-up</strong><span>BAS, ATO, Legal Aid payments and billing audit workflows.</span></div><span class="tag red">Priority</span></div>
+          <div class="row"><div><strong>Public websites</strong><span>Keep current trading names clear, accurate and Vercel-based.</span></div><span class="tag blue">Marketing</span></div>
+        </div>
       </div>
     </section>
 
-    <section class="screen" id="apps" role="tabpanel" aria-labelledby="tab-apps">
-      <div class="screen-head">
-        <p class="kicker">Links and agents</p>
-        <h2 class="screen-title">Apps, agents and shortcuts</h2>
-        <p class="screen-copy">One place for the live tools and the current seven-agent roster.</p>
-      </div>
-      <div class="layout">
-        <section class="panel">
-          <div class="panel-head"><div><h3 class="panel-title">Live app links</h3><p class="panel-sub">Production URLs Jacqui can bookmark.</p></div></div>
-          <div class="panel-body link-list">
-            <a class="link-row" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><div><strong>LeadFlow</strong><span>Lead and intake tracker</span></div><span class="tag ok">Live</span></a>
-            <a class="link-row" href="https://mission-control-v2-opal-one.vercel.app" target="_blank" rel="noopener"><div><strong>Mission Control v2</strong><span>Older live dashboard</span></div><span class="tag warn">Legacy</span></a>
-            <a class="link-row" href="https://www.mobilesolicitor.com.au" target="_blank" rel="noopener"><div><strong>Jacqui Griffin Mobile Solicitor</strong><span>Main practice website</span></div><span class="tag ok">Live</span></a>
-            <a class="link-row" href="https://familylawassist.vercel.app" target="_blank" rel="noopener"><div><strong>Family Law Assist</strong><span>Family-law support pathway</span></div><span class="tag ok">Live</span></a>
-            <a class="link-row" href="https://ntruralremotelegalservices.com.au" target="_blank" rel="noopener"><div><strong>NT Rural & Remote Legal Services</strong><span>Northern Territory service pathway</span></div><span class="tag ok">Live</span></a>
-            <a class="link-row" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener"><div><strong>Outlook Calendar</strong><span>Diary source</span></div><span class="tag warn">M365</span></a>
-            <a class="link-row" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><div><strong>Microsoft To Do</strong><span>Matter Tasks and business task lists</span></div><span class="tag warn">M365</span></a>
+    <section class="screen" id="memory" data-screen="memory" aria-labelledby="memory-title">
+      <div class="section-title"><div><h2 id="memory-title">Memory/Status</h2><p>What Mission Control should remember and what it must forget.</p></div><span class="tag green">Safe</span></div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Durable memory lanes</h3><p>Operational lessons only.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>Current systems</strong><span>GitHub + Vercel, Microsoft 365, LeadFlow, court diary agents and finance agents.</span></div><span class="tag green">Keep</span></div>
+            <div class="row"><div><strong>Corrections</strong><span>Record user corrections so the same operational mistake is not repeated.</span></div><span class="tag amber">Review</span></div>
+            <div class="row"><div><strong>Confidential client facts</strong><span>Do not put detailed private material in this public-style static page.</span></div><span class="tag red">Exclude</span></div>
           </div>
-        </section>
-        <aside class="stack">
-          <section class="panel">
-            <div class="panel-head"><div><h3 class="panel-title">Agent roster</h3><p class="panel-sub">Current operational team.</p></div><span class="tag ok">7 agents</span></div>
-            <div class="panel-body agent-grid">
-              <article class="agent"><div><h3>Xena</h3><p>Main coordinator, routing, morning brief and status.</p></div><span class="tag ok">Orchestrator</span></article>
-              <article class="agent"><div><h3>Hermes</h3><p>Lead intake, inbox triage and client comms drafts.</p></div><span class="tag warn">Intake</span></article>
-              <article class="agent"><div><h3>Themis</h3><p>Court diary, court lists, date changes and risk.</p></div><span class="tag warn">Court</span></article>
-              <article class="agent"><div><h3>Plutus</h3><p>BAS, ATO, billing, recovery and finance pressure.</p></div><span class="tag alert">Money</span></article>
-              <article class="agent"><div><h3>Ares</h3><p>Conflict checks and compliance logging.</p></div><span class="tag warn">Conflict</span></article>
-              <article class="agent"><div><h3>Gabrielle</h3><p>Task support, admin structure and follow-up.</p></div><span class="tag ok">Support</span></article>
-              <article class="agent"><div><h3>Marketing</h3><p>Draft-first content, website copy and Google updates.</p></div><span class="tag ok">Drafts</span></article>
-            </div>
-          </section>
-          <div class="note">Future phase: add safe read-only "run now" buttons for Themis, Plutus and lead checks after the snapshot dashboard proves useful.</div>
-        </aside>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Status signal</h3><p>Short operational health.</p></div></div>
+          <div class="panel-body status-list">
+            <div class="status-item"><span class="status-dot green"></span><div><strong>Privacy mode</strong><span>Using placeholders and system labels only.</span></div></div>
+            <div class="status-item"><span class="status-dot amber"></span><div><strong>Snapshot age</strong><span>Counts are illustrative until wired to a safe data feed.</span></div></div>
+            <div class="status-item"><span class="status-dot blue"></span><div><strong>Navigation</strong><span>Hash-based, vanilla JavaScript.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="docs" data-screen="docs" aria-labelledby="docs-title">
+      <div class="section-title"><div><h2 id="docs-title">Docs/Links</h2><p>Fast routes to systems and reusable outputs.</p></div><span class="tag blue">Link hub</span></div>
+      <div class="mini-grid">
+        <a class="mini-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><strong>LeadFlow</strong><p>Protected lead tracker and intake workflow.</p></a>
+        <a class="mini-card" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener"><strong>Outlook Calendar</strong><p>User-visible diary and appointments.</p></a>
+        <a class="mini-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><strong>Microsoft To Do</strong><p>Tasks, lists and smart views.</p></a>
+        <article class="mini-card"><strong>Morning brief</strong><p>Daily court, calendar and operations summary output.</p></article>
+        <article class="mini-card"><strong>Finance outputs</strong><p>BAS, billing audit and payment reconciliation packs.</p></article>
+        <article class="mini-card"><strong>Website docs</strong><p>Keep current deployment notes accurate and separate from client-facing content.</p></article>
+      </div>
+    </section>
+
+    <section class="screen" id="people" data-screen="people" aria-labelledby="people-title">
+      <div class="section-title"><div><h2 id="people-title">People</h2><p>Relationship map without contact details or client facts.</p></div><span class="tag">Directory-safe</span></div>
+      <div class="panel">
+        <div class="panel-body list">
+          <div class="row"><div><strong>Jacqui</strong><span>Principal solicitor and final decision-maker for approvals, client communications and legal strategy.</span></div><span class="tag blue">Owner</span></div>
+          <div class="row"><div><strong>Agent lawyers</strong><span>External appearance support requiring clear instructions and calendar confirmation.</span></div><span class="tag amber">Coordinate</span></div>
+          <div class="row"><div><strong>IT and platform support</strong><span>Infrastructure, domains, licences and deployment ownership.</span></div><span class="tag">Support</span></div>
+          <div class="row"><div><strong>AI operations team</strong><span>Xena routes work to the correct specialist agent.</span></div><span class="tag green">Internal</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="office" data-screen="office" aria-labelledby="office-title">
+      <div class="section-title"><div><h2 id="office-title">Office</h2><p>A compact office state view, practical rather than decorative.</p></div><span class="tag green">Working</span></div>
+      <div class="mini-grid">
+        <article class="mini-card"><strong>Front desk</strong><p>Hermes watches new intake and triage queues.</p></article>
+        <article class="mini-card"><strong>Court desk</strong><p>Themis checks diary, court list and coverage risk.</p></article>
+        <article class="mini-card"><strong>Finance desk</strong><p>Plutus tracks BAS, payments, billing and tax pressure.</p></article>
+        <article class="mini-card"><strong>Compliance desk</strong><p>Ares handles conflict and safe operating checks.</p></article>
+        <article class="mini-card"><strong>Support desk</strong><p>Gabrielle organises follow-ups and task hygiene.</p></article>
+        <article class="mini-card"><strong>Public desk</strong><p>Marketing keeps sites and public content aligned.</p></article>
+      </div>
+    </section>
+
+    <section class="screen" id="team" data-screen="team" aria-labelledby="team-title">
+      <div class="section-title"><div><h2 id="team-title">Team</h2><p>Agent mission statements and escalation logic.</p></div><span class="tag blue">Mission</span></div>
+      <div class="panel">
+        <div class="panel-body list">
+          <div class="row"><div><strong>Escalate to Jacqui</strong><span>Only for decisions, urgency, legal judgement, approvals, payments, deadlines or human relationship risk.</span></div><span class="tag red">Human</span></div>
+          <div class="row"><div><strong>Route internally</strong><span>Use the specialist agent with the least sensitive data needed to complete the operation.</span></div><span class="tag green">Xena</span></div>
+          <div class="row"><div><strong>Draft first</strong><span>Outbound client, court, social or public messages are drafts unless Jacqui approves sending.</span></div><span class="tag amber">Rule</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="system" data-screen="system" aria-labelledby="system-title">
+      <div class="section-title"><div><h2 id="system-title">System</h2><p>Health view for the operating environment.</p></div><span class="tag amber">Local</span></div>
+      <div class="mini-grid">
+        <article class="mini-card"><strong>Static page</strong><p>Single-file HTML/CSS/JS. No framework, build chain or remote data fetch.</p></article>
+        <article class="mini-card"><strong>Deployment</strong><p>Not deployed or pushed from this change set.</p></article>
+        <article class="mini-card"><strong>Source control</strong><p>Working tree may contain unrelated changes; this edit is scoped to Mission Control.</p></article>
+        <article class="mini-card"><strong>Accessibility</strong><p>Skip link, keyboard focus, semantic sections and labelled navigation.</p></article>
+        <article class="mini-card"><strong>Responsive</strong><p>Desktop sidebar, tablet compact nav and mobile horizontal section nav.</p></article>
+        <article class="mini-card"><strong>Privacy</strong><p>No confidential matter names, contact details or private facts.</p></article>
+      </div>
+    </section>
+
+    <section class="screen" id="radar" data-screen="radar" aria-labelledby="radar-title">
+      <div class="section-title"><div><h2 id="radar-title">Radar</h2><p>Signals worth checking before the day gets away.</p></div><span class="tag red">Risk</span></div>
+      <div class="panel">
+        <div class="panel-body list">
+          <div class="row"><div><strong>Court-list-only appearances</strong><span>Flag when the court list shows something not clearly visible in the diary.</span></div><span class="tag red">High</span></div>
+          <div class="row"><div><strong>Warm leads ageing</strong><span>Fast response matters more than perfect categorisation.</span></div><span class="tag amber">Watch</span></div>
+          <div class="row"><div><strong>ATO and billing pressure</strong><span>Finance work should stay near the top until penalties and backlog are controlled.</span></div><span class="tag red">High</span></div>
+          <div class="row"><div><strong>Broken automation</strong><span>Repeated failed checks need circuit-breaking and human-readable status.</span></div><span class="tag amber">System</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="pipeline" data-screen="pipeline" aria-labelledby="pipeline-title">
+      <div class="section-title"><div><h2 id="pipeline-title">Pipeline</h2><p>How work should move from signal to outcome.</p></div><span class="tag blue">Flow</span></div>
+      <div class="kanban" aria-label="Pipeline board">
+        <section class="lane"><div class="lane-head"><h3>Signal</h3><span class="tag">Capture</span></div><div class="lane-body"><article class="task-card"><h4>Email/SMS/court list</h4><p>Capture the event without leaking contents into public dashboards.</p><div class="task-meta"><span>Input</span><span>Safe</span></div></article></div></section>
+        <section class="lane"><div class="lane-head"><h3>Triage</h3><span class="tag amber">Sort</span></div><div class="lane-body"><article class="task-card"><h4>Classify and route</h4><p>New lead, existing matter, court risk, finance, admin or noise.</p><div class="task-meta"><span>Xena</span><span>Route</span></div></article></div></section>
+        <section class="lane"><div class="lane-head"><h3>Action</h3><span class="tag blue">Do</span></div><div class="lane-body"><article class="task-card"><h4>Prepare next step</h4><p>Draft, checklist, link, task, calendar note or approval request.</p><div class="task-meta"><span>Agent</span><span>Draft</span></div></article></div></section>
+        <section class="lane"><div class="lane-head"><h3>Confirm</h3><span class="tag green">Verify</span></div><div class="lane-body"><article class="task-card"><h4>Check it stuck</h4><p>Verify saved state before saying work is complete.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></article></div></section>
+      </div>
+    </section>
+
+    <section class="screen" id="feedback" data-screen="feedback" aria-labelledby="feedback-title">
+      <div class="section-title"><div><h2 id="feedback-title">Feedback</h2><p>Where future improvements should go.</p></div><span class="tag">Backlog</span></div>
+      <div class="panel">
+        <div class="panel-body list">
+          <div class="row"><div><strong>Connect safe JSON snapshots</strong><span>Later, this can read redacted generated state rather than hard-coded placeholder content.</span></div><span class="tag blue">Future</span></div>
+          <div class="row"><div><strong>Add visual QA route</strong><span>Use screenshots before deployment when browser tooling is available.</span></div><span class="tag amber">QA</span></div>
+          <div class="row"><div><strong>Keep it practical</strong><span>Prioritise triage, risk, source links and agent accountability over decorative dashboard widgets.</span></div><span class="tag green">Principle</span></div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">Mission Control is a routing dashboard. It should not hold confidential matter detail or replace Microsoft 365, LeadFlow, LEAP, Themis or Plutus.</footer>
+  <aside class="rail" aria-label="Live activity and agent rail">
+    <section class="rail-section">
+      <div class="rail-title"><h2>Agent Rail</h2><span class="tag green">Online</span></div>
+      <div class="status-list">
+        <div class="status-item"><span class="status-dot blue"></span><div><strong>Xena</strong><span>Routing and dashboard coordination.</span></div></div>
+        <div class="status-item"><span class="status-dot amber"></span><div><strong>Hermes</strong><span>Watching intake channels.</span></div></div>
+        <div class="status-item"><span class="status-dot red"></span><div><strong>Themis</strong><span>Court diary risk remains prominent.</span></div></div>
+        <div class="status-item"><span class="status-dot red"></span><div><strong>Plutus</strong><span>Finance and ATO pressure queue.</span></div></div>
+        <div class="status-item"><span class="status-dot green"></span><div><strong>Ares</strong><span>Conflict and compliance boundary checks.</span></div></div>
+      </div>
+    </section>
+
+    <section class="rail-section panel">
+      <div class="panel-head"><div><h3>Live activity</h3><p>Operational placeholder feed.</p></div></div>
+      <div class="panel-body timeline">
+        <div class="activity"><span class="activity-time">Now</span><div><strong>Mission Control edited</strong><span>Single-file redesign in progress, local only.</span></div></div>
+        <div class="activity"><span class="activity-time">Next</span><div><strong>Validate syntax</strong><span>HTML and JavaScript checks before reporting.</span></div></div>
+        <div class="activity"><span class="activity-time">Safe</span><div><strong>Privacy preserved</strong><span>No client-specific material included.</span></div></div>
+        <div class="activity"><span class="activity-time">Rule</span><div><strong>Verify before reporting</strong><span>Check saved files, local rendering and deployment state before claiming completion.</span></div></div>
+      </div>
+    </section>
+
+    <p class="footer-note">Mission Control is an operating surface, not a replacement for source systems or legal judgement.</p>
+  </aside>
 </div>
 
 <script>
-const tabs=[...document.querySelectorAll(".tab")];
-const screens=[...document.querySelectorAll(".screen")];
-function activate(id){
-  tabs.forEach(tab=>tab.setAttribute("aria-selected",String(tab.dataset.tab===id)));
-  screens.forEach(screen=>screen.classList.toggle("active",screen.id===id));
-  if(location.hash.slice(1)!==id) history.replaceState(null,"","#"+id);
-}
-tabs.forEach(tab=>tab.addEventListener("click",()=>activate(tab.dataset.tab)));
-const initial=location.hash.slice(1);
-if(initial&&document.getElementById(initial)) activate(initial);
+(() => {
+  const links = Array.from(document.querySelectorAll("[data-section]"));
+  const screens = Array.from(document.querySelectorAll("[data-screen]"));
+  const commandInput = document.getElementById("commandInput");
+  const validSections = new Set(screens.map((screen) => screen.dataset.screen));
+
+  function normaliseHash(hash) {
+    const candidate = (hash || "").replace("#", "").trim().toLowerCase();
+    return validSections.has(candidate) ? candidate : "tasks";
+  }
+
+  function setActive(section, updateHash = true) {
+    screens.forEach((screen) => {
+      const active = screen.dataset.screen === section;
+      screen.classList.toggle("is-active", active);
+      screen.setAttribute("aria-hidden", active ? "false" : "true");
+    });
+
+    links.forEach((link) => {
+      const active = link.dataset.section === section;
+      link.classList.toggle("is-active", active);
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    if (updateHash && window.location.hash !== `#${section}`) {
+      history.pushState(null, "", `#${section}`);
+    }
+  }
+
+  links.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      setActive(link.dataset.section);
+      document.getElementById("main").focus?.();
+    });
+  });
+
+  window.addEventListener("hashchange", () => {
+    setActive(normaliseHash(window.location.hash), false);
+  });
+
+  commandInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const value = commandInput.value.trim().toLowerCase();
+    if (!value) return;
+    const match = screens.find((screen) => {
+      const id = screen.dataset.screen;
+      const label = document.querySelector(`[data-section="${id}"]`)?.textContent.toLowerCase() || "";
+      return id.includes(value) || label.includes(value) || value.includes(id);
+    });
+    if (match) {
+      setActive(match.dataset.screen);
+      commandInput.value = "";
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      commandInput.focus();
+    }
+  });
+
+  setActive(normaliseHash(window.location.hash), false);
+})();
 </script>
 </body>
 </html>
