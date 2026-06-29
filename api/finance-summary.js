@@ -21,6 +21,19 @@ const DEFAULT_SUMMARY = {
     estimatedNetBas: null,
     lodgementStatus: "Pending private source"
   },
+  taxReturn2025: {
+    annualBusinessIncome: null,
+    annualBusinessExpenses: null,
+    netSmallBusinessIncome: null,
+    taxableIncome: null,
+    estimatedTaxPayable: null,
+    rentalIncome: null,
+    rentalExpenses: null,
+    netRentalLoss: null,
+    netCapitalGain: null,
+    sourceEmailDate: null,
+    sourceAttachment: null
+  },
   projectionMonths: [
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     "Jan", "Feb", "Mar", "Apr", "May", "Jun"
@@ -74,6 +87,10 @@ function loadSummary() {
   return {
     ...DEFAULT_SUMMARY,
     ...parsed,
+    taxReturn2025: {
+      ...DEFAULT_SUMMARY.taxReturn2025,
+      ...(parsed.taxReturn2025 || {})
+    },
     live: true,
     sourceStatus: parsed.sourceStatus || "connected"
   };
