@@ -1272,16 +1272,17 @@ h1 {
       <div class="screen-grid">
         <div>
           <div class="panel">
-            <div class="panel-head"><div><h3>Weekly income split</h3><p>Placeholder only until a private finance data feed or source report is connected.</p></div><span class="tag amber">No live figures</span></div>
+            <div class="panel-head"><div><h3>Weekly income split</h3><p>MYOB year-to-date cash-basis averages from visible profit and loss accounts.</p></div><span class="tag green">MYOB live</span></div>
             <div class="panel-body list">
               <div class="row"><div><strong>Legal Aid NSW</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNsw">—</span></div>
               <div class="row"><div><strong>Legal Aid NT</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNt">—</span></div>
               <div class="row"><div><strong>Private matters</strong><span>Weekly private client income.</span></div><span class="tag" data-finance="weeklyIncome.privateMatters">—</span></div>
+              <div class="row"><div><strong>Business total</strong><span>All MYOB income accounts averaged weekly.</span></div><span class="tag blue" data-finance="weeklyIncome.businessTotal">—</span></div>
             </div>
           </div>
 
           <div class="panel">
-            <div class="panel-head"><div><h3>Weekly expense outline</h3><p>ATO-style operating categories, with values hidden until verified source data exists.</p></div></div>
+            <div class="panel-head"><div><h3>Weekly expense outline</h3><p>MYOB year-to-date expenses grouped into operating categories.</p></div></div>
             <div class="panel-body list">
               <div class="row"><div><strong>Accounting, bank fees and tax agent</strong><span>Bank charges, bookkeeping, accounting and lodgement support.</span></div><span class="tag" data-finance-expense="Accounting, bank fees and tax agent">—</span></div>
               <div class="row"><div><strong>Office, software and subscriptions</strong><span>Practice systems, cloud services, stationery and office running costs.</span></div><span class="tag" data-finance-expense="Office, software and subscriptions">—</span></div>
@@ -1294,7 +1295,7 @@ h1 {
 
         <aside>
           <div class="panel">
-            <div class="panel-head"><div><h3>Quarterly BAS</h3><p>Summary placeholders for GST and lodgement pressure.</p></div><span class="tag red">Source needed</span></div>
+            <div class="panel-head"><div><h3>Quarterly BAS</h3><p>GST return summary from MYOB, with dashboard GST pressure noted in the status.</p></div><span class="tag green">MYOB live</span></div>
             <div class="panel-body list">
               <div class="row"><div><strong>Quarter</strong><span>Current BAS period.</span></div><span class="tag" data-finance="quarterlyBas.quarter">—</span></div>
               <div class="row"><div><strong>GST collected</strong><span>Requires MYOB, bank or finance report input.</span></div><span class="tag" data-finance="quarterlyBas.gstCollected">—</span></div>
@@ -1305,8 +1306,8 @@ h1 {
           </div>
 
           <div class="panel">
-            <div class="panel-head"><div><h3>Finance source boundary</h3><p>Real amounts must not be hard-coded.</p></div></div>
-            <div class="panel-body"><p class="empty-state">Figures require a private finance data feed or approved source report before real amounts can display. Until then, Mission Control uses em dash placeholders only.</p></div>
+            <div class="panel-head"><div><h3>Finance source boundary</h3><p>Real amounts are loaded only after PIN unlock.</p></div></div>
+            <div class="panel-body"><p class="empty-state">Finance figures come from the protected server-side feed. The static page still contains no credentials, raw MYOB records or client-specific transaction detail.</p></div>
           </div>
         </aside>
       </div>
