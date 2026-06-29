@@ -1056,7 +1056,12 @@ h1 {
   .nav-link {
     flex: 0 0 auto;
     justify-content: flex-start;
-    min-height: 38px;
+    min-height: 44px;
+  }
+
+  .button,
+  .command input {
+    min-height: 44px;
   }
 
   .main {
@@ -1199,33 +1204,33 @@ h1 {
         <section class="lane" aria-labelledby="lane-inbox">
           <div class="lane-head"><h3 id="lane-inbox">Inbox</h3><span class="tag">4</span></div>
           <div class="lane-body">
-            <article class="task-card"><h4>Check new legal intake</h4><p>Review warm enquiries and classify as new lead, existing matter or no action.</p><div class="task-meta"><span>Hermes</span><span>Today</span></div></article>
-            <article class="task-card"><h4>Confirm diary gaps</h4><p>Cross-check court-list-only signals against the user-visible calendar.</p><div class="task-meta"><span>Themis</span><span>High</span></div></article>
-            <article class="task-card"><h4>Prepare BAS blockers</h4><p>Surface only the documents or approvals needed for finance progress.</p><div class="task-meta"><span>Plutus</span><span>Finance</span></div></article>
-            <article class="task-card"><h4>Review useful memory</h4><p>Distil durable lessons from recent daily notes without exposing private content.</p><div class="task-meta"><span>Xena</span><span>Ops</span></div></article>
+            <a class="task-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><h4>Check new legal intake</h4><p>Review warm enquiries and classify as new lead, existing matter or no action.</p><div class="task-meta"><span>Hermes</span><span>Today</span></div></a>
+            <a class="task-card" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener"><h4>Confirm diary gaps</h4><p>Cross-check court-list-only signals against the user-visible calendar.</p><div class="task-meta"><span>Themis</span><span>High</span></div></a>
+            <a class="task-card" href="#finance"><h4>Prepare BAS blockers</h4><p>Surface only the documents or approvals needed for finance progress.</p><div class="task-meta"><span>Plutus</span><span>Finance</span></div></a>
+            <a class="task-card" href="#memory"><h4>Review useful memory</h4><p>Distil durable lessons from recent daily notes without exposing private content.</p><div class="task-meta"><span>Xena</span><span>Ops</span></div></a>
           </div>
         </section>
         <section class="lane" aria-labelledby="lane-next">
           <div class="lane-head"><h3 id="lane-next">Next</h3><span class="tag blue">3</span></div>
           <div class="lane-body">
-            <article class="task-card"><h4>Draft decision pack</h4><p>Create a short approval view for items Jacqui must decide personally.</p><div class="task-meta"><span>Gabrielle</span><span>Draft</span></div></article>
-            <article class="task-card"><h4>Check agent health</h4><p>Confirm cron, scripts and routing are producing useful work.</p><div class="task-meta"><span>Xena</span><span>System</span></div></article>
-            <article class="task-card"><h4>Marketing queue</h4><p>Keep website and Google Business Profile tasks separate from legal ops risk.</p><div class="task-meta"><span>Marketing</span><span>Low</span></div></article>
+            <a class="task-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><h4>Draft decision pack</h4><p>Create a short approval view for items Jacqui must decide personally.</p><div class="task-meta"><span>Gabrielle</span><span>Draft</span></div></a>
+            <a class="task-card" href="#system"><h4>Check agent health</h4><p>Confirm cron, scripts and routing are producing useful work.</p><div class="task-meta"><span>Xena</span><span>System</span></div></a>
+            <a class="task-card" href="#team"><h4>Marketing queue</h4><p>Keep website and Google Business Profile tasks separate from legal ops risk.</p><div class="task-meta"><span>Marketing</span><span>Low</span></div></a>
           </div>
         </section>
         <section class="lane" aria-labelledby="lane-progress">
           <div class="lane-head"><h3 id="lane-progress">In Progress</h3><span class="tag amber">2</span></div>
           <div class="lane-body">
-            <article class="task-card"><h4>Mission Control redesign</h4><p>Static HTML/CSS/JS dashboard, no deployment, no private client data.</p><div class="task-meta"><span>Xena</span><span>Active</span></div></article>
-            <article class="task-card"><h4>LeadFlow watch</h4><p>Monitor for duplicate or resurfacing lead behaviour after past fixes.</p><div class="task-meta"><span>Hermes</span><span>Watch</span></div></article>
+            <a class="task-card" href="#system"><h4>Mission Control redesign</h4><p>Static HTML/CSS/JS dashboard, no deployment, no private client data.</p><div class="task-meta"><span>Xena</span><span>Active</span></div></a>
+            <a class="task-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><h4>LeadFlow watch</h4><p>Monitor for duplicate or resurfacing lead behaviour after past fixes.</p><div class="task-meta"><span>Hermes</span><span>Watch</span></div></a>
           </div>
         </section>
         <section class="lane" aria-labelledby="lane-done">
           <div class="lane-head"><h3 id="lane-done">Done</h3><span class="tag green">3</span></div>
           <div class="lane-body">
-            <article class="task-card"><h4>Mission Control scoped</h4><p>Adapted to legal operations rather than a generic KPI dashboard.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></article>
-            <article class="task-card"><h4>Privacy boundary set</h4><p>Only public-safe placeholders and operational labels are shown.</p><div class="task-meta"><span>Ares</span><span>Done</span></div></article>
-            <article class="task-card"><h4>Source links retained</h4><p>LeadFlow, Outlook Calendar and Microsoft To Do remain one click away.</p><div class="task-meta"><span>Ops</span><span>Done</span></div></article>
+            <a class="task-card" href="#system"><h4>Mission Control scoped</h4><p>Adapted to legal operations rather than a generic KPI dashboard.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></a>
+            <a class="task-card" href="#feedback"><h4>Privacy boundary set</h4><p>Only public-safe placeholders and operational labels are shown.</p><div class="task-meta"><span>Ares</span><span>Done</span></div></a>
+            <a class="task-card" href="#docs"><h4>Source links retained</h4><p>LeadFlow, Outlook Calendar and Microsoft To Do remain one click away.</p><div class="task-meta"><span>Ops</span><span>Done</span></div></a>
           </div>
         </section>
       </div>
