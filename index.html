@@ -1571,7 +1571,7 @@ h1 {
       const raw = pathValue(data, key);
       const textValue = element.dataset.financeFormat === "plain"
         || key.includes("lodgementStatus")
-        || key.includes("quarter")
+        || key.endsWith(".quarter")
         || key.includes("sourceEmailDate")
         || key.includes("sourceAttachment");
       const format = element.dataset.financeFormat || (textValue ? "plain" : "currency");
