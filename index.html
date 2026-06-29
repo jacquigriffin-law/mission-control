@@ -534,6 +534,7 @@ h1 {
 }
 
 .task-card {
+  position: relative;
   display: block;
   min-width: 0;
   border: 1px solid var(--line);
@@ -543,10 +544,29 @@ h1 {
   color: inherit;
 }
 
+a.task-card {
+  padding-right: 34px;
+}
+
+a.task-card::after {
+  content: "›";
+  position: absolute;
+  top: 11px;
+  right: 12px;
+  color: var(--faint);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
 a.task-card:hover {
   border-color: #3f5369;
   background: #15202c;
   text-decoration: none;
+}
+
+a.task-card:active {
+  transform: translateY(1px);
 }
 
 .task-card h4 {
