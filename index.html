@@ -534,10 +534,19 @@ h1 {
 }
 
 .task-card {
+  display: block;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #121a24;
   padding: 10px;
+  color: inherit;
+}
+
+a.task-card:hover {
+  border-color: #3f5369;
+  background: #15202c;
+  text-decoration: none;
 }
 
 .task-card h4 {
