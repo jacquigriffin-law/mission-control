@@ -700,6 +700,45 @@ h1 {
   font-size: .78rem;
 }
 
+.tax-return-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.metric-card {
+  min-height: 82px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #0f151d;
+  padding: 10px;
+}
+
+.metric-card span,
+.metric-card strong {
+  display: block;
+}
+
+.metric-card span {
+  color: var(--faint);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.metric-card strong {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: .96rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.metric-card.wide {
+  grid-column: span 2;
+}
+
 .agent-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -933,6 +972,7 @@ h1 {
   .stats,
   .mini-grid,
   .finance-grid,
+  .tax-return-grid,
   .agent-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1024,8 +1064,13 @@ h1 {
   .stats,
   .mini-grid,
   .finance-grid,
+  .tax-return-grid,
   .agent-grid {
     grid-template-columns: 1fr;
+  }
+
+  .metric-card.wide {
+    grid-column: auto;
   }
 
   .forecast-grid {
@@ -1257,6 +1302,23 @@ h1 {
       </div>
 
       <div class="panel">
+        <div class="panel-head"><div><h3>2025 tax return baseline</h3><p>Private-feed summary only. No source email content, credentials, file paths or client details are shown.</p></div><span class="tag amber">Baseline</span></div>
+        <div class="panel-body tax-return-grid">
+          <article class="metric-card"><span>Business income</span><strong data-finance="taxReturn2025.annualBusinessIncome">—</strong></article>
+          <article class="metric-card"><span>Business expenses</span><strong data-finance="taxReturn2025.annualBusinessExpenses">—</strong></article>
+          <article class="metric-card"><span>Net small business</span><strong data-finance="taxReturn2025.netSmallBusinessIncome">—</strong></article>
+          <article class="metric-card"><span>Taxable income</span><strong data-finance="taxReturn2025.taxableIncome">—</strong></article>
+          <article class="metric-card"><span>Estimated tax</span><strong data-finance="taxReturn2025.estimatedTaxPayable">—</strong></article>
+          <article class="metric-card"><span>Rental income</span><strong data-finance="taxReturn2025.rentalIncome">—</strong></article>
+          <article class="metric-card"><span>Rental expenses</span><strong data-finance="taxReturn2025.rentalExpenses">—</strong></article>
+          <article class="metric-card"><span>Net rental loss</span><strong data-finance="taxReturn2025.netRentalLoss">—</strong></article>
+          <article class="metric-card"><span>Net capital gain</span><strong data-finance="taxReturn2025.netCapitalGain">—</strong></article>
+          <article class="metric-card"><span>Source email date</span><strong data-finance="taxReturn2025.sourceEmailDate" data-finance-format="plain">—</strong></article>
+          <article class="metric-card wide"><span>Source attachment</span><strong data-finance="taxReturn2025.sourceAttachment" data-finance-format="plain">—</strong></article>
+        </div>
+      </div>
+
+      <div class="panel">
         <div class="panel-head"><div><h3>12-month monthly income/expense projection</h3><p>Rolling projection scaffold for the next financial year view.</p></div><span class="tag">Projection</span></div>
         <div class="panel-body mini-grid">
           <article class="mini-card" data-projection-month="Jul"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
@@ -1482,6 +1544,10 @@ h1 {
     return path.split(".").reduce((current, key) => current && current[key], source);
   }
 
+  function financeText(value, format) {
+    return format === "plain" ? plain(value) : currency(value);
+  }
+
   function setFinanceStatus(text, tone = "") {
     if (!financeLiveStatus) return;
     financeLiveStatus.textContent = text;
@@ -1492,7 +1558,13 @@ h1 {
     document.querySelectorAll("[data-finance]").forEach((element) => {
       const key = element.dataset.finance;
       const raw = pathValue(data, key);
-      element.textContent = key.includes("lodgementStatus") || key.includes("quarter") ? plain(raw) : currency(raw);
+      const textValue = element.dataset.financeFormat === "plain"
+        || key.includes("lodgementStatus")
+        || key.includes("quarter")
+        || key.includes("sourceEmailDate")
+        || key.includes("sourceAttachment");
+      const format = element.dataset.financeFormat || (textValue ? "plain" : "currency");
+      element.textContent = financeText(raw, format);
     });
 
     const expenses = new Map((data.weeklyExpenses || []).map((item) => [item.category, item.amount]));
