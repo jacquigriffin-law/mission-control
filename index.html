@@ -610,6 +610,74 @@ h1 {
   font-size: .77rem;
 }
 
+.finance-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.finance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .84rem;
+}
+
+.finance-table th,
+.finance-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+  text-align: left;
+  vertical-align: top;
+}
+
+.finance-table th {
+  color: var(--faint);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.finance-table th:last-child,
+.finance-table td:last-child {
+  text-align: right;
+}
+
+.finance-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.forecast-card {
+  min-height: 76px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.forecast-card strong,
+.forecast-card span {
+  display: block;
+}
+
+.forecast-card strong {
+  color: var(--text);
+  font-size: .86rem;
+}
+
+.forecast-card span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .73rem;
+}
+
 .agent-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -842,6 +910,7 @@ h1 {
 
   .stats,
   .mini-grid,
+  .finance-grid,
   .agent-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -932,8 +1001,13 @@ h1 {
 
   .stats,
   .mini-grid,
+  .finance-grid,
   .agent-grid {
     grid-template-columns: 1fr;
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .row {
@@ -960,6 +1034,7 @@ h1 {
       <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
       <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Leads/Intake</span></a>
       <a class="nav-link" href="#calendar" data-section="calendar"><span class="nav-icon">C</span><span class="nav-text">Calendar</span></a>
+      <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finance</span></a>
       <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">M</span><span class="nav-text">Matters/Projects</span></a>
       <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">S</span><span class="nav-text">Memory/Status</span></a>
       <a class="nav-link" href="#docs" data-section="docs"><span class="nav-icon">D</span><span class="nav-text">Docs/Links</span></a>
@@ -984,7 +1059,7 @@ h1 {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: tasks, court, lead, BAS, memory">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: tasks, court, lead, finance, BAS, memory">
       </label>
       <div class="top-actions" aria-label="Quick links">
         <a class="button primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a>
@@ -1006,7 +1081,7 @@ h1 {
     </section>
 
     <section class="stats" aria-label="Workspace counters">
-      <article class="stat"><span class="stat-value">14</span><span class="stat-label">Workspace sections</span></article>
+      <article class="stat"><span class="stat-value">15</span><span class="stat-label">Workspace sections</span></article>
       <article class="stat"><span class="stat-value">7</span><span class="stat-label">Current agents</span></article>
       <article class="stat"><span class="stat-value">0</span><span class="stat-label">Client names exposed</span></article>
       <article class="stat"><span class="stat-value">3</span><span class="stat-label">Live-source links</span></article>
@@ -1097,6 +1172,91 @@ h1 {
         <article class="mini-card"><strong>Coverage</strong><p>Agent-lawyer instructions and appearances need explicit confirmation.</p></article>
         <article class="mini-card"><strong>Gaps</strong><p>Court-list-only matters are more important than already-diarised duplicates.</p></article>
         <article class="mini-card"><strong>Quiet time</strong><p>Escalate only urgent or decision-critical items outside ordinary hours.</p></article>
+      </div>
+    </section>
+
+    <section class="screen" id="finance" data-screen="finance" aria-labelledby="finance-title">
+      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for income, expenses, BAS and matter funding without real client or account figures.</p></div><span class="tag red">Private feed required</span></div>
+      <div class="screen-grid">
+        <div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Weekly income split</h3><p>Placeholder only until a private finance data feed or source report is connected.</p></div><span class="tag amber">No live figures</span></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Legal Aid NSW</strong><span>Weekly received or billable income.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Legal Aid NT</strong><span>Weekly received or billable income.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Private matters</strong><span>Weekly private client income.</span></div><span class="tag">—</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Weekly expense outline</h3><p>ATO-style operating categories, with values hidden until verified source data exists.</p></div></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Accounting, bank fees and tax agent</strong><span>Bank charges, bookkeeping, accounting and lodgement support.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Office, software and subscriptions</strong><span>Practice systems, cloud services, stationery and office running costs.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Motor vehicle, travel and parking</strong><span>Client visits, court travel, parking, tolls and related practice travel.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Insurance, licences and professional costs</strong><span>Practising costs, cover, memberships, CPD and professional services.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Phone, internet and communications</strong><span>Mobile, internet, calling platforms and client communication tools.</span></div><span class="tag">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Quarterly BAS</h3><p>Summary placeholders for GST and lodgement pressure.</p></div><span class="tag red">Source needed</span></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Quarter</strong><span>Current BAS period.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>GST collected</strong><span>Requires MYOB, bank or finance report input.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>GST paid</strong><span>Requires categorised expense source data.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Estimated net BAS</strong><span>Not calculated on this public-safe static dashboard.</span></div><span class="tag">—</span></div>
+              <div class="row"><div><strong>Lodgement status</strong><span>Needs source report confirmation before display.</span></div><span class="tag amber">Pending feed</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Finance source boundary</h3><p>Real amounts must not be hard-coded.</p></div></div>
+            <div class="panel-body"><p class="empty-state">Figures require a private finance data feed or approved source report before real amounts can display. Until then, Mission Control uses em dash placeholders only.</p></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>12-month monthly income/expense projection</h3><p>Rolling projection scaffold for the next financial year view.</p></div><span class="tag">Projection</span></div>
+        <div class="panel-body mini-grid">
+          <article class="mini-card"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Aug</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Sep</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Oct</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Nov</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Dec</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Jan</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Feb</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Mar</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Apr</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>May</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card"><strong>Jun</strong><p>Income —<br>Expenses —</p></article>
+        </div>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Open matters by type</h3><p>Counts stay blank until a private matter report is available.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>Family law</strong><span>Parenting, property and related family work.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Care and protection</strong><span>Children's Court and related legal aid work.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Criminal law</strong><span>Criminal and Local Court matters.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Domestic violence orders</strong><span>ADVO/DVO work and related appearances.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Wills and estates</strong><span>Estate planning and related assistance.</span></div><span class="tag">—</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Open matters by funding</h3><p>Funding mix is operational only and must come from LEAP, Legal Aid or finance reports.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>Legal Aid NSW funded</strong><span>Open files funded through NSW legal aid.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Legal Aid NT funded</strong><span>Open files funded through NT legal aid.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Private funded</strong><span>Open files funded by private engagement.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Mixed or unknown</strong><span>Requires source-system review before categorisation.</span></div><span class="tag">—</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1242,7 +1402,7 @@ h1 {
     <section class="rail-section panel">
       <div class="panel-head"><div><h3>Live activity</h3><p>Operational placeholder feed.</p></div></div>
       <div class="panel-body timeline">
-        <div class="activity"><span class="activity-time">Now</span><div><strong>Mission Control edited</strong><span>Single-file redesign in progress, local only.</span></div></div>
+        <div class="activity"><span class="activity-time">Now</span><div><strong>Mission Control edited</strong><span>Finance workspace added with privacy-safe placeholders.</span></div></div>
         <div class="activity"><span class="activity-time">Next</span><div><strong>Validate syntax</strong><span>HTML and JavaScript checks before reporting.</span></div></div>
         <div class="activity"><span class="activity-time">Safe</span><div><strong>Privacy preserved</strong><span>No client-specific material included.</span></div></div>
         <div class="activity"><span class="activity-time">Rule</span><div><strong>Verify before reporting</strong><span>Check saved files, local rendering and deployment state before claiming completion.</span></div></div>
@@ -1255,7 +1415,7 @@ h1 {
 
 <script>
 (() => {
-  const links = Array.from(document.querySelectorAll("[data-section]"));
+  const links = Array.from(document.querySelectorAll("a.nav-link[data-section]"));
   const screens = Array.from(document.querySelectorAll("[data-screen]"));
   const commandInput = document.getElementById("commandInput");
   const validSections = new Set(screens.map((screen) => screen.dataset.screen));
@@ -1289,6 +1449,7 @@ h1 {
 
   links.forEach((link) => {
     link.addEventListener("click", (event) => {
+      if (!link.hash || link.origin !== window.location.origin) return;
       event.preventDefault();
       setActive(link.dataset.section);
       document.getElementById("main").focus?.();
