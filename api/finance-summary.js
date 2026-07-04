@@ -81,62 +81,11 @@ const DEFAULT_SUMMARY = {
   }
 };
 
-const failedPins = new Map();
-const MAX_BAD_PIN_ATTEMPTS = 8;
-const BAD_PIN_WINDOW_MS = 10 * 60 * 1000;
-
 function sendJson(response, status, body) {
   response.statusCode = status;
   response.setHeader("Content-Type", "application/json; charset=utf-8");
   response.setHeader("Cache-Control", "no-store");
   response.end(JSON.stringify(body));
-}
-
-function getRequestUrl(request) {
-  return new URL(request.url || "", `https://${request.headers.host || "localhost"}`);
-}
-
-function getPin(request) {
-  const headerPin = request.headers["x-finance-pin"];
-  if (Array.isArray(headerPin)) return headerPin[0] || "";
-  if (headerPin) return headerPin;
-  try {
-    return getRequestUrl(request).searchParams.get("pin") || "";
-  } catch {
-    return "";
-  }
-}
-
-function clientKey(request) {
-  const forwarded = request.headers["x-forwarded-for"];
-  const value = Array.isArray(forwarded) ? forwarded[0] : forwarded;
-  return (value || request.socket?.remoteAddress || "unknown").split(",")[0].trim();
-}
-
-function isRateLimited(request) {
-  const key = clientKey(request);
-  const now = Date.now();
-  const record = failedPins.get(key);
-  if (!record || now - record.firstAt > BAD_PIN_WINDOW_MS) {
-    failedPins.delete(key);
-    return false;
-  }
-  return record.count >= MAX_BAD_PIN_ATTEMPTS;
-}
-
-function recordBadPin(request) {
-  const key = clientKey(request);
-  const now = Date.now();
-  const record = failedPins.get(key);
-  if (!record || now - record.firstAt > BAD_PIN_WINDOW_MS) {
-    failedPins.set(key, { count: 1, firstAt: now });
-    return;
-  }
-  record.count += 1;
-}
-
-function clearBadPin(request) {
-  failedPins.delete(clientKey(request));
 }
 
 function roundMoney(value) {
@@ -223,7 +172,7 @@ function sanitisePrivateSummary(summary) {
   return safe;
 }
 
-function loadSummary(request) {
+function loadSummary() {
   const raw = process.env.FINANCE_SUMMARY_JSON;
   if (!raw) {
     return {
@@ -274,32 +223,8 @@ module.exports = function handler(request, response) {
     return sendJson(response, 405, { ok: false, error: "method_not_allowed" });
   }
 
-  const requiredPin = process.env.MISSION_CONTROL_FINANCE_PIN || "";
-  if (!requiredPin) {
-    return sendJson(response, 503, {
-      ok: false,
-      error: "finance_pin_not_configured",
-      message: "Set MISSION_CONTROL_FINANCE_PIN in Vercel before serving private finance data."
-    });
-  }
-
-  if (isRateLimited(request)) {
-    response.setHeader("Retry-After", "600");
-    return sendJson(response, 429, {
-      ok: false,
-      error: "too_many_pin_attempts",
-      message: "Too many incorrect PIN attempts. Try again later."
-    });
-  }
-
-  if (getPin(request) !== requiredPin) {
-    recordBadPin(request);
-    return sendJson(response, 401, { ok: false, error: "unauthorised" });
-  }
-  clearBadPin(request);
-
   try {
-    return sendJson(response, 200, { ok: true, data: loadSummary(request) });
+    return sendJson(response, 200, { ok: true, data: loadSummary() });
   } catch (error) {
     return sendJson(response, 500, {
       ok: false,

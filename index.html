@@ -606,6 +606,17 @@ a.task-card:active {
   padding: 10px;
 }
 
+a.row {
+  color: inherit;
+  transition: border-color .12s ease, background-color .12s ease;
+}
+
+a.row:hover,
+a.row:focus-visible {
+  border-color: var(--blue);
+  background: #131c27;
+}
+
 .row strong {
   display: block;
   color: var(--text);
@@ -643,6 +654,30 @@ a.task-card:active {
   margin: 7px 0 0;
   color: var(--muted);
   font-size: .77rem;
+}
+
+.mini-card.is-note {
+  background: transparent;
+  border-style: dashed;
+  min-height: 0;
+}
+
+.mini-card.is-note strong {
+  color: var(--muted);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+a.mini-card {
+  color: inherit;
+  transition: border-color .12s ease, background-color .12s ease;
+}
+
+a.mini-card:hover,
+a.mini-card:focus-visible {
+  border-color: var(--blue);
+  background: #131c27;
 }
 
 .finance-grid {
@@ -711,22 +746,6 @@ a.task-card:active {
   margin-top: 5px;
   color: var(--muted);
   font-size: .73rem;
-}
-
-.finance-unlock {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) auto auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.finance-unlock input {
-  min-height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #0f151d;
-  color: var(--text);
-  padding: 0 11px;
 }
 
 .finance-live-note {
@@ -1405,10 +1424,6 @@ a.task-card:active {
   .row {
     grid-template-columns: 1fr;
   }
-
-  .finance-unlock {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
 </head>
@@ -1432,7 +1447,7 @@ a.task-card:active {
       <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">S</span><span class="nav-text">System</span></a>
     </nav>
 
-    <p class="sidebar-note">Four panels only. Open each panel for detail; source-system links sit inside System.</p>
+    <p class="sidebar-note">Four panels only. Every source-system link (Microsoft 365, LeadFlow, GitHub, docs) sits inside the System panel.</p>
   </aside>
 
   <main class="main" id="main" tabindex="-1">
@@ -1453,7 +1468,7 @@ a.task-card:active {
       </div>
       <div class="snapshot" aria-label="Snapshot metadata">
         <strong>Safe operating snapshot</strong>
-        <span>Finance figures unlock only through the PIN gate. Lead, work and system widgets show aggregate operating data only.</span>
+        <span>Finance figures load automatically from the aggregate feed. No client names, contact details, matter facts or credentials are shown anywhere on this page.</span>
       </div>
     </section>
 
@@ -1470,14 +1485,14 @@ a.task-card:active {
           <div>
             <span class="tag red">Plutus</span>
             <h3>Finance pressure</h3>
-            <p>Cash, GST/BAS commitments and bookkeeping hygiene. Exact figures stay locked until the Finance PIN is entered.</p>
-            <span class="pillar-value" data-finance="bank.balance">Locked</span>
+            <p>Cash, GST/BAS commitments and bookkeeping hygiene from the aggregate finance feed.</p>
+            <span class="pillar-value" data-finance="bank.balance">—</span>
           </div>
           <div class="kpi-strip">
             <div class="kpi-tile"><span>GST/BAS</span><strong data-finance="atoPressure.accumulatedGstToPay">—</strong><small>Commitment</small></div>
             <div class="kpi-tile"><span>Runway</span><strong data-finance="atoPressure.runwayVsGst">—</strong><small>Cash less GST</small></div>
           </div>
-          <div class="pillar-actions"><a class="button primary" href="#finance">Open finance</a><span class="tag amber">PIN required</span></div>
+          <div class="pillar-actions"><a class="button primary" href="#finance">Open finance</a><span class="tag green" id="financeHeroStatus">Live feed</span></div>
         </article>
 
         <article class="pillar-card">
@@ -1521,19 +1536,6 @@ a.task-card:active {
       </div>
     </section>
 
-    <section class="screen" id="agents" data-screen="agents" aria-labelledby="agents-title">
-      <div class="section-title"><div><h2 id="agents-title">Agents</h2><p>Who is responsible for each operating lane.</p></div><span class="tag green">Roster</span></div>
-      <div class="agent-grid">
-        <article class="agent-card"><div class="agent-top"><div><h3>Xena</h3><p>Orchestrator, routing, morning brief and status synthesis.</p></div><span class="initial">X</span></div><span class="tag blue">Primary</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Hermes</h3><p>Intake, leads, email triage, client communications and personal admin.</p></div><span class="initial">H</span></div><span class="tag amber">Watch</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Themis</h3><p>Court diary, court-list checks, calendar risk and morning briefs.</p></div><span class="initial">T</span></div><span class="tag red">Risk</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Plutus</h3><p>BAS, ATO pressure, GST, Legal Aid payments and finance workflows.</p></div><span class="initial">P</span></div><span class="tag red">Priority</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Ares</h3><p>Conflict checks, compliance logging and safe operating boundaries.</p></div><span class="initial">A</span></div><span class="tag green">Ready</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Gabrielle</h3><p>Support assistant, task organisation and practical follow-up work.</p></div><span class="initial">G</span></div><span class="tag blue">Support</span></article>
-        <article class="agent-card"><div class="agent-top"><div><h3>Marketing</h3><p>Website copy, content, SEO signals and public-facing updates.</p></div><span class="initial">M</span></div><span class="tag">Queue</span></article>
-      </div>
-    </section>
-
     <section class="screen" id="leads" data-screen="leads" aria-labelledby="leads-title">
       <div class="section-title"><div><h2 id="leads-title">Prospective Leads</h2><p>Aggregate LeadFlow and register signals, with To Do triage state and future LawConnect conversion metrics.</p></div><span class="tag blue">Open LeadFlow for detail</span></div>
       <div class="kpi-strip" aria-label="Prospective lead counters">
@@ -1571,29 +1573,12 @@ a.task-card:active {
       </div>
     </section>
 
-    <section class="screen" id="calendar" data-screen="calendar" aria-labelledby="calendar-title">
-      <div class="section-title"><div><h2 id="calendar-title">Calendar</h2><p>Calendar and cron confirmation, adapted for legal diary risk.</p></div><span class="tag amber">Check source</span></div>
-      <div class="mini-grid">
-        <article class="mini-card"><strong>Today</strong><p>Surface only court, conference, filing and travel constraints that affect decisions.</p></article>
-        <article class="mini-card"><strong>Next 48 hours</strong><p>Compare Outlook visibility against court-list reports where relevant.</p></article>
-        <article class="mini-card"><strong>Cron checks</strong><p>Morning brief, court-date monitor, lead monitor and finance scans should report state.</p></article>
-        <article class="mini-card"><strong>Coverage</strong><p>Agent-lawyer instructions and appearances need explicit confirmation.</p></article>
-        <article class="mini-card"><strong>Gaps</strong><p>Court-list-only matters are more important than already-diarised duplicates.</p></article>
-        <article class="mini-card"><strong>Quiet time</strong><p>Escalate only urgent or decision-critical items outside ordinary hours.</p></article>
-      </div>
-    </section>
-
     <section class="screen" id="finance" data-screen="finance" aria-labelledby="finance-title">
-      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for cash, GST/BAS commitments, ATO pressure and bookkeeping hygiene.</p></div><span class="tag red">Private feed required</span></div>
+      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for cash, GST/BAS commitments, ATO pressure and bookkeeping hygiene. Aggregate figures only — no client, invoice or transaction detail.</p></div><span class="tag blue" id="financeLiveStatus">Loading</span></div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Live finance feed</h3><p>Unlocks server-side finance data from the protected Mission Control API.</p></div><span class="tag amber" id="financeLiveStatus">Locked</span></div>
+        <div class="panel-head"><div><h3>Live finance feed</h3><p>Aggregate figures loaded from the Mission Control finance API.</p></div><button class="button" type="button" id="refreshFinanceData">Refresh</button></div>
         <div class="panel-body">
-          <div class="finance-unlock">
-            <input id="financePin" type="password" autocomplete="current-password" inputmode="numeric" placeholder="Finance PIN">
-            <button class="button primary" type="button" id="loadFinanceData">Load live data</button>
-            <button class="button" type="button" id="clearFinanceData">Lock</button>
-          </div>
-          <p class="finance-live-note" id="financeLiveNote">Real figures stay server-side and only load after PIN authorisation. If no private source is connected, the API will say so and keep dashes on screen.</p>
+          <p class="finance-live-note" id="financeLiveNote">Loading the aggregate finance feed…</p>
         </div>
       </div>
 
@@ -1677,8 +1662,8 @@ a.task-card:active {
           </div>
 
           <div class="panel">
-            <div class="panel-head"><div><h3>Finance source boundary</h3><p>Real amounts are loaded only after PIN unlock.</p></div></div>
-            <div class="panel-body"><p class="empty-state">Finance figures come from the protected server-side feed. The static page still contains no credentials, raw MYOB records or client-specific transaction detail.</p></div>
+            <div class="panel-head"><div><h3>Finance source boundary</h3><p>What this page will and will not display.</p></div></div>
+            <div class="panel-body"><p class="empty-state">Aggregate finance figures come from the server-side feed. No credentials, raw MYOB records, invoices, client names or matter facts are rendered on this page.</p></div>
           </div>
         </aside>
       </div>
@@ -1756,75 +1741,6 @@ a.task-card:active {
       </div>
     </section>
 
-    <section class="screen" id="memory" data-screen="memory" aria-labelledby="memory-title">
-      <div class="section-title"><div><h2 id="memory-title">Memory/Status</h2><p>What Mission Control should remember and what it must forget.</p></div><span class="tag green">Safe</span></div>
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Durable memory lanes</h3><p>Operational lessons only.</p></div></div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>Current systems</strong><span>GitHub + Vercel, Microsoft 365, LeadFlow, court diary agents and finance agents.</span></div><span class="tag green">Keep</span></div>
-            <div class="row"><div><strong>Corrections</strong><span>Record user corrections so the same operational mistake is not repeated.</span></div><span class="tag amber">Review</span></div>
-            <div class="row"><div><strong>Confidential client facts</strong><span>Do not put detailed private material in this public-style static page.</span></div><span class="tag red">Exclude</span></div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Status signal</h3><p>Short operational health.</p></div></div>
-          <div class="panel-body status-list">
-            <div class="status-item"><span class="status-dot green"></span><div><strong>Privacy mode</strong><span>Using placeholders and system labels only.</span></div></div>
-            <div class="status-item"><span class="status-dot amber"></span><div><strong>Snapshot age</strong><span>Counts are illustrative until wired to a safe data feed.</span></div></div>
-            <div class="status-item"><span class="status-dot blue"></span><div><strong>Navigation</strong><span>Hash-based, vanilla JavaScript.</span></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="docs" data-screen="docs" aria-labelledby="docs-title">
-      <div class="section-title"><div><h2 id="docs-title">Docs/Links</h2><p>Fast routes to systems and reusable outputs.</p></div><span class="tag blue">Link hub</span></div>
-      <div class="mini-grid">
-        <a class="mini-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><strong>LeadFlow</strong><p>Protected lead tracker and intake workflow.</p></a>
-        <a class="mini-card" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener"><strong>Outlook Calendar</strong><p>User-visible diary and appointments.</p></a>
-        <a class="mini-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><strong>Microsoft To Do</strong><p>Tasks, lists and smart views.</p></a>
-        <article class="mini-card"><strong>Morning brief</strong><p>Daily court, calendar and operations summary output.</p></article>
-        <article class="mini-card"><strong>Finance outputs</strong><p>BAS, billing audit and payment reconciliation packs.</p></article>
-        <article class="mini-card"><strong>Website docs</strong><p>Keep current deployment notes accurate and separate from client-facing content.</p></article>
-      </div>
-    </section>
-
-    <section class="screen" id="people" data-screen="people" aria-labelledby="people-title">
-      <div class="section-title"><div><h2 id="people-title">People</h2><p>Relationship map without contact details or client facts.</p></div><span class="tag">Directory-safe</span></div>
-      <div class="panel">
-        <div class="panel-body list">
-          <div class="row"><div><strong>Jacqui</strong><span>Principal solicitor and final decision-maker for approvals, client communications and legal strategy.</span></div><span class="tag blue">Owner</span></div>
-          <div class="row"><div><strong>Agent lawyers</strong><span>External appearance support requiring clear instructions and calendar confirmation.</span></div><span class="tag amber">Coordinate</span></div>
-          <div class="row"><div><strong>IT and platform support</strong><span>Infrastructure, domains, licences and deployment ownership.</span></div><span class="tag">Support</span></div>
-          <div class="row"><div><strong>AI operations team</strong><span>Xena routes work to the correct specialist agent.</span></div><span class="tag green">Internal</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="office" data-screen="office" aria-labelledby="office-title">
-      <div class="section-title"><div><h2 id="office-title">Office</h2><p>A compact office state view, practical rather than decorative.</p></div><span class="tag green">Working</span></div>
-      <div class="mini-grid">
-        <article class="mini-card"><strong>Front desk</strong><p>Hermes watches new intake and triage queues.</p></article>
-        <article class="mini-card"><strong>Court desk</strong><p>Themis checks diary, court list and coverage risk.</p></article>
-        <article class="mini-card"><strong>Finance desk</strong><p>Plutus tracks BAS, payments, billing and tax pressure.</p></article>
-        <article class="mini-card"><strong>Compliance desk</strong><p>Ares handles conflict and safe operating checks.</p></article>
-        <article class="mini-card"><strong>Support desk</strong><p>Gabrielle organises follow-ups and task hygiene.</p></article>
-        <article class="mini-card"><strong>Public desk</strong><p>Marketing keeps sites and public content aligned.</p></article>
-      </div>
-    </section>
-
-    <section class="screen" id="team" data-screen="team" aria-labelledby="team-title">
-      <div class="section-title"><div><h2 id="team-title">Team</h2><p>Agent mission statements and escalation logic.</p></div><span class="tag blue">Mission</span></div>
-      <div class="panel">
-        <div class="panel-body list">
-          <div class="row"><div><strong>Escalate to Jacqui</strong><span>Only for decisions, urgency, legal judgement, approvals, payments, deadlines or human relationship risk.</span></div><span class="tag red">Human</span></div>
-          <div class="row"><div><strong>Route internally</strong><span>Use the specialist agent with the least sensitive data needed to complete the operation.</span></div><span class="tag green">Xena</span></div>
-          <div class="row"><div><strong>Draft first</strong><span>Outbound client, court, social or public messages are drafts unless Jacqui approves sending.</span></div><span class="tag amber">Rule</span></div>
-        </div>
-      </div>
-    </section>
-
     <section class="screen" id="system" data-screen="system" aria-labelledby="system-title">
       <div class="section-title"><div><h2 id="system-title">System</h2><p>OpenClaw operating panel for agents, work lanes, memory, documents/files, fixes and security signals.</p></div><span class="tag green">Safe system view</span></div>
 
@@ -1864,70 +1780,11 @@ a.task-card:active {
           <a class="mini-card" href="https://outlook.office.com/" target="_blank" rel="noopener"><strong>Microsoft 365</strong><p>Email, calendar and task source system.</p></a>
           <a class="mini-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><strong>LeadFlow</strong><p>Prospective lead source of truth and Supabase-backed workflow.</p></a>
           <a class="mini-card" href="https://github.com/jacquigriffin-law/mission-control" target="_blank" rel="noopener"><strong>Mission Control GitHub</strong><p>Versioned source code for this dashboard.</p></a>
-          <article class="mini-card"><strong>Output reports</strong><p>Generated reports live in the workspace output folders; open from the local file system.</p></article>
-          <article class="mini-card"><strong>Security boundary</strong><p>Secrets, credentials and private client documents are not rendered in Mission Control.</p></article>
         </div>
-      </div>
-    </section>
-
-    <section class="screen" id="radar" data-screen="radar" aria-labelledby="radar-title">
-      <div class="section-title"><div><h2 id="radar-title">Radar</h2><p>Signals worth checking before the day gets away.</p></div><span class="tag red">Risk</span></div>
-      <div class="panel">
-        <div class="panel-body list">
-          <div class="row"><div><strong>Court-list-only appearances</strong><span>Flag when the court list shows something not clearly visible in the diary.</span></div><span class="tag red">High</span></div>
-          <div class="row"><div><strong>Warm leads ageing</strong><span>Fast response matters more than perfect categorisation.</span></div><span class="tag amber">Watch</span></div>
-          <div class="row"><div><strong>ATO and billing pressure</strong><span>Finance work should stay near the top until penalties and backlog are controlled.</span></div><span class="tag red">High</span></div>
-          <div class="row"><div><strong>Broken automation</strong><span>Repeated failed checks need circuit-breaking and human-readable status.</span></div><span class="tag amber">System</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="pipeline" data-screen="pipeline" aria-labelledby="pipeline-title">
-      <div class="section-title"><div><h2 id="pipeline-title">Pipeline</h2><p>How work should move from signal to outcome.</p></div><span class="tag blue">Flow</span></div>
-      <div class="kanban" aria-label="Pipeline board">
-        <section class="lane"><div class="lane-head"><h3>Signal</h3><span class="tag">Capture</span></div><div class="lane-body"><article class="task-card"><h4>Email/SMS/court list</h4><p>Capture the event without leaking contents into public dashboards.</p><div class="task-meta"><span>Input</span><span>Safe</span></div></article></div></section>
-        <section class="lane"><div class="lane-head"><h3>Triage</h3><span class="tag amber">Sort</span></div><div class="lane-body"><article class="task-card"><h4>Classify and route</h4><p>New lead, existing matter, court risk, finance, admin or noise.</p><div class="task-meta"><span>Xena</span><span>Route</span></div></article></div></section>
-        <section class="lane"><div class="lane-head"><h3>Action</h3><span class="tag blue">Do</span></div><div class="lane-body"><article class="task-card"><h4>Prepare next step</h4><p>Draft, checklist, link, task, calendar note or approval request.</p><div class="task-meta"><span>Agent</span><span>Draft</span></div></article></div></section>
-        <section class="lane"><div class="lane-head"><h3>Confirm</h3><span class="tag green">Verify</span></div><div class="lane-body"><article class="task-card"><h4>Check it stuck</h4><p>Verify saved state before saying work is complete.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></article></div></section>
-      </div>
-    </section>
-
-    <section class="screen" id="feedback" data-screen="feedback" aria-labelledby="feedback-title">
-      <div class="section-title"><div><h2 id="feedback-title">Feedback</h2><p>Where future improvements should go.</p></div><span class="tag">Backlog</span></div>
-      <div class="panel">
-        <div class="panel-body list">
-          <div class="row"><div><strong>Connect safe JSON snapshots</strong><span>Later, this can read redacted generated state rather than hard-coded placeholder content.</span></div><span class="tag blue">Future</span></div>
-          <div class="row"><div><strong>Add visual QA route</strong><span>Use screenshots before deployment when browser tooling is available.</span></div><span class="tag amber">QA</span></div>
-          <div class="row"><div><strong>Keep it practical</strong><span>Prioritise triage, risk, source links and agent accountability over decorative dashboard widgets.</span></div><span class="tag green">Principle</span></div>
-        </div>
+        <p class="finance-live-note">Output reports live in the local workspace <code>output/</code> folder; they are not published on this dashboard. Secrets, credentials and private client documents are never rendered here.</p>
       </div>
     </section>
   </main>
-
-  <aside class="rail" aria-label="Live activity and agent rail">
-    <section class="rail-section">
-      <div class="rail-title"><h2>Agent Rail</h2><span class="tag green">Online</span></div>
-      <div class="status-list">
-        <div class="status-item"><span class="status-dot blue"></span><div><strong>Xena</strong><span>Routing and dashboard coordination.</span></div></div>
-        <div class="status-item"><span class="status-dot amber"></span><div><strong>Hermes</strong><span>Watching intake channels.</span></div></div>
-        <div class="status-item"><span class="status-dot red"></span><div><strong>Themis</strong><span>Court diary risk remains prominent.</span></div></div>
-        <div class="status-item"><span class="status-dot red"></span><div><strong>Plutus</strong><span>Finance and ATO pressure queue.</span></div></div>
-        <div class="status-item"><span class="status-dot green"></span><div><strong>Ares</strong><span>Conflict and compliance boundary checks.</span></div></div>
-      </div>
-    </section>
-
-    <section class="rail-section panel">
-      <div class="panel-head"><div><h3>Live activity</h3><p>Operational placeholder feed.</p></div></div>
-      <div class="panel-body timeline">
-        <div class="activity"><span class="activity-time">Now</span><div><strong>Mission Control edited</strong><span>Finance workspace added with privacy-safe placeholders.</span></div></div>
-        <div class="activity"><span class="activity-time">Next</span><div><strong>Validate syntax</strong><span>HTML and JavaScript checks before reporting.</span></div></div>
-        <div class="activity"><span class="activity-time">Safe</span><div><strong>Privacy preserved</strong><span>No client-specific material included.</span></div></div>
-        <div class="activity"><span class="activity-time">Rule</span><div><strong>Verify before reporting</strong><span>Check saved files, local rendering and deployment state before claiming completion.</span></div></div>
-      </div>
-    </section>
-
-    <p class="footer-note">Mission Control is an operating surface, not a replacement for source systems or legal judgement.</p>
-  </aside>
 </div>
 
 <script src="ops-summary.js"></script>
@@ -1936,11 +1793,10 @@ a.task-card:active {
   const links = Array.from(document.querySelectorAll("a.nav-link[data-section]"));
   const screens = Array.from(document.querySelectorAll("[data-screen]"));
   const commandInput = document.getElementById("commandInput");
-  const financePin = document.getElementById("financePin");
-  const loadFinanceData = document.getElementById("loadFinanceData");
-  const clearFinanceData = document.getElementById("clearFinanceData");
+  const refreshFinanceButton = document.getElementById("refreshFinanceData");
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
+  const financeHeroStatus = document.getElementById("financeHeroStatus");
   const validSections = new Set(["dashboard", "finance", "matters", "leads", "system"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
@@ -2075,7 +1931,11 @@ a.task-card:active {
       const body = plain(item.workingOn || item.purpose || item.note);
       const meta = item.role || item.status || "";
       const tone = item.tone || options.tone || "";
-      return `<div class="row"><div><strong>${heading}</strong><span>${body}</span></div><span class="tag ${tone}">${plain(meta)}</span></div>`;
+      const content = `<div><strong>${heading}</strong><span>${body}</span></div><span class="tag ${tone}">${plain(meta)}</span>`;
+      if (item.url) {
+        return `<a class="row" href="${item.url}" target="_blank" rel="noopener">${content}</a>`;
+      }
+      return `<div class="row">${content}</div>`;
     }).join("");
   }
 
@@ -2146,42 +2006,40 @@ a.task-card:active {
     renderBasTimeline(data);
   }
 
-  async function fetchFinanceData() {
-    const pin = financePin?.value.trim();
-    if (!pin) {
-      setFinanceStatus("PIN needed", "amber");
-      financeLiveNote.textContent = "Enter the Finance PIN to request the private server-side feed.";
-      return;
-    }
-    setFinanceStatus("Loading", "blue");
-    financeLiveNote.textContent = "Requesting protected finance data...";
-
-    try {
-      const response = await fetch("/api/finance-summary", {
-        headers: { "x-finance-pin": pin },
-        cache: "no-store"
-      });
-      const payload = await response.json();
-      if (!response.ok || !payload.ok) {
-        throw new Error(payload.message || payload.error || "Finance feed unavailable");
-      }
-      applyFinanceData(payload.data);
-      setFinanceStatus(payload.data.live ? "Live" : "No source", payload.data.live ? "green" : "amber");
-      financeLiveNote.textContent = payload.data.live
-        ? `Loaded ${payload.data.source || "private finance data"}${payload.data.generatedAt ? `, generated ${payload.data.generatedAt}` : ""}.`
-        : "The protected API is working, but no private finance source is connected yet.";
-      sessionStorage.setItem("missionControlFinancePin", pin);
-    } catch (error) {
-      setFinanceStatus("Locked", "red");
-      financeLiveNote.textContent = error.message || "Could not load finance data.";
-    }
+  function setHeroFinanceStatus(text, tone = "") {
+    if (!financeHeroStatus) return;
+    financeHeroStatus.textContent = text;
+    financeHeroStatus.className = `tag ${tone}`.trim();
   }
 
-  function lockFinanceData() {
-    sessionStorage.removeItem("missionControlFinancePin");
-    if (financePin) financePin.value = "";
-    setFinanceStatus("Locked", "amber");
-    financeLiveNote.textContent = "Finance feed locked on this device.";
+  async function loadFinanceFeed() {
+    setFinanceStatus("Loading", "blue");
+    setHeroFinanceStatus("Loading", "blue");
+    if (financeLiveNote) financeLiveNote.textContent = "Loading aggregate finance data…";
+    if (refreshFinanceButton) refreshFinanceButton.disabled = true;
+
+    try {
+      const response = await fetch("/api/finance-summary", { cache: "no-store" });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.message || payload.error || `Finance feed unavailable (${response.status})`);
+      }
+      applyFinanceData(payload.data);
+      const isLive = Boolean(payload.data && payload.data.live);
+      setFinanceStatus(isLive ? "Live" : "No source", isLive ? "green" : "amber");
+      setHeroFinanceStatus(isLive ? "Live feed" : "No source", isLive ? "green" : "amber");
+      if (financeLiveNote) {
+        financeLiveNote.textContent = isLive
+          ? `Loaded ${payload.data.source || "aggregate finance data"}${payload.data.generatedAt ? `, generated ${payload.data.generatedAt}` : ""}.`
+          : "Aggregate feed is reachable but no private finance source is connected yet — figures remain dashes.";
+      }
+    } catch (error) {
+      setFinanceStatus("Offline", "red");
+      setHeroFinanceStatus("Offline", "red");
+      if (financeLiveNote) financeLiveNote.textContent = error.message || "Could not load finance data.";
+    } finally {
+      if (refreshFinanceButton) refreshFinanceButton.disabled = false;
+    }
   }
 
   function normaliseHash(hash) {
@@ -2249,18 +2107,11 @@ a.task-card:active {
     }
   });
 
-  loadFinanceData?.addEventListener("click", fetchFinanceData);
-  clearFinanceData?.addEventListener("click", lockFinanceData);
-  financePin?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") fetchFinanceData();
-  });
-  const storedFinancePin = sessionStorage.getItem("missionControlFinancePin");
-  if (storedFinancePin && financePin) {
-    financePin.value = storedFinancePin;
-  }
+  refreshFinanceButton?.addEventListener("click", loadFinanceFeed);
 
   renderSafeSummary();
   setActive(normaliseHash(window.location.hash), false);
+  loadFinanceFeed();
 })();
 </script>
 </body>
