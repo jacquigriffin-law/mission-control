@@ -774,6 +774,269 @@ a.task-card:active {
   grid-column: span 2;
 }
 
+.metric-card.critical {
+  border-color: #743039;
+  background: linear-gradient(180deg, rgba(58, 24, 27, .92), #101720);
+}
+
+.metric-card.action {
+  border-color: #715521;
+  background: linear-gradient(180deg, rgba(61, 45, 18, .8), #101720);
+}
+
+.executive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.pillar-card {
+  min-height: 236px;
+  display: grid;
+  align-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+.pillar-card h3,
+.pillar-card p {
+  margin: 0;
+}
+
+.pillar-card h3 {
+  font-size: 1rem;
+}
+
+.pillar-card p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.pillar-value {
+  display: block;
+  margin: 10px 0 0;
+  color: var(--text);
+  font-size: 2.1rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.pillar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.kpi-tile {
+  min-height: 96px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.kpi-tile span,
+.kpi-tile strong,
+.kpi-tile small {
+  display: block;
+}
+
+.kpi-tile span {
+  color: var(--faint);
+  font-size: .68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.kpi-tile strong {
+  margin-top: 7px;
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1.1;
+}
+
+.kpi-tile small {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.stack-list {
+  display: grid;
+  gap: 10px;
+}
+
+.stack-row {
+  display: grid;
+  gap: 6px;
+}
+
+.stack-row header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: .77rem;
+}
+
+.stack-bar {
+  height: 12px;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: #0b1118;
+}
+
+.stack-segment {
+  min-width: 2px;
+  background: var(--blue);
+}
+
+.stack-segment.green {
+  background: var(--green);
+}
+
+.stack-segment.amber {
+  background: var(--amber);
+}
+
+.stack-segment.red {
+  background: var(--red);
+}
+
+.stack-segment.violet {
+  background: var(--violet);
+}
+
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 10px;
+  color: var(--muted);
+  font-size: .7rem;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.legend-dot.green { background: var(--green); }
+.legend-dot.amber { background: var(--amber); }
+.legend-dot.red { background: var(--red); }
+.legend-dot.violet { background: var(--violet); }
+
+.timeline-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.timeline-tile {
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.timeline-tile strong,
+.timeline-tile span,
+.timeline-tile small {
+  display: block;
+}
+
+.timeline-tile span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .74rem;
+}
+
+.timeline-tile small {
+  margin-top: 8px;
+  color: var(--faint);
+  font-size: .69rem;
+}
+
+.summary-details {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.summary-details + .summary-details,
+.summary-details + .panel,
+.panel + .summary-details {
+  margin-top: 14px;
+}
+
+.summary-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  border-bottom: 1px solid var(--line-soft);
+  padding: 13px 14px;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.summary-details:not([open]) summary {
+  border-bottom: 0;
+}
+
+.entity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.entity-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 12px;
+}
+
+.entity-card h3,
+.entity-card p {
+  margin: 0;
+}
+
+.entity-card p {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.entity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .agent-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -995,7 +1258,9 @@ a.task-card:active {
 @media (max-width: 920px) {
   .topbar,
   .hero,
-  .screen-grid {
+  .screen-grid,
+  .executive-grid,
+  .entity-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1008,6 +1273,8 @@ a.task-card:active {
   .mini-grid,
   .finance-grid,
   .tax-return-grid,
+  .kpi-strip,
+  .timeline-strip,
   .agent-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1115,6 +1382,8 @@ a.task-card:active {
   .mini-grid,
   .finance-grid,
   .tax-return-grid,
+  .kpi-strip,
+  .timeline-strip,
   .agent-grid {
     grid-template-columns: 1fr;
   }
@@ -1163,12 +1432,12 @@ a.task-card:active {
 
     <div class="nav-label">Workspace</div>
     <nav class="nav-group" aria-label="Main sections">
-      <a class="nav-link is-active" href="#tasks" data-section="tasks"><span class="nav-icon">T</span><span class="nav-text">Tasks</span></a>
+      <a class="nav-link is-active" href="#dashboard" data-section="dashboard"><span class="nav-icon">D</span><span class="nav-text">Dashboard</span></a>
       <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
       <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Leads/Intake</span></a>
       <a class="nav-link" href="#calendar" data-section="calendar"><span class="nav-icon">C</span><span class="nav-text">Calendar</span></a>
       <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finance</span></a>
-      <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">M</span><span class="nav-text">Matters/Projects</span></a>
+      <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">W</span><span class="nav-text">Legal Work</span></a>
       <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">S</span><span class="nav-text">Memory/Status</span></a>
       <a class="nav-link" href="#docs" data-section="docs"><span class="nav-icon">D</span><span class="nav-text">Docs/Links</span></a>
       <a class="nav-link" href="#people" data-section="people"><span class="nav-icon">P</span><span class="nav-text">People</span></a>
@@ -1192,7 +1461,7 @@ a.task-card:active {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: tasks, court, lead, finance, BAS, memory">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: dashboard, finance, legal work, leads, BAS, memory">
       </label>
       <div class="top-actions" aria-label="Quick links">
         <a class="button primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a>
@@ -1204,64 +1473,70 @@ a.task-card:active {
     <section class="hero" aria-labelledby="page-title">
       <div>
         <p class="eyebrow">OpenClaw Mission Control</p>
-        <h1 id="page-title">A legal operations cockpit for what needs action next.</h1>
-        <p>Built as a static, privacy-preserving dashboard for Jacqui Griffin Mobile Solicitor, Family Law Assist, and NT Rural &amp; Remote Legal Services. It mirrors the Alex Finn Mission Control idea: tasks, agents, memory, documents, projects and office state in one compact view.</p>
+        <h1 id="page-title">A working dashboard for money, legal work and prospective leads.</h1>
+        <p>Mission Control now opens on the three operating questions Jacqui needs answered first: finance pressure, the work mix across trading names, and whether prospective leads are moving through triage.</p>
       </div>
       <div class="snapshot" aria-label="Snapshot metadata">
         <strong>Safe operating snapshot</strong>
-        <span>No confidential client details. Placeholder counts only. Sources of truth remain Microsoft 365, LeadFlow, LEAP and approved agent reports.</span>
+        <span>Finance figures unlock only through the PIN gate. Lead and legal-work widgets show aggregate counts only; no names, phone numbers, emails or matter facts are rendered.</span>
       </div>
     </section>
 
     <section class="stats" aria-label="Workspace counters">
-      <article class="stat"><span class="stat-value">15</span><span class="stat-label">Workspace sections</span></article>
-      <article class="stat"><span class="stat-value">7</span><span class="stat-label">Current agents</span></article>
+      <article class="stat"><span class="stat-value" data-safe="leadFlow.total">—</span><span class="stat-label">Safe lead records indexed</span></article>
+      <article class="stat"><span class="stat-value" data-safe="leadFlow.triage.pendingReview">—</span><span class="stat-label">LeadFlow items marked new</span></article>
+      <article class="stat"><span class="stat-value">PIN</span><span class="stat-label">Private finance gate</span></article>
+      <article class="stat"><span class="stat-value">3</span><span class="stat-label">Trading names separated</span></article>
       <article class="stat"><span class="stat-value">0</span><span class="stat-label">Client names exposed</span></article>
-      <article class="stat"><span class="stat-value">3</span><span class="stat-label">Live-source links</span></article>
-      <article class="stat"><span class="stat-value">AU</span><span class="stat-label">Australian English</span></article>
     </section>
 
-    <section class="screen is-active" id="tasks" data-screen="tasks" aria-labelledby="tasks-title">
+    <section class="screen is-active" id="dashboard" data-screen="dashboard" aria-labelledby="dashboard-title">
       <div class="section-title">
         <div>
-          <h2 id="tasks-title">Tasks</h2>
-          <p>Kanban-style board for OpenClaw work visibility and daily triage.</p>
+          <h2 id="dashboard-title">Executive Dashboard</h2>
+          <p>First-screen operating view for Plutus, legal workload and prospective lead movement.</p>
         </div>
-        <span class="tag amber">Snapshot</span>
+        <span class="tag blue">Executive view</span>
       </div>
-      <div class="kanban" aria-label="Tasks board">
-        <section class="lane" aria-labelledby="lane-inbox">
-          <div class="lane-head"><h3 id="lane-inbox">Inbox</h3><span class="tag">4</span></div>
-          <div class="lane-body">
-            <a class="task-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><h4>Check new legal intake</h4><p>Review warm enquiries and classify as new lead, existing matter or no action.</p><div class="task-meta"><span>Hermes</span><span>Today</span></div></a>
-            <a class="task-card" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener"><h4>Confirm diary gaps</h4><p>Cross-check court-list-only signals against the user-visible calendar.</p><div class="task-meta"><span>Themis</span><span>High</span></div></a>
-            <a class="task-card" href="#finance"><h4>Prepare BAS blockers</h4><p>Surface only the documents or approvals needed for finance progress.</p><div class="task-meta"><span>Plutus</span><span>Finance</span></div></a>
-            <a class="task-card" href="#memory"><h4>Review useful memory</h4><p>Distil durable lessons from recent daily notes without exposing private content.</p><div class="task-meta"><span>Xena</span><span>Ops</span></div></a>
+      <div class="executive-grid" aria-label="Executive dashboard pillars">
+        <article class="pillar-card">
+          <div>
+            <span class="tag red">Plutus</span>
+            <h3>Finance pressure</h3>
+            <p>Cash, GST/BAS commitments and bookkeeping hygiene. Exact figures stay locked until the Finance PIN is entered.</p>
+            <span class="pillar-value" data-finance="bank.balance">Locked</span>
           </div>
-        </section>
-        <section class="lane" aria-labelledby="lane-next">
-          <div class="lane-head"><h3 id="lane-next">Next</h3><span class="tag blue">3</span></div>
-          <div class="lane-body">
-            <a class="task-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><h4>Draft decision pack</h4><p>Create a short approval view for items Jacqui must decide personally.</p><div class="task-meta"><span>Gabrielle</span><span>Draft</span></div></a>
-            <a class="task-card" href="#system"><h4>Check agent health</h4><p>Confirm cron, scripts and routing are producing useful work.</p><div class="task-meta"><span>Xena</span><span>System</span></div></a>
-            <a class="task-card" href="#team"><h4>Marketing queue</h4><p>Keep website and Google Business Profile tasks separate from legal ops risk.</p><div class="task-meta"><span>Marketing</span><span>Low</span></div></a>
+          <div class="kpi-strip">
+            <div class="kpi-tile"><span>GST/BAS</span><strong data-finance="atoPressure.accumulatedGstToPay">—</strong><small>Commitment</small></div>
+            <div class="kpi-tile"><span>Runway</span><strong data-finance="atoPressure.runwayVsGst">—</strong><small>Cash less GST</small></div>
           </div>
-        </section>
-        <section class="lane" aria-labelledby="lane-progress">
-          <div class="lane-head"><h3 id="lane-progress">In Progress</h3><span class="tag amber">2</span></div>
-          <div class="lane-body">
-            <a class="task-card" href="#system"><h4>Mission Control redesign</h4><p>Static HTML/CSS/JS dashboard, no deployment, no private client data.</p><div class="task-meta"><span>Xena</span><span>Active</span></div></a>
-            <a class="task-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><h4>LeadFlow watch</h4><p>Monitor for duplicate or resurfacing lead behaviour after past fixes.</p><div class="task-meta"><span>Hermes</span><span>Watch</span></div></a>
+          <div class="pillar-actions"><a class="button primary" href="#finance">Open finance</a><span class="tag amber">PIN required</span></div>
+        </article>
+
+        <article class="pillar-card">
+          <div>
+            <span class="tag blue">Work mix</span>
+            <h3>Legal work by trading name</h3>
+            <p>Safe aggregate view across JGMS, Family Law Assist and NT Rural &amp; Remote Legal Services.</p>
+            <span class="pillar-value" data-safe="legalWork.entities.length">3</span>
           </div>
-        </section>
-        <section class="lane" aria-labelledby="lane-done">
-          <div class="lane-head"><h3 id="lane-done">Done</h3><span class="tag green">3</span></div>
-          <div class="lane-body">
-            <a class="task-card" href="#system"><h4>Mission Control scoped</h4><p>Adapted to legal operations rather than a generic KPI dashboard.</p><div class="task-meta"><span>Xena</span><span>Done</span></div></a>
-            <a class="task-card" href="#feedback"><h4>Privacy boundary set</h4><p>Only public-safe placeholders and operational labels are shown.</p><div class="task-meta"><span>Ares</span><span>Done</span></div></a>
-            <a class="task-card" href="#docs"><h4>Source links retained</h4><p>LeadFlow, Outlook Calendar and Microsoft To Do remain one click away.</p><div class="task-meta"><span>Ops</span><span>Done</span></div></a>
+          <div class="stack-list" data-entity-bars="compact"></div>
+          <div class="pillar-actions"><a class="button primary" href="#matters">Open legal work</a><span class="tag">No client names</span></div>
+        </article>
+
+        <article class="pillar-card">
+          <div>
+            <span class="tag amber">Hermes</span>
+            <h3>Prospective leads</h3>
+            <p>LeadFlow totals, source mix, To Do triage state and LawConnect placeholders for conversion and ROI.</p>
+            <span class="pillar-value" data-safe="leadFlow.total">—</span>
           </div>
-        </section>
+          <div class="kpi-strip">
+            <div class="kpi-tile"><span>New</span><strong data-safe="leadFlow.triage.pendingReview">—</strong><small>Awaiting review</small></div>
+            <div class="kpi-tile"><span>LawConnect</span><strong data-lawconnect-count>—</strong><small>Lane ready</small></div>
+          </div>
+          <div class="pillar-actions"><a class="button primary" href="#leads">Open leads</a><a class="button" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a></div>
+        </article>
       </div>
     </section>
 
@@ -1279,19 +1554,38 @@ a.task-card:active {
     </section>
 
     <section class="screen" id="leads" data-screen="leads" aria-labelledby="leads-title">
-      <div class="section-title"><div><h2 id="leads-title">Leads/Intake</h2><p>Safe view of intake channels and action states.</p></div><span class="tag blue">Open LeadFlow for detail</span></div>
+      <div class="section-title"><div><h2 id="leads-title">Prospective Leads</h2><p>Aggregate LeadFlow and register signals, with To Do triage state and future LawConnect conversion metrics.</p></div><span class="tag blue">Open LeadFlow for detail</span></div>
+      <div class="kpi-strip" aria-label="Prospective lead counters">
+        <article class="kpi-tile"><span>Total safe records</span><strong data-safe="leadFlow.total">—</strong><small data-safe="leadFlow.lastUpdated">Snapshot pending</small></article>
+        <article class="kpi-tile"><span>New in LeadFlow</span><strong data-safe="leadFlow.triage.pendingReview">—</strong><small>Needs triage or suppression</small></article>
+        <article class="kpi-tile"><span>Review approvals</span><strong data-safe="leadFlow.triage.reviewApproval">—</strong><small>To Do / LeadFlow decision lane</small></article>
+        <article class="kpi-tile"><span>Conversion / ROI</span><strong>Pending</strong><small>LawConnect metrics not connected</small></article>
+      </div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Intake flow</h3><p>Operational categories only.</p></div></div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>New enquiries</strong><span>SMS, Legal Aid, LawConnect, Finchly, website and Facebook channels.</span></div><span class="tag amber">Watch</span></div>
-            <div class="row"><div><strong>Existing matter signals</strong><span>Items that should be linked to current files rather than counted as new leads.</span></div><span class="tag blue">Classify</span></div>
-            <div class="row"><div><strong>Closed/no-action</strong><span>Noise and non-leads should stay suppressed after refresh.</span></div><span class="tag green">Durable</span></div>
-          </div>
+          <div class="panel-head"><div><h3>Source mix</h3><p>Safe channel counts. LawConnect has a dedicated lane even when the current feed has no metric yet.</p></div></div>
+          <div class="panel-body stack-list" data-lead-source-bars></div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Guardrail</h3><p>Privacy first.</p></div></div>
-          <div class="panel-body"><p class="empty-state">This dashboard intentionally avoids showing lead names, phone numbers, email addresses or matter facts. Use LeadFlow for the protected record.</p></div>
+          <div class="panel-head"><div><h3>Triage status</h3><p>Operational categories only.</p></div></div>
+          <div class="panel-body list" data-lead-status-list>
+            <div class="row"><div><strong>To Do triage list</strong><span data-safe="leadFlow.triage.todoList">LeadFlow - Triage Inbox</span></div><span class="tag green">Available</span></div>
+            <div class="row"><div><strong>LawConnect ROI</strong><span>Future field for source cost, accepted leads and conversion rate.</span></div><span class="tag amber">Placeholder</span></div>
+          </div>
+        </aside>
+      </div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Work requested</h3><p>Lead matter categories only. Individual enquiry details stay in LeadFlow.</p></div></div>
+          <div class="panel-body stack-list" data-lead-work-bars></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Privacy boundary</h3><p>Names and contact details stay out of Mission Control.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>Displayed here</strong><span>Counts, source lanes, status buckets and future conversion placeholders.</span></div><span class="tag green">Safe</span></div>
+            <div class="row"><div><strong>Not displayed here</strong><span>Lead names, phone numbers, email addresses, subjects, previews and opposing parties.</span></div><span class="tag red">Excluded</span></div>
+            <div class="row"><div><strong>Source of truth</strong><span>Use LeadFlow and Microsoft To Do for protected record-level triage.</span></div><span class="tag blue">Linked</span></div>
+          </div>
         </aside>
       </div>
     </section>
@@ -1309,7 +1603,7 @@ a.task-card:active {
     </section>
 
     <section class="screen" id="finance" data-screen="finance" aria-labelledby="finance-title">
-      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for income, expenses, BAS and matter funding without real client or account figures.</p></div><span class="tag red">Private feed required</span></div>
+      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for cash, GST/BAS commitments, ATO pressure and bookkeeping hygiene.</p></div><span class="tag red">Private feed required</span></div>
       <div class="panel">
         <div class="panel-head"><div><h3>Live finance feed</h3><p>Unlocks server-side finance data from the protected Mission Control API.</p></div><span class="tag amber" id="financeLiveStatus">Locked</span></div>
         <div class="panel-body">
@@ -1319,6 +1613,50 @@ a.task-card:active {
             <button class="button" type="button" id="clearFinanceData">Lock</button>
           </div>
           <p class="finance-live-note" id="financeLiveNote">Real figures stay server-side and only load after PIN authorisation. If no private source is connected, the API will say so and keep dashes on screen.</p>
+        </div>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Cash vs GST/BAS commitments</h3><p>The first finance question: what is available against what must be kept aside.</p></div><span class="tag red">ATO focus</span></div>
+          <div class="panel-body">
+            <div class="tax-return-grid">
+              <article class="metric-card"><span>Operating cash</span><strong data-finance="bank.balance">—</strong></article>
+              <article class="metric-card critical"><span>Accumulated GST to pay</span><strong data-finance="atoPressure.accumulatedGstToPay">—</strong></article>
+              <article class="metric-card critical"><span>Runway vs GST</span><strong data-finance="atoPressure.runwayVsGst">—</strong></article>
+              <article class="metric-card"><span>Overdue invoices</span><strong data-finance="receivables.overdueInvoices" data-finance-format="plain">—</strong></article>
+            </div>
+            <p class="finance-live-note">Runway is operating cash less accumulated GST. It is a decision-support indicator, not accounting advice.</p>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="panel-head"><div><h3>ATO strip</h3><p>Current quarter, carried GST and income-tax estimate placeholders.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>This quarter GST</strong><span>Current BAS net payable/refund where available.</span></div><span class="tag" data-finance="atoPressure.quarterGstPayable">—</span></div>
+            <div class="row"><div><strong>Carried GST pressure</strong><span>Dashboard GST less current-quarter estimate where available.</span></div><span class="tag red" data-finance="atoPressure.carriedGstToPay">—</span></div>
+            <div class="row"><div><strong>FY2026 tax estimate</strong><span>Placeholder range from operating profit; not tax advice.</span></div><span class="tag amber" data-finance="atoPressure.incomeTaxEstimate.range" data-finance-format="plain">—</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>Bookkeeping hygiene</h3><p>Plutus daily cleanup strip from MYOB dashboard fields.</p></div><span class="tag amber">Action strip</span></div>
+        <div class="panel-body kpi-strip">
+          <article class="kpi-tile"><span>Unallocated total</span><strong data-finance="bookkeepingHygiene.unallocatedTransactions" data-finance-format="plain">—</strong><small>Bank/feed items needing allocation</small></article>
+          <article class="kpi-tile"><span>Unallocated bank</span><strong data-finance="bookkeepingHygiene.unallocatedBank" data-finance-format="plain">—</strong><small>Bank transactions</small></article>
+          <article class="kpi-tile"><span>Documents uploaded</span><strong data-finance="bookkeepingHygiene.documentsInUploads" data-finance-format="plain">—</strong><small>Documents awaiting processing</small></article>
+          <article class="kpi-tile"><span>Last reconciled</span><strong data-finance="bookkeepingHygiene.daysSinceReconciled" data-finance-format="plain">—</strong><small>Days or pending source</small></article>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>BAS timeline</h3><p>Quarter-by-quarter view replaces the old straight-line monthly projection as the main decision surface.</p></div><span class="tag blue">Timeline</span></div>
+        <div class="panel-body timeline-strip" id="basTimeline">
+          <article class="timeline-tile"><strong>Q1</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q2</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q3</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q4</strong><span>Awaiting feed</span><small>Due date pending</small></article>
         </div>
       </div>
       <div class="screen-grid">
@@ -1364,8 +1702,8 @@ a.task-card:active {
         </aside>
       </div>
 
-      <div class="panel">
-        <div class="panel-head"><div><h3>2025 tax return baseline</h3><p>Private-feed summary only. No source email content, credentials, file paths or client details are shown.</p></div><span class="tag amber">Baseline</span></div>
+      <details class="summary-details">
+        <summary><span>2025 tax return baseline</span><span class="tag amber">Private baseline</span></summary>
         <div class="panel-body tax-return-grid">
           <article class="metric-card"><span>Business income</span><strong data-finance="taxReturn2025.annualBusinessIncome">—</strong></article>
           <article class="metric-card"><span>Business expenses</span><strong data-finance="taxReturn2025.annualBusinessExpenses">—</strong></article>
@@ -1379,10 +1717,10 @@ a.task-card:active {
           <article class="metric-card"><span>Source email date</span><strong data-finance="taxReturn2025.sourceEmailDate" data-finance-format="plain">—</strong></article>
           <article class="metric-card wide"><span>Source attachment</span><strong data-finance="taxReturn2025.sourceAttachment" data-finance-format="plain">—</strong></article>
         </div>
-      </div>
+      </details>
 
-      <div class="panel">
-        <div class="panel-head"><div><h3>12-month monthly income/expense projection</h3><p>Rolling projection scaffold for the next financial year view.</p></div><span class="tag">Projection</span></div>
+      <details class="summary-details">
+        <summary><span>12-month income/expense projection</span><span class="tag">Secondary</span></summary>
         <div class="panel-body mini-grid">
           <article class="mini-card" data-projection-month="Jul"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
           <article class="mini-card" data-projection-month="Aug"><strong>Aug</strong><p>Income —<br>Expenses —</p></article>
@@ -1397,39 +1735,42 @@ a.task-card:active {
           <article class="mini-card" data-projection-month="May"><strong>May</strong><p>Income —<br>Expenses —</p></article>
           <article class="mini-card" data-projection-month="Jun"><strong>Jun</strong><p>Income —<br>Expenses —</p></article>
         </div>
-      </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Open matters by type</h3><p>Counts stay blank until a private matter report is available.</p></div></div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>Family law</strong><span>Parenting, property and related family work.</span></div><span class="tag" data-matter-type="Family law">—</span></div>
-            <div class="row"><div><strong>Care and protection</strong><span>Children's Court and related legal aid work.</span></div><span class="tag" data-matter-type="Care and protection">—</span></div>
-            <div class="row"><div><strong>Criminal law</strong><span>Criminal and Local Court matters.</span></div><span class="tag" data-matter-type="Criminal law">—</span></div>
-            <div class="row"><div><strong>Domestic violence orders</strong><span>ADVO/DVO work and related appearances.</span></div><span class="tag" data-matter-type="Domestic violence orders">—</span></div>
-            <div class="row"><div><strong>Wills and estates</strong><span>Estate planning and related assistance.</span></div><span class="tag" data-matter-type="Wills and estates">—</span></div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Open matters by funding</h3><p>Funding mix is operational only and must come from LEAP, Legal Aid or finance reports.</p></div></div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>Legal Aid NSW funded</strong><span>Open files funded through NSW legal aid.</span></div><span class="tag" data-matter-funding="Legal Aid NSW funded">—</span></div>
-            <div class="row"><div><strong>Legal Aid NT funded</strong><span>Open files funded through NT legal aid.</span></div><span class="tag" data-matter-funding="Legal Aid NT funded">—</span></div>
-            <div class="row"><div><strong>Private funded</strong><span>Open files funded by private engagement.</span></div><span class="tag" data-matter-funding="Private funded">—</span></div>
-            <div class="row"><div><strong>Mixed or unknown</strong><span>Requires source-system review before categorisation.</span></div><span class="tag" data-matter-funding="Mixed or unknown">—</span></div>
-          </div>
-        </div>
-      </div>
+      </details>
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Matters/Projects</h2><p>Project-style view without client identifiers.</p></div><span class="tag">Placeholder</span></div>
+      <div class="section-title"><div><h2 id="matters-title">Legal Work</h2><p>Work-type dashboard across the three trading names. Counts are aggregate only; LEAP open-matter fields stay as placeholders until a safe export is connected.</p></div><span class="tag blue">No client names</span></div>
+      <div class="entity-grid" data-entity-cards></div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Work type breakdown</h3><p>Stacked by trading name using the existing safe register where available.</p></div></div>
+          <div class="panel-body">
+            <div class="stack-list" data-entity-bars="full"></div>
+            <div class="bar-legend">
+              <span><i class="legend-dot"></i>Family</span>
+              <span><i class="legend-dot green"></i>Care</span>
+              <span><i class="legend-dot amber"></i>Domestic violence</span>
+              <span><i class="legend-dot red"></i>Criminal</span>
+              <span><i class="legend-dot violet"></i>Other / placeholder</span>
+            </div>
+          </div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Funding placeholders</h3><p>Needs LEAP, Legal Aid or finance export before open-file counts are shown.</p></div></div>
+          <div class="panel-body list" data-funding-list>
+            <div class="row"><div><strong>Legal Aid NSW</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Legal Aid NT</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
+            <div class="row"><div><strong>Private</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
+          </div>
+        </aside>
+      </div>
       <div class="panel">
+        <div class="panel-head"><div><h3>Jurisdiction and operational risk</h3><p>Safe place for registry/location counts, aged-matter counts and missing-next-action counts.</p></div><span class="tag amber">Partial feed</span></div>
         <div class="panel-body list">
-          <div class="row"><div><strong>Court preparation</strong><span>Evidence, instructions, subpoenas, agent coverage and deadlines.</span></div><span class="tag red">Risk</span></div>
-          <div class="row"><div><strong>LeadFlow reliability</strong><span>Keep the intake tool stable, persistent and mobile-friendly.</span></div><span class="tag amber">Active</span></div>
-          <div class="row"><div><strong>Finance catch-up</strong><span>BAS, ATO, Legal Aid payments and billing audit workflows.</span></div><span class="tag red">Priority</span></div>
-          <div class="row"><div><strong>Public websites</strong><span>Keep current trading names clear, accurate and Vercel-based.</span></div><span class="tag blue">Marketing</span></div>
+          <div class="row"><div><strong>Jurisdictions captured</strong><span data-jurisdiction-summary>Parramatta NSW, Darwin NT and NT from the current aggregate register.</span></div><span class="tag blue">Safe</span></div>
+          <div class="row"><div><strong>Aged &gt;90 days</strong><span>Open-file age needs LEAP or matter export; not inferred from lead records.</span></div><span class="tag">Pending</span></div>
+          <div class="row"><div><strong>Missing next action</strong><span>Requires To Do or LEAP matter-task mapping.</span></div><span class="tag amber">Future</span></div>
+          <div class="row"><div><strong>Funding by jurisdiction</strong><span>Legal Aid NSW, Legal Aid NT and private mix will appear once safe matter export exists.</span></div><span class="tag">Placeholder</span></div>
         </div>
       </div>
     </section>
@@ -1575,6 +1916,7 @@ a.task-card:active {
   </aside>
 </div>
 
+<script src="ops-summary.js"></script>
 <script>
 (() => {
   const links = Array.from(document.querySelectorAll("a.nav-link[data-section]"));
@@ -1586,6 +1928,8 @@ a.task-card:active {
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
   const validSections = new Set(screens.map((screen) => screen.dataset.screen));
+  const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
+  const colours = ["", "green", "amber", "red", "violet"];
 
   function currency(value) {
     if (value === null || value === undefined || value === "") return "—";
@@ -1617,6 +1961,112 @@ a.task-card:active {
     financeLiveStatus.className = `tag ${tone}`.trim();
   }
 
+  function countText(value) {
+    if (value === null || value === undefined || value === "") return "—";
+    if (Array.isArray(value)) return String(value.length);
+    const number = Number(value);
+    return Number.isFinite(number) ? new Intl.NumberFormat("en-AU").format(number) : String(value);
+  }
+
+  function setSafeText() {
+    document.querySelectorAll("[data-safe]").forEach((element) => {
+      element.textContent = countText(pathValue(safeSummary, element.dataset.safe));
+    });
+    const lawConnect = (safeSummary.leadFlow?.bySource || []).find((item) => item.label.toLowerCase().includes("lawconnect"));
+    document.querySelectorAll("[data-lawconnect-count]").forEach((element) => {
+      element.textContent = lawConnect?.placeholder ? "Ready" : countText(lawConnect?.count);
+    });
+  }
+
+  function renderBars(container, items, options = {}) {
+    if (!container) return;
+    const total = items.reduce((sum, item) => sum + (Number(item.count) || 0), 0);
+    if (!total) {
+      container.innerHTML = `<p class="empty-state">${options.empty || "No aggregate counts available yet."}</p>`;
+      return;
+    }
+    container.innerHTML = items.map((item, index) => {
+      const count = Number(item.count) || 0;
+      const width = Math.max(2, (count / total) * 100);
+      const tone = colours[index % colours.length];
+      const placeholder = item.placeholder ? " · placeholder" : "";
+      return `<div class="stack-row"><header><strong>${plain(item.label)}</strong><span>${countText(count)}${placeholder}</span></header><div class="stack-bar"><span class="stack-segment ${tone}" style="width:${width}%"></span></div></div>`;
+    }).join("");
+  }
+
+  function renderLeadDashboard() {
+    renderBars(document.querySelector("[data-lead-source-bars]"), safeSummary.leadFlow?.bySource || [], {
+      empty: "Lead source mix will appear when the safe LeadFlow snapshot is available."
+    });
+    renderBars(document.querySelector("[data-lead-work-bars]"), safeSummary.leadFlow?.byWorkType || [], {
+      empty: "Lead work-type mix will appear when the safe LeadFlow snapshot is available."
+    });
+    const statusList = document.querySelector("[data-lead-status-list]");
+    const statuses = safeSummary.leadFlow?.byStatus || [];
+    if (statusList && statuses.length) {
+      statusList.insertAdjacentHTML("afterbegin", statuses.map((item, index) => {
+        const tone = index === 0 ? "amber" : index === 1 ? "green" : "";
+        return `<div class="row"><div><strong>${plain(item.label)}</strong><span>LeadFlow status bucket.</span></div><span class="tag ${tone}">${countText(item.count)}</span></div>`;
+      }).join(""));
+    }
+  }
+
+  function entityTypeTotal(entity) {
+    return (entity.byType || []).reduce((sum, item) => sum + (Number(item.count) || 0), 0);
+  }
+
+  function renderEntityBars(mode) {
+    const container = document.querySelector(`[data-entity-bars="${mode}"]`);
+    if (!container) return;
+    const entities = safeSummary.legalWork?.entities || [];
+    container.innerHTML = entities.map((entity) => {
+      const total = entityTypeTotal(entity);
+      const segments = total
+        ? (entity.byType || []).map((item, index) => {
+            const width = Math.max(2, ((Number(item.count) || 0) / total) * 100);
+            return `<span class="stack-segment ${colours[index % colours.length]}" style="width:${width}%" title="${plain(item.label)} ${countText(item.count)}"></span>`;
+          }).join("")
+        : `<span class="stack-segment violet" style="width:100%"></span>`;
+      return `<div class="stack-row"><header><strong>${plain(entity.shortName || entity.name)}</strong><span>${total ? `${countText(total)} intake signals` : "Matter feed pending"}</span></header><div class="stack-bar">${segments}</div></div>`;
+    }).join("");
+  }
+
+  function renderLegalWork() {
+    renderEntityBars("compact");
+    renderEntityBars("full");
+    const cards = document.querySelector("[data-entity-cards]");
+    const entities = safeSummary.legalWork?.entities || [];
+    if (cards) {
+      cards.innerHTML = entities.map((entity) => {
+        const total = entityTypeTotal(entity);
+        const jurisdiction = (entity.jurisdictions || []).map((item) => item.count === null ? item.label : `${item.label} ${countText(item.count)}`).join(" · ") || "Jurisdiction pending";
+        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3><p>${total ? `${countText(total)} intake signals in the safe register.` : "Open matter count awaits safe LEAP export."}</p></div><div class="entity-meta"><span class="tag blue">Open: ${countText(entity.openMatters)}</span><span class="tag">30d opened: ${countText(entity.opened30d)}</span><span class="tag">30d closed: ${countText(entity.closed30d)}</span></div><p>${plain(jurisdiction)}</p></article>`;
+      }).join("");
+    }
+    const jurisdictions = entities.flatMap((entity) => entity.jurisdictions || []).map((item) => item.label).filter(Boolean);
+    const jurisdictionSummary = document.querySelector("[data-jurisdiction-summary]");
+    if (jurisdictionSummary && jurisdictions.length) {
+      jurisdictionSummary.textContent = Array.from(new Set(jurisdictions)).join(", ");
+    }
+  }
+
+  function renderSafeSummary() {
+    setSafeText();
+    renderLeadDashboard();
+    renderLegalWork();
+  }
+
+  function renderBasTimeline(data) {
+    const container = document.getElementById("basTimeline");
+    if (!container) return;
+    const timeline = data.basTimeline || [];
+    if (!timeline.length) return;
+    container.innerHTML = timeline.map((item) => {
+      const tone = item.status && String(item.status).includes("lodged") ? "green" : item.status && String(item.status).includes("draft") ? "blue" : "amber";
+      return `<article class="timeline-tile"><strong>${plain(item.quarter)}</strong><span>${plain(item.period)} · ${currency(item.netPayable)}</span><small><span class="tag ${tone}">${plain(item.status)}</span> Due ${plain(item.dueDate)}</small></article>`;
+    }).join("");
+  }
+
   function applyFinanceData(data) {
     document.querySelectorAll("[data-finance]").forEach((element) => {
       const key = element.dataset.finance;
@@ -1640,16 +2090,7 @@ a.task-card:active {
       const item = projections.get(element.dataset.projectionMonth) || {};
       element.querySelector("p").innerHTML = `Income ${currency(item.income)}<br>Expenses ${currency(item.expenses)}`;
     });
-
-    const byType = new Map(((data.openMatters || {}).byType || []).map((item) => [item.type, item.count]));
-    document.querySelectorAll("[data-matter-type]").forEach((element) => {
-      element.textContent = plain(byType.get(element.dataset.matterType));
-    });
-
-    const byFunding = new Map(((data.openMatters || {}).byFunding || []).map((item) => [item.funding, item.count]));
-    document.querySelectorAll("[data-matter-funding]").forEach((element) => {
-      element.textContent = plain(byFunding.get(element.dataset.matterFunding));
-    });
+    renderBasTimeline(data);
   }
 
   async function fetchFinanceData() {
@@ -1692,7 +2133,7 @@ a.task-card:active {
 
   function normaliseHash(hash) {
     const candidate = (hash || "").replace("#", "").trim().toLowerCase();
-    return validSections.has(candidate) ? candidate : "tasks";
+    return validSections.has(candidate) ? candidate : "dashboard";
   }
 
   function setActive(section, updateHash = true) {
@@ -1764,6 +2205,7 @@ a.task-card:active {
     financePin.value = storedFinancePin;
   }
 
+  renderSafeSummary();
   setActive(normaliseHash(window.location.hash), false);
 })();
 </script>
