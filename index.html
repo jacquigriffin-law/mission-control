@@ -94,7 +94,7 @@ button {
 .app {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: var(--sidebar) minmax(0, 1fr) var(--rail);
+  grid-template-columns: var(--sidebar) minmax(0, 1fr);
 }
 
 .sidebar {
@@ -1122,13 +1122,7 @@ a.task-card:active {
 }
 
 .rail {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-left: 1px solid var(--line);
-  background: rgba(9, 13, 18, .96);
-  padding: 18px 14px;
-  overflow-y: auto;
+  display: none;
 }
 
 .rail-section + .rail-section {
@@ -1431,29 +1425,14 @@ a.task-card:active {
     </div>
 
     <div class="nav-label">Workspace</div>
-    <nav class="nav-group" aria-label="Main sections">
-      <a class="nav-link is-active" href="#dashboard" data-section="dashboard"><span class="nav-icon">D</span><span class="nav-text">Dashboard</span></a>
-      <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
-      <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Leads/Intake</span></a>
-      <a class="nav-link" href="#calendar" data-section="calendar"><span class="nav-icon">C</span><span class="nav-text">Calendar</span></a>
+    <nav class="nav-group" aria-label="Four Mission Control panels">
       <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finance</span></a>
       <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">W</span><span class="nav-text">Legal Work</span></a>
-      <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">S</span><span class="nav-text">Memory/Status</span></a>
-      <a class="nav-link" href="#docs" data-section="docs"><span class="nav-icon">D</span><span class="nav-text">Docs/Links</span></a>
-      <a class="nav-link" href="#people" data-section="people"><span class="nav-icon">P</span><span class="nav-text">People</span></a>
-      <a class="nav-link" href="#office" data-section="office"><span class="nav-icon">O</span><span class="nav-text">Office</span></a>
+      <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Prospective Leads</span></a>
+      <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">S</span><span class="nav-text">System</span></a>
     </nav>
 
-    <div class="nav-label">Signals</div>
-    <nav class="nav-group" aria-label="Signal sections">
-      <a class="nav-link" href="#team" data-section="team"><span class="nav-icon">R</span><span class="nav-text">Team</span></a>
-      <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">Y</span><span class="nav-text">System</span></a>
-      <a class="nav-link" href="#radar" data-section="radar"><span class="nav-icon">R</span><span class="nav-text">Radar</span></a>
-      <a class="nav-link" href="#pipeline" data-section="pipeline"><span class="nav-icon">F</span><span class="nav-text">Pipeline</span></a>
-      <a class="nav-link" href="#feedback" data-section="feedback"><span class="nav-icon">B</span><span class="nav-text">Feedback</span></a>
-    </nav>
-
-    <p class="sidebar-note">Safe snapshot only. Open the linked source systems for live client, matter, billing or calendar detail.</p>
+    <p class="sidebar-note">Four panels only. Open each panel for detail; source-system links sit inside System.</p>
   </aside>
 
   <main class="main" id="main" tabindex="-1">
@@ -1461,42 +1440,30 @@ a.task-card:active {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Command or search: dashboard, finance, legal work, leads, BAS, memory">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Search four panels: finance, legal work, leads, system">
       </label>
-      <div class="top-actions" aria-label="Quick links">
-        <a class="button primary" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a>
-        <a class="button" href="https://outlook.office.com/calendar/" target="_blank" rel="noopener">Calendar</a>
-        <a class="button" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener">To Do</a>
-      </div>
+      <span class="tag blue">4 panels</span>
     </header>
 
     <section class="hero" aria-labelledby="page-title">
       <div>
         <p class="eyebrow">OpenClaw Mission Control</p>
-        <h1 id="page-title">A working dashboard for money, legal work and prospective leads.</h1>
-        <p>Mission Control now opens on the three operating questions Jacqui needs answered first: finance pressure, the work mix across trading names, and whether prospective leads are moving through triage.</p>
+        <h1 id="page-title">Four clear panels for the practice.</h1>
+        <p>Mission Control is now reduced to the four operating areas Jacqui asked for: Finance, Legal Work, Prospective Leads and System.</p>
       </div>
       <div class="snapshot" aria-label="Snapshot metadata">
         <strong>Safe operating snapshot</strong>
-        <span>Finance figures unlock only through the PIN gate. Lead and legal-work widgets show aggregate counts only; no names, phone numbers, emails or matter facts are rendered.</span>
+        <span>Finance figures unlock only through the PIN gate. Lead, work and system widgets show aggregate operating data only.</span>
       </div>
-    </section>
-
-    <section class="stats" aria-label="Workspace counters">
-      <article class="stat"><span class="stat-value" data-safe="leadFlow.total">—</span><span class="stat-label">Safe lead records indexed</span></article>
-      <article class="stat"><span class="stat-value" data-safe="leadFlow.triage.pendingReview">—</span><span class="stat-label">LeadFlow items marked new</span></article>
-      <article class="stat"><span class="stat-value">PIN</span><span class="stat-label">Private finance gate</span></article>
-      <article class="stat"><span class="stat-value">3</span><span class="stat-label">Trading names separated</span></article>
-      <article class="stat"><span class="stat-value">0</span><span class="stat-label">Client names exposed</span></article>
     </section>
 
     <section class="screen is-active" id="dashboard" data-screen="dashboard" aria-labelledby="dashboard-title">
       <div class="section-title">
         <div>
-          <h2 id="dashboard-title">Executive Dashboard</h2>
-          <p>First-screen operating view for Plutus, legal workload and prospective lead movement.</p>
+          <h2 id="dashboard-title">Mission Control</h2>
+          <p>Choose one of the four panels. Everything else has been folded into these areas.</p>
         </div>
-        <span class="tag blue">Executive view</span>
+        <span class="tag blue">4 panels only</span>
       </div>
       <div class="executive-grid" aria-label="Executive dashboard pillars">
         <article class="pillar-card">
@@ -1974,7 +1941,7 @@ a.task-card:active {
   const clearFinanceData = document.getElementById("clearFinanceData");
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
-  const validSections = new Set(screens.map((screen) => screen.dataset.screen));
+  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
 
@@ -2265,6 +2232,7 @@ a.task-card:active {
     if (!value) return;
     const match = screens.find((screen) => {
       const id = screen.dataset.screen;
+      if (!validSections.has(id)) return false;
       const label = document.querySelector(`[data-section="${id}"]`)?.textContent.toLowerCase() || "";
       return id.includes(value) || label.includes(value) || value.includes(id);
     });
