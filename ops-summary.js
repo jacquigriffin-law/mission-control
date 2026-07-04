@@ -140,16 +140,16 @@ window.MISSION_CONTROL_SAFE_SUMMARY = {
       { name: "Marketing", role: "Marketing", workingOn: "Website, public content, SEO and lead-source reporting", tone: "" }
     ],
     memory: [
-      { label: "STATUS.md", purpose: "What is happening right now and current deployment notes.", status: "Active", url: "https://github.com/MD-Str8nUp/xena-workspace/blob/main/STATUS.md" },
-      { label: "memory/YYYY-MM-DD.md", purpose: "Daily working log and recent decisions.", status: "Active", url: "https://github.com/MD-Str8nUp/xena-workspace/tree/main/memory" },
-      { label: "MEMORY.md", purpose: "Long-term curated memory for the main direct session.", status: "Protected", url: "https://github.com/MD-Str8nUp/xena-workspace/blob/main/MEMORY.md" },
-      { label: "mistakes.md", purpose: "Corrections and behaviours to avoid repeating.", status: "Watch", url: "https://github.com/MD-Str8nUp/xena-workspace/blob/main/mistakes.md" }
+      { label: "STATUS.md", purpose: "What is happening right now and current deployment notes.", status: "Active" },
+      { label: "memory/YYYY-MM-DD.md", purpose: "Daily working log and recent decisions.", status: "Active" },
+      { label: "MEMORY.md", purpose: "Long-term curated memory for the main direct session.", status: "Protected" },
+      { label: "mistakes.md", purpose: "Corrections and behaviours to avoid repeating.", status: "Watch" }
     ],
     documents: [
-      { label: "output/", purpose: "Generated reports, audits, screenshots and working packs.", status: "Local files", url: "https://github.com/MD-Str8nUp/xena-workspace/tree/main/output" },
-      { label: "input/", purpose: "Source documents provided to the workspace.", status: "Local files", url: "https://github.com/MD-Str8nUp/xena-workspace/tree/main/input" },
+      { label: "output/", purpose: "Generated reports, audits, screenshots and working packs. Listed here only because the private workspace is not web-openable from Vercel.", status: "Local files" },
+      { label: "input/", purpose: "Source documents provided to the workspace. Listed here only because the private workspace is not web-openable from Vercel.", status: "Local files" },
       { label: "sites/ and mission-control/", purpose: "Website/app source folders deployed through GitHub and Vercel.", status: "Versioned", url: "https://github.com/jacquigriffin-law/mission-control" },
-      { label: "skills/", purpose: "Reusable agent scripts and procedures.", status: "Versioned", url: "https://github.com/MD-Str8nUp/xena-workspace/tree/main/skills" }
+      { label: "skills/", purpose: "Reusable agent scripts and procedures. Listed here only because the private workspace is not web-openable from Vercel.", status: "Versioned" }
     ],
     security: {
       status: "Watch",
