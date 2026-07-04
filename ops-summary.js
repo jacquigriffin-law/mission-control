@@ -126,5 +126,44 @@ window.MISSION_CONTROL_SAFE_SUMMARY = {
         ]
       }
     ]
+  },
+  system: {
+    source: "OpenClaw workspace safe operating snapshot",
+    agentCount: 7,
+    agents: [
+      { name: "Xena", role: "Orchestrator", workingOn: "Routing, Mission Control, status and verification", tone: "blue" },
+      { name: "Hermes", role: "Intake / PA", workingOn: "Lead monitoring, email/SMS triage and client follow-up queues", tone: "amber" },
+      { name: "Themis", role: "Court diary", workingOn: "Court dates, calendar risk, Children's Court list checks and morning brief", tone: "red" },
+      { name: "Plutus", role: "Finance", workingOn: "BAS, GST, ATO pressure, MYOB hygiene and billing/payment checks", tone: "red" },
+      { name: "Ares", role: "Conflict checking", workingOn: "Conflict checks and compliance logging", tone: "green" },
+      { name: "Gabrielle", role: "Support", workingOn: "Task organisation and practical follow-up support", tone: "blue" },
+      { name: "Marketing", role: "Marketing", workingOn: "Website, public content, SEO and lead-source reporting", tone: "" }
+    ],
+    memory: [
+      { label: "STATUS.md", purpose: "What is happening right now and current deployment notes.", status: "Active" },
+      { label: "memory/YYYY-MM-DD.md", purpose: "Daily working log and recent decisions.", status: "Active" },
+      { label: "MEMORY.md", purpose: "Long-term curated memory for the main direct session.", status: "Protected" },
+      { label: "mistakes.md", purpose: "Corrections and behaviours to avoid repeating.", status: "Watch" }
+    ],
+    documents: [
+      { label: "output/", purpose: "Generated reports, audits, screenshots and working packs.", status: "Local files" },
+      { label: "input/", purpose: "Source documents provided to the workspace.", status: "Local files" },
+      { label: "sites/ and mission-control/", purpose: "Website/app source folders deployed through GitHub and Vercel.", status: "Versioned" },
+      { label: "skills/", purpose: "Reusable agent scripts and procedures.", status: "Versioned" }
+    ],
+    security: {
+      status: "Watch",
+      signals: [
+        { label: "Secrets", note: "Do not render credentials, tokens or private source file contents.", tone: "red" },
+        { label: "Finance", note: "Private finance figures remain behind the Finance PIN gate.", tone: "amber" },
+        { label: "Client data", note: "No names, phone numbers, email addresses or matter facts in Mission Control.", tone: "green" },
+        { label: "Deployment", note: "Verify GitHub/Vercel state after every published change.", tone: "blue" }
+      ]
+    },
+    fixQueue: [
+      { label: "Mission Control stale alias", note: "Old mission-control-v2-opal-one URL still points to a stale June deployment.", tone: "amber" },
+      { label: "LeadFlow background runner", note: "Fully hands-off To Do triage needs a scheduled runner beyond app-open sync.", tone: "blue" },
+      { label: "LawConnect metrics", note: "Credits, phone minutes, value and conversion fields need source connection.", tone: "blue" }
+    ]
   }
 };

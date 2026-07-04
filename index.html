@@ -786,7 +786,7 @@ a.task-card:active {
 
 .executive-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 14px;
 }
@@ -1537,6 +1537,20 @@ a.task-card:active {
           </div>
           <div class="pillar-actions"><a class="button primary" href="#leads">Open leads</a><a class="button" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a></div>
         </article>
+
+        <article class="pillar-card">
+          <div>
+            <span class="tag green">OpenClaw</span>
+            <h3>System</h3>
+            <p>Agents, current work lanes, memory, documents/files access, fixes and security signals in one safe operating view.</p>
+            <span class="pillar-value" data-safe="system.agentCount">—</span>
+          </div>
+          <div class="kpi-strip">
+            <div class="kpi-tile"><span>Security</span><strong data-safe="system.security.status">—</strong><small>Current signal</small></div>
+            <div class="kpi-tile"><span>Fix queue</span><strong data-safe="system.fixQueue.length">—</strong><small>Items tracked</small></div>
+          </div>
+          <div class="pillar-actions"><a class="button primary" href="#system">Open system</a><span class="tag">Memory + files</span></div>
+        </article>
       </div>
     </section>
 
@@ -1845,14 +1859,47 @@ a.task-card:active {
     </section>
 
     <section class="screen" id="system" data-screen="system" aria-labelledby="system-title">
-      <div class="section-title"><div><h2 id="system-title">System</h2><p>Health view for the operating environment.</p></div><span class="tag amber">Local</span></div>
-      <div class="mini-grid">
-        <article class="mini-card"><strong>Static page</strong><p>Single-file HTML/CSS/JS. No framework, build chain or remote data fetch.</p></article>
-        <article class="mini-card"><strong>Deployment</strong><p>GitHub and Vercel deployment are verified after each published change.</p></article>
-        <article class="mini-card"><strong>Source control</strong><p>Working tree may contain unrelated changes; this edit is scoped to Mission Control.</p></article>
-        <article class="mini-card"><strong>Accessibility</strong><p>Skip link, keyboard focus, semantic sections and labelled navigation.</p></article>
-        <article class="mini-card"><strong>Responsive</strong><p>Desktop sidebar, tablet compact nav and mobile horizontal section nav.</p></article>
-        <article class="mini-card"><strong>Privacy</strong><p>No confidential matter names, contact details or private facts.</p></article>
+      <div class="section-title"><div><h2 id="system-title">System</h2><p>OpenClaw operating panel for agents, work lanes, memory, documents/files, fixes and security signals.</p></div><span class="tag green">Safe system view</span></div>
+
+      <div class="kpi-strip" aria-label="System counters">
+        <article class="kpi-tile"><span>Agents</span><strong data-safe="system.agentCount">—</strong><small>Xena plus specialist agents</small></article>
+        <article class="kpi-tile"><span>Memory lanes</span><strong data-safe="system.memory.length">—</strong><small>Status, daily and long-term notes</small></article>
+        <article class="kpi-tile"><span>Document lanes</span><strong data-safe="system.documents.length">—</strong><small>Reports, outputs and source files</small></article>
+        <article class="kpi-tile"><span>Security</span><strong data-safe="system.security.status">—</strong><small>No secrets displayed</small></article>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Agents and current work</h3><p>Names and operating lanes only. No client-specific work is displayed.</p></div><span class="tag blue">Roster</span></div>
+          <div class="panel-body list" data-system-agents></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Security and fixes</h3><p>What needs attention before trusting a system surface.</p></div><span class="tag amber">Watch</span></div>
+          <div class="panel-body list" data-system-security></div>
+        </aside>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Memory</h3><p>Where operational context lives and what each memory lane is for.</p></div><span class="tag green">Accessible</span></div>
+          <div class="panel-body list" data-system-memory></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Documents and files</h3><p>Fast paths to outputs and source documents without exposing contents on the dashboard.</p></div><span class="tag blue">Files</span></div>
+          <div class="panel-body list" data-system-documents></div>
+        </aside>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>System source links</h3><p>Safe entry points for the systems behind this dashboard.</p></div><span class="tag">Links</span></div>
+        <div class="panel-body mini-grid">
+          <a class="mini-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><strong>Microsoft To Do</strong><p>Working surface for task and lead triage decisions.</p></a>
+          <a class="mini-card" href="https://outlook.office.com/" target="_blank" rel="noopener"><strong>Microsoft 365</strong><p>Email, calendar and task source system.</p></a>
+          <a class="mini-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><strong>LeadFlow</strong><p>Prospective lead source of truth and Supabase-backed workflow.</p></a>
+          <a class="mini-card" href="https://github.com/jacquigriffin-law/mission-control" target="_blank" rel="noopener"><strong>Mission Control GitHub</strong><p>Versioned source code for this dashboard.</p></a>
+          <article class="mini-card"><strong>Output reports</strong><p>Generated reports live in the workspace output folders; open from the local file system.</p></article>
+          <article class="mini-card"><strong>Security boundary</strong><p>Secrets, credentials and private client documents are not rendered in Mission Control.</p></article>
+        </div>
       </div>
     </section>
 
@@ -2050,10 +2097,49 @@ a.task-card:active {
     }
   }
 
+  function renderRows(container, items, options = {}) {
+    if (!container) return;
+    if (!items.length) {
+      container.innerHTML = `<p class="empty-state">${options.empty || "No safe system data available yet."}</p>`;
+      return;
+    }
+    container.innerHTML = items.map((item) => {
+      const heading = plain(item.name || item.label);
+      const body = plain(item.workingOn || item.purpose || item.note);
+      const meta = item.role || item.status || "";
+      const tone = item.tone || options.tone || "";
+      return `<div class="row"><div><strong>${heading}</strong><span>${body}</span></div><span class="tag ${tone}">${plain(meta)}</span></div>`;
+    }).join("");
+  }
+
+  function renderSystemPanel() {
+    const system = safeSummary.system || {};
+    renderRows(document.querySelector("[data-system-agents]"), system.agents || [], {
+      empty: "Agent roster will appear when the safe system snapshot is available."
+    });
+    renderRows(document.querySelector("[data-system-memory]"), system.memory || [], {
+      empty: "Memory lanes will appear when the safe system snapshot is available.",
+      tone: "green"
+    });
+    renderRows(document.querySelector("[data-system-documents]"), system.documents || [], {
+      empty: "Document lanes will appear when the safe system snapshot is available.",
+      tone: "blue"
+    });
+    const securityItems = [
+      ...(system.security?.signals || []),
+      ...(system.fixQueue || [])
+    ];
+    renderRows(document.querySelector("[data-system-security]"), securityItems, {
+      empty: "Security and fix signals will appear when the safe system snapshot is available.",
+      tone: "amber"
+    });
+  }
+
   function renderSafeSummary() {
     setSafeText();
     renderLeadDashboard();
     renderLegalWork();
+    renderSystemPanel();
   }
 
   function renderBasTimeline(data) {
