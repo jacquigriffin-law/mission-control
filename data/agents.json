@@ -1,0 +1,81 @@
+{
+  "agents": [
+    {
+      "id": "xena",
+      "name": "Xena",
+      "role": "Orchestrator",
+      "status": "Working",
+      "workingOn": "Routing Mission Control status checks and morning brief handoff",
+      "colour": "#5eb1ff",
+      "tone": "blue",
+      "lastActionAt": "2026-07-05T08:12:00+10:00",
+      "lastAction": "Confirmed Themis morning list report"
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "role": "Intake / PA",
+      "status": "Working",
+      "workingOn": "Triaging overnight LeadFlow signals and email follow-ups",
+      "colour": "#f5bd50",
+      "tone": "amber",
+      "lastActionAt": "2026-07-05T07:48:00+10:00",
+      "lastAction": "Cleared 6 lead alerts to review"
+    },
+    {
+      "id": "themis",
+      "name": "Themis",
+      "role": "Court diary",
+      "status": "Idle",
+      "workingOn": "Awaiting Children's Court list export",
+      "colour": "#ff6b6b",
+      "tone": "red",
+      "lastActionAt": "2026-07-05T06:30:00+10:00",
+      "lastAction": "Posted daily court list summary"
+    },
+    {
+      "id": "plutus",
+      "name": "Plutus",
+      "role": "Finance",
+      "status": "Working",
+      "workingOn": "BAS Q3 preparation and MYOB hygiene checks",
+      "colour": "#4fd18b",
+      "tone": "green",
+      "lastActionAt": "2026-07-05T07:15:00+10:00",
+      "lastAction": "Updated ATO pressure card"
+    },
+    {
+      "id": "ares",
+      "name": "Ares",
+      "role": "Conflict checking",
+      "status": "Idle",
+      "workingOn": "Waiting on next intake conflict check",
+      "colour": "#a98cff",
+      "tone": "violet",
+      "lastActionAt": "2026-07-04T18:02:00+10:00",
+      "lastAction": "Logged 2 conflict clearances"
+    },
+    {
+      "id": "gabrielle",
+      "name": "Gabrielle",
+      "role": "Support",
+      "status": "Working",
+      "workingOn": "Organising follow-up tasks for the practice",
+      "colour": "#ffb3ec",
+      "tone": "blue",
+      "lastActionAt": "2026-07-05T08:02:00+10:00",
+      "lastAction": "Rebuilt daily follow-up worksheet"
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "role": "Marketing",
+      "status": "Idle",
+      "workingOn": "Awaiting weekly content brief",
+      "colour": "#ffa96b",
+      "tone": "",
+      "lastActionAt": "2026-07-04T15:20:00+10:00",
+      "lastAction": "Published lead-source report"
+    }
+  ]
+}

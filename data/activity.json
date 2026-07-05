@@ -1,0 +1,53 @@
+{
+  "activity": [
+    {
+      "id": "A-2007",
+      "at": "2026-07-05T08:12:00+10:00",
+      "agentId": "xena",
+      "type": "task_done",
+      "message": "Xena marked \"Confirm morning Mission Control brief\" as Done."
+    },
+    {
+      "id": "A-2006",
+      "at": "2026-07-05T08:02:00+10:00",
+      "agentId": "gabrielle",
+      "type": "status",
+      "message": "Gabrielle updated status to Working on the follow-up worksheet."
+    },
+    {
+      "id": "A-2005",
+      "at": "2026-07-05T07:48:00+10:00",
+      "agentId": "hermes",
+      "type": "task_update",
+      "message": "Hermes progressed the LeadFlow triage task; 6 records cleared."
+    },
+    {
+      "id": "A-2004",
+      "at": "2026-07-05T07:15:00+10:00",
+      "agentId": "plutus",
+      "type": "task_update",
+      "message": "Plutus refreshed the ATO pressure card in the BAS worksheet."
+    },
+    {
+      "id": "A-2003",
+      "at": "2026-07-05T06:30:00+10:00",
+      "agentId": "themis",
+      "type": "task_done",
+      "message": "Themis marked \"Post Children's Court list summary\" as Done."
+    },
+    {
+      "id": "A-2002",
+      "at": "2026-07-04T18:02:00+10:00",
+      "agentId": "ares",
+      "type": "task_update",
+      "message": "Ares logged 2 conflict clearances against the queue."
+    },
+    {
+      "id": "A-2001",
+      "at": "2026-07-04T15:20:00+10:00",
+      "agentId": "marketing",
+      "type": "task_update",
+      "message": "Marketing published the weekly lead-source report."
+    }
+  ]
+}

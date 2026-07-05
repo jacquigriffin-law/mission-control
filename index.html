@@ -1425,6 +1425,430 @@ a.mini-card:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.agent-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.agent-status-card {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line-soft);
+  border-left: 4px solid var(--agent-colour, var(--faint));
+  border-radius: 8px;
+  background: #101720;
+  padding: 12px 12px 12px 14px;
+}
+
+.agent-status-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.agent-status-card h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: .92rem;
+  letter-spacing: .01em;
+}
+
+.agent-status-card .agent-role {
+  margin: 0;
+  color: var(--muted);
+  font-size: .74rem;
+}
+
+.agent-status-card .agent-working {
+  margin: 0;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.agent-status-card .agent-last {
+  color: var(--faint);
+  font-size: .7rem;
+}
+
+.status-pill {
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #121a24;
+  padding: 3px 9px;
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.status-pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--faint);
+}
+
+.status-pill.is-working {
+  border-color: #24583e;
+  background: var(--green-soft);
+  color: #a8f2c8;
+}
+
+.status-pill.is-working::before {
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(79, 209, 139, .18);
+}
+
+.status-pill.is-idle {
+  border-color: #715521;
+  background: var(--amber-soft);
+  color: #ffd98a;
+}
+
+.status-pill.is-idle::before {
+  background: var(--amber);
+}
+
+.agent-kanban {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.agent-lane {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 260px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #0d141c;
+}
+
+.agent-lane-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid var(--line-soft);
+  padding: 10px 12px;
+}
+
+.agent-lane-head h3 {
+  margin: 0;
+  font-size: .82rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.agent-lane-body {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 10px;
+}
+
+.agent-task-card {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--agent-colour, var(--faint));
+  border-radius: 8px;
+  background: #121a24;
+  padding: 10px 10px 10px 12px;
+}
+
+.agent-task-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.agent-task-card h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: .86rem;
+  line-height: 1.25;
+}
+
+.agent-task-card .task-detail {
+  margin: 0;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.agent-task-card .task-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--faint);
+  font-size: .7rem;
+}
+
+.agent-task-card .task-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.priority-badge {
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #121a24;
+  color: var(--muted);
+  padding: 3px 8px;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.priority-badge.is-low {
+  border-color: #295377;
+  background: var(--blue-soft);
+  color: #a8d8ff;
+}
+
+.priority-badge.is-medium {
+  border-color: #715521;
+  background: var(--amber-soft);
+  color: #ffd98a;
+}
+
+.priority-badge.is-high {
+  border-color: #743039;
+  background: var(--red-soft);
+  color: #ffb3b3;
+}
+
+.control-select {
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #0f151d;
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: .74rem;
+  font-weight: 700;
+}
+
+.control-select:focus-visible {
+  outline: 2px solid rgba(94, 177, 255, .34);
+  outline-offset: 1px;
+}
+
+.control-button {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #24583e;
+  border-radius: 6px;
+  background: var(--green-soft);
+  color: #a8f2c8;
+  padding: 3px 10px;
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.control-button:hover {
+  background: #163b2b;
+}
+
+.control-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.assignee-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.assignee-swatch::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--dot, var(--faint));
+}
+
+.activity-list {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.activity-item {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--agent-colour, var(--faint));
+  border-radius: 8px;
+  background: #101720;
+  padding: 9px 10px;
+}
+
+.activity-item .activity-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--faint);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.activity-item p {
+  margin: 0;
+  color: var(--text);
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+.comms-form {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.comms-form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.comms-input,
+.comms-textarea {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #0f151d;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: .82rem;
+}
+
+.comms-textarea {
+  min-height: 76px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.comms-input:focus,
+.comms-textarea:focus {
+  outline: 2px solid rgba(94, 177, 255, .34);
+  outline-offset: 1px;
+}
+
+.comms-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.comms-list {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.comms-item {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.comms-item header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.comms-item .comms-from {
+  color: var(--text);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.comms-item .comms-channel {
+  color: var(--muted);
+  font-size: .7rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.comms-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.4;
+}
+
+.comms-item time {
+  color: var(--faint);
+  font-size: .68rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.form-message {
+  min-height: 18px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.form-message.is-error {
+  color: #ffb3b3;
+}
+
+.form-message.is-ok {
+  color: #a8f2c8;
+}
+
+@media (max-width: 920px) {
+  .agent-kanban {
+    grid-template-columns: 1fr;
+  }
+
+  .comms-form-row {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -1440,14 +1864,15 @@ a.mini-card:focus-visible {
     </div>
 
     <div class="nav-label">Workspace</div>
-    <nav class="nav-group" aria-label="Four Mission Control panels">
+    <nav class="nav-group" aria-label="Mission Control workspace">
       <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finance</span></a>
       <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">W</span><span class="nav-text">Legal Work</span></a>
       <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Prospective Leads</span></a>
       <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">S</span><span class="nav-text">System</span></a>
+      <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
     </nav>
 
-    <p class="sidebar-note">Four panels only. Every source-system link (Microsoft 365, LeadFlow, GitHub, docs) sits inside the System panel.</p>
+    <p class="sidebar-note">Four operating panels — Finance, Legal Work, Leads, System — plus a focused Agents workspace for the roster, kanban and shared log.</p>
   </aside>
 
   <main class="main" id="main" tabindex="-1">
@@ -1455,16 +1880,16 @@ a.mini-card:focus-visible {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Search four panels: finance, legal work, leads, system">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Search Mission Control: finance, legal work, leads, system, agents">
       </label>
-      <span class="tag blue">4 panels</span>
+      <span class="tag blue">4 panels + agents</span>
     </header>
 
     <section class="hero" aria-labelledby="page-title">
       <div>
         <p class="eyebrow">OpenClaw Mission Control</p>
-        <h1 id="page-title">Four clear panels for the practice.</h1>
-        <p>Mission Control is now reduced to the four operating areas Jacqui asked for: Finance, Legal Work, Prospective Leads and System.</p>
+        <h1 id="page-title">Four operating panels plus a focused Agents workspace.</h1>
+        <p>Mission Control keeps the four operating areas Jacqui asked for — Finance, Legal Work, Prospective Leads and System — and adds a dedicated Agents workspace for the roster, kanban and shared communications log.</p>
       </div>
       <div class="snapshot" aria-label="Snapshot metadata">
         <strong>Safe operating snapshot</strong>
@@ -1476,9 +1901,9 @@ a.mini-card:focus-visible {
       <div class="section-title">
         <div>
           <h2 id="dashboard-title">Mission Control</h2>
-          <p>Choose one of the four panels. Everything else has been folded into these areas.</p>
+          <p>Choose one of the four operating panels — or open the Agents workspace for the roster, kanban and shared log.</p>
         </div>
-        <span class="tag blue">4 panels only</span>
+        <span class="tag blue">4 panels + Agents</span>
       </div>
       <div class="executive-grid" aria-label="Executive dashboard pillars">
         <article class="pillar-card">
@@ -1784,6 +2209,96 @@ a.mini-card:focus-visible {
         <p class="finance-live-note">Output reports live in the local workspace <code>output/</code> folder; they are not published on this dashboard. Secrets, credentials and private client documents are never rendered here.</p>
       </div>
     </section>
+
+    <section class="screen" id="agents" data-screen="agents" aria-labelledby="agents-title">
+      <div class="section-title">
+        <div>
+          <h2 id="agents-title">Agents</h2>
+          <p>Focused operating view for the Mission Control agent roster: live status, kanban work, activity feed and shared communication log.</p>
+        </div>
+        <span class="tag blue" id="agentsStatus">Loading</span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Agent status</h3>
+            <p>Each agent has a unique colour code. Working shows a live green pulse; Idle shows an amber hold. Last action timestamp is local time.</p>
+          </div>
+          <button class="button" type="button" id="agentsRefresh">Refresh</button>
+        </div>
+        <div class="panel-body">
+          <div class="agent-status-grid" data-agent-status></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Kanban board</h3>
+            <p>Manual agent assignment and Low, Medium or High priority. Agents can mark their own task Done from this board.</p>
+          </div>
+          <span class="tag" id="agentsTaskCount">0 tasks</span>
+        </div>
+        <div class="panel-body">
+          <div class="agent-kanban">
+            <article class="agent-lane" data-lane="To Do">
+              <header class="agent-lane-head"><h3>To Do</h3><span class="tag" data-lane-count="To Do">0</span></header>
+              <div class="agent-lane-body" data-lane-body="To Do"></div>
+            </article>
+            <article class="agent-lane" data-lane="In Progress">
+              <header class="agent-lane-head"><h3>In Progress</h3><span class="tag blue" data-lane-count="In Progress">0</span></header>
+              <div class="agent-lane-body" data-lane-body="In Progress"></div>
+            </article>
+            <article class="agent-lane" data-lane="Done">
+              <header class="agent-lane-head"><h3>Done</h3><span class="tag green" data-lane-count="Done">0</span></header>
+              <div class="agent-lane-body" data-lane-body="Done"></div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Activity feed</h3>
+              <p>Newest first. Any agent action against a task or status update appears here immediately.</p>
+            </div>
+            <span class="tag" id="activityCount">0</span>
+          </div>
+          <div class="panel-body">
+            <div class="activity-list" data-activity-list></div>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Shared communication log</h3>
+              <p>Post a short update visible to every agent. All entries are stored locally.</p>
+            </div>
+            <span class="tag" id="commsCount">0</span>
+          </div>
+          <div class="panel-body">
+            <form class="comms-form" id="commsForm" autocomplete="off">
+              <div class="comms-form-row">
+                <select class="comms-input" name="from" id="commsFrom" required>
+                  <option value="">Select agent</option>
+                </select>
+                <input class="comms-input" name="channel" id="commsChannel" placeholder="Channel (e.g. Broadcast)" value="Broadcast" maxlength="40">
+              </div>
+              <textarea class="comms-textarea" name="message" id="commsMessage" placeholder="Post a short update to the shared log…" required maxlength="800"></textarea>
+              <div class="comms-form-actions">
+                <span class="form-message" id="commsMessageState"></span>
+                <button class="button primary" type="submit">Post to log</button>
+              </div>
+            </form>
+            <div class="comms-list" data-comms-list></div>
+          </div>
+        </aside>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -1797,7 +2312,15 @@ a.mini-card:focus-visible {
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
   const financeHeroStatus = document.getElementById("financeHeroStatus");
-  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system"]);
+  const agentsStatus = document.getElementById("agentsStatus");
+  const agentsRefresh = document.getElementById("agentsRefresh");
+  const agentsTaskCount = document.getElementById("agentsTaskCount");
+  const activityCount = document.getElementById("activityCount");
+  const commsCount = document.getElementById("commsCount");
+  const commsForm = document.getElementById("commsForm");
+  const commsFrom = document.getElementById("commsFrom");
+  const commsMessageState = document.getElementById("commsMessageState");
+  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system", "agents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
 
@@ -1817,6 +2340,15 @@ a.mini-card:focus-visible {
     return String(value);
   }
 
+  function escapeHtml(value) {
+    return plain(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
   function pathValue(source, path) {
     return path.split(".").reduce((current, key) => current && current[key], source);
   }
@@ -1829,6 +2361,12 @@ a.mini-card:focus-visible {
     if (!financeLiveStatus) return;
     financeLiveStatus.textContent = text;
     financeLiveStatus.className = `tag ${tone}`.trim();
+  }
+
+  function setAgentsStatus(text, tone = "") {
+    if (!agentsStatus) return;
+    agentsStatus.textContent = text;
+    agentsStatus.className = `tag ${tone}`.trim();
   }
 
   function countText(value) {
@@ -2042,6 +2580,260 @@ a.mini-card:focus-visible {
     }
   }
 
+  function localTime(value) {
+    if (!value) return "—";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return plain(value);
+    return new Intl.DateTimeFormat("en-AU", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(date);
+  }
+
+  function agentById(id) {
+    return agentState.agents.find((agent) => agent.id === id);
+  }
+
+  function agentName(id) {
+    return agentById(id)?.name || "Unassigned";
+  }
+
+  function priorityTone(priority) {
+    if (priority === "High") return "red";
+    if (priority === "Medium") return "amber";
+    return "green";
+  }
+
+  function statusTone(status) {
+    if (status === "Done") return "green";
+    if (status === "In Progress") return "blue";
+    return "";
+  }
+
+  async function apiJson(url, options = {}) {
+    const response = await fetch(url, {
+      cache: "no-store",
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+      ...options
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.ok === false) {
+      throw new Error(payload.message || payload.error || `Request failed (${response.status})`);
+    }
+    return payload.data;
+  }
+
+  function renderAgentStatus() {
+    const container = document.querySelector("[data-agent-status]");
+    if (!container) return;
+    container.innerHTML = agentState.agents.map((agent) => {
+      const colour = escapeHtml(agent.colour || "#5eb1ff");
+      const statusClass = agent.status === "Working" ? "is-working" : "is-idle";
+      return `<article class="agent-status-card" style="--agent-colour:${colour}">
+        <header>
+          <div>
+            <h4>${escapeHtml(agent.name)}</h4>
+            <span class="agent-role">${escapeHtml(agent.role)}</span>
+          </div>
+          <span class="status-pill ${statusClass}">${escapeHtml(agent.status)}</span>
+        </header>
+        <p class="agent-working">${escapeHtml(agent.workingOn)}</p>
+        <p class="agent-last"><span>${escapeHtml(agent.lastAction || "No recent action")}</span><strong>${localTime(agent.lastActionAt)}</strong></p>
+      </article>`;
+    }).join("");
+  }
+
+  function agentOptions(selectedId) {
+    const options = [`<option value="">Unassigned</option>`].concat(agentState.agents.map((agent) => {
+      const selected = agent.id === selectedId ? " selected" : "";
+      return `<option value="${escapeHtml(agent.id)}"${selected}>${escapeHtml(agent.name)}</option>`;
+    }));
+    return options.join("");
+  }
+
+  function renderTaskCard(task) {
+    const assigneeColour = escapeHtml(agentById(task.assigneeId)?.colour || "#697789");
+    return `<article class="agent-task-card" data-task-id="${escapeHtml(task.id)}" style="--agent-colour:${assigneeColour}">
+      <header>
+        <h4>${escapeHtml(task.title)}</h4>
+        <span class="priority-badge is-${escapeHtml(String(task.priority || "Low").toLowerCase())}">${escapeHtml(task.priority)}</span>
+      </header>
+      <p class="task-detail">${escapeHtml(task.detail || "No detail added.")}</p>
+      <div class="task-meta">
+        <span>${escapeHtml(agentName(task.assigneeId))}</span>
+        <span>${localTime(task.updatedAt)}</span>
+      </div>
+      <div class="task-controls">
+        <select class="control-select" data-task-field="assigneeId" aria-label="Assign task">${agentOptions(task.assigneeId)}</select>
+        <select class="control-select" data-task-field="priority" aria-label="Set priority">
+          ${["Low", "Medium", "High"].map((value) => `<option value="${value}"${value === task.priority ? " selected" : ""}>${value}</option>`).join("")}
+        </select>
+        <select class="control-select" data-task-field="status" aria-label="Set status">
+          ${["To Do", "In Progress", "Done"].map((value) => `<option value="${value}"${value === task.status ? " selected" : ""}>${value}</option>`).join("")}
+        </select>
+        <button class="control-button" type="button" data-task-done ${task.status === "Done" ? "disabled" : ""}>Done</button>
+      </div>
+    </article>`;
+  }
+
+  function renderKanban() {
+    const lanes = ["To Do", "In Progress", "Done"];
+    const total = agentState.tasks.length;
+    const totalTag = document.getElementById("agentsTaskCount");
+    if (totalTag) totalTag.textContent = `${total} task${total === 1 ? "" : "s"}`;
+    lanes.forEach((lane) => {
+      const tasks = agentState.tasks.filter((task) => task.status === lane);
+      const count = document.querySelector(`[data-lane-count="${lane}"]`);
+      const body = document.querySelector(`[data-lane-body="${lane}"]`);
+      if (count) {
+        count.textContent = String(tasks.length);
+        count.className = `tag ${statusTone(lane)}`.trim();
+      }
+      if (body) {
+        body.innerHTML = tasks.length
+          ? tasks.map(renderTaskCard).join("")
+          : `<p class="empty-state">No ${lane.toLowerCase()} tasks.</p>`;
+      }
+    });
+  }
+
+  function renderActivity() {
+    const list = document.querySelector("[data-activity-list]");
+    const count = document.getElementById("activityCount");
+    if (count) count.textContent = String(agentState.activity.length);
+    if (!list) return;
+    list.innerHTML = agentState.activity.length ? agentState.activity.map((item) => {
+      const agent = agentById(item.agentId);
+      const colour = escapeHtml(agent?.colour || "#9ba8b7");
+      return `<article class="activity-item" style="--agent-colour:${colour}">
+        <div class="activity-meta"><strong>${escapeHtml(agent?.name || "System")}</strong><span>${localTime(item.at)}</span></div>
+        <p>${escapeHtml(item.message)}</p>
+      </article>`;
+    }).join("") : `<p class="empty-state">No activity yet.</p>`;
+  }
+
+  function renderComms() {
+    const list = document.querySelector("[data-comms-list]");
+    const count = document.getElementById("commsCount");
+    const from = document.getElementById("commsFrom");
+    if (count) count.textContent = String(agentState.communications.length);
+    if (from && from.options.length <= 1) {
+      from.insertAdjacentHTML("beforeend", agentState.agents.map((agent) => `<option value="${escapeHtml(agent.name)}">${escapeHtml(agent.name)}</option>`).join(""));
+    }
+    if (!list) return;
+    list.innerHTML = agentState.communications.length ? agentState.communications.map((item) => {
+      return `<article class="comms-item">
+        <div class="activity-meta"><strong>${escapeHtml(item.from)}</strong><span>${localTime(item.at)}</span></div>
+        <p>${escapeHtml(item.message)}</p>
+        <span class="tag blue">${escapeHtml(item.channel || "Broadcast")}</span>
+      </article>`;
+    }).join("") : `<p class="empty-state">No shared notes yet.</p>`;
+  }
+
+  async function refreshAgentsWorkspace() {
+    const status = document.getElementById("agentsStatus");
+    if (status) {
+      status.textContent = "Loading";
+      status.className = "tag blue";
+    }
+    const [agents, taskPayload, activity, communications] = await Promise.all([
+      apiJson("/api/agents"),
+      apiJson("/api/tasks"),
+      apiJson("/api/activity"),
+      apiJson("/api/communications")
+    ]);
+    agentState.agents = agents || [];
+    agentState.tasks = taskPayload?.tasks || [];
+    agentState.activity = activity || [];
+    agentState.communications = communications || [];
+    renderAgentStatus();
+    renderKanban();
+    renderActivity();
+    renderComms();
+    if (status) {
+      status.textContent = "Live local";
+      status.className = "tag green";
+    }
+  }
+
+  async function patchTask(taskId, body) {
+    await apiJson(`/api/tasks/${encodeURIComponent(taskId)}`, {
+      method: "PATCH",
+      body: JSON.stringify(body)
+    });
+    await refreshAgentsWorkspace();
+  }
+
+  document.querySelector("[data-screen='agents']")?.addEventListener("change", async (event) => {
+    const select = event.target.closest("[data-task-field]");
+    if (!select) return;
+    const card = select.closest("[data-task-id]");
+    if (!card) return;
+    const field = select.dataset.taskField;
+    const value = field === "assigneeId" && select.value === "" ? null : select.value;
+    try {
+      await patchTask(card.dataset.taskId, { [field]: value });
+    } catch (error) {
+      alert(error.message || "Could not update task.");
+      await refreshAgentsWorkspace().catch(() => {});
+    }
+  });
+
+  document.querySelector("[data-screen='agents']")?.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-task-done]");
+    if (!button) return;
+    const card = button.closest("[data-task-id]");
+    if (!card) return;
+    const task = agentState.tasks.find((item) => item.id === card.dataset.taskId);
+    button.disabled = true;
+    try {
+      await apiJson(`/api/tasks/${encodeURIComponent(card.dataset.taskId)}/done`, {
+        method: "POST",
+        body: JSON.stringify({ agentId: task?.assigneeId || null })
+      });
+      await refreshAgentsWorkspace();
+    } catch (error) {
+      alert(error.message || "Could not mark task done.");
+      button.disabled = false;
+    }
+  });
+
+  document.getElementById("agentsRefresh")?.addEventListener("click", () => {
+    refreshAgentsWorkspace().catch((error) => {
+      const status = document.getElementById("agentsStatus");
+      if (status) {
+        status.textContent = "Offline";
+        status.className = "tag red";
+      }
+      console.error(error);
+    });
+  });
+
+  document.getElementById("commsForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const state = document.getElementById("commsMessageState");
+    const body = {
+      from: form.from.value,
+      channel: form.channel.value || "Broadcast",
+      message: form.message.value
+    };
+    if (state) state.textContent = "Posting…";
+    try {
+      await apiJson("/api/communications", {
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+      form.message.value = "";
+      if (state) state.textContent = "Posted.";
+      await refreshAgentsWorkspace();
+    } catch (error) {
+      if (state) state.textContent = error.message || "Could not post.";
+    }
+  });
+
   function normaliseHash(hash) {
     const candidate = (hash || "").replace("#", "").trim().toLowerCase();
     return validSections.has(candidate) ? candidate : "dashboard";
@@ -2112,6 +2904,14 @@ a.mini-card:focus-visible {
   renderSafeSummary();
   setActive(normaliseHash(window.location.hash), false);
   loadFinanceFeed();
+  refreshAgentsWorkspace().catch((error) => {
+    const status = document.getElementById("agentsStatus");
+    if (status) {
+      status.textContent = "Offline";
+      status.className = "tag red";
+    }
+    console.error(error);
+  });
 })();
 </script>
 </body>

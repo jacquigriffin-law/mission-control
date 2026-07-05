@@ -1,0 +1,84 @@
+{
+  "tasks": [
+    {
+      "id": "T-1001",
+      "title": "Triage overnight LeadFlow inbox",
+      "detail": "Review new records and route to review or suppression.",
+      "status": "In Progress",
+      "priority": "High",
+      "assigneeId": "hermes",
+      "createdAt": "2026-07-05T06:40:00+10:00",
+      "updatedAt": "2026-07-05T07:48:00+10:00"
+    },
+    {
+      "id": "T-1002",
+      "title": "Prepare Q3 BAS intake worksheet",
+      "detail": "Refresh figures against MYOB dashboard and confirm carry-over GST.",
+      "status": "In Progress",
+      "priority": "High",
+      "assigneeId": "plutus",
+      "createdAt": "2026-07-04T09:10:00+10:00",
+      "updatedAt": "2026-07-05T07:15:00+10:00"
+    },
+    {
+      "id": "T-1003",
+      "title": "Post Children's Court list summary",
+      "detail": "Publish today's Parramatta and Darwin list summaries.",
+      "status": "Done",
+      "priority": "Medium",
+      "assigneeId": "themis",
+      "createdAt": "2026-07-05T05:15:00+10:00",
+      "updatedAt": "2026-07-05T06:30:00+10:00"
+    },
+    {
+      "id": "T-1004",
+      "title": "Draft weekly content brief",
+      "detail": "Outline landing page tweaks and lead-source narrative.",
+      "status": "To Do",
+      "priority": "Low",
+      "assigneeId": "marketing",
+      "createdAt": "2026-07-04T14:00:00+10:00",
+      "updatedAt": "2026-07-04T14:00:00+10:00"
+    },
+    {
+      "id": "T-1005",
+      "title": "Conflict check queue clearance",
+      "detail": "Run outstanding conflict checks and log outcomes.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assigneeId": "ares",
+      "createdAt": "2026-07-04T17:30:00+10:00",
+      "updatedAt": "2026-07-04T17:30:00+10:00"
+    },
+    {
+      "id": "T-1006",
+      "title": "Rebuild daily follow-up worksheet",
+      "detail": "Consolidate open follow-ups from Microsoft To Do and mark stale rows.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "assigneeId": "gabrielle",
+      "createdAt": "2026-07-05T07:00:00+10:00",
+      "updatedAt": "2026-07-05T08:02:00+10:00"
+    },
+    {
+      "id": "T-1007",
+      "title": "Confirm morning Mission Control brief",
+      "detail": "Verify Themis, Hermes and Plutus status entries before Jacqui review.",
+      "status": "Done",
+      "priority": "High",
+      "assigneeId": "xena",
+      "createdAt": "2026-07-05T07:55:00+10:00",
+      "updatedAt": "2026-07-05T08:12:00+10:00"
+    },
+    {
+      "id": "T-1008",
+      "title": "Verify MYOB unallocated bank items",
+      "detail": "Cross-check bank feed items awaiting allocation and note owner.",
+      "status": "To Do",
+      "priority": "Low",
+      "assigneeId": null,
+      "createdAt": "2026-07-04T11:20:00+10:00",
+      "updatedAt": "2026-07-05T10:37:21.363Z"
+    }
+  ]
+}

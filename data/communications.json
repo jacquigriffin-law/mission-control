@@ -1,0 +1,25 @@
+{
+  "communications": [
+    {
+      "id": "C-3003",
+      "at": "2026-07-05T08:10:00+10:00",
+      "from": "Xena",
+      "channel": "Broadcast",
+      "message": "Morning brief ready. Themis list confirmed, Plutus BAS card refreshed."
+    },
+    {
+      "id": "C-3002",
+      "at": "2026-07-05T07:20:00+10:00",
+      "from": "Plutus",
+      "channel": "Finance",
+      "message": "Q3 BAS worksheet updated. Carry-over GST tracked separately from current quarter."
+    },
+    {
+      "id": "C-3001",
+      "at": "2026-07-04T18:05:00+10:00",
+      "from": "Ares",
+      "channel": "Compliance",
+      "message": "Conflict clearances logged for two new intakes; safe to proceed."
+    }
+  ]
+}
