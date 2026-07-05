@@ -2584,7 +2584,7 @@ a.mini-card:focus-visible {
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Legal Work</h2><p>Work-type dashboard across the three trading names. Counts are aggregate only; LEAP open-matter fields stay as placeholders until a safe export is connected.</p></div><span class="tag blue">No client names</span></div>
+      <div class="section-title"><div><h2 id="matters-title">Legal Work</h2></div></div>
       <div class="entity-grid" data-entity-cards></div>
       <div class="screen-grid">
         <div class="panel">
@@ -3098,9 +3098,7 @@ a.mini-card:focus-visible {
     const entities = safeSummary.legalWork?.entities || [];
     if (cards) {
       cards.innerHTML = entities.map((entity) => {
-        const total = entityTypeTotal(entity);
-        const jurisdiction = (entity.jurisdictions || []).map((item) => item.count === null ? item.label : `${item.label} ${countText(item.count)}`).join(" · ") || "Jurisdiction pending";
-        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3><p>${total ? `${countText(total)} intake signals in the safe register.` : "Open matter count awaits safe LEAP export."}</p></div><div class="entity-meta"><span class="tag blue">Open: ${countText(entity.openMatters)}</span><span class="tag">30d opened: ${countText(entity.opened30d)}</span><span class="tag">30d closed: ${countText(entity.closed30d)}</span></div><p>${plain(jurisdiction)}</p></article>`;
+        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3></div><div class="entity-meta"><span class="tag blue">Open: ${countText(entity.openMatters)}</span><span class="tag">30d opened: ${countText(entity.opened30d)}</span><span class="tag">30d closed: ${countText(entity.closed30d)}</span></div></article>`;
       }).join("");
     }
     const jurisdictions = entities.flatMap((entity) => entity.jurisdictions || []).map((item) => item.label).filter(Boolean);
