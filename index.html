@@ -497,6 +497,12 @@ h1 {
   color: #ffb3b3;
 }
 
+.tag.violet {
+  border-color: #4a3a7a;
+  background: #1e1a34;
+  color: #d5c6ff;
+}
+
 .kanban {
   display: grid;
   grid-template-columns: repeat(4, minmax(205px, 1fr));
@@ -805,7 +811,7 @@ a.mini-card:focus-visible {
 
 .executive-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
   margin-bottom: 14px;
 }
@@ -1226,6 +1232,267 @@ a.mini-card:focus-visible {
   background: #0f151d;
   padding: 18px;
   color: var(--muted);
+}
+
+.system-map-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  color: var(--muted);
+  font-size: .72rem;
+  align-items: center;
+}
+
+.system-map-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.system-map-key .key-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.key-dot.key-hub   { color: #5eb1ff; }
+.key-dot.key-site  { color: #4fd18b; }
+.key-dot.key-brain { color: #a98cff; }
+
+.system-map-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 280px);
+  gap: 12px;
+  padding: 12px;
+}
+
+.system-map-canvas {
+  position: relative;
+  min-height: 460px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(94, 177, 255, .16), transparent 32%),
+    radial-gradient(circle at 20% 78%, rgba(79, 209, 139, .10), transparent 26%),
+    radial-gradient(circle at 80% 22%, rgba(169, 140, 255, .10), transparent 26%),
+    linear-gradient(135deg, rgba(255,255,255,.03) 0 1px, transparent 1px 36px),
+    #070a13;
+}
+
+.system-map-canvas svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.system-map-canvas .sm-edge {
+  stroke: rgba(178, 196, 230, .3);
+  stroke-width: .4;
+  vector-effect: non-scaling-stroke;
+}
+
+.system-map-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 78px;
+  max-width: 148px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid rgba(223, 231, 245, .3);
+  border-radius: 999px;
+  background: rgba(12, 17, 31, .88);
+  color: var(--text);
+  font-size: .74rem;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.03), 0 0 22px rgba(94, 177, 255, .15);
+  transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.system-map-node small {
+  color: var(--gold, #c8a951);
+  color: #f5bd50;
+  font-weight: 800;
+  font-size: .7rem;
+}
+
+button.system-map-node {
+  appearance: none;
+  font: inherit;
+}
+
+.system-map-node:hover,
+.system-map-node:focus-visible,
+.system-map-node.is-selected {
+  border-color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, .08), 0 0 28px rgba(94, 177, 255, .5);
+}
+
+.system-map-node:active {
+  transform: translate(-50%, -50%) scale(.96);
+}
+
+.system-map-node.type-hub   { border-color: rgba(94, 177, 255, .7); }
+.system-map-node.type-site  { border-color: rgba(79, 209, 139, .7); box-shadow: 0 0 0 3px rgba(79, 209, 139, .12), 0 0 22px rgba(79, 209, 139, .22); }
+.system-map-node.type-brain { border-color: rgba(169, 140, 255, .7); box-shadow: 0 0 0 3px rgba(169, 140, 255, .14), 0 0 22px rgba(169, 140, 255, .22); }
+
+.system-map-node.is-current {
+  background: #14324c;
+  border-color: #5eb1ff;
+  color: #f5fbff;
+}
+
+.system-map-detail {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0d141c;
+  padding: 14px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 200px;
+}
+
+.system-map-detail h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: .98rem;
+}
+
+.system-map-detail p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.system-map-detail .system-map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.system-map-actions .button {
+  min-height: 40px;
+  font-size: .78rem;
+}
+
+.system-map-launchers {
+  display: grid;
+  gap: 14px;
+}
+
+.system-map-group {
+  display: grid;
+  gap: 8px;
+}
+
+.system-map-group h4 {
+  margin: 0;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.system-map-group .system-map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.system-map-card {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  min-height: 96px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 12px 34px 12px 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .12s ease, background-color .12s ease, transform .12s ease;
+}
+
+.system-map-card strong {
+  display: block;
+  color: var(--text);
+  font-size: .88rem;
+}
+
+.system-map-card span {
+  color: var(--muted);
+  font-size: .74rem;
+}
+
+.system-map-card::after {
+  content: "↗";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: var(--blue);
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.system-map-card.is-current {
+  background: #132234;
+  border-color: #31516c;
+}
+
+.system-map-card.is-current::after {
+  content: "•";
+  color: var(--green);
+}
+
+.system-map-card:hover,
+.system-map-card:focus-visible {
+  border-color: var(--blue);
+  background: #131c27;
+  outline: none;
+}
+
+.system-map-card:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 920px) {
+  .system-map-body {
+    grid-template-columns: 1fr;
+  }
+  .system-map-canvas {
+    min-height: 520px;
+  }
+}
+
+@media (max-width: 680px) {
+  .system-map-canvas {
+    min-height: 480px;
+  }
+  .system-map-node {
+    min-width: 68px;
+    max-width: 116px;
+    padding: 7px 10px;
+    font-size: .7rem;
+  }
 }
 
 .hidden {
@@ -2335,6 +2602,7 @@ a.mini-card:focus-visible {
       <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">W</span><span class="nav-text">Legal Work</span></a>
       <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Prospective Leads</span></a>
       <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">S</span><span class="nav-text">System</span></a>
+      <a class="nav-link" href="#system-map" data-section="system-map"><span class="nav-icon">M</span><span class="nav-text">System Map</span></a>
       <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
     </nav>
   </aside>
@@ -2406,6 +2674,20 @@ a.mini-card:focus-visible {
             <div class="kpi-tile"><span>Fix queue</span><strong data-safe="system.fixQueue.length">—</strong><small>Items tracked</small></div>
           </div>
           <div class="pillar-actions"><a class="button primary" href="#system">Open system</a><span class="tag">Memory + files</span></div>
+        </article>
+
+        <article class="pillar-card">
+          <div>
+            <span class="tag violet">Second Brain</span>
+            <h3>System Map</h3>
+            <p>Visual map of how Mission Control links to LeadFlow, the public brand sites and the Second Brain. Safe hosts only.</p>
+            <span class="pillar-value">Map</span>
+          </div>
+          <div class="kpi-strip">
+            <div class="kpi-tile"><span>Sections</span><strong>6</strong><small>Inside this dashboard</small></div>
+            <div class="kpi-tile"><span>Safe sites</span><strong>6</strong><small>External surfaces</small></div>
+          </div>
+          <div class="pillar-actions"><a class="button primary" href="#system-map">Open map</a><span class="tag">No client data</span></div>
         </article>
       </div>
     </section>
@@ -2659,6 +2941,60 @@ a.mini-card:focus-visible {
       </div>
     </section>
 
+    <section class="screen" id="system-map" data-screen="system-map" aria-labelledby="system-map-title">
+      <div class="section-title">
+        <div>
+          <h2 id="system-map-title">System Map</h2>
+          <p>Simplified picture of how Mission Control links to the safe public sites and the Second Brain.</p>
+        </div>
+        <span class="tag blue">Structure only</span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>How to read this map</h3>
+            <p id="systemMapLede">Loading…</p>
+          </div>
+          <div class="system-map-key" aria-label="Node types">
+            <span><i class="key-dot key-hub" aria-hidden="true"></i>Section</span>
+            <span><i class="key-dot key-site" aria-hidden="true"></i>Public site</span>
+            <span><i class="key-dot key-brain" aria-hidden="true"></i>Second Brain</span>
+          </div>
+        </div>
+        <div class="panel-body system-map-body">
+          <div class="system-map-canvas" id="systemMapCanvas" role="figure" aria-label="Mission Control system map"></div>
+          <aside class="system-map-detail" id="systemMapDetail" aria-live="polite">
+            <span class="tag">Select a node</span>
+            <h3>Mission Control system map</h3>
+            <p>Tap any node — sections open here, safe sites open in a new tab.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Safe launchers</h3>
+            <p>Every link below is on the safe-host allowlist. Everything else is deliberately not shown.</p>
+          </div>
+          <span class="tag">Allowlisted</span>
+        </div>
+        <div class="panel-body system-map-launchers" id="systemMapLaunchers"></div>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>What this map shows</h3><p>Structure only.</p></div><span class="tag green">Included</span></div>
+          <div class="panel-body list" id="systemMapIncluded"></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>What it deliberately hides</h3><p>Never rendered on the dashboard.</p></div><span class="tag red">Excluded</span></div>
+          <div class="panel-body list" id="systemMapExcluded"></div>
+        </aside>
+      </div>
+    </section>
+
     <section class="screen" id="agents" data-screen="agents" aria-labelledby="agents-title">
       <div class="section-title">
         <div>
@@ -2840,6 +3176,8 @@ a.mini-card:focus-visible {
   </main>
 </div>
 
+<script src="lib/safe-hosts.js?v=20260707"></script>
+<script src="lib/system-map-data.js?v=20260707"></script>
 <script src="ops-summary.js?v=20260704-links"></script>
 <script>
 (() => {
@@ -2858,7 +3196,7 @@ a.mini-card:focus-visible {
   const commsForm = document.getElementById("commsForm");
   const commsFrom = document.getElementById("commsFrom");
   const commsMessageState = document.getElementById("commsMessageState");
-  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system", "agents"]);
+  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system", "system-map", "agents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
 
@@ -3757,15 +4095,21 @@ a.mini-card:focus-visible {
       screen.setAttribute("aria-hidden", active ? "false" : "true");
     });
 
+    let activeLink = null;
     links.forEach((link) => {
       const active = link.dataset.section === section;
       link.classList.toggle("is-active", active);
       if (active) {
         link.setAttribute("aria-current", "page");
+        activeLink = link;
       } else {
         link.removeAttribute("aria-current");
       }
     });
+
+    if (activeLink && typeof activeLink.scrollIntoView === "function") {
+      activeLink.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
 
     if (updateHash && window.location.hash !== `#${section}`) {
       history.pushState(null, "", `#${section}`);
@@ -3821,7 +4165,126 @@ a.mini-card:focus-visible {
     });
   });
 
+  function renderSystemMap() {
+    const data = window.MC_SYSTEM_MAP;
+    const hosts = window.MC_SAFE_HOSTS;
+    const canvas = document.getElementById("systemMapCanvas");
+    const detail = document.getElementById("systemMapDetail");
+    const launchers = document.getElementById("systemMapLaunchers");
+    const included = document.getElementById("systemMapIncluded");
+    const excluded = document.getElementById("systemMapExcluded");
+    const lede = document.getElementById("systemMapLede");
+    if (!data || !hosts || !canvas || !detail) return;
+
+    if (lede) lede.textContent = data.lede;
+
+    const safeSites = (data.sites || []).filter((node) => hosts.safeUrl(node.url));
+    const hubs = data.hubs || [];
+    const nodes = hubs.concat(safeSites);
+    const validIds = new Set(nodes.map((node) => node.id));
+
+    canvas.innerHTML = "";
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("aria-hidden", "true");
+    canvas.appendChild(svg);
+
+    const byId = Object.create(null);
+    nodes.forEach((node) => { byId[node.id] = node; });
+
+    (data.edges || []).forEach(([aId, bId]) => {
+      if (!validIds.has(aId) || !validIds.has(bId)) return;
+      const a = byId[aId];
+      const b = byId[bId];
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", a.x);
+      line.setAttribute("y1", a.y);
+      line.setAttribute("x2", b.x);
+      line.setAttribute("y2", b.y);
+      line.setAttribute("class", "sm-edge");
+      svg.appendChild(line);
+    });
+
+    function selectNode(node, element) {
+      Array.from(canvas.querySelectorAll(".system-map-node")).forEach((el) => el.classList.remove("is-selected"));
+      if (element) element.classList.add("is-selected");
+      const href = node.url ? hosts.safeUrl(node.url) : "";
+      const typeLabel = node.type === "hub" ? "Section" : node.type === "brain" ? "Second Brain" : "Public site";
+      const actions = [];
+      if (node.section) {
+        actions.push(`<button type="button" class="button primary" data-section-jump="${escapeHtml(node.section)}">Open ${escapeHtml(node.section === "system-map" ? "here" : node.section)}</button>`);
+      }
+      if (href) {
+        actions.push(`<a class="button" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Open site ↗</a>`);
+      }
+      detail.innerHTML = `
+        <span class="tag">${escapeHtml(typeLabel)}</span>
+        <h3>${escapeHtml(node.label)}</h3>
+        <p>${escapeHtml(node.desc || "Structure node.")}</p>
+        ${actions.length ? `<div class="system-map-actions">${actions.join("")}</div>` : ""}
+      `;
+    }
+
+    nodes.forEach((node) => {
+      const href = node.url ? hosts.safeUrl(node.url) : "";
+      const typeClass = `type-${node.type || "hub"}`;
+      let el;
+      if (node.section) {
+        el = document.createElement("button");
+        el.type = "button";
+        el.dataset.sectionJump = node.section;
+      } else if (href) {
+        el = document.createElement("a");
+        el.href = href;
+        el.target = "_blank";
+        el.rel = "noopener noreferrer";
+      } else {
+        el = document.createElement("span");
+      }
+      el.className = `system-map-node ${typeClass}`;
+      el.style.left = `${node.x}%`;
+      el.style.top = `${node.y}%`;
+      el.setAttribute("aria-label", `${node.label}. ${node.desc || ""}`);
+      const suffix = node.section ? "→" : href ? "↗" : "";
+      el.innerHTML = `<span>${escapeHtml(node.label)}</span>${suffix ? `<small>${suffix}</small>` : ""}`;
+      el.addEventListener("click", () => selectNode(node, el));
+      canvas.appendChild(el);
+    });
+
+    selectNode(nodes[0], canvas.querySelector(".system-map-node"));
+
+    // Launchers grid.
+    if (launchers) {
+      launchers.innerHTML = (data.launchers || []).map((group) => {
+        const cards = group.items.map((item) => {
+          const href = hosts.safeUrl(item.url);
+          if (!href) return "";
+          const cls = item.self ? "system-map-card is-current" : "system-map-card";
+          const rel = item.self ? "" : ' target="_blank" rel="noopener noreferrer"';
+          const note = item.self ? `${item.note || ""} (this dashboard)` : (item.note || "");
+          return `<a class="${cls}" href="${escapeHtml(href)}"${rel}><strong>${escapeHtml(item.label)}</strong><span>${escapeHtml(note)}</span></a>`;
+        }).join("");
+        return `<div class="system-map-group"><h4>${escapeHtml(group.heading)}</h4><div class="system-map-grid">${cards}</div></div>`;
+      }).join("");
+    }
+
+    if (included) included.innerHTML = (data.included || []).map((line) => `<div class="row"><div><strong>Included</strong><span>${escapeHtml(line)}</span></div><span class="tag green">Safe</span></div>`).join("");
+    if (excluded) excluded.innerHTML = (data.excluded || []).map((line) => `<div class="row"><div><strong>Hidden</strong><span>${escapeHtml(line)}</span></div><span class="tag red">Never rendered</span></div>`).join("");
+  }
+
+  document.getElementById("system-map")?.addEventListener("click", (event) => {
+    const target = event.target.closest("[data-section-jump]");
+    if (!target) return;
+    const section = target.dataset.sectionJump;
+    if (!section || !validSections.has(section)) return;
+    event.preventDefault();
+    setActive(section);
+  });
+
   renderSafeSummary();
+  renderSystemMap();
   setActive(normaliseHash(window.location.hash), false);
   loadFinanceFeed();
   refreshAgentsWorkspace().catch((error) => {
