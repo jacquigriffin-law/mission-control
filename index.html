@@ -615,12 +615,36 @@ a.task-card:active {
 a.row {
   color: inherit;
   transition: border-color .12s ease, background-color .12s ease;
+  text-decoration: none;
 }
 
 a.row:hover,
 a.row:focus-visible {
   border-color: var(--blue);
   background: #131c27;
+}
+
+a.row.row-nav {
+  position: relative;
+  padding-right: 26px;
+  min-height: 44px;
+}
+
+a.row.row-nav::after {
+  content: "\203A";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+a.row.row-nav:hover::after,
+a.row.row-nav:focus-visible::after {
+  color: var(--blue);
 }
 
 .row strong {
@@ -1708,6 +1732,40 @@ button.system-map-node {
   border-radius: 8px;
   background: #101720;
   padding: 12px 12px 12px 14px;
+}
+
+a.agent-status-card {
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .12s ease, background-color .12s ease;
+  min-height: 44px;
+}
+
+a.agent-status-card.is-nav {
+  padding-right: 26px;
+}
+
+a.agent-status-card.is-nav::after {
+  content: "\203A";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: var(--muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+a.agent-status-card:hover,
+a.agent-status-card:focus-visible {
+  border-color: var(--blue);
+  background: #131c27;
+  outline: none;
+}
+
+a.agent-status-card:hover.is-nav::after,
+a.agent-status-card:focus-visible.is-nav::after {
+  color: var(--blue);
 }
 
 .agent-status-card header {
@@ -3178,6 +3236,7 @@ button.system-map-node {
 
 <script src="lib/safe-hosts.js?v=20260707"></script>
 <script src="lib/system-map-data.js?v=20260707"></script>
+<script src="lib/agent-sections.js?v=20260707"></script>
 <script src="ops-summary.js?v=20260704-links"></script>
 <script>
 (() => {
@@ -3453,8 +3512,15 @@ button.system-map-node {
       const meta = item.role || item.status || "";
       const tone = item.tone || options.tone || "";
       const content = `<div><strong>${heading}</strong><span>${body}</span></div><span class="tag ${tone}">${plain(meta)}</span>`;
+      if (item.section && validSections.has(item.section)) {
+        const label = escapeHtml(`Open ${heading} — ${item.section.replace("-", " ")} section`);
+        return `<a class="row row-nav" href="#${item.section}" data-section="${item.section}" aria-label="${label}">${content}</a>`;
+      }
       if (item.url) {
-        return `<a class="row" href="${item.url}" target="_blank" rel="noopener">${content}</a>`;
+        const href = window.MC_SAFE_HOSTS?.safeUrl?.(item.url) || "";
+        if (href) {
+          return `<a class="row row-nav" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${content}</a>`;
+        }
       }
       return `<div class="row">${content}</div>`;
     }).join("");
@@ -3462,7 +3528,12 @@ button.system-map-node {
 
   function renderSystemPanel() {
     const system = safeSummary.system || {};
-    renderRows(document.querySelector("[data-system-agents]"), system.agents || [], {
+    const resolveSection = window.MC_AGENT_SECTIONS?.sectionForAgent || (() => "");
+    const agentsWithSection = (system.agents || []).map((agent) => ({
+      ...agent,
+      section: agent.section || resolveSection(agent.name, agent.role)
+    }));
+    renderRows(document.querySelector("[data-system-agents]"), agentsWithSection, {
       empty: "Agent roster will appear when the safe system snapshot is available."
     });
     renderRows(document.querySelector("[data-system-memory]"), system.memory || [], {
@@ -3724,11 +3795,13 @@ button.system-map-node {
       container.innerHTML = emptyState("No agents match this filter.", "Adjust the status filter or refresh the seed data.");
       return;
     }
+    const resolveSection = window.MC_AGENT_SECTIONS?.sectionForAgent || (() => "");
     container.innerHTML = agents.map((agent) => {
       const colour = escapeHtml(agent.colour || "#5eb1ff");
       const statusClass = agent.status === "Working" ? "is-working" : "is-idle";
-      return `<article class="agent-status-card" style="--agent-colour:${colour}">
-        <header>
+      const section = resolveSection(agent.name, agent.role);
+      const isNav = section && validSections.has(section) && section !== "agents";
+      const inner = `<header>
           <div>
             <h4>${escapeHtml(agent.name)}</h4>
             <span class="agent-role">${escapeHtml(agent.role)}</span>
@@ -3736,8 +3809,12 @@ button.system-map-node {
           <span class="status-pill ${statusClass}">${escapeHtml(agent.status)}</span>
         </header>
         <p class="agent-working">${escapeHtml(agent.workingOn)}</p>
-        <p class="agent-last"><span>${escapeHtml(agent.lastAction || "No recent action")}</span><strong>${localTime(agent.lastActionAt)}</strong></p>
-      </article>`;
+        <p class="agent-last"><span>${escapeHtml(agent.lastAction || "No recent action")}</span><strong>${localTime(agent.lastActionAt)}</strong></p>`;
+      if (isNav) {
+        const label = escapeHtml(`Open ${agent.name} — ${section.replace("-", " ")} section`);
+        return `<a class="agent-status-card is-nav" href="#${section}" data-section="${section}" aria-label="${label}" style="--agent-colour:${colour}">${inner}</a>`;
+      }
+      return `<article class="agent-status-card" style="--agent-colour:${colour}">${inner}</article>`;
     }).join("");
   }
 

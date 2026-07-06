@@ -5,14 +5,21 @@
 //   * safe-host lookups must fall back to empty string for anything outside
 //     the allowlist,
 //   * the map data must not accidentally leak local filesystem paths, credential
-//     shaped strings, or email/phone numbers.
+//     shaped strings, or email/phone numbers,
+//   * the agent-to-section mapping used to make agent cards tappable on mobile
+//     resolves each roster member to a known internal section,
+//   * index.html actually includes the client-side scripts that power the map
+//     and the tap-through mapping.
 "use strict";
 
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 const path = require("node:path");
 
 const safeHosts = require(path.join(__dirname, "..", "lib", "safe-hosts.js"));
 const systemMap = require(path.join(__dirname, "..", "lib", "system-map-data.js"));
+const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.js"));
+const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
 let passed = 0;
 function test(name, fn) {
@@ -98,6 +105,104 @@ test("safeLabel returns the friendly host name", () => {
   assert.equal(safeHosts.safeLabel("https://mission-control-rho-amber.vercel.app"), "Mission Control");
   assert.equal(safeHosts.safeLabel("https://leads-tracker-eta.vercel.app"), "LeadFlow");
   assert.equal(safeHosts.safeLabel("https://evil.example.com"), "");
+});
+
+// -------------------------------------------------------------------------
+// Agent-to-section mapping (drives the mobile tap targets in the System /
+// Agents cards).  Every roster member Jacqui sees on the iPhone screenshot
+// must resolve to a real section that the router recognises.
+// -------------------------------------------------------------------------
+
+test("sectionForAgent maps the current roster to real sections", () => {
+  const roster = [
+    { name: "Xena",      role: "Orchestrator",      expected: "system-map" },
+    { name: "Hermes",    role: "Intake / PA",       expected: "leads" },
+    { name: "Themis",    role: "Court diary",       expected: "matters" },
+    { name: "Plutus",    role: "Finance",           expected: "finance" },
+    { name: "Ares",      role: "Conflict checking", expected: "matters" },
+    { name: "Gabrielle", role: "Support",           expected: "agents" },
+    { name: "Marketing", role: "Marketing",         expected: "agents" }
+  ];
+  roster.forEach(({ name, role, expected }) => {
+    const actual = agentSections.sectionForAgent(name, role);
+    assert.equal(actual, expected, `${name} (${role}) should map to #${expected} but got ${actual || "<empty>"}`);
+    assert.ok(agentSections.VALID_SECTIONS.has(actual), `${name} mapped to unknown section ${actual}`);
+  });
+});
+
+test("sectionForAgent falls back to role when the name is unknown", () => {
+  assert.equal(agentSections.sectionForAgent("New Agent", "Intake"), "leads");
+  assert.equal(agentSections.sectionForAgent("New Agent", "PA"), "leads");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Court diary"), "matters");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Conflict checking"), "matters");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Finance"), "finance");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Orchestrator"), "system-map");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Support"), "agents");
+});
+
+test("sectionForAgent returns empty for junk input rather than guessing", () => {
+  assert.equal(agentSections.sectionForAgent("", ""), "");
+  assert.equal(agentSections.sectionForAgent(null, null), "");
+  assert.equal(agentSections.sectionForAgent(undefined, undefined), "");
+  assert.equal(agentSections.sectionForAgent("Nobody", "Nonsense"), "");
+});
+
+test("sectionForAgent is case- and whitespace-tolerant", () => {
+  assert.equal(agentSections.sectionForAgent("  XENA  ", ""), "system-map");
+  assert.equal(agentSections.sectionForAgent("", "  Court Diary  "), "matters");
+});
+
+test("VALID_SECTIONS matches the router's screen list", () => {
+  ["dashboard", "finance", "matters", "leads", "system", "system-map", "agents"].forEach((section) => {
+    assert.ok(agentSections.VALID_SECTIONS.has(section), `expected ${section} in VALID_SECTIONS`);
+  });
+});
+
+// -------------------------------------------------------------------------
+// index.html wiring — the script tags and hash anchors we depend on above
+// must actually exist in the shipped page.
+// -------------------------------------------------------------------------
+
+test("index.html loads the agent-sections and safe-hosts scripts", () => {
+  assert.ok(indexHtml.includes("lib/safe-hosts.js"), "safe-hosts.js must be included in index.html");
+  assert.ok(indexHtml.includes("lib/system-map-data.js"), "system-map-data.js must be included in index.html");
+  assert.ok(indexHtml.includes("lib/agent-sections.js"), "agent-sections.js must be included in index.html");
+});
+
+test("index.html defines every internal hash target we route to", () => {
+  agentSections.VALID_SECTIONS.forEach((section) => {
+    const marker = `id="${section}"`;
+    assert.ok(indexHtml.includes(marker), `index.html missing section ${marker}`);
+  });
+});
+
+test("index.html renders agent rows as anchors when a section is known", () => {
+  assert.ok(
+    indexHtml.includes('class="row row-nav"'),
+    "System agent rows must render as row-nav anchors so mobile users can tap them"
+  );
+  assert.ok(
+    indexHtml.includes('class="agent-status-card is-nav"'),
+    "Agent status cards must render as is-nav anchors so mobile users can tap them"
+  );
+});
+
+test("index.html routes safe-launcher links through safeUrl", () => {
+  assert.ok(
+    indexHtml.includes("hosts.safeUrl(item.url)"),
+    "launcher rendering must reject items outside the safe-host allowlist"
+  );
+  assert.ok(
+    indexHtml.includes("hosts.safeUrl(node.url)"),
+    "map node rendering must reject urls outside the safe-host allowlist"
+  );
+});
+
+test("launcher render code opens external sites in a new tab with noopener noreferrer", () => {
+  assert.ok(
+    indexHtml.includes('target="_blank" rel="noopener noreferrer"'),
+    "external launchers must open in a new tab with noopener noreferrer to avoid tab-nabbing"
+  );
 });
 
 console.log(`\n${passed} check${passed === 1 ? "" : "s"} passed.`);
