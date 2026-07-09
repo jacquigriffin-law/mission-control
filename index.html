@@ -1893,6 +1893,9 @@ a.agent-status-card:focus-visible.is-nav::after {
   gap: 8px;
   align-content: start;
   padding: 10px;
+  min-height: 180px;
+  border-radius: 0 0 8px 8px;
+  transition: background .16s ease, box-shadow .16s ease;
 }
 
 .agent-task-card {
@@ -1904,6 +1907,21 @@ a.agent-status-card:focus-visible.is-nav::after {
   border-radius: 8px;
   background: #121a24;
   padding: 10px 10px 10px 12px;
+}
+
+.agent-task-card[draggable="true"] {
+  cursor: grab;
+}
+
+.agent-task-card.is-dragging {
+  cursor: grabbing;
+  opacity: .58;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .32);
+}
+
+.agent-lane.is-drop-target .agent-lane-body {
+  background: rgba(94, 177, 255, .08);
+  box-shadow: 0 0 0 1px rgba(94, 177, 255, .32) inset;
 }
 
 .agent-task-card header {
@@ -1941,6 +1959,33 @@ a.agent-status-card:focus-visible.is-nav::after {
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
+}
+
+.task-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.task-move-button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #0d141c;
+  color: var(--text);
+  padding: 4px 8px;
+  font-size: .72rem;
+  font-weight: 850;
+}
+
+.task-move-button:hover:not(:disabled) {
+  border-color: #3f5369;
+  background: #141f2b;
+}
+
+.task-move-button:disabled {
+  cursor: not-allowed;
+  opacity: .42;
 }
 
 .priority-badge {
@@ -2636,10 +2681,15 @@ a.agent-status-card:focus-visible.is-nav::after {
     min-height: 40px;
   }
 
+  .task-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
   .agent-task-card .control-select {
     min-height: 38px;
   }
 }
+
 </style>
 </head>
 <body>
@@ -3830,7 +3880,13 @@ a.agent-status-card:focus-visible.is-nav::after {
     const assigneeColour = escapeHtml(agentById(task.assigneeId)?.colour || "#697789");
     const doneClass = task.status === "Done" ? " is-done" : "";
     const localFlag = task._local ? `<span class="task-local-flag">Local</span>` : "";
-    return `<article class="agent-task-card${doneClass}" data-task-id="${escapeHtml(task.id)}" style="--agent-colour:${assigneeColour}">
+    const statuses = ["To Do", "In Progress", "Done"];
+    const statusIndex = statuses.indexOf(task.status);
+    const previousStatus = statuses[statusIndex - 1] || "";
+    const nextStatus = statuses[statusIndex + 1] || "";
+    const previousLabel = previousStatus ? `Move to ${previousStatus}` : "Already first lane";
+    const nextLabel = nextStatus ? `Move to ${nextStatus}` : "Already done";
+    return `<article class="agent-task-card${doneClass}" data-task-id="${escapeHtml(task.id)}" draggable="true" style="--agent-colour:${assigneeColour}">
       <header class="task-title-row">
         <h4>${escapeHtml(task.title)}</h4>
         <span class="priority-badge is-${escapeHtml(String(task.priority || "Low").toLowerCase())}">${escapeHtml(task.priority)}</span>
@@ -3841,6 +3897,10 @@ a.agent-status-card:focus-visible.is-nav::after {
         <span>${localTime(task.updatedAt)}</span>
       </div>
       ${localFlag}
+      <div class="task-quick-actions" aria-label="Move task between Kanban lanes">
+        <button class="task-move-button" type="button" data-task-move="${escapeHtml(previousStatus)}" ${previousStatus ? "" : "disabled"}>${escapeHtml(previousLabel)}</button>
+        <button class="task-move-button" type="button" data-task-move="${escapeHtml(nextStatus)}" ${nextStatus ? "" : "disabled"}>${escapeHtml(nextLabel)}</button>
+      </div>
       <details class="task-controls-toggle">
         <summary>Controls</summary>
         <div class="task-controls">
@@ -3976,6 +4036,13 @@ a.agent-status-card:focus-visible.is-nav::after {
     await refreshAgentsWorkspace();
   }
 
+  async function moveTaskToStatus(taskId, status) {
+    if (!["To Do", "In Progress", "Done"].includes(status)) return;
+    const existing = agentState.tasks.find((item) => item.id === taskId);
+    if (!existing || existing.status === status) return;
+    await patchTask(taskId, { status });
+  }
+
   document.querySelector("[data-screen='agents']")?.addEventListener("change", async (event) => {
     const select = event.target.closest("[data-task-field]");
     if (!select) return;
@@ -3999,6 +4066,28 @@ a.agent-status-card:focus-visible.is-nav::after {
   });
 
   document.querySelector("[data-screen='agents']")?.addEventListener("click", async (event) => {
+    const moveButton = event.target.closest("[data-task-move]");
+    if (moveButton) {
+      const card = moveButton.closest("[data-task-id]");
+      const status = moveButton.dataset.taskMove;
+      if (!card || !status) return;
+      moveButton.disabled = true;
+      try {
+        await moveTaskToStatus(card.dataset.taskId, status);
+      } catch (error) {
+        const existing = agentState.tasks.find((item) => item.id === card.dataset.taskId);
+        overlay.patchTask(card.dataset.taskId, { status });
+        overlay.addActivity({
+          agentId: existing?.assigneeId || null,
+          type: "task_updated",
+          message: `Moved "${existing?.title || "task"}" to ${status} in this browser after the API write failed.`
+        });
+        applyOverlayState();
+        renderAgentsWorkspace();
+      }
+      return;
+    }
+
     const button = event.target.closest("[data-task-done]");
     if (!button) return;
     const card = button.closest("[data-task-id]");
@@ -4028,6 +4117,58 @@ a.agent-status-card:focus-visible.is-nav::after {
         agentId: task?.assigneeId || null,
         type: "task_done",
         message: `Cached "${task?.title || "task"}" as done in this browser after the API write failed.`
+      });
+      applyOverlayState();
+      renderAgentsWorkspace();
+    }
+  });
+
+  document.querySelector("[data-screen='agents']")?.addEventListener("dragstart", (event) => {
+    const card = event.target.closest("[data-task-id]");
+    if (!card) return;
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", card.dataset.taskId);
+    card.classList.add("is-dragging");
+  });
+
+  document.querySelector("[data-screen='agents']")?.addEventListener("dragend", (event) => {
+    event.target.closest("[data-task-id]")?.classList.remove("is-dragging");
+    document.querySelectorAll(".agent-lane.is-drop-target").forEach((lane) => lane.classList.remove("is-drop-target"));
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("dragover", (event) => {
+    const lane = event.target.closest("[data-lane]");
+    if (!lane) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    document.querySelectorAll(".agent-lane.is-drop-target").forEach((item) => {
+      if (item !== lane) item.classList.remove("is-drop-target");
+    });
+    lane.classList.add("is-drop-target");
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("dragleave", (event) => {
+    const lane = event.target.closest("[data-lane]");
+    if (!lane || lane.contains(event.relatedTarget)) return;
+    lane.classList.remove("is-drop-target");
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("drop", async (event) => {
+    const lane = event.target.closest("[data-lane]");
+    if (!lane) return;
+    event.preventDefault();
+    lane.classList.remove("is-drop-target");
+    const taskId = event.dataTransfer.getData("text/plain");
+    if (!taskId) return;
+    try {
+      await moveTaskToStatus(taskId, lane.dataset.lane);
+    } catch (error) {
+      const existing = agentState.tasks.find((item) => item.id === taskId);
+      overlay.patchTask(taskId, { status: lane.dataset.lane });
+      overlay.addActivity({
+        agentId: existing?.assigneeId || null,
+        type: "task_updated",
+        message: `Dropped "${existing?.title || "task"}" into ${lane.dataset.lane} in this browser after the API write failed.`
       });
       applyOverlayState();
       renderAgentsWorkspace();
