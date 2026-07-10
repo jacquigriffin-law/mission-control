@@ -165,9 +165,10 @@ function handleTasks(req, res, url) {
 
   if (req.method === "GET" && parts.length === 2) {
     const store = readJson("tasks");
+    const tasks = store.tasks || [];
     return sendJson(res, 200, {
       ok: true,
-      data: { tasks: store.tasks, lanes: taskLanes(store.tasks) }
+      data: { tasks, lanes: taskLanes(tasks), meta: store.meta || null }
     });
   }
 

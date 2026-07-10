@@ -10,8 +10,9 @@ const {
 
 module.exports = function handler(request, response) {
   if (request.method === "GET") {
-    const tasks = readJson("tasks").tasks;
-    return sendJson(response, 200, { ok: true, data: { tasks, lanes: taskLanes(tasks) } });
+    const store = readJson("tasks");
+    const tasks = store.tasks || [];
+    return sendJson(response, 200, { ok: true, data: { tasks, lanes: taskLanes(tasks), meta: store.meta || null } });
   }
 
   if (request.method === "POST") {

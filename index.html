@@ -3181,10 +3181,13 @@ a.agent-status-card:focus-visible.is-nav::after {
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h3>Kanban board</h3>
-            <p>Manual agent assignment and Low, Medium or High priority. Agents can mark their own task Done from this board.</p>
+            <h3>Current operations board</h3>
+            <p>Privacy-safe next actions from Xena's latest operations snapshot. No client names or raw matter task text are published here.</p>
           </div>
-          <span class="tag" id="agentsTaskCount">0 tasks</span>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+            <span class="tag blue" id="agentsTaskSource">Snapshot loading</span>
+            <span class="tag" id="agentsTaskCount">0 tasks</span>
+          </div>
         </div>
         <div class="panel-toolbar">
           <div class="filter-group">
@@ -3337,6 +3340,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     activity: [],
     communications: [],
     seedTasks: [],
+    taskMeta: null,
     seedComms: [],
     seedActivity: [],
     filters: {
@@ -3718,6 +3722,18 @@ a.agent-status-card:focus-visible.is-nav::after {
     }).format(date);
   }
 
+  function snapshotTime(value) {
+    if (!value) return "Snapshot";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Snapshot";
+    return new Intl.DateTimeFormat("en-AU", {
+      day: "numeric",
+      month: "short",
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(date);
+  }
+
   function agentById(id) {
     return agentState.agents.find((agent) => agent.id === id);
   }
@@ -3953,10 +3969,16 @@ a.agent-status-card:focus-visible.is-nav::after {
     const total = agentState.tasks.length;
     const filteredTasks = visibleTasks();
     const totalTag = document.getElementById("agentsTaskCount");
+    const sourceTag = document.getElementById("agentsTaskSource");
     if (totalTag) {
       totalTag.textContent = filteredTasks.length === total
         ? `${total} task${total === 1 ? "" : "s"}`
         : `${filteredTasks.length} shown / ${total}`;
+    }
+    if (sourceTag) {
+      const meta = agentState.taskMeta || {};
+      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${meta.source || "operations snapshot"}`;
+      sourceTag.title = meta.note || "Privacy-safe operational task snapshot.";
     }
     lanes.forEach((lane) => {
       const laneElement = document.querySelector(`[data-lane="${lane}"]`);
@@ -4025,6 +4047,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       ]);
       agentState.agents = agents || [];
       agentState.seedTasks = taskPayload?.tasks || [];
+      agentState.taskMeta = taskPayload?.meta || null;
       agentState.seedActivity = activity || [];
       agentState.seedComms = communications || [];
       refreshAgentSelects();

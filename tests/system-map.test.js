@@ -20,6 +20,7 @@ const safeHosts = require(path.join(__dirname, "..", "lib", "safe-hosts.js"));
 const systemMap = require(path.join(__dirname, "..", "lib", "system-map-data.js"));
 const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 
 let passed = 0;
 function test(name, fn) {
@@ -229,6 +230,26 @@ test("Kanban cards expose button and touch move paths", () => {
   assert.ok(
     indexHtml.includes("kanbanLaneAtPoint"),
     "Touch dragging must resolve the lane under the user's finger"
+  );
+});
+
+test("Kanban seed uses a current privacy-safe operations snapshot", () => {
+  assert.ok(taskData.meta?.generatedAt, "task seed data must expose a snapshot timestamp");
+  assert.ok(
+    /privacy-safe operations snapshot/i.test(taskData.meta?.source || ""),
+    "task seed data must identify the privacy-safe operations source"
+  );
+  assert.ok(
+    taskData.tasks.some((task) => /Gabrielle booking bridge/i.test(task.title)),
+    "task seed data must reflect the current Gabrielle/Acuity blocker"
+  );
+  assert.ok(
+    taskData.tasks.some((task) => /Mission Control/i.test(task.title) && task.status === "In Progress"),
+    "task seed data must include the current Mission Control fix in progress"
+  );
+  assert.ok(
+    !taskData.tasks.some((task) => /Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
+    "old demo Kanban tasks must not return"
   );
 });
 

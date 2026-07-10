@@ -1,84 +1,99 @@
 {
+  "meta": {
+    "generatedAt": "2026-07-10T12:32:00+10:00",
+    "source": "Xena privacy-safe operations snapshot",
+    "note": "Current operational tasks only; no client names or raw Microsoft To Do matter data."
+  },
   "tasks": [
     {
-      "id": "T-1001",
-      "title": "Triage overnight LeadFlow inbox",
-      "detail": "Review new records and route to review or suppression.",
-      "status": "In Progress",
-      "priority": "High",
-      "assigneeId": "hermes",
-      "createdAt": "2026-07-05T06:40:00+10:00",
-      "updatedAt": "2026-07-05T07:48:00+10:00"
-    },
-    {
-      "id": "T-1002",
-      "title": "Prepare Q3 BAS intake worksheet",
-      "detail": "Refresh figures against MYOB dashboard and confirm carry-over GST.",
-      "status": "In Progress",
-      "priority": "High",
-      "assigneeId": "plutus",
-      "createdAt": "2026-07-04T09:10:00+10:00",
-      "updatedAt": "2026-07-05T07:15:00+10:00"
-    },
-    {
-      "id": "T-1003",
-      "title": "Post Children's Court list summary",
-      "detail": "Publish today's Parramatta and Darwin list summaries.",
-      "status": "Done",
-      "priority": "Medium",
-      "assigneeId": "themis",
-      "createdAt": "2026-07-05T05:15:00+10:00",
-      "updatedAt": "2026-07-05T06:30:00+10:00"
-    },
-    {
-      "id": "T-1004",
-      "title": "Draft weekly content brief",
-      "detail": "Outline landing page tweaks and lead-source narrative.",
+      "id": "T-2001",
+      "title": "Update Gabrielle booking bridge to correct Acuity link",
+      "detail": "n8n still rejects appointment type 91202844 and accepts the old 17083599 value. Update the bridge before changing Gabrielle's prompt/tool.",
       "status": "To Do",
-      "priority": "Low",
-      "assigneeId": "marketing",
-      "createdAt": "2026-07-04T14:00:00+10:00",
-      "updatedAt": "2026-07-04T14:00:00+10:00"
-    },
-    {
-      "id": "T-1005",
-      "title": "Conflict check queue clearance",
-      "detail": "Run outstanding conflict checks and log outcomes.",
-      "status": "To Do",
-      "priority": "Medium",
-      "assigneeId": "ares",
-      "createdAt": "2026-07-04T17:30:00+10:00",
-      "updatedAt": "2026-07-04T17:30:00+10:00"
-    },
-    {
-      "id": "T-1006",
-      "title": "Rebuild daily follow-up worksheet",
-      "detail": "Consolidate open follow-ups from Microsoft To Do and mark stale rows.",
-      "status": "In Progress",
-      "priority": "Medium",
-      "assigneeId": "gabrielle",
-      "createdAt": "2026-07-05T07:00:00+10:00",
-      "updatedAt": "2026-07-05T08:02:00+10:00"
-    },
-    {
-      "id": "T-1007",
-      "title": "Confirm morning Mission Control brief",
-      "detail": "Verify Themis, Hermes and Plutus status entries before Jacqui review.",
-      "status": "Done",
       "priority": "High",
       "assigneeId": "xena",
-      "createdAt": "2026-07-05T07:55:00+10:00",
-      "updatedAt": "2026-07-05T08:12:00+10:00"
+      "createdAt": "2026-07-10T11:56:00+10:00",
+      "updatedAt": "2026-07-10T12:20:00+10:00"
     },
     {
-      "id": "T-1008",
-      "title": "Verify MYOB unallocated bank items",
-      "detail": "Cross-check bank feed items awaiting allocation and note owner.",
+      "id": "T-2002",
+      "title": "Enable confirmed Acuity booking creation",
+      "detail": "Availability returns real slots, but the book action says live appointment creation is not enabled. Needs Acuity API/workflow wiring before callers hear booked.",
       "status": "To Do",
-      "priority": "Low",
-      "assigneeId": null,
-      "createdAt": "2026-07-04T11:20:00+10:00",
-      "updatedAt": "2026-07-05T10:37:21.363Z"
+      "priority": "High",
+      "assigneeId": "hermes",
+      "createdAt": "2026-07-10T12:16:00+10:00",
+      "updatedAt": "2026-07-10T12:20:00+10:00"
+    },
+    {
+      "id": "T-2003",
+      "title": "Replace Mission Control demo Kanban cards with current operations",
+      "detail": "Jacqui reported the board was static. Refresh the seed data to a privacy-safe live operations snapshot and show the snapshot source/time.",
+      "status": "In Progress",
+      "priority": "High",
+      "assigneeId": "xena",
+      "createdAt": "2026-07-10T12:17:00+10:00",
+      "updatedAt": "2026-07-10T12:32:00+10:00"
+    },
+    {
+      "id": "T-2004",
+      "title": "Cancel AIS+ / Skool subscription",
+      "detail": "Subscription identified from receipt, but cancellation is blocked on Skool login or approval to send a cancellation request email.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assigneeId": "gabrielle",
+      "createdAt": "2026-07-10T12:13:00+10:00",
+      "updatedAt": "2026-07-10T12:13:00+10:00"
+    },
+    {
+      "id": "T-2005",
+      "title": "Verify Hermes health folder in VPS runtime",
+      "detail": "Health-Agent mirror copied into the live Hermes container and verified as readable by the hermes service user.",
+      "status": "Done",
+      "priority": "High",
+      "assigneeId": "hermes",
+      "createdAt": "2026-07-10T11:42:00+10:00",
+      "updatedAt": "2026-07-10T12:31:00+10:00"
+    },
+    {
+      "id": "T-2006",
+      "title": "Keep today’s LawTap phone call visible",
+      "detail": "Non-court phone appointment is on the calendar today at 3:45pm. Keep follow-up visible without exposing client details.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assigneeId": "gabrielle",
+      "createdAt": "2026-07-10T12:20:00+10:00",
+      "updatedAt": "2026-07-10T12:20:00+10:00"
+    },
+    {
+      "id": "T-2007",
+      "title": "Surface admin compliance reminders",
+      "detail": "CPD remains 0/10 and vehicle registration is overdue. Keep visible as admin follow-up, not as legal advice or matter work.",
+      "status": "To Do",
+      "priority": "Medium",
+      "assigneeId": "gabrielle",
+      "createdAt": "2026-07-10T12:20:00+10:00",
+      "updatedAt": "2026-07-10T12:20:00+10:00"
+    },
+    {
+      "id": "T-2008",
+      "title": "Mission Control Kanban lane selector deployed",
+      "detail": "Visible Lane selector, move buttons and swipe/drag controls are live and verified on a mobile-sized browser.",
+      "status": "Done",
+      "priority": "Medium",
+      "assigneeId": "xena",
+      "createdAt": "2026-07-10T11:48:00+10:00",
+      "updatedAt": "2026-07-10T12:07:00+10:00"
+    },
+    {
+      "id": "T-2009",
+      "title": "Prepare Plutus BAS/ATO next-action panel",
+      "detail": "Mission Control should show BAS, ATO and finance warnings as next actions, then link out to Plutus/MYOB for detail.",
+      "status": "To Do",
+      "priority": "High",
+      "assigneeId": "plutus",
+      "createdAt": "2026-07-10T12:10:00+10:00",
+      "updatedAt": "2026-07-10T12:10:00+10:00"
     }
   ]
 }
