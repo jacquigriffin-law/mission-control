@@ -3856,7 +3856,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderKanban();
     renderActivity();
     renderComms();
-    setAgentsStatus(agentState.hasLocalOverlay ? "Seed + local" : "Seed data", agentState.hasLocalOverlay ? "amber" : "green");
+    setAgentsStatus(agentState.hasLocalOverlay ? "Snapshot + local" : "Operations snapshot", agentState.hasLocalOverlay ? "amber" : "green");
     const reset = document.getElementById("persistReset");
     if (reset) reset.disabled = !agentState.hasLocalOverlay;
     const callout = document.getElementById("persistCallout");

@@ -20,6 +20,8 @@ const safeHosts = require(path.join(__dirname, "..", "lib", "safe-hosts.js"));
 const systemMap = require(path.join(__dirname, "..", "lib", "system-map-data.js"));
 const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "agents.json"), "utf8"));
+const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 
 let passed = 0;
@@ -250,6 +252,18 @@ test("Kanban seed uses a current privacy-safe operations snapshot", () => {
   assert.ok(
     !taskData.tasks.some((task) => /Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
     "old demo Kanban tasks must not return"
+  );
+});
+
+test("Agent workspace seed avoids stale demo status text", () => {
+  const agentText = JSON.stringify(agentData);
+  const activityText = JSON.stringify(activityData);
+  assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
+  assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
+  assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
+  assert.ok(
+    !/05 July|Rebuilt daily follow-up worksheet|Cleared 6 lead alerts|Updated ATO pressure card/.test(agentText + activityText),
+    "old demo agent and activity statuses must not return"
   );
 });
 
