@@ -207,6 +207,14 @@ test("launcher render code opens external sites in a new tab with noopener noref
 
 test("Kanban cards expose button and touch move paths", () => {
   assert.ok(
+    indexHtml.includes('class="task-lane-picker"'),
+    "Kanban cards must show an always-visible lane selector"
+  );
+  assert.ok(
+    indexHtml.includes('aria-label="Move task to Kanban lane"'),
+    "The always-visible lane selector must be labelled for mobile and keyboard users"
+  );
+  assert.ok(
     indexHtml.includes('data-task-move="${escapeHtml(previousStatus)}"'),
     "Kanban cards must keep visible previous-lane move buttons"
   );

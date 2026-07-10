@@ -1968,6 +1968,27 @@ a.agent-status-card:focus-visible.is-nav::after {
   gap: 6px;
 }
 
+.task-lane-picker {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #0d141c;
+  padding: 8px;
+}
+
+.task-lane-picker span {
+  color: var(--faint);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.task-lane-picker .control-select {
+  width: 100%;
+}
+
 .task-move-button {
   min-height: 34px;
   border: 1px solid var(--line);
@@ -3877,6 +3898,12 @@ a.agent-status-card:focus-visible.is-nav::after {
     return options.join("");
   }
 
+  function statusOptions(selectedStatus) {
+    return ["To Do", "In Progress", "Done"]
+      .map((value) => `<option value="${value}"${value === selectedStatus ? " selected" : ""}>${value}</option>`)
+      .join("");
+  }
+
   function renderTaskCard(task) {
     const assigneeColour = escapeHtml(agentById(task.assigneeId)?.colour || "#697789");
     const doneClass = task.status === "Done" ? " is-done" : "";
@@ -3898,6 +3925,12 @@ a.agent-status-card:focus-visible.is-nav::after {
         <span>${localTime(task.updatedAt)}</span>
       </div>
       ${localFlag}
+      <label class="task-lane-picker">
+        <span>Lane</span>
+        <select class="control-select" data-task-field="status" aria-label="Move task to Kanban lane">
+          ${statusOptions(task.status)}
+        </select>
+      </label>
       <div class="task-quick-actions" aria-label="Move task between Kanban lanes">
         <button class="task-move-button" type="button" data-task-move="${escapeHtml(previousStatus)}" ${previousStatus ? "" : "disabled"}>${escapeHtml(previousLabel)}</button>
         <button class="task-move-button" type="button" data-task-move="${escapeHtml(nextStatus)}" ${nextStatus ? "" : "disabled"}>${escapeHtml(nextLabel)}</button>
@@ -3908,9 +3941,6 @@ a.agent-status-card:focus-visible.is-nav::after {
           <select class="control-select" data-task-field="assigneeId" aria-label="Assign task">${agentOptions(task.assigneeId)}</select>
           <select class="control-select" data-task-field="priority" aria-label="Set priority">
             ${["Low", "Medium", "High"].map((value) => `<option value="${value}"${value === task.priority ? " selected" : ""}>${value}</option>`).join("")}
-          </select>
-          <select class="control-select" data-task-field="status" aria-label="Set status">
-            ${["To Do", "In Progress", "Done"].map((value) => `<option value="${value}"${value === task.status ? " selected" : ""}>${value}</option>`).join("")}
           </select>
           <button class="control-button" type="button" data-task-done ${task.status === "Done" ? "disabled" : ""}>Done</button>
         </div>
