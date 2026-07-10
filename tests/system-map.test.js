@@ -205,4 +205,23 @@ test("launcher render code opens external sites in a new tab with noopener noref
   );
 });
 
+test("Kanban cards expose button and touch move paths", () => {
+  assert.ok(
+    indexHtml.includes('data-task-move="${escapeHtml(previousStatus)}"'),
+    "Kanban cards must keep visible previous-lane move buttons"
+  );
+  assert.ok(
+    indexHtml.includes('data-task-move="${escapeHtml(nextStatus)}"'),
+    "Kanban cards must keep visible next-lane move buttons"
+  );
+  assert.ok(
+    indexHtml.includes('addEventListener("pointerdown"'),
+    "Kanban must support touch/pointer dragging for phones"
+  );
+  assert.ok(
+    indexHtml.includes("kanbanLaneAtPoint"),
+    "Touch dragging must resolve the lane under the user's finger"
+  );
+});
+
 console.log(`\n${passed} check${passed === 1 ? "" : "s"} passed.`);

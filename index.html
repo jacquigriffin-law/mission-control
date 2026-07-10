@@ -1911,6 +1911,7 @@ a.agent-status-card:focus-visible.is-nav::after {
 
 .agent-task-card[draggable="true"] {
   cursor: grab;
+  touch-action: none;
 }
 
 .agent-task-card.is-dragging {
@@ -4133,8 +4134,17 @@ a.agent-status-card:focus-visible.is-nav::after {
 
   document.querySelector("[data-screen='agents']")?.addEventListener("dragend", (event) => {
     event.target.closest("[data-task-id]")?.classList.remove("is-dragging");
-    document.querySelectorAll(".agent-lane.is-drop-target").forEach((lane) => lane.classList.remove("is-drop-target"));
+    clearKanbanDropTargets();
   });
+
+  function clearKanbanDropTargets() {
+    document.querySelectorAll(".agent-lane.is-drop-target").forEach((lane) => lane.classList.remove("is-drop-target"));
+  }
+
+  function kanbanLaneAtPoint(x, y) {
+    const element = document.elementFromPoint(x, y);
+    return element?.closest?.("[data-lane]") || null;
+  }
 
   document.querySelector("[data-kanban]")?.addEventListener("dragover", (event) => {
     const lane = event.target.closest("[data-lane]");
@@ -4173,6 +4183,96 @@ a.agent-status-card:focus-visible.is-nav::after {
       applyOverlayState();
       renderAgentsWorkspace();
     }
+  });
+
+  const touchDrag = {
+    card: null,
+    taskId: "",
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    dragging: false
+  };
+
+  document.querySelector("[data-kanban]")?.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse") return;
+    if (event.target.closest("button, select, summary, details, a, input, textarea")) return;
+    const card = event.target.closest("[data-task-id]");
+    if (!card) return;
+    touchDrag.card = card;
+    touchDrag.taskId = card.dataset.taskId || "";
+    touchDrag.pointerId = event.pointerId;
+    touchDrag.startX = event.clientX;
+    touchDrag.startY = event.clientY;
+    touchDrag.dragging = false;
+    try {
+      card.setPointerCapture?.(event.pointerId);
+    } catch (error) {
+      // Some mobile browsers and synthetic tests do not expose pointer capture for touch.
+    }
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("pointermove", (event) => {
+    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
+    const deltaX = Math.abs(event.clientX - touchDrag.startX);
+    const deltaY = Math.abs(event.clientY - touchDrag.startY);
+    if (!touchDrag.dragging && Math.max(deltaX, deltaY) < 12) return;
+    event.preventDefault();
+    touchDrag.dragging = true;
+    touchDrag.card.classList.add("is-dragging");
+    const lane = kanbanLaneAtPoint(event.clientX, event.clientY);
+    clearKanbanDropTargets();
+    lane?.classList.add("is-drop-target");
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("pointerup", async (event) => {
+    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
+    const { card, taskId, dragging } = touchDrag;
+    const lane = dragging ? kanbanLaneAtPoint(event.clientX, event.clientY) : null;
+    const deltaX = event.clientX - touchDrag.startX;
+    const deltaY = event.clientY - touchDrag.startY;
+    const task = agentState.tasks.find((item) => item.id === taskId);
+    const statuses = ["To Do", "In Progress", "Done"];
+    const currentIndex = statuses.indexOf(task?.status);
+    let targetStatus = lane?.dataset.lane || "";
+    if (!targetStatus && dragging && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 32 && currentIndex >= 0) {
+      targetStatus = statuses[currentIndex + (deltaX > 0 ? 1 : -1)] || "";
+    }
+    try {
+      card.releasePointerCapture?.(event.pointerId);
+    } catch (error) {
+      // Ignore unsupported pointer capture release.
+    }
+    card.classList.remove("is-dragging");
+    clearKanbanDropTargets();
+    touchDrag.card = null;
+    touchDrag.taskId = "";
+    touchDrag.pointerId = null;
+    touchDrag.dragging = false;
+    if (!dragging || !targetStatus || !taskId) return;
+    event.preventDefault();
+    try {
+      await moveTaskToStatus(taskId, targetStatus);
+    } catch (error) {
+      overlay.patchTask(taskId, { status: targetStatus });
+      overlay.addActivity({
+        agentId: task?.assigneeId || null,
+        type: "task_updated",
+        message: `Moved "${task?.title || "task"}" to ${targetStatus} in this browser after the API write failed.`
+      });
+      applyOverlayState();
+      renderAgentsWorkspace();
+    }
+  });
+
+  document.querySelector("[data-kanban]")?.addEventListener("pointercancel", (event) => {
+    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
+    touchDrag.card.classList.remove("is-dragging");
+    clearKanbanDropTargets();
+    touchDrag.card = null;
+    touchDrag.taskId = "";
+    touchDrag.pointerId = null;
+    touchDrag.dragging = false;
   });
 
   document.getElementById("agentsRefresh")?.addEventListener("click", () => {
