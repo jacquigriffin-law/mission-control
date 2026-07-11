@@ -279,6 +279,28 @@ test("Kanban seed uses a current privacy-safe operations snapshot", () => {
   );
 });
 
+test("Overview shows a business/agent tasks panel at the top", () => {
+  const dashboardStart = indexHtml.indexOf('id="dashboard"');
+  const executiveGridStart = indexHtml.indexOf('class="executive-grid"', dashboardStart);
+  const panelStart = indexHtml.indexOf('id="dashboardBusinessTasks"', dashboardStart);
+  assert.notEqual(dashboardStart, -1, "Overview section must exist");
+  assert.notEqual(panelStart, -1, "Overview must include the business/agent tasks panel");
+  assert.notEqual(executiveGridStart, -1, "Overview must retain the executive-grid pillars");
+  assert.ok(panelStart < executiveGridStart, "business/agent tasks panel must render before the executive-grid pillars");
+  assert.ok(indexHtml.includes("Business &amp; agent tasks"), "panel must be labelled as business and agent tasks");
+  assert.ok(indexHtml.includes("Record-level work stays in Microsoft To Do and LEAP"), "panel must state record-level work stays in Microsoft To Do and LEAP");
+  assert.ok(indexHtml.includes("data-dashboard-tasks"), "panel must render into a data-dashboard-tasks container");
+  assert.ok(indexHtml.includes("renderDashboardBusinessTasks"), "panel must be populated by renderDashboardBusinessTasks()");
+});
+
+test("Overview task panel does not surface personal tasks", () => {
+  assert.equal(/personal tasks?/i.test(indexHtml), false, "Overview copy must not mention personal tasks");
+  const dashboardStart = indexHtml.indexOf('id="dashboard"');
+  const dashboardEnd = indexHtml.indexOf("</section>", dashboardStart);
+  const dashboardMarkup = indexHtml.slice(dashboardStart, dashboardEnd);
+  assert.equal(/personal/i.test(dashboardMarkup), false, "Overview section must not reference personal tasks or personal to-dos");
+});
+
 test("Agent workspace seed avoids stale demo status text", () => {
   const agentText = JSON.stringify(agentData);
   const activityText = JSON.stringify(activityData);

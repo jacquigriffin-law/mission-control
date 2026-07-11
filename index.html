@@ -840,6 +840,35 @@ a.mini-card:focus-visible {
   margin-bottom: 14px;
 }
 
+.dashboard-tasks-panel {
+  margin-bottom: 14px;
+}
+
+.dashboard-task-row strong {
+  display: block;
+  font-size: .88rem;
+}
+
+.dashboard-task-row .task-detail {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.dashboard-task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dashboard-tasks-footnote {
+  margin: 10px 0 0;
+  color: var(--faint);
+  font-size: .72rem;
+}
+
 .pillar-card {
   min-height: 236px;
   display: grid;
@@ -2759,6 +2788,21 @@ a.agent-status-card:focus-visible.is-nav::after {
           <p>Practice Intelligence for finance, work mix, agent accountability, memory and generated documents. Record-level work stays in LEAP, Microsoft To Do, LeadFlow and the private workspace.</p>
         </div>
       </div>
+      <section class="panel dashboard-tasks-panel" id="dashboardBusinessTasks" aria-labelledby="dashboardBusinessTasksTitle">
+        <div class="panel-head">
+          <div>
+            <h3 id="dashboardBusinessTasksTitle">Business &amp; agent tasks</h3>
+            <p>Top open business and agent-operations tasks from the privacy-safe operations feed. Record-level work stays in Microsoft To Do and LEAP.</p>
+          </div>
+          <span class="tag" data-dashboard-tasks-count>—</span>
+        </div>
+        <div class="panel-body">
+          <div class="list" data-dashboard-tasks aria-live="polite">
+            <p class="empty-state">Loading business and agent operations tasks…</p>
+          </div>
+          <p class="dashboard-tasks-footnote">Business and agent operations only. Private to-dos, client names and Microsoft To Do matter text stay in Microsoft To Do and LEAP.</p>
+        </div>
+      </section>
       <div class="executive-grid" aria-label="Executive dashboard pillars">
         <article class="pillar-card">
           <div>
@@ -3849,7 +3893,52 @@ a.agent-status-card:focus-visible.is-nav::after {
     });
   }
 
+  function renderDashboardBusinessTasks() {
+    const list = document.querySelector("[data-dashboard-tasks]");
+    const badge = document.querySelector("[data-dashboard-tasks-count]");
+    if (!list) return;
+    const statusRank = { "In Progress": 0, "To Do": 1, "Done": 2 };
+    const priorityRank = { High: 0, Medium: 1, Low: 2 };
+    const openTasks = (agentState.tasks || []).filter((task) => task.status !== "Done");
+    const ordered = openTasks.slice().sort((a, b) => {
+      const sa = statusRank[a.status] ?? 3;
+      const sb = statusRank[b.status] ?? 3;
+      if (sa !== sb) return sa - sb;
+      const pa = priorityRank[a.priority] ?? 3;
+      const pb = priorityRank[b.priority] ?? 3;
+      if (pa !== pb) return pa - pb;
+      return (b.updatedAt || "").localeCompare(a.updatedAt || "");
+    });
+    const top = ordered.slice(0, 5);
+    if (badge) badge.textContent = openTasks.length ? `${top.length} of ${openTasks.length} open` : "0 open";
+    if (!top.length) {
+      list.innerHTML = `<p class="empty-state">No open business or agent operations tasks in the current snapshot.</p>`;
+      return;
+    }
+    const agentsById = new Map((agentState.agents || []).map((agent) => [agent.id, agent]));
+    list.innerHTML = top.map((task) => {
+      const agent = task.assigneeId ? agentsById.get(task.assigneeId) : null;
+      const assigneeLabel = agent ? agent.name : "Unassigned";
+      const priorityTone = task.priority === "High" ? "red" : task.priority === "Medium" ? "amber" : "";
+      const statusTone = task.status === "In Progress" ? "blue" : task.status === "Done" ? "green" : "amber";
+      const detail = task.detail ? `<span class="task-detail">${escapeHtml(task.detail)}</span>` : "";
+      return `<div class="row dashboard-task-row">
+        <div>
+          <strong>${escapeHtml(task.title)}</strong>
+          ${detail}
+          <div class="dashboard-task-meta">
+            <span class="tag ${statusTone}">${escapeHtml(task.status)}</span>
+            <span class="tag ${priorityTone}">${escapeHtml(task.priority)}</span>
+            <span class="tag">${escapeHtml(assigneeLabel)}</span>
+          </div>
+        </div>
+        <a class="tag blue" href="#agents" aria-label="Open agent workspace for ${escapeHtml(task.title)}">Open</a>
+      </div>`;
+    }).join("");
+  }
+
   function renderAgentsWorkspace() {
+    renderDashboardBusinessTasks();
     renderAgentStatus();
     renderKanban();
     renderActivity();
