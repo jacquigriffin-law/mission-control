@@ -125,6 +125,25 @@ window.MISSION_CONTROL_SAFE_SUMMARY = {
           { label: "NT", count: 1 }
         ]
       }
+    ],
+    fundingMix: [
+      { label: "Legal Aid NSW", count: 54, note: "Aggregate intake signals routed through the NSW panel." },
+      { label: "Legal Aid NT", count: null, note: "Aggregate placeholder until NT export lands." },
+      { label: "Private", count: null, note: "Private-fee matters — awaiting MYOB or LEAP export." },
+      { label: "Mixed / unknown", count: 4, note: "Records missing an explicit funding tag." }
+    ],
+    sourceMix: [
+      { label: "JGMS", count: 3, note: "Signals arriving via the JGMS website and direct email." },
+      { label: "FLA", count: 0, note: "Family Law Assist landing enquiries." },
+      { label: "NT Rural & Remote", count: 2, note: "Signals arriving via the NT Rural & Remote site." },
+      { label: "Legal Aid NSW panel", count: 54, note: "Panel assignments logged in LeadFlow." },
+      { label: "LawConnect", count: 0, placeholder: true, note: "Reserved lane for LawConnect ROI once source connects." }
+    ],
+    jurisdictionMix: [
+      { label: "Parramatta NSW", count: 3, note: "JGMS matters currently visible." },
+      { label: "Darwin NT", count: 1, note: "NT Rural & Remote signal captured with a Darwin marker." },
+      { label: "NT (rural/remote)", count: 1, note: "NT signal without a specific town captured." },
+      { label: "Online / not captured", count: null, note: "FLA online intake pending source." }
     ]
   },
   system: {
@@ -140,16 +159,41 @@ window.MISSION_CONTROL_SAFE_SUMMARY = {
       { name: "Marketing", role: "Marketing", workingOn: "Website, public content, SEO and lead-source reporting", tone: "" }
     ],
     memory: [
-      { label: "STATUS.md", purpose: "What is happening right now and current deployment notes.", status: "Active" },
-      { label: "memory/YYYY-MM-DD.md", purpose: "Daily working log and recent decisions.", status: "Active" },
-      { label: "MEMORY.md", purpose: "Long-term curated memory for the main direct session.", status: "Protected" },
-      { label: "mistakes.md", purpose: "Corrections and behaviours to avoid repeating.", status: "Watch" }
+      { label: "STATUS.md", purpose: "What is happening right now and current deployment notes.", status: "Active", category: "Status" },
+      { label: "memory/YYYY-MM-DD.md", purpose: "Daily working log — chats, actions and decisions of the day.", status: "Active", category: "Daily log" },
+      { label: "MEMORY.md", purpose: "Long-term curated memory for the main direct session.", status: "Protected", category: "Long term" },
+      { label: "mistakes.md", purpose: "Corrections and behaviours to avoid repeating.", status: "Watch", category: "Corrections" },
+      { label: "decisions/", purpose: "Point-in-time decisions with the reasoning behind them.", status: "Active", category: "Decisions" },
+      { label: "searchable history", purpose: "Concept: a searchable index across daily logs, decisions and corrections. Content stays private on device.", status: "Concept", category: "Search" }
+    ],
+    memoryCategories: [
+      { label: "Daily chats", note: "Working conversations kept as private daily logs.", tone: "blue" },
+      { label: "Decisions", note: "Point-in-time choices with the reasoning captured.", tone: "green" },
+      { label: "Corrections", note: "Explicit mistakes.md entries to avoid repeating.", tone: "amber" },
+      { label: "Status", note: "Current STATUS.md — what is happening right now.", tone: "" },
+      { label: "Long-term memory", note: "MEMORY.md long-lived facts for the main session.", tone: "violet" },
+      { label: "Searchable history", note: "Concept lane for full-text search across the above.", tone: "" }
     ],
     documents: [
-      { label: "output/", purpose: "Generated reports, audits, screenshots and working packs. Listed here only because the private workspace is not web-openable from Vercel.", status: "Local files" },
-      { label: "input/", purpose: "Source documents provided to the workspace. Listed here only because the private workspace is not web-openable from Vercel.", status: "Local files" },
-      { label: "sites/ and mission-control/", purpose: "Website/app source folders deployed through GitHub and Vercel.", status: "Versioned", url: "https://github.com/jacquigriffin-law/mission-control" },
-      { label: "skills/", purpose: "Reusable agent scripts and procedures. Listed here only because the private workspace is not web-openable from Vercel.", status: "Versioned" }
+      { label: "output/", purpose: "Generated reports, audits, screenshots and working packs (local files).", status: "Local files", category: "Reports" },
+      { label: "input/", purpose: "Source documents provided to the workspace (local files).", status: "Local files", category: "Source" },
+      { label: "sites/ and mission-control/", purpose: "Website/app source folders deployed through GitHub and Vercel.", status: "Versioned", category: "Deployed", url: "https://github.com/jacquigriffin-law/mission-control" },
+      { label: "skills/", purpose: "Reusable agent scripts and procedures (local files).", status: "Versioned", category: "Skills" }
+    ],
+    documentCategories: [
+      { label: "Reports", note: "Aggregate reports and audits generated by agents.", agent: "Plutus / Xena", tone: "blue" },
+      { label: "Drafts", note: "Draft letters, submissions and marketing copy.", agent: "Marketing", tone: "" },
+      { label: "Audits", note: "Compliance, workflow and cost audits.", agent: "Ares / Plutus", tone: "green" },
+      { label: "Finance summaries", note: "BAS packs, GST snapshots and ATO pressure summaries.", agent: "Plutus", tone: "red" },
+      { label: "Court instructions", note: "Instruction packs and court-diary briefings.", agent: "Themis", tone: "amber" },
+      { label: "Conflict checks", note: "Conflict-check records tied to new intakes.", agent: "Ares", tone: "violet" },
+      { label: "Marketing drafts", note: "Website content, SEO copy and campaign drafts.", agent: "Marketing", tone: "" }
+    ],
+    documentStatuses: [
+      { label: "Draft", note: "Being prepared by an agent." },
+      { label: "Review", note: "Awaiting Jacqui review or approval." },
+      { label: "Ready", note: "Signed off and ready to send or file." },
+      { label: "Sent / filed", note: "Delivered to the recipient or court." }
     ],
     security: {
       status: "Watch",

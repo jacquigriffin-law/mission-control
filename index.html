@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Mission Control - Jacqui Griffin Legal Operations</title>
+<title>Mission Control - Practice Intelligence</title>
 <style>
 :root {
   color-scheme: dark;
@@ -2718,23 +2718,29 @@ a.agent-status-card:focus-visible.is-nav::after {
 <a class="skip-link" href="#main">Skip to dashboard</a>
 <div class="app">
   <aside class="sidebar" aria-label="Mission Control navigation">
-    <div class="brand">
+    <a class="brand" href="#dashboard" data-section="dashboard" aria-label="Mission Control home">
       <div class="brand-mark" aria-hidden="true">OC</div>
       <div>
         <p class="brand-title">Mission Control</p>
-        <p class="brand-subtitle">OpenClaw operations workspace</p>
+        <p class="brand-subtitle">Practice Intelligence layer</p>
       </div>
-    </div>
+    </a>
 
-    <div class="nav-label">Workspace</div>
-    <nav class="nav-group" aria-label="Mission Control workspace">
-      <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finance</span></a>
-      <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">W</span><span class="nav-text">Legal Work</span></a>
-      <a class="nav-link" href="#leads" data-section="leads"><span class="nav-icon">L</span><span class="nav-text">Prospective Leads</span></a>
-      <a class="nav-link" href="#system" data-section="system"><span class="nav-icon">S</span><span class="nav-text">System</span></a>
-      <a class="nav-link" href="#system-map" data-section="system-map"><span class="nav-icon">M</span><span class="nav-text">System Map</span></a>
-      <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
+    <div class="nav-label">Home</div>
+    <nav class="nav-group" aria-label="Mission Control home">
+      <a class="nav-link" href="#dashboard" data-section="dashboard"><span class="nav-icon">H</span><span class="nav-text">Overview</span></a>
     </nav>
+
+    <div class="nav-label">Practice</div>
+    <nav class="nav-group" aria-label="Practice Intelligence sections">
+      <a class="nav-link" href="#finance" data-section="finance"><span class="nav-icon">F</span><span class="nav-text">Finances</span></a>
+      <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">M</span><span class="nav-text">Matters</span></a>
+      <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
+      <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">R</span><span class="nav-text">Memory</span></a>
+      <a class="nav-link" href="#documents" data-section="documents"><span class="nav-icon">D</span><span class="nav-text">Documents</span></a>
+    </nav>
+
+    <p class="sidebar-note">Mission Control aggregates finance, matters, agents, memory and documents. It is not a To Do list and does not duplicate LEAP.</p>
   </aside>
 
   <main class="main" id="main" tabindex="-1">
@@ -2742,7 +2748,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Search Mission Control: finance, legal work, leads, system, agents">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Search Mission Control: finance, matters, agents, memory, documents">
       </label>
     </header>
 
@@ -2750,6 +2756,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       <div class="section-title">
         <div>
           <h2 id="dashboard-title">Mission Control</h2>
+          <p>Practice Intelligence for finance, work mix, agent accountability, memory and generated documents. Record-level work stays in LEAP, Microsoft To Do, LeadFlow and the private workspace.</p>
         </div>
       </div>
       <div class="executive-grid" aria-label="Executive dashboard pillars">
@@ -2770,92 +2777,55 @@ a.agent-status-card:focus-visible.is-nav::after {
         <article class="pillar-card">
           <div>
             <span class="tag blue">Work mix</span>
-            <h3>Legal work by trading name</h3>
-            <p>Safe aggregate view across JGMS, Family Law Assist and NT Rural &amp; Remote Legal Services.</p>
+            <h3>Matter mix</h3>
+            <p>Type, source, funding and jurisdiction breakdowns across JGMS, Family Law Assist and NT Rural &amp; Remote Legal Services.</p>
             <span class="pillar-value" data-safe="legalWork.entities.length">3</span>
           </div>
           <div class="stack-list" data-entity-bars="compact"></div>
-          <div class="pillar-actions"><a class="button primary" href="#matters">Open legal work</a><span class="tag">No client names</span></div>
+          <div class="pillar-actions"><a class="button primary" href="#matters">Open matters</a><span class="tag">No client names</span></div>
         </article>
 
         <article class="pillar-card">
           <div>
-            <span class="tag amber">Hermes</span>
-            <h3>Prospective leads</h3>
-            <p>LeadFlow totals, source mix, To Do triage state and LawConnect placeholders for conversion and ROI.</p>
-            <span class="pillar-value" data-safe="leadFlow.total">—</span>
-          </div>
-          <div class="kpi-strip">
-            <div class="kpi-tile"><span>New</span><strong data-safe="leadFlow.triage.pendingReview">—</strong><small>Awaiting review</small></div>
-            <div class="kpi-tile"><span>LawConnect</span><strong data-lawconnect-count>—</strong><small>Lane ready</small></div>
-          </div>
-          <div class="pillar-actions"><a class="button primary" href="#leads">Open leads</a><a class="button" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener">LeadFlow</a></div>
-        </article>
-
-        <article class="pillar-card">
-          <div>
-            <span class="tag green">OpenClaw</span>
-            <h3>System</h3>
-            <p>Agents, current work lanes, memory, documents/files access, fixes and security signals in one safe operating view.</p>
+            <span class="tag amber">Roster</span>
+            <h3>Agent operations</h3>
+            <p>What each agent is doing, last run/status, blockers and waiting-on-Jacqui signals from the existing operations APIs.</p>
             <span class="pillar-value" data-safe="system.agentCount">—</span>
           </div>
           <div class="kpi-strip">
-            <div class="kpi-tile"><span>Security</span><strong data-safe="system.security.status">—</strong><small>Current signal</small></div>
-            <div class="kpi-tile"><span>Fix queue</span><strong data-safe="system.fixQueue.length">—</strong><small>Items tracked</small></div>
+            <div class="kpi-tile"><span>Agents</span><strong data-safe="system.agentCount">—</strong><small>Safe roster</small></div>
+            <div class="kpi-tile"><span>Blockers</span><strong data-safe="system.fixQueue.length">—</strong><small>Watch items</small></div>
           </div>
-          <div class="pillar-actions"><a class="button primary" href="#system">Open system</a><span class="tag">Memory + files</span></div>
+          <div class="pillar-actions"><a class="button primary" href="#agents">Open agents</a><span class="tag">Privacy-safe</span></div>
         </article>
 
         <article class="pillar-card">
           <div>
-            <span class="tag violet">Second Brain</span>
-            <h3>System Map</h3>
-            <p>Visual map of how Mission Control links to LeadFlow, the public brand sites and the Second Brain. Safe hosts only.</p>
-            <span class="pillar-value">Map</span>
+            <span class="tag green">Second Brain</span>
+            <h3>Memory</h3>
+            <p>Daily chats, decisions, corrections and live status lanes. This dashboard shows the index, not private content.</p>
+            <span class="pillar-value" data-safe="system.memory.length">—</span>
           </div>
           <div class="kpi-strip">
-            <div class="kpi-tile"><span>Sections</span><strong>6</strong><small>Inside this dashboard</small></div>
-            <div class="kpi-tile"><span>Safe sites</span><strong>6</strong><small>External surfaces</small></div>
+            <div class="kpi-tile"><span>Status</span><strong>STATUS.md</strong><small>Current state</small></div>
+            <div class="kpi-tile"><span>Corrections</span><strong>mistakes.md</strong><small>Behaviour guard</small></div>
           </div>
-          <div class="pillar-actions"><a class="button primary" href="#system-map">Open map</a><span class="tag">No client data</span></div>
+          <div class="pillar-actions"><a class="button primary" href="#memory">Open memory</a><span class="tag">Contents hidden</span></div>
         </article>
-      </div>
-    </section>
 
-    <section class="screen" id="leads" data-screen="leads" aria-labelledby="leads-title">
-      <div class="section-title"><div><h2 id="leads-title">Prospective Leads</h2><p>Aggregate LeadFlow and register signals, with To Do triage state and future LawConnect conversion metrics.</p></div><span class="tag blue">Open LeadFlow for detail</span></div>
-      <div class="kpi-strip" aria-label="Prospective lead counters">
-        <article class="kpi-tile"><span>Total safe records</span><strong data-safe="leadFlow.total">—</strong><small data-safe="leadFlow.lastUpdated">Snapshot pending</small></article>
-        <article class="kpi-tile"><span>New in LeadFlow</span><strong data-safe="leadFlow.triage.pendingReview">—</strong><small>Needs triage or suppression</small></article>
-        <article class="kpi-tile"><span>Review approvals</span><strong data-safe="leadFlow.triage.reviewApproval">—</strong><small>To Do / LeadFlow decision lane</small></article>
-        <article class="kpi-tile"><span>Conversion / ROI</span><strong>Pending</strong><small>LawConnect metrics not connected</small></article>
-      </div>
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Source mix</h3><p>Safe channel counts. LawConnect has a dedicated lane even when the current feed has no metric yet.</p></div></div>
-          <div class="panel-body stack-list" data-lead-source-bars></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Triage status</h3><p>Operational categories only.</p></div></div>
-          <div class="panel-body list" data-lead-status-list>
-            <div class="row"><div><strong>To Do triage list</strong><span data-safe="leadFlow.triage.todoList">LeadFlow - Triage Inbox</span></div><span class="tag green">Available</span></div>
-            <div class="row"><div><strong>LawConnect ROI</strong><span>Future field for source cost, accepted leads and conversion rate.</span></div><span class="tag amber">Placeholder</span></div>
+        <article class="pillar-card">
+          <div>
+            <span class="tag violet">Library</span>
+            <h3>Documents</h3>
+            <p>Generated reports, drafts, audits, finance summaries, court instructions, conflict checks and marketing drafts.</p>
+            <span class="pillar-value" data-safe="system.documentCategories.length">—</span>
           </div>
-        </aside>
-      </div>
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Work requested</h3><p>Lead matter categories only. Individual enquiry details stay in LeadFlow.</p></div></div>
-          <div class="panel-body stack-list" data-lead-work-bars></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Privacy boundary</h3><p>Names and contact details stay out of Mission Control.</p></div></div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>Displayed here</strong><span>Counts, source lanes, status buckets and future conversion placeholders.</span></div><span class="tag green">Safe</span></div>
-            <div class="row"><div><strong>Not displayed here</strong><span>Lead names, phone numbers, email addresses, subjects, previews and opposing parties.</span></div><span class="tag red">Excluded</span></div>
-            <div class="row"><div><strong>Source of truth</strong><span>Use LeadFlow and Microsoft To Do for protected record-level triage.</span></div><span class="tag blue">Linked</span></div>
+          <div class="kpi-strip">
+            <div class="kpi-tile"><span>Statuses</span><strong data-safe="system.documentStatuses.length">—</strong><small>Draft to filed</small></div>
+            <div class="kpi-tile"><span>Source agents</span><strong>7</strong><small>Metadata concept</small></div>
           </div>
-        </aside>
+          <div class="pillar-actions"><a class="button primary" href="#documents">Open documents</a><span class="tag">Metadata only</span></div>
+        </article>
       </div>
     </section>
 
@@ -2991,11 +2961,11 @@ a.agent-status-card:focus-visible.is-nav::after {
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Legal Work</h2></div></div>
+      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Aggregate matter intelligence: type, source, funding and jurisdiction. Client names, matter names and raw LEAP records stay out of this layer.</p></div><span class="tag blue">No client names</span></div>
       <div class="entity-grid" data-entity-cards></div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Work type breakdown</h3><p>Stacked by trading name using the existing safe register where available.</p></div></div>
+          <div class="panel-head"><div><h3>Matter type by trading name</h3><p>Stacked by JGMS, Family Law Assist and NT Rural &amp; Remote where safe aggregates exist.</p></div></div>
           <div class="panel-body">
             <div class="stack-list" data-entity-bars="full"></div>
             <div class="bar-legend">
@@ -3008,82 +2978,106 @@ a.agent-status-card:focus-visible.is-nav::after {
           </div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Funding placeholders</h3><p>Needs LEAP, Legal Aid or finance export before open-file counts are shown.</p></div></div>
-          <div class="panel-body list" data-funding-list>
-            <div class="row"><div><strong>Legal Aid NSW</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Legal Aid NT</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
-            <div class="row"><div><strong>Private</strong><span>Awaiting safe matter export.</span></div><span class="tag">—</span></div>
-          </div>
+          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid NSW, Legal Aid NT, private and mixed/unknown lanes. Counts remain placeholders where no safe source is connected.</p></div></div>
+          <div class="panel-body stack-list" data-matter-funding-bars></div>
+        </aside>
+      </div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Source lanes</h3><p>Where work is coming from across safe aggregate sources.</p></div><span class="tag">Source mix</span></div>
+          <div class="panel-body stack-list" data-matter-source-bars></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Jurisdiction</h3><p>Registry/location counts from the current aggregate register where available.</p></div><span class="tag amber">Partial feed</span></div>
+          <div class="panel-body stack-list" data-matter-jurisdiction-bars></div>
         </aside>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Jurisdiction and operational risk</h3><p>Safe place for registry/location counts, aged-matter counts and missing-next-action counts.</p></div><span class="tag amber">Partial feed</span></div>
+        <div class="panel-head"><div><h3>Privacy boundary</h3><p>Mission Control shows the carrying shape of the practice, not the protected file record.</p></div><span class="tag green">Safe aggregate</span></div>
         <div class="panel-body list">
-          <div class="row"><div><strong>Jurisdictions captured</strong><span data-jurisdiction-summary>Parramatta NSW, Darwin NT and NT from the current aggregate register.</span></div><span class="tag blue">Safe</span></div>
-          <div class="row"><div><strong>Aged &gt;90 days</strong><span>Open-file age needs LEAP or matter export; not inferred from lead records.</span></div><span class="tag">Pending</span></div>
-          <div class="row"><div><strong>Missing next action</strong><span>Requires To Do or LEAP matter-task mapping.</span></div><span class="tag amber">Future</span></div>
-          <div class="row"><div><strong>Funding by jurisdiction</strong><span>Legal Aid NSW, Legal Aid NT and private mix will appear once safe matter export exists.</span></div><span class="tag">Placeholder</span></div>
+          <div class="row"><div><strong>Displayed here</strong><span>Matter-type, funding, source, jurisdiction and trading-name breakdowns.</span></div><span class="tag green">Safe</span></div>
+          <div class="row"><div><strong>Not displayed here</strong><span>Client names, opposing parties, court file numbers, raw LEAP tasks, contact details or document contents.</span></div><span class="tag red">Excluded</span></div>
+          <div class="row"><div><strong>Source systems</strong><span>LEAP, Legal Aid portals, LeadFlow, MYOB and Microsoft 365 remain the record systems.</span></div><span class="tag blue">Linked concept</span></div>
         </div>
       </div>
     </section>
 
-    <section class="screen" id="system" data-screen="system" aria-labelledby="system-title">
-      <div class="section-title"><div><h2 id="system-title">System</h2><p>OpenClaw operating panel for agents, work lanes, memory, documents/files, fixes and security signals.</p></div><span class="tag green">Safe system view</span></div>
+    <section class="screen" id="memory" data-screen="memory" aria-labelledby="memory-title">
+      <div class="section-title"><div><h2 id="memory-title">Memory</h2><p>Dedicated index for daily chats, decisions, corrections and current status. The dashboard exposes categories and purpose only; private content stays in the workspace.</p></div><span class="tag green">Contents hidden</span></div>
 
-      <div class="kpi-strip" aria-label="System counters">
-        <article class="kpi-tile"><span>Agents</span><strong data-safe="system.agentCount">—</strong><small>Xena plus specialist agents</small></article>
+      <div class="kpi-strip" aria-label="Memory counters">
         <article class="kpi-tile"><span>Memory lanes</span><strong data-safe="system.memory.length">—</strong><small>Status, daily and long-term notes</small></article>
-        <article class="kpi-tile"><span>Document lanes</span><strong data-safe="system.documents.length">—</strong><small>Reports, outputs and source files</small></article>
-        <article class="kpi-tile"><span>Security</span><strong data-safe="system.security.status">—</strong><small>No secrets displayed</small></article>
+        <article class="kpi-tile"><span>Categories</span><strong data-safe="system.memoryCategories.length">—</strong><small>Chats to searchable history</small></article>
+        <article class="kpi-tile"><span>Current state</span><strong>STATUS.md</strong><small>What is happening now</small></article>
+        <article class="kpi-tile"><span>Corrections</span><strong>mistakes.md</strong><small>Do-not-repeat guard</small></article>
       </div>
 
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Agents and current work</h3><p>Names and operating lanes only. No client-specific work is displayed.</p></div><span class="tag blue">Roster</span></div>
-          <div class="panel-body list" data-system-agents></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Security and fixes</h3><p>What needs attention before trusting a system surface.</p></div><span class="tag amber">Watch</span></div>
-          <div class="panel-body list" data-system-security></div>
-        </aside>
-      </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Memory</h3><p>Where operational context lives and what each memory lane is for.</p></div><span class="tag green">Accessible</span></div>
+          <div class="panel-head"><div><h3>Memory sources</h3><p>What each file or lane is for. No private entries are rendered.</p></div><span class="tag blue">Index only</span></div>
           <div class="panel-body list" data-system-memory></div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Documents and files</h3><p>Fast paths to outputs and source documents without exposing contents on the dashboard.</p></div><span class="tag blue">Files</span></div>
-          <div class="panel-body list" data-system-documents></div>
+          <div class="panel-head"><div><h3>Searchable history concept</h3><p>How future search should work without exposing content on a public dashboard.</p></div><span class="tag amber">Concept</span></div>
+          <div class="panel-body list" data-memory-categories></div>
         </aside>
       </div>
 
       <div class="panel">
-        <div class="panel-head"><div><h3>System source links</h3><p>Safe entry points for the systems behind this dashboard.</p></div><span class="tag">Links</span></div>
-        <div class="panel-body mini-grid">
-          <a class="mini-card" href="https://to-do.office.com/tasks/" target="_blank" rel="noopener"><strong>Microsoft To Do</strong><p>Working surface for task and lead triage decisions.</p></a>
-          <a class="mini-card" href="https://outlook.office.com/" target="_blank" rel="noopener"><strong>Microsoft 365</strong><p>Email, calendar and task source system.</p></a>
-          <a class="mini-card" href="https://leads-tracker-eta.vercel.app" target="_blank" rel="noopener"><strong>LeadFlow</strong><p>Prospective lead source of truth and Supabase-backed workflow.</p></a>
-          <a class="mini-card" href="https://github.com/jacquigriffin-law/mission-control" target="_blank" rel="noopener"><strong>Mission Control GitHub</strong><p>Versioned source code for this dashboard.</p></a>
+        <div class="panel-head"><div><h3>Memory boundary</h3><p>Mission Control can answer what was decided or created and where it is indexed, not reveal private notes.</p></div><span class="tag red">Protected</span></div>
+        <div class="panel-body list">
+          <div class="row"><div><strong>Daily chats</strong><span>Indexed from private <code>memory/YYYY-MM-DD.md</code> logs.</span></div><span class="tag blue">Private</span></div>
+          <div class="row"><div><strong>Decisions</strong><span>Important choices and reasons become searchable metadata.</span></div><span class="tag green">Metadata</span></div>
+          <div class="row"><div><strong>Long-term memory</strong><span>Curated durable context remains in private <code>MEMORY.md</code>.</span></div><span class="tag violet">Private</span></div>
+          <div class="row"><div><strong>Corrections</strong><span>Jacqui's corrections stay prominent so future agent work follows them.</span></div><span class="tag amber">Guardrail</span></div>
+          <div class="row"><div><strong>Excluded</strong><span>No private conversations, client facts, secrets, raw emails or document text are shown here.</span></div><span class="tag red">Hidden</span></div>
         </div>
-        <p class="finance-live-note">Output reports live in the local workspace <code>output/</code> folder; they are not published on this dashboard. Secrets, credentials and private client documents are never rendered here.</p>
       </div>
     </section>
 
-    <section class="screen" id="system-map" data-screen="system-map" aria-labelledby="system-map-title">
+    <section class="screen" id="documents" data-screen="documents" aria-labelledby="documents-title">
       <div class="section-title">
         <div>
-          <h2 id="system-map-title">System Map</h2>
-          <p>Simplified picture of how Mission Control links to the safe public sites and the Second Brain.</p>
+          <h2 id="documents-title">Documents</h2>
+          <p>Generated-document library concept for reports, drafts, audits, finance summaries, court instructions, conflict checks and marketing drafts. Metadata only; contents stay private.</p>
         </div>
-        <span class="tag blue">Structure only</span>
+        <span class="tag blue">Metadata only</span>
+      </div>
+
+      <div class="kpi-strip" aria-label="Document library counters">
+        <article class="kpi-tile"><span>Library lanes</span><strong data-safe="system.documents.length">—</strong><small>Where files live</small></article>
+        <article class="kpi-tile"><span>Document types</span><strong data-safe="system.documentCategories.length">—</strong><small>Reports to drafts</small></article>
+        <article class="kpi-tile"><span>Status filters</span><strong data-safe="system.documentStatuses.length">—</strong><small>Draft to filed</small></article>
+        <article class="kpi-tile"><span>Privacy</span><strong>Safe</strong><small>No content preview</small></article>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Library lanes</h3><p>Where generated outputs and source-controlled artefacts are tracked.</p></div><span class="tag">Locations</span></div>
+          <div class="panel-body list" data-system-documents></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Status model</h3><p>Filters Jacqui would expect when locating a generated document.</p></div><span class="tag amber">Concept</span></div>
+          <div class="panel-body list" data-document-statuses></div>
+        </aside>
       </div>
 
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h3>How to read this map</h3>
+            <h3>Document categories and source agents</h3>
+            <p>Metadata lanes for generated outputs. The actual documents remain in the private workspace.</p>
+          </div>
+          <span class="tag green">Filter model</span>
+        </div>
+        <div class="panel-body mini-grid" data-document-categories></div>
+      </div>
+
+      <details class="summary-details">
+        <summary><span>Safe structure map</span><span class="tag">Secondary</span></summary>
+        <div class="panel-head">
+          <div>
+            <h3>How documents, memory and sites connect</h3>
             <p id="systemMapLede">Loading…</p>
           </div>
           <div class="system-map-key" aria-label="Node types">
@@ -3091,22 +3085,21 @@ a.agent-status-card:focus-visible.is-nav::after {
             <span><i class="key-dot key-site" aria-hidden="true"></i>Public site</span>
             <span><i class="key-dot key-brain" aria-hidden="true"></i>Second Brain</span>
           </div>
-        </div>
         <div class="panel-body system-map-body">
           <div class="system-map-canvas" id="systemMapCanvas" role="figure" aria-label="Mission Control system map"></div>
           <aside class="system-map-detail" id="systemMapDetail" aria-live="polite">
             <span class="tag">Select a node</span>
-            <h3>Mission Control system map</h3>
+            <h3>Mission Control structure</h3>
             <p>Tap any node — sections open here, safe sites open in a new tab.</p>
           </aside>
         </div>
-      </div>
+      </details>
 
       <div class="panel">
         <div class="panel-head">
           <div>
             <h3>Safe launchers</h3>
-            <p>Every link below is on the safe-host allowlist. Everything else is deliberately not shown.</p>
+            <p>Safe entry points for external systems. Working records stay in those systems.</p>
           </div>
           <span class="tag">Allowlisted</span>
         </div>
@@ -3129,7 +3122,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       <div class="section-title">
         <div>
           <h2 id="agents-title">Agents</h2>
-          <p>Focused operating view for the Mission Control agent roster: live status, kanban work, activity feed and shared communication log.</p>
+          <p>Focused accountability view for the agent roster: current work, last action, blockers and shared operational notes. It is not the primary task system.</p>
         </div>
         <span class="tag blue" id="agentsStatus">Loading</span>
       </div>
@@ -3182,7 +3175,7 @@ a.agent-status-card:focus-visible.is-nav::after {
         <div class="panel-head">
           <div>
             <h3>Current operations board</h3>
-            <p>Privacy-safe next actions from Xena's latest operations snapshot. No client names or raw matter task text are published here.</p>
+            <p>Privacy-safe accountability snapshot. Use Microsoft To Do and LEAP for record-level tasks.</p>
           </div>
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
             <span class="tag blue" id="agentsTaskSource">Snapshot loading</span>
@@ -3217,8 +3210,8 @@ a.agent-status-card:focus-visible.is-nav::after {
         <div class="panel-body">
           <form class="new-task-form" id="newTaskForm" autocomplete="off">
             <div class="field title-field">
-              <label for="newTaskTitle">Add task</label>
-              <input id="newTaskTitle" name="title" required maxlength="160" placeholder="Short task title (no client names)">
+              <label for="newTaskTitle">Add operation note</label>
+              <input id="newTaskTitle" name="title" required maxlength="160" placeholder="Short operation note (no client names)">
             </div>
             <div class="field">
               <label for="newTaskPriority">Priority</label>
@@ -3244,7 +3237,7 @@ a.agent-status-card:focus-visible.is-nav::after {
             </div>
             <div class="form-actions">
               <span class="form-message" id="newTaskState" aria-live="polite"></span>
-              <button class="button primary" type="submit">Add task</button>
+              <button class="button primary" type="submit">Add note</button>
             </div>
           </form>
           <p class="kanban-scroll-hint" id="kanbanScrollHint" aria-hidden="true">← Swipe lanes to see more</p>
@@ -3330,7 +3323,7 @@ a.agent-status-card:focus-visible.is-nav::after {
   const commsForm = document.getElementById("commsForm");
   const commsFrom = document.getElementById("commsFrom");
   const commsMessageState = document.getElementById("commsMessageState");
-  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system", "system-map", "agents"]);
+  const validSections = new Set(["dashboard", "finance", "matters", "agents", "memory", "documents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
 
@@ -3522,23 +3515,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     }).join("");
   }
 
-  function renderLeadDashboard() {
-    renderBars(document.querySelector("[data-lead-source-bars]"), safeSummary.leadFlow?.bySource || [], {
-      empty: "Lead source mix will appear when the safe LeadFlow snapshot is available."
-    });
-    renderBars(document.querySelector("[data-lead-work-bars]"), safeSummary.leadFlow?.byWorkType || [], {
-      empty: "Lead work-type mix will appear when the safe LeadFlow snapshot is available."
-    });
-    const statusList = document.querySelector("[data-lead-status-list]");
-    const statuses = safeSummary.leadFlow?.byStatus || [];
-    if (statusList && statuses.length) {
-      statusList.insertAdjacentHTML("afterbegin", statuses.map((item, index) => {
-        const tone = index === 0 ? "amber" : index === 1 ? "green" : "";
-        return `<div class="row"><div><strong>${plain(item.label)}</strong><span>LeadFlow status bucket.</span></div><span class="tag ${tone}">${countText(item.count)}</span></div>`;
-      }).join(""));
-    }
-  }
-
   function entityTypeTotal(entity) {
     return (entity.byType || []).reduce((sum, item) => sum + (Number(item.count) || 0), 0);
   }
@@ -3562,6 +3538,15 @@ a.agent-status-card:focus-visible.is-nav::after {
   function renderLegalWork() {
     renderEntityBars("compact");
     renderEntityBars("full");
+    renderBars(document.querySelector("[data-matter-funding-bars]"), safeSummary.legalWork?.fundingMix || [], {
+      empty: "Funding mix will appear when Legal Aid, private and LEAP-safe aggregates are connected."
+    });
+    renderBars(document.querySelector("[data-matter-source-bars]"), safeSummary.legalWork?.sourceMix || [], {
+      empty: "Source mix will appear when safe intake and matter-source aggregates are connected."
+    });
+    renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), safeSummary.legalWork?.jurisdictionMix || [], {
+      empty: "Jurisdiction mix will appear when safe registry/location aggregates are connected."
+    });
     const cards = document.querySelector("[data-entity-cards]");
     const entities = safeSummary.legalWork?.entities || [];
     if (cards) {
@@ -3602,7 +3587,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     }).join("");
   }
 
-  function renderSystemPanel() {
+  function renderMemoryDocumentsPanel() {
     const system = safeSummary.system || {};
     const resolveSection = window.MC_AGENT_SECTIONS?.sectionForAgent || (() => "");
     const agentsWithSection = (system.agents || []).map((agent) => ({
@@ -3616,10 +3601,24 @@ a.agent-status-card:focus-visible.is-nav::after {
       empty: "Memory lanes will appear when the safe system snapshot is available.",
       tone: "green"
     });
+    renderRows(document.querySelector("[data-memory-categories]"), system.memoryCategories || [], {
+      empty: "Memory categories will appear when the safe system snapshot is available."
+    });
     renderRows(document.querySelector("[data-system-documents]"), system.documents || [], {
       empty: "Document lanes will appear when the safe system snapshot is available.",
       tone: "blue"
     });
+    renderRows(document.querySelector("[data-document-statuses]"), system.documentStatuses || [], {
+      empty: "Document statuses will appear when the library model is available."
+    });
+    const categories = document.querySelector("[data-document-categories]");
+    if (categories) {
+      const items = system.documentCategories || [];
+      categories.innerHTML = items.length ? items.map((item) => {
+        const tone = item.tone || "";
+        return `<article class="mini-card"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.note || "")}</p><span class="tag ${escapeHtml(tone)}">${escapeHtml(item.agent || "Source agent")}</span></article>`;
+      }).join("") : `<p class="empty-state">Document categories will appear when the safe library model is available.</p>`;
+    }
     const securityItems = [
       ...(system.security?.signals || []),
       ...(system.fixQueue || [])
@@ -3632,9 +3631,8 @@ a.agent-status-card:focus-visible.is-nav::after {
 
   function renderSafeSummary() {
     setSafeText();
-    renderLeadDashboard();
     renderLegalWork();
-    renderSystemPanel();
+    renderMemoryDocumentsPanel();
   }
 
   function renderBasTimeline(data) {
@@ -4585,7 +4583,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       const typeLabel = node.type === "hub" ? "Section" : node.type === "brain" ? "Second Brain" : "Public site";
       const actions = [];
       if (node.section) {
-        actions.push(`<button type="button" class="button primary" data-section-jump="${escapeHtml(node.section)}">Open ${escapeHtml(node.section === "system-map" ? "here" : node.section)}</button>`);
+        actions.push(`<button type="button" class="button primary" data-section-jump="${escapeHtml(node.section)}">Open ${escapeHtml(node.section)}</button>`);
       }
       if (href) {
         actions.push(`<a class="button" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">Open site ↗</a>`);
@@ -4645,7 +4643,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     if (excluded) excluded.innerHTML = (data.excluded || []).map((line) => `<div class="row"><div><strong>Hidden</strong><span>${escapeHtml(line)}</span></div><span class="tag red">Never rendered</span></div>`).join("");
   }
 
-  document.getElementById("system-map")?.addEventListener("click", (event) => {
+  document.getElementById("documents")?.addEventListener("click", (event) => {
     const target = event.target.closest("[data-section-jump]");
     if (!target) return;
     const section = target.dataset.sectionJump;

@@ -1,4 +1,5 @@
-// Lightweight sanity checks for the System Map tab.  Run with `node tests/system-map.test.js`.
+// Lightweight sanity checks for Mission Control's Practice Intelligence shell.
+// Run with `node tests/system-map.test.js`.
 // The goals are:
 //   * every url mentioned by the map or launcher list must belong to the
 //     safe-host allowlist,
@@ -79,7 +80,7 @@ test("system map edges only reference known node ids", () => {
 });
 
 test("system map hubs only reference known sections", () => {
-  const validSections = new Set(["dashboard", "finance", "matters", "leads", "system", "agents", "system-map"]);
+  const validSections = new Set(["dashboard", "finance", "matters", "agents", "memory", "documents"]);
   systemMap.hubs.forEach((node) => {
     assert.ok(validSections.has(node.section), `hub ${node.id} points at unknown section ${node.section}`);
   });
@@ -118,13 +119,13 @@ test("safeLabel returns the friendly host name", () => {
 
 test("sectionForAgent maps the current roster to real sections", () => {
   const roster = [
-    { name: "Xena",      role: "Orchestrator",      expected: "system-map" },
-    { name: "Hermes",    role: "Intake / PA",       expected: "leads" },
+    { name: "Xena",      role: "Orchestrator",      expected: "agents" },
+    { name: "Hermes",    role: "Intake / PA",       expected: "matters" },
     { name: "Themis",    role: "Court diary",       expected: "matters" },
     { name: "Plutus",    role: "Finance",           expected: "finance" },
     { name: "Ares",      role: "Conflict checking", expected: "matters" },
     { name: "Gabrielle", role: "Support",           expected: "agents" },
-    { name: "Marketing", role: "Marketing",         expected: "agents" }
+    { name: "Marketing", role: "Marketing",         expected: "documents" }
   ];
   roster.forEach(({ name, role, expected }) => {
     const actual = agentSections.sectionForAgent(name, role);
@@ -134,13 +135,14 @@ test("sectionForAgent maps the current roster to real sections", () => {
 });
 
 test("sectionForAgent falls back to role when the name is unknown", () => {
-  assert.equal(agentSections.sectionForAgent("New Agent", "Intake"), "leads");
-  assert.equal(agentSections.sectionForAgent("New Agent", "PA"), "leads");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Intake"), "matters");
+  assert.equal(agentSections.sectionForAgent("New Agent", "PA"), "matters");
   assert.equal(agentSections.sectionForAgent("New Agent", "Court diary"), "matters");
   assert.equal(agentSections.sectionForAgent("New Agent", "Conflict checking"), "matters");
   assert.equal(agentSections.sectionForAgent("New Agent", "Finance"), "finance");
-  assert.equal(agentSections.sectionForAgent("New Agent", "Orchestrator"), "system-map");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Orchestrator"), "agents");
   assert.equal(agentSections.sectionForAgent("New Agent", "Support"), "agents");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Marketing"), "documents");
 });
 
 test("sectionForAgent returns empty for junk input rather than guessing", () => {
@@ -151,14 +153,36 @@ test("sectionForAgent returns empty for junk input rather than guessing", () => 
 });
 
 test("sectionForAgent is case- and whitespace-tolerant", () => {
-  assert.equal(agentSections.sectionForAgent("  XENA  ", ""), "system-map");
+  assert.equal(agentSections.sectionForAgent("  XENA  ", ""), "agents");
   assert.equal(agentSections.sectionForAgent("", "  Court Diary  "), "matters");
 });
 
 test("VALID_SECTIONS matches the router's screen list", () => {
-  ["dashboard", "finance", "matters", "leads", "system", "system-map", "agents"].forEach((section) => {
+  ["dashboard", "finance", "matters", "agents", "memory", "documents"].forEach((section) => {
     assert.ok(agentSections.VALID_SECTIONS.has(section), `expected ${section} in VALID_SECTIONS`);
   });
+});
+
+test("index.html uses the Practice Intelligence primary navigation", () => {
+  ["Finances", "Matters", "Agents", "Memory", "Documents"].forEach((label) => {
+    assert.ok(indexHtml.includes(`<span class="nav-text">${label}</span>`), `missing primary nav label ${label}`);
+  });
+  ["#leads", "#system-map", 'id="leads"', 'id="system"', 'id="system-map"'].forEach((oldMarker) => {
+    assert.equal(indexHtml.includes(oldMarker), false, `old primary dashboard marker must not remain: ${oldMarker}`);
+  });
+  assert.ok(indexHtml.includes("Practice Intelligence"), "dashboard must identify itself as a Practice Intelligence layer");
+  assert.ok(indexHtml.includes("not a To Do list"), "dashboard must demote To Do framing");
+});
+
+test("index.html defines dedicated Memory and Documents sections", () => {
+  assert.ok(indexHtml.includes('id="memory"'), "Memory must be a dedicated section");
+  assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
+  assert.ok(indexHtml.includes("STATUS.md"), "Memory section must reference STATUS.md");
+  assert.ok(indexHtml.includes("memory/YYYY-MM-DD.md"), "Memory section must reference daily memory logs");
+  assert.ok(indexHtml.includes("MEMORY.md"), "Memory section must reference long-term memory");
+  assert.ok(indexHtml.includes("mistakes.md"), "Memory section must reference corrections");
+  assert.ok(indexHtml.includes("Generated-document library"), "Documents section must describe the generated-documents library concept");
+  assert.ok(indexHtml.includes("Metadata only"), "Documents section must avoid exposing document contents");
 });
 
 // -------------------------------------------------------------------------
