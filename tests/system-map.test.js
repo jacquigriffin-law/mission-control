@@ -80,7 +80,7 @@ test("system map edges only reference known node ids", () => {
 });
 
 test("system map hubs only reference known sections", () => {
-  const validSections = new Set(["dashboard", "finance", "matters", "agents", "memory", "documents"]);
+  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "documents"]);
   systemMap.hubs.forEach((node) => {
     assert.ok(validSections.has(node.section), `hub ${node.id} points at unknown section ${node.section}`);
   });
@@ -158,13 +158,13 @@ test("sectionForAgent is case- and whitespace-tolerant", () => {
 });
 
 test("VALID_SECTIONS matches the router's screen list", () => {
-  ["dashboard", "finance", "matters", "agents", "memory", "documents"].forEach((section) => {
+  ["dashboard", "todo", "finance", "matters", "agents", "memory", "documents"].forEach((section) => {
     assert.ok(agentSections.VALID_SECTIONS.has(section), `expected ${section} in VALID_SECTIONS`);
   });
 });
 
 test("index.html uses the Practice Intelligence primary navigation", () => {
-  ["Finances", "Matters", "Agents", "Memory", "Documents"].forEach((label) => {
+  ["To Do", "Finances", "Matters", "Agents", "Memory", "Documents"].forEach((label) => {
     assert.ok(indexHtml.includes(`<span class="nav-text">${label}</span>`), `missing primary nav label ${label}`);
   });
   ["#leads", "#system-map", 'id="leads"', 'id="system"', 'id="system-map"'].forEach((oldMarker) => {
@@ -172,6 +172,19 @@ test("index.html uses the Practice Intelligence primary navigation", () => {
   });
   assert.ok(indexHtml.includes("Practice Intelligence"), "dashboard must identify itself as a Practice Intelligence layer");
   assert.ok(indexHtml.includes("not a To Do list"), "dashboard must demote To Do framing");
+});
+
+test("index.html exposes a separate To Do operations tab", () => {
+  assert.ok(indexHtml.includes('href="#todo"'), "sidebar must include a To Do nav link");
+  assert.ok(indexHtml.includes('data-section="todo"'), "To Do nav link must carry data-section=\"todo\"");
+  assert.ok(indexHtml.includes('id="todo"'), "index.html must define a #todo screen section");
+  assert.ok(indexHtml.includes('data-screen="todo"'), "#todo screen must expose data-screen=\"todo\" for the router");
+  assert.ok(indexHtml.includes("data-todo-board"), "#todo screen must expose the operations board container");
+  assert.ok(
+    /Microsoft To Do and LEAP remain[^<]*record-level/.test(indexHtml),
+    "To Do tab must state Microsoft To Do and LEAP remain the record-level systems"
+  );
+  assert.equal(indexHtml.includes("dashboardBusinessTasks"), false, "dashboardBusinessTasks must not appear in the shipped page");
 });
 
 test("index.html defines dedicated Memory and Documents sections", () => {
