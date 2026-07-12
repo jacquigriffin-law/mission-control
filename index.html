@@ -1775,6 +1775,29 @@ a.agent-status-card:focus-visible.is-nav::after {
   gap: 8px;
 }
 
+.agent-identity {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 9px;
+}
+
+.agent-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--agent-colour, var(--faint)) 45%, var(--line));
+  border-radius: 8px;
+  background: #0b1118;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.02);
+}
+
+.agent-identity-copy {
+  min-width: 0;
+}
+
 .agent-status-card h4 {
   margin: 0;
   color: var(--text);
@@ -1953,6 +1976,20 @@ a.agent-status-card:focus-visible.is-nav::after {
   gap: 8px;
   color: var(--faint);
   font-size: .7rem;
+}
+
+.task-owner {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
+}
+
+.task-owner .agent-avatar {
+  width: 22px;
+  height: 22px;
+  flex-basis: 22px;
+  border-radius: 6px;
 }
 
 .agent-task-card .task-controls {
@@ -3964,10 +4001,14 @@ a.agent-status-card:focus-visible.is-nav::after {
       const statusClass = agent.status === "Working" ? "is-working" : "is-idle";
       const section = resolveSection(agent.name, agent.role);
       const isNav = section && validSections.has(section) && section !== "agents";
+      const avatar = agentIcon(agent);
       const inner = `<header>
-          <div>
-            <h4>${escapeHtml(agent.name)}</h4>
-            <span class="agent-role">${escapeHtml(agent.role)}</span>
+          <div class="agent-identity">
+            ${avatar}
+            <div class="agent-identity-copy">
+              <h4>${escapeHtml(agent.name)}</h4>
+              <span class="agent-role">${escapeHtml(agent.role)}</span>
+            </div>
           </div>
           <span class="status-pill ${statusClass}">${escapeHtml(agent.status)}</span>
         </header>
@@ -3989,6 +4030,13 @@ a.agent-status-card:focus-visible.is-nav::after {
     return options.join("");
   }
 
+  function agentIcon(agent, className = "agent-avatar") {
+    const icon = agent?.icon;
+    if (!icon) return "";
+    const name = escapeHtml(agent.name || "Agent");
+    return `<img class="${className}" src="${escapeHtml(icon)}" alt="${name} icon" loading="lazy">`;
+  }
+
   function statusOptions(selectedStatus) {
     return ["To Do", "In Progress", "Done"]
       .map((value) => `<option value="${value}"${value === selectedStatus ? " selected" : ""}>${value}</option>`)
@@ -3996,7 +4044,9 @@ a.agent-status-card:focus-visible.is-nav::after {
   }
 
   function renderTaskCard(task) {
-    const assigneeColour = escapeHtml(agentById(task.assigneeId)?.colour || "#697789");
+    const assignee = agentById(task.assigneeId);
+    const assigneeColour = escapeHtml(assignee?.colour || "#697789");
+    const ownerIcon = agentIcon(assignee);
     const doneClass = task.status === "Done" ? " is-done" : "";
     const localFlag = task._local ? `<span class="task-local-flag">Local</span>` : "";
     const statuses = ["To Do", "In Progress", "Done"];
@@ -4012,7 +4062,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       </header>
       <p class="task-detail">${escapeHtml(task.detail || "No detail added.")}</p>
       <div class="task-meta">
-        <span>${escapeHtml(agentName(task.assigneeId))}</span>
+        <span class="task-owner">${ownerIcon}${escapeHtml(agentName(task.assigneeId))}</span>
         <span>${localTime(task.updatedAt)}</span>
       </div>
       ${localFlag}

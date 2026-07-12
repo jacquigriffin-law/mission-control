@@ -8,6 +8,7 @@
       "workingOn": "Replacing static Mission Control seed data with the current operations snapshot",
       "colour": "#5eb1ff",
       "tone": "blue",
+      "icon": "assets/agent-icons/xena.jpg",
       "lastActionAt": "2026-07-10T12:36:00+10:00",
       "lastAction": "Deployed current operations Kanban snapshot"
     },
@@ -19,6 +20,7 @@
       "workingOn": "Monitoring lead sources and Acuity booking bridge blockers",
       "colour": "#f5bd50",
       "tone": "amber",
+      "icon": "assets/agent-icons/hermes.jpg",
       "lastActionAt": "2026-07-10T12:31:00+10:00",
       "lastAction": "Verified Health-Agent folder in Hermes VPS runtime"
     },
@@ -30,6 +32,7 @@
       "workingOn": "No new court-date change alerts from the midday scan",
       "colour": "#ff6b6b",
       "tone": "red",
+      "icon": "assets/agent-icons/themis.jpg",
       "lastActionAt": "2026-07-10T12:20:00+10:00",
       "lastAction": "Checked court-date monitor; no new changes found"
     },
@@ -41,6 +44,7 @@
       "workingOn": "Preparing BAS, ATO and finance next-action panel for Mission Control",
       "colour": "#4fd18b",
       "tone": "green",
+      "icon": "assets/agent-icons/plutus.jpg",
       "lastActionAt": "2026-07-10T12:10:00+10:00",
       "lastAction": "Queued BAS and ATO alert panel recommendation"
     },
@@ -52,6 +56,7 @@
       "workingOn": "Waiting on the next new-client conflict check request",
       "colour": "#a98cff",
       "tone": "violet",
+      "icon": "assets/agent-icons/ares.jpg",
       "lastActionAt": "2026-07-10T12:20:00+10:00",
       "lastAction": "No new conflict-check item surfaced in heartbeat checks"
     },
@@ -63,6 +68,7 @@
       "workingOn": "Blocked on n8n/Acuity update before confirmed live booking can work",
       "colour": "#ffb3ec",
       "tone": "blue",
+      "icon": "assets/agent-icons/gabrielle.jpg",
       "lastActionAt": "2026-07-10T12:16:00+10:00",
       "lastAction": "Booking test showed availability works but live booking is not enabled"
     },
@@ -74,6 +80,7 @@
       "workingOn": "Waiting for the next Mission Control business-improvement build brief",
       "colour": "#ffa96b",
       "tone": "",
+      "icon": "assets/agent-icons/marketing.jpg",
       "lastActionAt": "2026-07-10T12:10:00+10:00",
       "lastAction": "Fable review recommended a next-action Mission Control layout"
     }
