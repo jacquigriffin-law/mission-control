@@ -3271,28 +3271,14 @@ button.system-map-node {
   };
 
   const OVERLAY_KEY = "missionControl.agentsOverlay.v1";
+  const emptyOverlayState = () => ({ taskPatches: {}, newTasks: [], newComms: [], localActivity: [] });
   const overlay = {
     read() {
-      try {
-        const raw = localStorage.getItem(OVERLAY_KEY);
-        if (!raw) return { taskPatches: {}, newTasks: [], newComms: [], localActivity: [] };
-        const parsed = JSON.parse(raw);
-        return {
-          taskPatches: parsed.taskPatches || {},
-          newTasks: Array.isArray(parsed.newTasks) ? parsed.newTasks : [],
-          newComms: Array.isArray(parsed.newComms) ? parsed.newComms : [],
-          localActivity: Array.isArray(parsed.localActivity) ? parsed.localActivity : []
-        };
-      } catch (error) {
-        return { taskPatches: {}, newTasks: [], newComms: [], localActivity: [] };
-      }
+      overlay.clear();
+      return emptyOverlayState();
     },
     write(state) {
-      try {
-        localStorage.setItem(OVERLAY_KEY, JSON.stringify(state));
-      } catch (error) {
-        // storage may be full or disabled — silently ignore
-      }
+      overlay.clear();
     },
     isEmpty(state = overlay.read()) {
       return !Object.keys(state.taskPatches || {}).length && !state.newTasks.length && !state.newComms.length && !state.localActivity.length;
@@ -3336,28 +3322,20 @@ button.system-map-node {
       }
     },
     applyToTasks(seedTasks) {
-      const state = overlay.read();
-      const patched = seedTasks.map((task) => {
-        const patch = state.taskPatches[task.id];
-        return patch ? { ...task, ...patch, _local: true } : task;
-      });
-      const withNew = patched.concat(state.newTasks.map((task) => ({ ...task, _local: true })));
-      return withNew;
+      overlay.clear();
+      return seedTasks;
     },
     applyToComms(seedComms) {
-      const state = overlay.read();
-      const merged = state.newComms.map((comm) => ({ ...comm, _local: true })).concat(seedComms);
-      merged.sort((a, b) => (b.at || "").localeCompare(a.at || ""));
-      return merged;
+      overlay.clear();
+      return seedComms;
     },
     applyToActivity(seedActivity) {
-      const state = overlay.read();
-      const merged = state.localActivity.map((item) => ({ ...item, _local: true })).concat(seedActivity);
-      merged.sort((a, b) => (b.at || "").localeCompare(a.at || ""));
-      return merged.slice(0, 120);
+      overlay.clear();
+      return seedActivity;
     },
     hasAny() {
-      return !overlay.isEmpty();
+      overlay.clear();
+      return false;
     }
   };
 

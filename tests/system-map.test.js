@@ -421,8 +421,9 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(!indexHtml.includes("data-agent-status"), "agents screen must not keep the removed status grid binding");
   assert.ok(!indexHtml.includes("agentStatusFilter"), "agents screen must not keep removed status filter controls");
   assert.ok(!indexHtml.includes("agent-status-card"), "agents screen must not keep removed status card markers");
-  assert.ok(indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "localStorage overlay read path must remain available");
-  assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "localStorage overlay reset path must remain available");
+  assert.ok(!indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "agents screen must not read stale browser overlay data into the live feed");
+  assert.ok(!indexHtml.includes("localStorage.setItem(OVERLAY_KEY)"), "agents screen must not write new local-only overlay data");
+  assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "agents screen must clear stale local overlay data on load");
   assert.ok(
     !/10 July|11 July|2026-07-10|2026-07-11|availability works|live booking creation is still blocked/.test(activityText),
     "stale 10 July/11 July demo activity must not return"
