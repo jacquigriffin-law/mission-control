@@ -100,11 +100,13 @@ function safeMonthlyOpened(rows) {
   return (Array.isArray(rows) ? rows : []).map((item) => {
     const month = safeMonth(item?.month);
     if (!month) return null;
+    const byJurisdiction = safeRows(item?.byJurisdiction, "jurisdiction")
+      .filter((row) => ["NSW", "NT"].includes(row.label));
     return {
       month,
       openedCount: safeCount(item?.openedCount) ?? 0,
       byType: safeRows(item?.byType, "type"),
-      byJurisdiction: safeRows(item?.byJurisdiction, "jurisdiction")
+      byJurisdiction
     };
   }).filter(Boolean);
 }
@@ -194,7 +196,10 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
     endMonth: monthlyOpened[monthlyOpened.length - 1]?.month || null,
     basis: "Currently open LEAP aggregate records grouped by instruction date."
   };
-  const monthlyLegalAidIncome = safeMonthlyLegalAidIncome(legalAidIncome.monthlyByJurisdiction, trendPeriod);
+  const legalAidTrendRows = Array.isArray(legalAidIncome.last12MonthsByJurisdiction)
+    ? legalAidIncome.last12MonthsByJurisdiction
+    : legalAidIncome.monthlyByJurisdiction;
+  const monthlyLegalAidIncome = safeMonthlyLegalAidIncome(legalAidTrendRows, trendPeriod);
   const currentMonthJurisdictions = safeJurisdictionIncome(legalAidIncome.currentMonth?.byJurisdiction);
   const activeRecordCount = safeCount(openMatters.activeRecordCount);
   const indexedRecordCount = safeCount(openMatters.recordCount);
@@ -255,7 +260,7 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
         available: Boolean(legalAidIncome.matterTypeIncomeMapping?.available),
         note: safeNote(
           legalAidIncome.matterTypeIncomeMapping?.note,
-          "Matter-type income mapping is unavailable until payment-to-matter matching is reliable."
+          "Matter-type income mapping is unavailable/pending until aggregate remittance-to-matter matching is reliable."
         )
       }
     }

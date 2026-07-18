@@ -60,6 +60,8 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.equal(summary.totals.indexedMatterRows, 1236);
   assert.equal(summary.totals.legalAidPaymentCount, 94);
   assert.equal(Object.hasOwn(summary.totals, "legalAidIncome"), false);
+  assert.equal(Object.hasOwn(summary.legalAidIncome, "total"), false);
+  assert.equal(Object.hasOwn(summary.legalAidIncome, "byJurisdiction"), false);
   assert.ok(summary.typeMix.some((item) => item.label === "Care and protection" && item.count === 67));
   assert.deepEqual(summary.fundingMix, [{ label: "Mixed or unknown", count: 103 }]);
   assert.ok(summary.jurisdictionMix.some((item) => item.label === "NSW" && item.count === 99));
@@ -67,6 +69,7 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.ok(summary.trends.monthlyOpened.some((item) => item.month === "2026-02" && item.openedCount === 13));
   assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => item.month === "2026-07" && item.total === 24214.3));
   assert.equal(summary.trends.matterTypeIncome.available, false);
+  assert.match(summary.trends.matterTypeIncome.note, /unavailable\/pending/i);
   assert.equal(Object.hasOwn(summary, "sourceMix"), false);
   assertNoPrivateLeak(summary);
 });
@@ -110,6 +113,10 @@ test("legal work API allowlists labels from private-shaped source data", () => {
       total: 1234.56,
       recordCount: 2,
       latestMonth: "2026-07",
+      matterTypeIncomeMapping: {
+        available: false,
+        note: "Matter-type income mapping is unavailable/pending until aggregate remittances can be reliably matched to matters."
+      },
       byJurisdiction: [
         { jurisdiction: "NSW LA-REF-999", total: 1000, recordCount: 1 },
         { jurisdiction: "NT raw email subject line", total: 234.56, recordCount: 1 }
@@ -159,6 +166,10 @@ test("legal work API allowlists labels from private-shaped source data", () => {
       ]
     }
   ]);
+  assert.equal(Object.hasOwn(summary.totals, "legalAidIncome"), false);
+  assert.equal(Object.hasOwn(summary.legalAidIncome, "total"), false);
+  assert.equal(Object.hasOwn(summary.legalAidIncome, "byJurisdiction"), false);
+  assert.match(summary.trends.matterTypeIncome.note, /unavailable\/pending/i);
   assertNoPrivateLeak(summary);
 });
 
@@ -173,6 +184,8 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
   assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
+  assert.ok(section.includes("Payment-month income by NSW and NT"), "Matters screen must label Legal Aid income by payment month and jurisdiction");
+  assert.ok(indexHtml.includes("indexed for monthly trend only"), "Matters live note must point to trends instead of all-time income");
   assert.equal(/\\$878,?593|878592\\.99/.test(section), false, "Matters screen must not lead with the all-time Legal Aid total");
   [
     /2026-07-04/,
@@ -186,12 +199,14 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
     /Privacy boundary/i,
     /Displayed here/i,
     /Not displayed here/i,
-    /Source systems/i
+    /Source systems/i,
+    /Legal Aid income totals/i
   ].forEach((pattern) => {
     assert.equal(pattern.test(section), false, `Matters screen matched stale wording ${pattern}`);
   });
   assert.equal(/data-matter-source-bars/.test(indexHtml), false, "removed source bars renderer must not remain in index.html");
   assert.equal(/sourceMix/.test(indexHtml), false, "Matters renderer must not read removed sourceMix output");
+  assert.equal(/totals\.legalAidIncome/.test(indexHtml), false, "Matters renderer must not display all-time Legal Aid income");
 });
 
 console.log(`\n${passed} legal work check${passed === 1 ? "" : "s"} passed.`);

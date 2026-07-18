@@ -50,7 +50,7 @@
     "unallocatedTransactions": 112
   },
   "currency": "AUD",
-  "generatedAt": "2026-07-18T20:18:42Z",
+  "generatedAt": "2026-07-18T20:24:04Z",
   "legalAidIncome": {
     "byJurisdiction": [
       {
@@ -75,7 +75,157 @@
       "month": "2026-07",
       "total": 24214.3
     },
+    "last12MonthsByJurisdiction": [
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-08",
+        "recordCount": 3,
+        "total": 28192.45
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-08",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-09",
+        "recordCount": 3,
+        "total": 38274.5
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-09",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-10",
+        "recordCount": 2,
+        "total": 13010.8
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-10",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-11",
+        "recordCount": 2,
+        "total": 56543.3
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-11",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-12",
+        "recordCount": 3,
+        "total": 51295.35
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-12",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-01",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-01",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-02",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-02",
+        "recordCount": 2,
+        "total": 1710.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-03",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-03",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-04",
+        "recordCount": 1,
+        "total": 58088.8
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-04",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-05",
+        "recordCount": 2,
+        "total": 78736.9
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-05",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-06",
+        "recordCount": 6,
+        "total": 57699.8
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-06",
+        "recordCount": 0,
+        "total": 0.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-07",
+        "recordCount": 1,
+        "total": 24214.3
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-07",
+        "recordCount": 0,
+        "total": 0.0
+      }
+    ],
     "latestMonth": "2026-07",
+    "matterTypeIncomeMapping": {
+      "available": false,
+      "note": "Matter-type income mapping is unavailable/pending until Legal Aid remittance aggregates can be reliably matched to safe matter-type aggregates."
+    },
     "monthlyByJurisdiction": [
       {
         "jurisdiction": "NSW",
@@ -278,6 +428,10 @@
     ],
     "recordCount": 94,
     "total": 878592.99
+  },
+  "matterTypeIncomeMapping": {
+    "available": false,
+    "note": "Matter-type Legal Aid income mapping is unavailable until payments can be reliably matched to matters."
   },
   "openMatters": {
     "activeRecordCount": 103,

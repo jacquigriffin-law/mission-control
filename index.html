@@ -3272,7 +3272,7 @@ a.agent-status-card:focus-visible.is-nav::after {
         <div class="panel-body" data-matter-opened-trends></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Legal Aid income by payment month and jurisdiction</h3><p>Monthly Legal Aid income by NSW and NT for the same 12-month window. Matter-type income needs a reliable payment-to-matter match before display.</p></div><span class="tag amber">Payment months</span></div>
+        <div class="panel-head"><div><h3>Legal Aid income by payment month and jurisdiction</h3><p>Payment-month income by NSW and NT for the same 12-month window. Matter-type income needs a reliable payment-to-matter match before display.</p></div><span class="tag amber">Payment months</span></div>
         <div class="panel-body" data-matter-income-trends></div>
       </div>
     </section>
@@ -4034,7 +4034,7 @@ a.agent-status-card:focus-visible.is-nav::after {
         const paymentText = totals.legalAidPaymentCount === null || totals.legalAidPaymentCount === undefined ? "Legal Aid payment trend unavailable" : `${countText(totals.legalAidPaymentCount)} Legal Aid payment records indexed for monthly trend only`;
         const freshness = payload.data?.sourceFreshness;
         const freshnessText = freshness ? ` LEAP: ${freshness.leap}; Legal Aid: ${freshness.legalAid}.` : "";
-        mattersLiveNote.textContent = `Loaded ${openText}. ${paymentText}.${freshnessText}`;
+        mattersLiveNote.textContent = `Loaded ${openText}. ${paymentText}. Monthly trends are shown below.${freshnessText}`;
       }
       if (mattersHeroCount) mattersHeroCount.textContent = countText(payload.data?.totals?.activeOpenMatters);
     } catch (error) {
