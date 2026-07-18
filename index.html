@@ -3207,8 +3207,7 @@ a.agent-status-card:focus-visible.is-nav::after {
 
     </section>
 
-    <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current matter mix and 12-month opening/payment trends from the safe feeds.</p></div></div>
+    <section class="screen" id="matters" data-screen="matters" aria-label="Matters">
       <div class="screen-grid">
         <div class="panel">
           <div class="panel-head"><div><h3>Matter type mix</h3><p>Current open-matter categories from the matter feed.</p></div></div>
@@ -3593,7 +3592,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
   const financeHeroStatus = document.getElementById("financeHeroStatus");
-  const mattersLiveStatus = document.getElementById("mattersLiveStatus");
   const mattersHeroCount = document.getElementById("mattersHeroCount");
   const agentsStatus = document.getElementById("agentsStatus");
   const agentsRefresh = document.getElementById("agentsRefresh");
@@ -3951,14 +3949,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderMemoryDocumentsPanel();
   }
 
-  function setMattersStatus(text, tone = "") {
-    if (!mattersLiveStatus) return;
-    mattersLiveStatus.textContent = text;
-    mattersLiveStatus.className = `tag ${tone}`.trim();
-  }
-
   async function loadLegalWorkFeed() {
-    setMattersStatus("Loading", "blue");
     try {
       const response = await fetch("/api/legal-work", { cache: "no-store" });
       const payload = await response.json().catch(() => ({}));
@@ -3969,13 +3960,10 @@ a.agent-status-card:focus-visible.is-nav::after {
       safeSummary.legalWork = legalWorkData;
       setSafeText();
       renderLegalWork();
-      const isLive = Boolean(payload.data && payload.data.live);
-      setMattersStatus(isLive ? "Live" : "Aggregate", isLive ? "green" : "amber");
       if (mattersHeroCount) mattersHeroCount.textContent = countText(payload.data?.totals?.activeOpenMatters);
     } catch (error) {
       legalWorkData = null;
       renderLegalWork();
-      setMattersStatus("Offline", "red");
       if (mattersHeroCount) mattersHeroCount.textContent = "—";
     }
   }

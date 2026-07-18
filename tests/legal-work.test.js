@@ -181,6 +181,11 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(indexHtml.includes("let legalWorkData = null"), "Matters tab must render from legalWorkData");
   assert.equal(/safeSummary\.legalWork\?\./.test(indexHtml), false, "Matters renderer must not read stale ops-summary legalWork");
   assert.equal(section.includes("data-entity-cards"), false, "Matters screen must not render entity summary cards");
+  assert.equal(section.includes('<h2 id="matters-title">Matters</h2>'), false, "Matters screen must not render the top intro heading");
+  assert.equal(section.includes("Current matter mix and 12-month opening/payment trends"), false, "Matters screen must not render the top intro copy");
+  assert.equal(section.includes('aria-labelledby="matters-title"'), false, "Matters screen must not reference the removed heading");
+  assert.ok(section.includes("Matter type mix"), "Matters screen must keep matter type mix as the first useful card");
+  assert.ok(section.indexOf("Matter type mix") < section.indexOf("Jurisdiction"), "Matters screen must start with useful matter type mix before jurisdiction");
   assert.ok(section.includes('data-entity-bars="full"'), "Matters screen must keep matter type mix binding");
   assert.equal(section.includes("data-matter-funding-bars"), false, "Matters screen must not render funding mix binding");
   assert.equal(section.includes("Funding mix"), false, "Matters screen must not render funding mix card");
@@ -220,6 +225,7 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.equal(/legalWorkData\?\.entities/.test(indexHtml), false, "Matters renderer must not read removed entities output");
   assert.equal(/sourceMix/.test(indexHtml), false, "Matters renderer must not read removed sourceMix output");
   assert.equal(/totals\.legalAidIncome/.test(indexHtml), false, "Matters renderer must not display all-time Legal Aid income");
+  assert.equal(/mattersLiveStatus|setMattersStatus/.test(indexHtml), false, "removed Matters live status binding must not remain in index.html");
 });
 
 console.log(`\n${passed} legal work check${passed === 1 ? "" : "s"} passed.`);
