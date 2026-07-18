@@ -20,6 +20,7 @@ const path = require("node:path");
 const safeHosts = require(path.join(__dirname, "..", "lib", "safe-hosts.js"));
 const systemMap = require(path.join(__dirname, "..", "lib", "system-map-data.js"));
 const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.js"));
+const liveTasks = require(path.join(__dirname, "..", "api", "_live-tasks.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "agents.json"), "utf8"));
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
@@ -279,8 +280,11 @@ test("index.html renders system agent rows as anchors when a section is known", 
 test("Agents screen does not render local cache or agent status sections", () => {
   assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
   assert.ok(indexHtml.includes("Operations snapshot"), "Agents screen must keep the Operations snapshot badge");
-  assert.equal(indexHtml.includes("Current operations board"), false, "Agents screen must not render the operations board section");
-  assert.equal(indexHtml.includes('id="newTaskForm"'), false, "Agents screen must not render the operation-note task form");
+  assert.ok(indexHtml.includes("Agent Kanban board"), "Agents screen must render the live Kanban board section");
+  assert.equal(indexHtml.includes("Current operations board"), false, "Agents screen must not render the old stale board heading");
+  assert.ok(indexHtml.includes("Live privacy-safe task view from Microsoft To Do"), "Agents Kanban must explain the live privacy-safe source");
+  assert.ok(indexHtml.includes("data-kanban"), "Agents screen must keep the kanban task board");
+  assert.ok(indexHtml.includes('id="newTaskForm"'), "Agents screen must keep the operation-note task form");
 
   [
     "Agent status",
@@ -362,17 +366,35 @@ test("Kanban seed uses a current privacy-safe operations snapshot", () => {
     "task seed data must identify the privacy-safe operations source"
   );
   assert.ok(
-    taskData.tasks.some((task) => /Gabrielle booking bridge/i.test(task.title)),
-    "task seed data must reflect the current Gabrielle/Acuity blocker"
+    taskData.tasks.some((task) => /Marketing campaign rollout status/i.test(task.title)),
+    "task seed data must reflect the current marketing rollout work"
   );
   assert.ok(
-    taskData.tasks.some((task) => /Mission Control/i.test(task.title) && task.status === "In Progress"),
-    "task seed data must include the current Mission Control fix in progress"
+    taskData.tasks.some((task) => /Plutus payment-run automation/i.test(task.title)),
+    "task seed data must include current Plutus automation work"
   );
   assert.ok(
-    !taskData.tasks.some((task) => /Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
+    !taskData.tasks.some((task) => /Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
     "old demo Kanban tasks must not return"
   );
+});
+
+test("Live To Do task transform removes matter identifiers from public Kanban cards", () => {
+  const card = liveTasks.publicTask(
+    {
+      id: "abc",
+      title: "2026-07-20 - Smith matter 26/1207 urgent filing",
+      status: "notStarted",
+      importance: "high",
+      createdDateTime: "2026-07-19T00:00:00Z",
+      lastModifiedDateTime: "2026-07-19T00:00:00Z",
+      dueDateTime: { dateTime: "2026-07-20T00:00:00", timeZone: "AUS Eastern Standard Time" }
+    },
+    { id: "list-1", displayName: "Matter Tasks" }
+  );
+  assert.equal(card.title, "Matter task due 20 July 2026");
+  assert.equal(card.assigneeId, "themis");
+  assert.equal(/\b26\/1207\b|Smith/i.test(JSON.stringify(card)), false, "public Kanban card must not include raw matter identifiers");
 });
 
 test("Agent workspace seed avoids stale demo status text", () => {
@@ -381,8 +403,9 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
   assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
   assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
-  assert.ok(!indexHtml.includes("Current operations board"), "agents screen must not show the operations board section");
-  assert.ok(!indexHtml.includes('id="newTaskForm"'), "agents screen must not show the add-note task form");
+  assert.ok(indexHtml.includes("Agent Kanban board"), "agents screen must show the live Kanban section");
+  assert.ok(!indexHtml.includes("Current operations board"), "agents screen must not show the old stale operations board heading");
+  assert.ok(indexHtml.includes('id="newTaskForm"'), "agents screen must keep the add-note task form");
   assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
   assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
   assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");

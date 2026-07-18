@@ -7,10 +7,20 @@ const {
   serverlessWriteNotice,
   taskLanes
 } = require("./_agent-store.js");
+const { buildLiveTaskStore } = require("./_live-tasks.js");
 
-module.exports = function handler(request, response) {
+module.exports = async function handler(request, response) {
   if (request.method === "GET") {
-    const store = readJson("tasks");
+    let store = readJson("tasks");
+    try {
+      store = await buildLiveTaskStore() || store;
+    } catch (error) {
+      store.meta = {
+        ...(store.meta || {}),
+        liveError: true,
+        note: `${store.meta?.note || "Fallback task snapshot."} Live Microsoft To Do refresh failed; showing committed fallback.`
+      };
+    }
     const tasks = store.tasks || [];
     return sendJson(response, 200, { ok: true, data: { tasks, lanes: taskLanes(tasks), meta: store.meta || null } });
   }
