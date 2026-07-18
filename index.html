@@ -3223,10 +3223,6 @@ a.agent-status-card:focus-visible.is-nav::after {
             </div>
           </div>
         </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid, private and mixed/unknown lanes from matter counts.</p></div></div>
-          <div class="panel-body stack-list" data-matter-funding-bars></div>
-        </aside>
       </div>
       <div class="screen-grid">
         <div class="panel">
@@ -3876,9 +3872,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   function renderLegalWork() {
     renderEntityBars("compact");
     renderEntityBars("full");
-    renderBars(document.querySelector("[data-matter-funding-bars]"), legalWorkData?.fundingMix || [], {
-      empty: "No funding mix loaded."
-    });
     renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), legalWorkData?.jurisdictionMix || [], {
       empty: "No jurisdiction mix loaded."
     });

@@ -182,7 +182,8 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.equal(/safeSummary\.legalWork\?\./.test(indexHtml), false, "Matters renderer must not read stale ops-summary legalWork");
   assert.equal(section.includes("data-entity-cards"), false, "Matters screen must not render entity summary cards");
   assert.ok(section.includes('data-entity-bars="full"'), "Matters screen must keep matter type mix binding");
-  assert.ok(section.includes("data-matter-funding-bars"), "Matters screen must keep funding mix binding");
+  assert.equal(section.includes("data-matter-funding-bars"), false, "Matters screen must not render funding mix binding");
+  assert.equal(section.includes("Funding mix"), false, "Matters screen must not render funding mix card");
   assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
   assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
@@ -213,6 +214,7 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
     assert.equal(pattern.test(section), false, `Matters screen matched stale wording ${pattern}`);
   });
   assert.equal(/data-matter-source-bars/.test(indexHtml), false, "removed source bars renderer must not remain in index.html");
+  assert.equal(/data-matter-funding-bars/.test(indexHtml), false, "removed funding bars renderer must not remain in index.html");
   assert.equal(/data-entity-cards/.test(indexHtml), false, "removed entity cards renderer must not remain in index.html");
   assert.equal(/entity-card/.test(indexHtml), false, "removed entity card CSS must not remain in index.html");
   assert.equal(/legalWorkData\?\.entities/.test(indexHtml), false, "Matters renderer must not read removed entities output");
