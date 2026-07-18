@@ -202,15 +202,28 @@ function sanitisePrivateSummary(summary) {
     currency: summary.currency || "AUD",
     live: Boolean(summary.live),
     sourceStatus: summary.sourceStatus || "missing finance summary source",
+    weeklyIncome: summary.weeklyIncome || DEFAULT_SUMMARY.weeklyIncome,
+    bank: summary.bank || DEFAULT_SUMMARY.bank,
+    atoPressure: summary.atoPressure || DEFAULT_SUMMARY.atoPressure,
+    bookkeepingHygiene: summary.bookkeepingHygiene || DEFAULT_SUMMARY.bookkeepingHygiene,
+    basTimeline: Array.isArray(summary.basTimeline) ? summary.basTimeline : DEFAULT_SUMMARY.basTimeline,
+    weeklyExpenses: Array.isArray(summary.weeklyExpenses) ? summary.weeklyExpenses : DEFAULT_SUMMARY.weeklyExpenses,
     profitLoss: {
       period: summary.profitLoss?.period || null,
+      basis: summary.profitLoss?.basis || null,
       totalIncome: roundMoney(summary.profitLoss?.totalIncome),
       totalExpenses: roundMoney(summary.profitLoss?.totalExpenses),
       operatingProfit: roundMoney(summary.profitLoss?.operatingProfit),
       netProfit: roundMoney(summary.profitLoss?.netProfit),
       incomeByCategory: Array.isArray(summary.profitLoss?.incomeByCategory) ? summary.profitLoss.incomeByCategory : [],
       expensesByCategory: Array.isArray(summary.profitLoss?.expensesByCategory) ? summary.profitLoss.expensesByCategory : []
-    }
+    },
+    quarterlyBas: summary.quarterlyBas || DEFAULT_SUMMARY.quarterlyBas,
+    legalAidIncome: summary.legalAidIncome || null,
+    openMatters: summary.openMatters || DEFAULT_SUMMARY.openMatters,
+    projectionMonths: Array.isArray(summary.projectionMonths) ? summary.projectionMonths : DEFAULT_SUMMARY.projectionMonths,
+    receivables: summary.receivables || null,
+    taxReturn2025: summary.taxReturn2025 || DEFAULT_SUMMARY.taxReturn2025
   };
 }
 

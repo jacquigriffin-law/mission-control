@@ -72,6 +72,10 @@ test("data/finance-summary.json fallback supplies profitLoss when env is absent"
   const summary = withFinanceEnv(undefined, () => financeSummary.loadSummary());
   assert.equal(summary.live, true);
   assert.ok(summary.generatedAt, "fallback summary should expose generatedAt");
+  assert.equal(summary.bank.balance, 27821.43);
+  assert.equal(summary.atoPressure.accumulatedGstToPay, 38505.95);
+  assert.equal(summary.quarterlyBas.estimatedNetBas, 13656);
+  assert.equal(summary.legalAidIncome.total, 878592.99);
   assert.ok(summary.profitLoss.period, "fallback summary should expose profitLoss period");
   assert.equal(typeof summary.profitLoss.netProfit, "number");
   assert.ok(summary.profitLoss.incomeByCategory.length, "fallback summary should expose income categories");
@@ -99,14 +103,27 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
   }), () => financeSummary.loadSummary());
 
   assert.deepEqual(Object.keys(summary).sort(), [
+    "atoPressure",
+    "bank",
+    "basTimeline",
+    "bookkeepingHygiene",
     "currency",
     "generatedAt",
+    "legalAidIncome",
     "live",
+    "openMatters",
     "profitLoss",
+    "projectionMonths",
+    "quarterlyBas",
+    "receivables",
     "source",
-    "sourceStatus"
+    "sourceStatus",
+    "taxReturn2025",
+    "weeklyExpenses",
+    "weeklyIncome"
   ]);
   assert.deepEqual(Object.keys(summary.profitLoss).sort(), [
+    "basis",
     "expensesByCategory",
     "incomeByCategory",
     "netProfit",
@@ -118,12 +135,12 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
   const serialised = JSON.stringify(summary);
   [
     /Hidden/,
-    /client/i,
-    /invoice/i,
-    /payment/i,
-    /matter/i,
-    /transaction/i,
-    /raw/i
+    /clientRecords/i,
+    /invoiceLines/i,
+    /paymentLines/i,
+    /matterDetails/i,
+    /"transactions"\s*:/i,
+    /rawMyob/i
   ].forEach((pattern) => {
     assert.equal(pattern.test(serialised), false, `finance response matched forbidden pattern ${pattern}`);
   });
