@@ -23,7 +23,6 @@ const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.
 const liveTasks = require(path.join(__dirname, "..", "api", "_live-tasks.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const opsSummaryJs = fs.readFileSync(path.join(__dirname, "..", "ops-summary.js"), "utf8");
-const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
 const todoScreenHtml = indexHtml.match(/<section class="screen" id="todo"[\s\S]*?<section class="screen" id="finance"/)?.[0] || "";
@@ -222,6 +221,8 @@ test("Agents tab is removed from the shipped navigation", () => {
   assert.equal(indexHtml.includes('data-screen="agents"'), false, "Agents router screen must not ship");
   assert.equal(agentSections.VALID_SECTIONS.has("agents"), false, "agents must not be a valid route");
   assert.equal(systemMap.hubs.some((node) => node.section === "agents"), false, "system map must not route to removed Agents tab");
+  assert.ok(indexHtml.includes("function activateHashRoute()"), "client router must handle removed hash routes");
+  assert.ok(indexHtml.includes('history.replaceState(null, "", `#${section}`)'), "removed hash routes must normalise back to a valid hash");
 });
 
 test("index.html defines dedicated Memory and Documents sections", () => {
@@ -376,7 +377,7 @@ test("index.html renders system agent rows as anchors when a section is known", 
   );
 });
 
-test("Agents Kanban screen does not ship", () => {
+test("Retired Agents task board does not ship", () => {
   [
     '<h2 id="agents-title">Agents</h2>',
     '<section class="screen" id="agents"',
@@ -391,7 +392,7 @@ test("Agents Kanban screen does not ship", () => {
     "Snapshot + local",
     "Shared communication log"
   ].forEach((marker) => {
-    assert.equal(indexHtml.includes(marker), false, `removed Agents UI marker must not ship: ${marker}`);
+    assert.equal(indexHtml.includes(marker), false, `removed task-board UI marker must not ship: ${marker}`);
   });
 });
 
@@ -413,7 +414,7 @@ test("launcher render code opens external sites in a new tab with noopener noref
   );
 });
 
-test("Kanban seed uses a current privacy-safe operations snapshot", () => {
+test("To Do seed uses a current privacy-safe operations snapshot", () => {
   assert.ok(taskData.meta?.generatedAt, "task seed data must expose a snapshot timestamp");
   assert.ok(
     /privacy-safe operations snapshot/i.test(taskData.meta?.source || ""),
@@ -429,7 +430,7 @@ test("Kanban seed uses a current privacy-safe operations snapshot", () => {
   );
   assert.ok(
     !taskData.tasks.some((task) => /Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
-    "old demo Kanban tasks must not return"
+    "old demo tasks must not return"
   );
 });
 
@@ -441,7 +442,7 @@ test("To Do feed wording rejects the stale 10/11 July snapshot", () => {
   assert.equal(staleSnapshotPattern.test(taskText), false, "fallback To Do seed must not contain stale 10/11 July task snapshot wording");
 });
 
-test("Live To Do task transform removes matter identifiers from public Kanban cards", () => {
+test("Live To Do task transform removes matter identifiers from public To Do rows", () => {
   const card = liveTasks.publicTask(
     {
       id: "abc",
@@ -456,20 +457,14 @@ test("Live To Do task transform removes matter identifiers from public Kanban ca
   );
   assert.equal(card.title, "Matter task due 20 July 2026");
   assert.equal(card.assigneeId, "themis");
-  assert.equal(/\b26\/1207\b|Smith/i.test(JSON.stringify(card)), false, "public Kanban card must not include raw matter identifiers");
+  assert.equal(/\b26\/1207\b|Smith/i.test(JSON.stringify(card)), false, "public To Do row must not include raw matter identifiers");
 });
 
-test("Removed Agents tab leaves no stale demo activity on visible pages", () => {
-  const activityText = JSON.stringify(activityData);
-  assert.equal(indexHtml.includes("Agent Kanban board"), false, "removed Agents Kanban must not ship");
-  assert.equal(indexHtml.includes('id="newTaskForm"'), false, "removed Agents add-note form must not ship");
-  assert.equal(indexHtml.includes("Shared communication log"), false, "removed Agents communication log must not ship");
+test("Removed task-board UI leaves no stale controls on visible pages", () => {
+  assert.equal(indexHtml.includes("Agent Kanban board"), false, "removed task board heading must not ship");
+  assert.equal(indexHtml.includes('id="newTaskForm"'), false, "removed add-note form must not ship");
+  assert.equal(indexHtml.includes("Shared communication log"), false, "removed communication log must not ship");
   assert.equal(indexHtml.includes("Entries cached in this browser"), false, "cached-browser wording must not ship");
-  assert.ok(activityText.includes("19 July"), "activity seed can remain current for API consumers");
-  assert.ok(
-    !/10 July|11 July|2026-07-10|2026-07-11|availability works|live booking creation is still blocked/.test(activityText),
-    "stale 10 July/11 July demo activity must not return"
-  );
 });
 
 console.log(`\n${passed} check${passed === 1 ? "" : "s"} passed.`);
