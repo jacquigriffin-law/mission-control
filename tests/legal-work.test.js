@@ -61,8 +61,10 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.equal(summary.totals.legalAidIncome, 878592.99);
   assert.equal(summary.totals.legalAidPaymentCount, 94);
   assert.ok(summary.typeMix.some((item) => item.label === "Care and protection" && item.count === 67));
+  assert.deepEqual(summary.fundingMix, [{ label: "Mixed or unknown", count: 103 }]);
   assert.ok(summary.jurisdictionMix.some((item) => item.label === "NSW" && item.count === 99));
   assert.ok(summary.legalAidIncome.byJurisdiction.some((item) => item.jurisdiction === "NSW" && item.paymentCount === 74));
+  assert.equal(Object.hasOwn(summary, "sourceMix"), false);
   assertNoPrivateLeak(summary);
 });
 
@@ -128,16 +130,28 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(indexHtml.includes('fetch("/api/legal-work"'), "Matters tab must fetch the legal work API");
   assert.ok(indexHtml.includes("let legalWorkData = null"), "Matters tab must render from legalWorkData");
   assert.equal(/safeSummary\.legalWork\?\./.test(indexHtml), false, "Matters renderer must not read stale ops-summary legalWork");
+  assert.ok(section.includes("data-entity-cards"), "Matters screen must keep entity summary cards");
+  assert.ok(section.includes('data-entity-bars="full"'), "Matters screen must keep matter type mix binding");
+  assert.ok(section.includes("data-matter-funding-bars"), "Matters screen must keep funding mix binding");
+  assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
   [
     /2026-07-04/,
     /placeholder/i,
     /counts remain placeholders/i,
     /Partial feed/i,
     /leads\/leads-register\.json/i,
-    /LeadFlow aggregate snapshot/i
+    /LeadFlow aggregate snapshot/i,
+    /Source lanes/i,
+    /data-matter-source-bars/i,
+    /Privacy boundary/i,
+    /Displayed here/i,
+    /Not displayed here/i,
+    /Source systems/i
   ].forEach((pattern) => {
     assert.equal(pattern.test(section), false, `Matters screen matched stale wording ${pattern}`);
   });
+  assert.equal(/data-matter-source-bars/.test(indexHtml), false, "removed source bars renderer must not remain in index.html");
+  assert.equal(/sourceMix/.test(indexHtml), false, "Matters renderer must not read removed sourceMix output");
 });
 
 console.log(`\n${passed} legal work check${passed === 1 ? "" : "s"} passed.`);

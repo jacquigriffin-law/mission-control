@@ -137,16 +137,6 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
     ],
     typeMix: byType,
     fundingMix: byFunding,
-    sourceMix: [
-      activeRecordCount === null ? null : {
-        label: "Open matters index",
-        count: activeRecordCount
-      },
-      legalAidPaymentCount === null ? null : {
-        label: "Legal Aid aggregate payments",
-        count: legalAidPaymentCount
-      }
-    ].filter(Boolean),
     jurisdictionMix: byJurisdiction,
     legalAidIncome: {
       total: legalAidTotal,
