@@ -860,6 +860,58 @@ a.mini-card:focus-visible {
   font-size: .78rem;
 }
 
+.finance-action-queue {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.finance-action {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 10px;
+}
+
+.finance-action strong,
+.finance-action span,
+.finance-action small {
+  display: block;
+}
+
+.finance-action strong {
+  color: var(--text);
+  font-size: .88rem;
+}
+
+.finance-action span,
+.finance-action small {
+  color: var(--muted);
+  font-size: .74rem;
+  line-height: 1.35;
+}
+
+.finance-action-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 240px;
+}
+
+.finance-action-queue .row {
+  align-items: flex-start;
+}
+
+.finance-action-queue .tag {
+  min-width: 86px;
+  text-align: center;
+}
+
 .tax-return-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3029,6 +3081,13 @@ a.agent-status-card:focus-visible.is-nav::after {
       </div>
 
       <div class="panel">
+        <div class="panel-head"><div><h3>Finance action queue</h3><p>Exceptions derived from aggregate MYOB, BAS and source-freshness signals.</p></div><span class="tag amber">Plutus</span></div>
+        <div class="panel-body list finance-action-queue" id="financeActionQueue" data-finance-actions>
+          <p class="empty-state">Loading finance actions…</p>
+        </div>
+      </div>
+
+      <div class="panel">
         <div class="panel-head"><div><h3>Profit and Loss</h3><p>Current aggregate period from the finance source.</p></div><span class="tag green">Aggregate</span></div>
         <div class="panel-body">
           <div class="tax-return-grid">
@@ -3041,11 +3100,11 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div class="screen-grid">
             <div>
               <h4>Income categories</h4>
-              <div class="list" id="profitLossIncomeRows"><p class="empty-state">No income categories loaded.</p></div>
+              <div class="list" id="profitLossIncomeRows" data-finance-income-categories><p class="empty-state">No income categories loaded.</p></div>
             </div>
             <div>
               <h4>Expense categories</h4>
-              <div class="list" id="profitLossExpenseRows"><p class="empty-state">No expense categories loaded.</p></div>
+              <div class="list" id="profitLossExpenseRows" data-finance-expense-categories><p class="empty-state">No expense categories loaded.</p></div>
             </div>
           </div>
         </div>
@@ -3150,7 +3209,7 @@ a.agent-status-card:focus-visible.is-nav::after {
           <article class="metric-card"><span>Net rental loss</span><strong data-finance="taxReturn2025.netRentalLoss">—</strong></article>
           <article class="metric-card"><span>Net capital gain</span><strong data-finance="taxReturn2025.netCapitalGain">—</strong></article>
           <article class="metric-card"><span>Source email date</span><strong data-finance="taxReturn2025.sourceEmailDate" data-finance-format="plain">—</strong></article>
-          <article class="metric-card wide"><span>Source attachment</span><strong data-finance="taxReturn2025.sourceAttachment" data-finance-format="plain">—</strong></article>
+          <article class="metric-card wide"><span>Source status</span><strong data-finance="sourceStatus" data-finance-format="plain">—</strong></article>
         </div>
       </details>
 
@@ -3933,6 +3992,45 @@ a.agent-status-card:focus-visible.is-nav::after {
     )).join("");
   }
 
+  function financePriorityTone(priority) {
+    return {
+      critical: "red",
+      high: "amber",
+      medium: "blue",
+      low: "green"
+    }[priority] || "";
+  }
+
+  function renderFinanceActions(actions) {
+    const container = document.querySelector("[data-finance-actions]");
+    if (!container) return;
+    const safeActions = Array.isArray(actions) ? actions.filter((item) => item && item.title) : [];
+    if (!safeActions.length) {
+      container.innerHTML = '<p class="empty-state">No finance exceptions in the aggregate feed.</p>';
+      return;
+    }
+    container.innerHTML = safeActions.map((item) => {
+      const amount = item.amount === null || item.amount === undefined ? "" : `<span class="tag">${currency(item.amount)}</span>`;
+      const dueDate = item.dueDate ? `<span class="tag">${escapeHtml(item.dueDate)}</span>` : "";
+      const tone = financePriorityTone(item.priority);
+      const metric = item.metric ? ` · ${escapeHtml(item.metric)}` : "";
+      const source = item.source ? ` · ${escapeHtml(item.source)}` : "";
+      return `<article class="finance-action" data-finance-action-id="${escapeHtml(item.id || "")}">
+        <div>
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.detail || "")}</span>
+          <small>Aggregate signal${metric}${source}</small>
+        </div>
+        <div class="finance-action-meta">
+          <span class="tag ${escapeHtml(tone)}">${escapeHtml(item.priority || "medium")}</span>
+          <span class="tag">${escapeHtml(item.status || "Open")}</span>
+          ${amount}
+          ${dueDate}
+        </div>
+      </article>`;
+    }).join("");
+  }
+
   function applyFinanceData(data) {
     document.querySelectorAll("[data-finance]").forEach((element) => {
       const key = element.dataset.finance;
@@ -3944,6 +4042,7 @@ a.agent-status-card:focus-visible.is-nav::after {
 
     renderProfitLossRows("[data-finance-income-categories]", data.profitLoss?.incomeByCategory);
     renderProfitLossRows("[data-finance-expense-categories]", data.profitLoss?.expensesByCategory);
+    renderFinanceActions(data.actions);
   }
 
   function setHeroFinanceStatus(text, tone = "") {
