@@ -269,7 +269,7 @@ test("index.html defines every internal hash target we route to", () => {
   });
 });
 
-test("index.html renders agent rows as anchors when a section is known", () => {
+test("index.html renders system agent rows as anchors when a section is known", () => {
   assert.ok(
     indexHtml.includes('class="row row-nav"'),
     "System agent rows must render as row-nav anchors so mobile users can tap them"
@@ -277,18 +277,35 @@ test("index.html renders agent rows as anchors when a section is known", () => {
 });
 
 test("Agents screen does not render local cache or agent status sections", () => {
-  assert.equal(indexHtml.includes("<h3>Agent status</h3>"), false, "Agents screen must not render the Agent status section");
-  assert.equal(indexHtml.includes("data-agent-status"), false, "Agents screen must not render the agent status grid");
-  assert.equal(indexHtml.includes("agentStatusFilter"), false, "Agents screen must not render agent status filters");
-  assert.equal(indexHtml.includes("agentSort"), false, "Agents screen must not render agent sort controls");
-  assert.equal(indexHtml.includes("agentsRefresh"), false, "Agents screen must not render the old agent refresh control");
-  assert.equal(
-    indexHtml.includes(
-      "Working shows a live green pulse; Idle shows an amber hold. Colour code stays consistent with each agent's kanban cards."
-    ),
-    false,
-    "Agents screen must not render the old Agent status helper text"
-  );
+  assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
+  assert.ok(indexHtml.includes("Operations snapshot"), "Agents screen must keep the Operations snapshot badge");
+
+  [
+    "Agent status",
+    "Local-only changes cached in this browser.",
+    "Snapshot + local",
+    "persistCallout",
+    "persistReset",
+    "data-agent-status",
+    "agent-status-card",
+    "agent-status-grid",
+    "agentStatusFilter",
+    "agentSort",
+    "agentsCountTag",
+    "agentsRefresh",
+    "status-pill",
+    "agent-identity",
+    "agent-working",
+    "agent-last",
+    "renderAgentStatus",
+    "sortedVisibleAgents",
+    "Working shows a live green pulse; Idle shows an amber hold. Colour code stays consistent with each agent's kanban cards.",
+    "No agents match this filter.",
+    "Adjust the status filter or refresh the seed data.",
+    "Agent seed data could not load."
+  ].forEach((marker) => {
+    assert.equal(indexHtml.includes(marker), false, `removed Agent status marker must not remain: ${marker}`);
+  });
 });
 
 test("index.html routes safe-launcher links through safeUrl", () => {
@@ -362,11 +379,16 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
   assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
   assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
+  assert.ok(indexHtml.includes("Current operations board"), "agents screen must keep the operations kanban section");
+  assert.ok(indexHtml.includes("data-kanban"), "agents screen must keep the kanban task board");
   assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
   assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
   assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
   assert.ok(!indexHtml.includes("persistCallout"), "agents screen must not keep hidden persistence callout markup");
   assert.ok(!indexHtml.includes("persistReset"), "agents screen must not keep hidden persistence reset controls");
+  assert.ok(!indexHtml.includes("data-agent-status"), "agents screen must not keep the removed status grid binding");
+  assert.ok(!indexHtml.includes("agentStatusFilter"), "agents screen must not keep removed status filter controls");
+  assert.ok(!indexHtml.includes("agent-status-card"), "agents screen must not keep removed status card markers");
   assert.ok(indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "localStorage overlay read path must remain available");
   assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "localStorage overlay reset path must remain available");
   assert.ok(
