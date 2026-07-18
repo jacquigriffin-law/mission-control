@@ -8,6 +8,7 @@ const DATA_DIR = path.join(ROOT, "data");
 const PORT = Number(process.env.PORT) || 3000;
 
 const financeSummary = require("./api/finance-summary.js");
+const legalWork = require("./api/legal-work.js");
 
 const STATIC_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -373,6 +374,7 @@ const server = http.createServer((req, res) => {
 
   try {
     if (pathname === "/api/finance-summary") return financeSummary(req, res);
+    if (pathname === "/api/legal-work") return legalWork(req, res);
     if (pathname.startsWith("/api/agents")) return handleAgents(req, res, url);
     if (pathname.startsWith("/api/tasks")) return handleTasks(req, res, url);
     if (pathname === "/api/activity") return handleActivity(req, res);

@@ -2995,8 +2995,8 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div>
             <span class="tag blue">Work mix</span>
             <h3>Matter mix</h3>
-            <p>Type, source, funding and jurisdiction breakdowns across JGMS, Family Law Assist and NT Rural &amp; Remote Legal Services.</p>
-            <span class="pillar-value" data-safe="legalWork.entities.length">3</span>
+            <p>Type, source, funding and jurisdiction breakdowns from current safe aggregate feeds.</p>
+            <span class="pillar-value" id="mattersHeroCount">—</span>
           </div>
           <div class="stack-list" data-entity-bars="compact"></div>
           <div class="pillar-actions"><a class="button primary" href="#matters">Open matters</a><span class="tag">No client names</span></div>
@@ -3234,11 +3234,17 @@ a.agent-status-card:focus-visible.is-nav::after {
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Aggregate matter intelligence: type, source, funding and jurisdiction. Client names, matter names and raw LEAP records stay out of this layer.</p></div><span class="tag blue">No client names</span></div>
+      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current aggregate matter intelligence from safe LEAP counts and Legal Aid income totals. Client names, matter names and raw LEAP records stay out of this layer.</p></div><span class="tag blue" id="mattersLiveStatus">Loading</span></div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Live legal work feed</h3><p>Open-matter counts and Legal Aid income totals loaded from aggregate server-side data.</p></div><span class="tag green">No raw records</span></div>
+        <div class="panel-body">
+          <p class="finance-live-note" id="mattersLiveNote">Loading aggregate legal work data…</p>
+        </div>
+      </div>
       <div class="entity-grid" data-entity-cards></div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Matter type by trading name</h3><p>Stacked by JGMS, Family Law Assist and NT Rural &amp; Remote where safe aggregates exist.</p></div></div>
+          <div class="panel-head"><div><h3>Matter type mix</h3><p>Current open-matter categories from the aggregate matter feed.</p></div></div>
           <div class="panel-body">
             <div class="stack-list" data-entity-bars="full"></div>
             <div class="bar-legend">
@@ -3246,12 +3252,12 @@ a.agent-status-card:focus-visible.is-nav::after {
               <span><i class="legend-dot green"></i>Care</span>
               <span><i class="legend-dot amber"></i>Domestic violence</span>
               <span><i class="legend-dot red"></i>Criminal</span>
-              <span><i class="legend-dot violet"></i>Other / placeholder</span>
+              <span><i class="legend-dot violet"></i>Other or unknown</span>
             </div>
           </div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid NSW, Legal Aid NT, private and mixed/unknown lanes. Counts remain placeholders where no safe source is connected.</p></div></div>
+          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid, private and mixed/unknown lanes from aggregate matter counts.</p></div></div>
           <div class="panel-body stack-list" data-matter-funding-bars></div>
         </aside>
       </div>
@@ -3261,16 +3267,16 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div class="panel-body stack-list" data-matter-source-bars></div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Jurisdiction</h3><p>Registry/location counts from the current aggregate register where available.</p></div><span class="tag amber">Partial feed</span></div>
+          <div class="panel-head"><div><h3>Jurisdiction</h3><p>Jurisdiction counts collapsed to safe NSW, NT and unknown buckets.</p></div><span class="tag green">Aggregate feed</span></div>
           <div class="panel-body stack-list" data-matter-jurisdiction-bars></div>
         </aside>
       </div>
       <div class="panel">
         <div class="panel-head"><div><h3>Privacy boundary</h3><p>Mission Control shows the carrying shape of the practice, not the protected file record.</p></div><span class="tag green">Safe aggregate</span></div>
         <div class="panel-body list">
-          <div class="row"><div><strong>Displayed here</strong><span>Matter-type, funding, source, jurisdiction and trading-name breakdowns.</span></div><span class="tag green">Safe</span></div>
-          <div class="row"><div><strong>Not displayed here</strong><span>Client names, opposing parties, court file numbers, raw LEAP tasks, contact details or document contents.</span></div><span class="tag red">Excluded</span></div>
-          <div class="row"><div><strong>Source systems</strong><span>LEAP, Legal Aid portals, LeadFlow, MYOB and Microsoft 365 remain the record systems.</span></div><span class="tag blue">Linked concept</span></div>
+          <div class="row"><div><strong>Displayed here</strong><span>Matter-type, funding, source, jurisdiction, active-open-matter count, indexed-row count and Legal Aid aggregate income/payment counts.</span></div><span class="tag green">Safe</span></div>
+          <div class="row"><div><strong>Not displayed here</strong><span>Client names, matter IDs, file numbers, Legal Aid references, raw email details, raw LEAP records, transaction lines or payment lines.</span></div><span class="tag red">Excluded</span></div>
+          <div class="row"><div><strong>Source systems</strong><span>LEAP aggregate index and Legal Aid aggregate remittance totals remain the sources behind this summary.</span></div><span class="tag blue">Aggregate only</span></div>
         </div>
       </div>
     </section>
@@ -3628,6 +3634,9 @@ a.agent-status-card:focus-visible.is-nav::after {
   const financeLiveStatus = document.getElementById("financeLiveStatus");
   const financeLiveNote = document.getElementById("financeLiveNote");
   const financeHeroStatus = document.getElementById("financeHeroStatus");
+  const mattersLiveStatus = document.getElementById("mattersLiveStatus");
+  const mattersLiveNote = document.getElementById("mattersLiveNote");
+  const mattersHeroCount = document.getElementById("mattersHeroCount");
   const agentsStatus = document.getElementById("agentsStatus");
   const agentsRefresh = document.getElementById("agentsRefresh");
   const agentsTaskCount = document.getElementById("agentsTaskCount");
@@ -3639,6 +3648,7 @@ a.agent-status-card:focus-visible.is-nav::after {
   const journalStatus = document.getElementById("journalStatus");
   const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
+  let legalWorkData = null;
   const colours = ["", "green", "amber", "red", "violet"];
 
   const agentState = {
@@ -3830,48 +3840,40 @@ a.agent-status-card:focus-visible.is-nav::after {
       const count = Number(item.count) || 0;
       const width = Math.max(2, (count / total) * 100);
       const tone = colours[index % colours.length];
-      const placeholder = item.placeholder ? " · placeholder" : "";
-      return `<div class="stack-row"><header><strong>${plain(item.label)}</strong><span>${countText(count)}${placeholder}</span></header><div class="stack-bar"><span class="stack-segment ${tone}" style="width:${width}%"></span></div></div>`;
+      const amount = item.total === null || item.total === undefined ? "" : ` · ${currency(item.total)}`;
+      return `<div class="stack-row"><header><strong>${plain(item.label || item.jurisdiction)}</strong><span>${countText(count)}${amount}</span></header><div class="stack-bar"><span class="stack-segment ${tone}" style="width:${width}%"></span></div></div>`;
     }).join("");
-  }
-
-  function entityTypeTotal(entity) {
-    return (entity.byType || []).reduce((sum, item) => sum + (Number(item.count) || 0), 0);
   }
 
   function renderEntityBars(mode) {
     const container = document.querySelector(`[data-entity-bars="${mode}"]`);
     if (!container) return;
-    const entities = safeSummary.legalWork?.entities || [];
-    container.innerHTML = entities.map((entity) => {
-      const total = entityTypeTotal(entity);
-      const segments = total
-        ? (entity.byType || []).map((item, index) => {
-            const width = Math.max(2, ((Number(item.count) || 0) / total) * 100);
-            return `<span class="stack-segment ${colours[index % colours.length]}" style="width:${width}%" title="${plain(item.label)} ${countText(item.count)}"></span>`;
-          }).join("")
-        : `<span class="stack-segment violet" style="width:100%"></span>`;
-      return `<div class="stack-row"><header><strong>${plain(entity.shortName || entity.name)}</strong><span>${total ? `${countText(total)} intake signals` : "Matter feed pending"}</span></header><div class="stack-bar">${segments}</div></div>`;
-    }).join("");
+    renderBars(container, legalWorkData?.typeMix || [], {
+      empty: "No aggregate matter type counts loaded."
+    });
   }
 
   function renderLegalWork() {
     renderEntityBars("compact");
     renderEntityBars("full");
-    renderBars(document.querySelector("[data-matter-funding-bars]"), safeSummary.legalWork?.fundingMix || [], {
-      empty: "Funding mix will appear when Legal Aid, private and LEAP-safe aggregates are connected."
+    renderBars(document.querySelector("[data-matter-funding-bars]"), legalWorkData?.fundingMix || [], {
+      empty: "No aggregate funding mix loaded."
     });
-    renderBars(document.querySelector("[data-matter-source-bars]"), safeSummary.legalWork?.sourceMix || [], {
-      empty: "Source mix will appear when safe intake and matter-source aggregates are connected."
+    renderBars(document.querySelector("[data-matter-source-bars]"), legalWorkData?.sourceMix || [], {
+      empty: "No aggregate source mix loaded."
     });
-    renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), safeSummary.legalWork?.jurisdictionMix || [], {
-      empty: "Jurisdiction mix will appear when safe registry/location aggregates are connected."
+    renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), legalWorkData?.jurisdictionMix || [], {
+      empty: "No aggregate jurisdiction mix loaded."
     });
     const cards = document.querySelector("[data-entity-cards]");
-    const entities = safeSummary.legalWork?.entities || [];
+    const entities = legalWorkData?.entities || [];
     if (cards) {
       cards.innerHTML = entities.map((entity) => {
-        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3></div><div class="entity-meta"><span class="tag blue">Open: ${countText(entity.openMatters)}</span><span class="tag">30d opened: ${countText(entity.opened30d)}</span><span class="tag">30d closed: ${countText(entity.closed30d)}</span></div></article>`;
+        const totalIncome = entity.totalIncome === null || entity.totalIncome === undefined ? "" : `<span class="tag green">Income: ${currency(entity.totalIncome)}</span>`;
+        const paymentCount = entity.paymentCount === null || entity.paymentCount === undefined ? "" : `<span class="tag">Payments: ${countText(entity.paymentCount)}</span>`;
+        const openMatters = entity.openMatters === null || entity.openMatters === undefined ? "" : `<span class="tag blue">Open: ${countText(entity.openMatters)}</span>`;
+        const indexedRows = entity.indexedMatterRows === null || entity.indexedMatterRows === undefined ? "" : `<span class="tag">Indexed rows: ${countText(entity.indexedMatterRows)}</span>`;
+        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3></div><div class="entity-meta">${openMatters}${indexedRows}${totalIncome}${paymentCount}</div></article>`;
       }).join("");
     }
     const jurisdictions = entities.flatMap((entity) => entity.jurisdictions || []).map((item) => item.label).filter(Boolean);
@@ -3951,8 +3953,47 @@ a.agent-status-card:focus-visible.is-nav::after {
 
   function renderSafeSummary() {
     setSafeText();
-    renderLegalWork();
     renderMemoryDocumentsPanel();
+  }
+
+  function setMattersStatus(text, tone = "") {
+    if (!mattersLiveStatus) return;
+    mattersLiveStatus.textContent = text;
+    mattersLiveStatus.className = `tag ${tone}`.trim();
+  }
+
+  async function loadLegalWorkFeed() {
+    setMattersStatus("Loading", "blue");
+    if (mattersLiveNote) mattersLiveNote.textContent = "Loading aggregate legal work data…";
+    try {
+      const response = await fetch("/api/legal-work", { cache: "no-store" });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.message || payload.error || `Legal work feed unavailable (${response.status})`);
+      }
+      legalWorkData = payload.data;
+      safeSummary.legalWork = legalWorkData;
+      setSafeText();
+      renderLegalWork();
+      const isLive = Boolean(payload.data && payload.data.live);
+      setMattersStatus(isLive ? "Live" : "Aggregate", isLive ? "green" : "amber");
+      if (mattersLiveNote) {
+        const totals = payload.data?.totals || {};
+        const openText = totals.activeOpenMatters === null || totals.activeOpenMatters === undefined ? "open-matter count unavailable" : `${countText(totals.activeOpenMatters)} open matters`;
+        const incomeText = totals.legalAidIncome === null || totals.legalAidIncome === undefined ? "Legal Aid income unavailable" : `${currency(totals.legalAidIncome)} Legal Aid income`;
+        const paymentText = totals.legalAidPaymentCount === null || totals.legalAidPaymentCount === undefined ? "" : ` across ${countText(totals.legalAidPaymentCount)} payments`;
+        const freshness = payload.data?.sourceFreshness;
+        const freshnessText = freshness ? ` LEAP: ${freshness.leap}; Legal Aid: ${freshness.legalAid}.` : "";
+        mattersLiveNote.textContent = `Loaded ${openText} and ${incomeText}${paymentText}.${freshnessText}`;
+      }
+      if (mattersHeroCount) mattersHeroCount.textContent = countText(payload.data?.totals?.activeOpenMatters);
+    } catch (error) {
+      legalWorkData = null;
+      renderLegalWork();
+      setMattersStatus("Offline", "red");
+      if (mattersLiveNote) mattersLiveNote.textContent = error.message || "Could not load legal work data.";
+      if (mattersHeroCount) mattersHeroCount.textContent = "—";
+    }
   }
 
   function financeCategoryLabel(value) {
@@ -5164,6 +5205,7 @@ a.agent-status-card:focus-visible.is-nav::after {
   setActive(normaliseHash(window.location.hash), false);
   loadJournalFeed();
   loadFinanceFeed();
+  loadLegalWorkFeed();
   refreshAgentsWorkspace().catch((error) => {
     const callout = document.getElementById("persistCallout");
     if (callout && overlay.hasAny()) callout.classList.remove("is-hidden");
