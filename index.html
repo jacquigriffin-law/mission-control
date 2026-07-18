@@ -2964,36 +2964,7 @@ button.system-map-node {
     </section>
 
     <section class="screen" id="memory" data-screen="memory" aria-labelledby="memory-title">
-      <div class="section-title"><div><h2 id="memory-title">Memory</h2><p>Dedicated index for daily chats, decisions, corrections and current status. The dashboard exposes categories and purpose only; private content stays in the workspace.</p></div><span class="tag green">Contents hidden</span></div>
-
-      <div class="kpi-strip" aria-label="Memory counters">
-        <article class="kpi-tile"><span>Memory lanes</span><strong data-safe="system.memory.length">—</strong><small>Status, daily and long-term notes</small></article>
-        <article class="kpi-tile"><span>Categories</span><strong data-safe="system.memoryCategories.length">—</strong><small>Chats to searchable history</small></article>
-        <article class="kpi-tile"><span>Current state</span><strong>STATUS.md</strong><small>What is happening now</small></article>
-        <article class="kpi-tile"><span>Corrections</span><strong>mistakes.md</strong><small>Do-not-repeat guard</small></article>
-      </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Memory sources</h3><p>What each file or lane is for. No private entries are rendered.</p></div><span class="tag blue">Index only</span></div>
-          <div class="panel-body list" data-system-memory></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Searchable history concept</h3><p>How future search should work without exposing content on a public dashboard.</p></div><span class="tag amber">Concept</span></div>
-          <div class="panel-body list" data-memory-categories></div>
-        </aside>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head"><div><h3>Memory boundary</h3><p>Mission Control can answer what was decided or created and where it is indexed, not reveal private notes.</p></div><span class="tag red">Protected</span></div>
-        <div class="panel-body list">
-          <div class="row"><div><strong>Daily chats</strong><span>Indexed from private <code>memory/YYYY-MM-DD.md</code> logs.</span></div><span class="tag blue">Private</span></div>
-          <div class="row"><div><strong>Decisions</strong><span>Important choices and reasons become searchable metadata.</span></div><span class="tag green">Metadata</span></div>
-          <div class="row"><div><strong>Long-term memory</strong><span>Curated durable context remains in private <code>MEMORY.md</code>.</span></div><span class="tag violet">Private</span></div>
-          <div class="row"><div><strong>Corrections</strong><span>Jacqui's corrections stay prominent so future agent work follows them.</span></div><span class="tag amber">Guardrail</span></div>
-          <div class="row"><div><strong>Excluded</strong><span>No private conversations, client facts, secrets, raw emails or document text are shown here.</span></div><span class="tag red">Hidden</span></div>
-        </div>
-      </div>
+      <div class="section-title"><div><h2 id="memory-title">Memory</h2></div></div>
     </section>
 
     <section class="screen" id="journal" data-screen="journal" aria-labelledby="journal-title">
@@ -3575,13 +3546,6 @@ button.system-map-node {
     }));
     renderRows(document.querySelector("[data-system-agents]"), agentsWithSection, {
       empty: "Agent roster will appear when the safe system snapshot is available."
-    });
-    renderRows(document.querySelector("[data-system-memory]"), system.memory || [], {
-      empty: "Memory lanes will appear when the safe system snapshot is available.",
-      tone: "green"
-    });
-    renderRows(document.querySelector("[data-memory-categories]"), system.memoryCategories || [], {
-      empty: "Memory categories will appear when the safe system snapshot is available."
     });
     renderRows(document.querySelector("[data-system-documents]"), system.documents || [], {
       empty: "Document lanes will appear when the safe system snapshot is available.",

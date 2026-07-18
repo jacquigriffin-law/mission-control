@@ -201,10 +201,14 @@ test("Agents screen keeps the heading without the intro paragraph", () => {
 test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="memory"'), "Memory must be a dedicated section");
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
-  assert.ok(indexHtml.includes("STATUS.md"), "Memory section must reference STATUS.md");
-  assert.ok(indexHtml.includes("memory/YYYY-MM-DD.md"), "Memory section must reference daily memory logs");
-  assert.ok(indexHtml.includes("MEMORY.md"), "Memory section must reference long-term memory");
-  assert.ok(indexHtml.includes("mistakes.md"), "Memory section must reference corrections");
+  assert.ok(indexHtml.includes('<h2 id="memory-title">Memory</h2>'), "Memory heading must remain");
+  assert.equal(indexHtml.includes("Memory Lanes Categories"), false, "Memory lanes categories subsection must not appear");
+  assert.equal(indexHtml.includes("Memory lanes"), false, "Memory lanes tile must not appear");
+  assert.equal(indexHtml.includes("Memory sources"), false, "Memory sources panel must not appear");
+  assert.equal(indexHtml.includes("data-system-memory"), false, "Memory source renderer binding must not ship");
+  assert.equal(indexHtml.includes("data-memory-categories"), false, "Memory category renderer binding must not ship");
+  assert.equal(indexHtml.includes("Searchable history concept"), false, "Memory categories panel must not appear");
+  assert.equal(indexHtml.includes("Memory boundary"), false, "Memory boundary panel must not appear");
   assert.ok(indexHtml.includes("Generated-document library"), "Documents section must describe the generated-documents library concept");
   assert.ok(indexHtml.includes("Metadata only"), "Documents section must avoid exposing document contents");
 });
