@@ -50,7 +50,7 @@
     "unallocatedTransactions": 112
   },
   "currency": "AUD",
-  "generatedAt": "2026-07-18T20:24:04Z",
+  "generatedAt": "2026-07-18T20:24:51Z",
   "legalAidIncome": {
     "byJurisdiction": [
       {
@@ -431,7 +431,7 @@
   },
   "matterTypeIncomeMapping": {
     "available": false,
-    "note": "Matter-type Legal Aid income mapping is unavailable until payments can be reliably matched to matters."
+    "note": "Matter-type Legal Aid income mapping is unavailable/pending until aggregate remittances can be reliably matched to matters."
   },
   "openMatters": {
     "activeRecordCount": 103,
