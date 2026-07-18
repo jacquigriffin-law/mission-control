@@ -601,6 +601,82 @@ a.task-card:active {
   gap: 9px;
 }
 
+.journal-list {
+  display: grid;
+  gap: 12px;
+}
+
+.journal-entry {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #101720;
+  padding: 13px;
+}
+
+.journal-entry header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.journal-entry h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: .98rem;
+}
+
+.journal-entry p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.journal-highlights {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journal-highlights li {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  padding-left: 16px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.journal-highlights li strong {
+  color: var(--text);
+  font-size: .82rem;
+}
+
+.journal-highlights li span {
+  line-height: 1.35;
+}
+
+.journal-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .56em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.journal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -2825,6 +2901,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       <a class="nav-link" href="#matters" data-section="matters"><span class="nav-icon">M</span><span class="nav-text">Matters</span></a>
       <a class="nav-link" href="#agents" data-section="agents"><span class="nav-icon">A</span><span class="nav-text">Agents</span></a>
       <a class="nav-link" href="#memory" data-section="memory"><span class="nav-icon">R</span><span class="nav-text">Memory</span></a>
+      <a class="nav-link" href="#journal" data-section="journal"><span class="nav-icon">J</span><span class="nav-text">Journal</span></a>
       <a class="nav-link" href="#documents" data-section="documents"><span class="nav-icon">D</span><span class="nav-text">Documents</span></a>
     </nav>
 
@@ -2836,7 +2913,7 @@ a.agent-status-card:focus-visible.is-nav::after {
       <label class="command">
         <span class="command-symbol" aria-hidden="true">/</span>
         <span class="hidden">Search dashboard</span>
-        <input id="commandInput" type="search" autocomplete="off" placeholder="Search Mission Control: finance, matters, agents, memory, documents">
+        <input id="commandInput" type="search" autocomplete="off" placeholder="Search Mission Control: finance, matters, agents, memory, journal, documents">
       </label>
     </header>
 
@@ -3148,6 +3225,46 @@ a.agent-status-card:focus-visible.is-nav::after {
       </div>
     </section>
 
+    <section class="screen" id="journal" data-screen="journal" aria-labelledby="journal-title">
+      <div class="section-title">
+        <div>
+          <h2 id="journal-title">Journal</h2>
+          <p>Daily workspace journal entries rendered from privacy-safe summaries of the private daily memory logs. Entries are chronological and intentionally exclude secrets, raw emails, client contact details and legal advice.</p>
+        </div>
+        <span class="tag blue" id="journalStatus">Loading</span>
+      </div>
+
+      <div class="kpi-strip" aria-label="Journal counters">
+        <article class="kpi-tile"><span>Entries</span><strong id="journalEntryCount">—</strong><small>Daily summaries loaded</small></article>
+        <article class="kpi-tile"><span>Date range</span><strong id="journalDateRange">—</strong><small>Oldest to newest</small></article>
+        <article class="kpi-tile"><span>Source</span><strong>Daily memory</strong><small>Sanitised seed data</small></article>
+        <article class="kpi-tile"><span>Privacy</span><strong>Safe</strong><small>No raw notes rendered</small></article>
+      </div>
+
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Workspace journal</h3>
+              <p id="journalSource">Loading privacy-safe journal seed.</p>
+            </div>
+            <span class="tag green">Chronological</span>
+          </div>
+          <div class="panel-body">
+            <div class="journal-list" data-journal-list aria-live="polite"></div>
+          </div>
+        </div>
+        <aside class="panel">
+          <div class="panel-head"><div><h3>Journal boundary</h3><p>What can appear in this public-safe operations view.</p></div><span class="tag red">Filtered</span></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>Shown</strong><span>Operational summaries, decisions, tool/runtime work, non-confidential milestones and review-only publication status.</span></div><span class="tag green">Safe</span></div>
+            <div class="row"><div><strong>Hidden</strong><span>Secrets, credentials, raw emails, full client contact details, legal advice and matter-record facts.</span></div><span class="tag red">Excluded</span></div>
+            <div class="row"><div><strong>Source files</strong><span>Summaries are derived offline from private <code>memory/YYYY-MM-DD.md</code> files, then committed as static JSON.</span></div><span class="tag blue">Seed</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
     <section class="screen" id="documents" data-screen="documents" aria-labelledby="documents-title">
       <div class="section-title">
         <div>
@@ -3436,7 +3553,8 @@ a.agent-status-card:focus-visible.is-nav::after {
   const commsForm = document.getElementById("commsForm");
   const commsFrom = document.getElementById("commsFrom");
   const commsMessageState = document.getElementById("commsMessageState");
-  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "documents"]);
+  const journalStatus = document.getElementById("journalStatus");
+  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
   const colours = ["", "green", "amber", "red", "violet"];
 
@@ -3593,6 +3711,12 @@ a.agent-status-card:focus-visible.is-nav::after {
     if (!agentsStatus) return;
     agentsStatus.textContent = text;
     agentsStatus.className = `tag ${tone}`.trim();
+  }
+
+  function setJournalStatus(text, tone = "") {
+    if (!journalStatus) return;
+    journalStatus.textContent = text;
+    journalStatus.className = `tag ${tone}`.trim();
   }
 
   function countText(value) {
@@ -3889,6 +4013,69 @@ a.agent-status-card:focus-visible.is-nav::after {
 
   function emptyState(title, detail = "", tone = "empty", retry = false) {
     return `<p class="empty-state is-${tone}"><span class="empty-title">${escapeHtml(title)}</span>${detail ? escapeHtml(detail) : ""}${retry ? `<br><button class="retry-button" type="button" data-agents-retry>Retry</button>` : ""}</p>`;
+  }
+
+  function journalDate(value) {
+    if (!value) return "Undated";
+    const date = new Date(`${value}T00:00:00+10:00`);
+    if (Number.isNaN(date.getTime())) return plain(value);
+    return new Intl.DateTimeFormat("en-AU", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function renderJournal(payload) {
+    const days = Array.isArray(payload?.days) ? payload.days : [];
+    const meta = payload?.meta || {};
+    const list = document.querySelector("[data-journal-list]");
+    const count = document.getElementById("journalEntryCount");
+    const range = document.getElementById("journalDateRange");
+    const source = document.getElementById("journalSource");
+    const entryCount = days.reduce((total, day) => total + (Array.isArray(day.entries) ? day.entries.length : 0), 0);
+    if (count) count.textContent = String(entryCount);
+    if (range) {
+      range.textContent = days.length
+        ? `${journalDate(days[0].date)} - ${journalDate(days[days.length - 1].date)}`
+        : "No entries";
+    }
+    if (source) {
+      source.textContent = `${meta.source || "Privacy-safe journal seed."} ${meta.note || ""}`.trim();
+    }
+    if (!list) return;
+    if (!days.length) {
+      list.innerHTML = emptyState("No journal entries available.", "Add privacy-safe summaries to data/journal.json.");
+      return;
+    }
+    list.innerHTML = days.map((day) => {
+      const entries = Array.isArray(day.entries) ? day.entries : [];
+      return `<article class="journal-entry">
+        <header>
+          <div>
+            <h3>${escapeHtml(day.label || journalDate(day.date))}</h3>
+            <p>${escapeHtml(day.summary || "")}</p>
+          </div>
+          <span class="tag blue">${escapeHtml(journalDate(day.date))}</span>
+        </header>
+        ${entries.length ? `<ul class="journal-highlights">${entries.map((entry) => `<li><strong>${escapeHtml(entry.time || "Day")} · ${escapeHtml(entry.agent || "Xena")} · ${escapeHtml(entry.title || entry.type || "Entry")}</strong><span>${escapeHtml(entry.detail || "")}</span></li>`).join("")}</ul>` : ""}
+        <div class="journal-tags">${entries.map((entry) => `<span class="tag">${escapeHtml(entry.status || entry.type || "Logged")}</span>`).join("")}</div>
+      </article>`;
+    }).join("");
+  }
+
+  async function loadJournalFeed() {
+    setJournalStatus("Loading", "blue");
+    const list = document.querySelector("[data-journal-list]");
+    if (list) list.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
+    try {
+      const payload = await apiJson("/api/journal");
+      renderJournal(payload);
+      setJournalStatus("Loaded", "green");
+    } catch (error) {
+      setJournalStatus("Offline", "red");
+      if (list) list.innerHTML = emptyState("Journal feed unavailable.", error.message || "Could not load journal seed.", "error");
+    }
   }
 
   function setAgentsLoading() {
@@ -4839,6 +5026,7 @@ a.agent-status-card:focus-visible.is-nav::after {
   renderSafeSummary();
   renderSystemMap();
   setActive(normaliseHash(window.location.hash), false);
+  loadJournalFeed();
   loadFinanceFeed();
   refreshAgentsWorkspace().catch((error) => {
     const callout = document.getElementById("persistCallout");

@@ -24,6 +24,7 @@ const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf
 const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "agents.json"), "utf8"));
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
+const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
 
 let passed = 0;
 function test(name, fn) {
@@ -80,7 +81,7 @@ test("system map edges only reference known node ids", () => {
 });
 
 test("system map hubs only reference known sections", () => {
-  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "documents"]);
+  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"]);
   systemMap.hubs.forEach((node) => {
     assert.ok(validSections.has(node.section), `hub ${node.id} points at unknown section ${node.section}`);
   });
@@ -158,13 +159,13 @@ test("sectionForAgent is case- and whitespace-tolerant", () => {
 });
 
 test("VALID_SECTIONS matches the router's screen list", () => {
-  ["dashboard", "todo", "finance", "matters", "agents", "memory", "documents"].forEach((section) => {
+  ["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"].forEach((section) => {
     assert.ok(agentSections.VALID_SECTIONS.has(section), `expected ${section} in VALID_SECTIONS`);
   });
 });
 
 test("index.html uses the Practice Intelligence primary navigation", () => {
-  ["To Do", "Finances", "Matters", "Agents", "Memory", "Documents"].forEach((label) => {
+  ["To Do", "Finances", "Matters", "Agents", "Memory", "Journal", "Documents"].forEach((label) => {
     assert.ok(indexHtml.includes(`<span class="nav-text">${label}</span>`), `missing primary nav label ${label}`);
   });
   ["#leads", "#system-map", 'id="leads"', 'id="system"', 'id="system-map"'].forEach((oldMarker) => {
@@ -196,6 +197,49 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes("mistakes.md"), "Memory section must reference corrections");
   assert.ok(indexHtml.includes("Generated-document library"), "Documents section must describe the generated-documents library concept");
   assert.ok(indexHtml.includes("Metadata only"), "Documents section must avoid exposing document contents");
+});
+
+test("index.html defines the Journal section and client-side API wiring", () => {
+  assert.ok(indexHtml.includes('href="#journal"'), "sidebar must include a Journal nav link");
+  assert.ok(indexHtml.includes('data-section="journal"'), "Journal nav link must carry data-section=\"journal\"");
+  assert.ok(indexHtml.includes('id="journal"'), "index.html must define a #journal screen section");
+  assert.ok(indexHtml.includes('data-screen="journal"'), "#journal screen must expose data-screen=\"journal\" for the router");
+  assert.ok(indexHtml.includes("data-journal-list"), "#journal screen must expose the journal list container");
+  assert.ok(indexHtml.includes('apiJson("/api/journal")'), "Journal renderer must load from /api/journal");
+  assert.ok(indexHtml.includes("secrets, raw emails, client contact details and legal advice"), "Journal tab must state the privacy boundary");
+});
+
+test("Journal seed is chronological and privacy-safe", () => {
+  assert.ok(journalData.meta?.generatedAt, "journal seed must expose a generation timestamp");
+  assert.ok(
+    /Privacy-safe/i.test(journalData.meta?.source || ""),
+    "journal seed must identify the privacy-safe source"
+  );
+  const days = journalData.days || [];
+  assert.ok(days.length >= 2, "journal seed must include at least two days");
+  assert.ok(days.some((day) => day.date === "2026-07-18"), "journal seed must include 2026-07-18");
+  assert.ok(days.some((day) => day.date === "2026-07-19"), "journal seed must include 2026-07-19");
+  const dates = days.map((day) => day.date);
+  assert.deepEqual(dates, [...dates].sort(), "journal days must be chronological oldest-to-newest");
+  days.forEach((day) => {
+    assert.ok(Array.isArray(day.entries), `${day.date} must expose grouped entries`);
+    assert.ok(day.entries.length, `${day.date} must include at least one entry`);
+  });
+
+  const serialised = JSON.stringify(journalData);
+  [
+    /\/Users\//,
+    /\/home\/[a-z]+\//i,
+    /\/opt\/openclaw\//,
+    /[A-Z0-9]{20,}/,
+    /sk_(live|test)_/,
+    /BEGIN [A-Z ]*PRIVATE KEY/,
+    /AKIA[0-9A-Z]{16}/,
+    /[\w.+-]+@[\w-]+\.[\w.-]+/,
+    /(?:\+?61|0)\d(?:[\s()-]*\d){8,}/
+  ].forEach((pattern) => {
+    assert.equal(pattern.test(serialised), false, `journal seed matched forbidden pattern ${pattern}`);
+  });
 });
 
 // -------------------------------------------------------------------------

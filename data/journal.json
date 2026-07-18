@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-19T01:05:00+10:00",
+    "source": "Privacy-safe daily workspace journal seed",
+    "note": "Chronological daily operations index summarised from memory/YYYY-MM-DD.md. No secrets, credentials, raw emails, full contact details, legal advice or matter evidence are rendered."
+  },
+  "days": [
+    {
+      "date": "2026-07-18",
+      "label": "18 July 2026",
+      "summary": "Account setup, agent infrastructure, lead tools, marketing review assets and Mission Control-adjacent operating surfaces moved forward.",
+      "entries": [
+        {
+          "time": "Day",
+          "agent": "Xena",
+          "type": "Account setup",
+          "title": "Xena AI Ops payment setup moved to human approval",
+          "detail": "Airwallex setup was prepared and submitted by Jacqui. The account/card remained pending provider approval and not usable.",
+          "status": "Waiting"
+        },
+        {
+          "time": "Day",
+          "agent": "Xena",
+          "type": "Identity",
+          "title": "Xena-owned email path established",
+          "detail": "A Gmail attempt was disabled, then Proton was established as the working Xena-owned email for avatar/tool setup. Secrets were not stored in workspace files.",
+          "status": "Done"
+        },
+        {
+          "time": "Day",
+          "agent": "Voice",
+          "type": "Avatar",
+          "title": "Jacqui video avatar source pack created",
+          "detail": "A review-only talking-avatar still pack was generated from the existing professional profile image. Nothing was uploaded or published.",
+          "status": "Done"
+        },
+        {
+          "time": "Day",
+          "agent": "Hermes",
+          "type": "Infrastructure",
+          "title": "Hermes browser, PDF and OCR research tooling verified",
+          "detail": "Chromium, PDF text extraction, rendering and OCR tools were installed and verified in the live Hermes runtime.",
+          "status": "Done"
+        },
+        {
+          "time": "Day",
+          "agent": "Kallipi",
+          "type": "Marketing",
+          "title": "Marketing approval previews prepared",
+          "detail": "Checklist, landing-page and organic-post approval PDFs were created and verified as review-only assets. No websites, posts, ads, emails or spend were activated.",
+          "status": "Done"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "label": "19 July 2026",
+      "summary": "Payment controls, outstanding invoices and late-night heartbeat maintenance were captured as the current operating record.",
+      "entries": [
+        {
+          "time": "00:46",
+          "agent": "Plutus",
+          "type": "Finance",
+          "title": "Outstanding invoice list prepared",
+          "detail": "Current payment candidates and do-not-pay/reconcile-only items were separated. No payment was made and the $500 one-transaction cap remains active.",
+          "status": "Waiting"
+        },
+        {
+          "time": "00:52",
+          "agent": "Hermes",
+          "type": "Heartbeat",
+          "title": "Lead and SMS checks completed",
+          "detail": "Lead monitor, SMS search and email triage were run. A VXT analytics email was identified as a false positive rather than a real voicemail lead.",
+          "status": "Done"
+        },
+        {
+          "time": "00:52",
+          "agent": "Themis",
+          "type": "Diary",
+          "title": "Court-date and calendar checks completed",
+          "detail": "No new court-date changes were found. The next two days' calendar was checked for operational awareness.",
+          "status": "Done"
+        },
+        {
+          "time": "00:52",
+          "agent": "Hermes",
+          "type": "Admin",
+          "title": "Vehicle tracker corrected",
+          "detail": "A stale overdue vehicle-registration alert was corrected after the renewal receipt was checked.",
+          "status": "Done"
+        }
+      ]
+    }
+  ]
+}

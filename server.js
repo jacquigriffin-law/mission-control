@@ -322,6 +322,23 @@ function handleComms(req, res) {
   return sendJson(res, 405, { ok: false, error: "method_not_allowed" });
 }
 
+function handleJournal(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return sendJson(res, 405, { ok: false, error: "method_not_allowed" });
+  }
+  const store = readJson("journal");
+  const days = Array.isArray(store.days) ? [...store.days] : [];
+  days.sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
+  return sendJson(res, 200, {
+    ok: true,
+    data: {
+      meta: store.meta || null,
+      days
+    }
+  });
+}
+
 function safeStaticPath(pathname) {
   const relative = pathname === "/" ? "/index.html" : pathname;
   const resolved = path.normalize(path.join(ROOT, relative));
@@ -360,6 +377,7 @@ const server = http.createServer((req, res) => {
     if (pathname.startsWith("/api/tasks")) return handleTasks(req, res, url);
     if (pathname === "/api/activity") return handleActivity(req, res);
     if (pathname === "/api/communications") return handleComms(req, res);
+    if (pathname === "/api/journal") return handleJournal(req, res);
     if (pathname.startsWith("/api/")) return sendJson(res, 404, { ok: false, error: "unknown_endpoint" });
     return serveStatic(req, res, pathname);
   } catch (error) {
