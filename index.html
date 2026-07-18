@@ -1825,71 +1825,6 @@ button.system-map-node {
   }
 }
 
-.agent-status-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
-}
-
-.agent-status-card {
-  position: relative;
-  display: grid;
-  gap: 8px;
-  border: 1px solid var(--line-soft);
-  border-left: 4px solid var(--agent-colour, var(--faint));
-  border-radius: 8px;
-  background: #101720;
-  padding: 12px 12px 12px 14px;
-}
-
-a.agent-status-card {
-  color: inherit;
-  text-decoration: none;
-  transition: border-color .12s ease, background-color .12s ease;
-  min-height: 44px;
-}
-
-a.agent-status-card.is-nav {
-  padding-right: 26px;
-}
-
-a.agent-status-card.is-nav::after {
-  content: "\203A";
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  color: var(--muted);
-  font-size: 1.3rem;
-  line-height: 1;
-  font-weight: 700;
-}
-
-a.agent-status-card:hover,
-a.agent-status-card:focus-visible {
-  border-color: var(--blue);
-  background: #131c27;
-  outline: none;
-}
-
-a.agent-status-card:hover.is-nav::after,
-a.agent-status-card:focus-visible.is-nav::after {
-  color: var(--blue);
-}
-
-.agent-status-card header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.agent-identity {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  gap: 9px;
-}
-
 .agent-avatar {
   width: 38px;
   height: 38px;
@@ -1902,90 +1837,8 @@ a.agent-status-card:focus-visible.is-nav::after {
   box-shadow: 0 0 0 2px rgba(255,255,255,.02);
 }
 
-.agent-identity-copy {
-  min-width: 0;
-}
-
-.agent-status-card h4 {
-  margin: 0;
-  color: var(--text);
-  font-size: .92rem;
-  letter-spacing: .01em;
-}
-
-.agent-status-card .agent-role {
-  margin: 0;
-  color: var(--muted);
-  font-size: .74rem;
-}
-
-.agent-status-card .agent-working {
-  margin: 0;
-  color: var(--muted);
-  font-size: .76rem;
-  line-height: 1.35;
-}
-
-.agent-status-card .agent-last {
-  color: var(--faint);
-  font-size: .7rem;
-}
-
-.status-pill {
-  min-height: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #121a24;
-  padding: 3px 9px;
-  color: var(--muted);
-  font-size: .7rem;
-  font-weight: 900;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-}
-
-.status-pill::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--faint);
-}
-
-.status-pill.is-working {
-  border-color: #24583e;
-  background: var(--green-soft);
-  color: #a8f2c8;
-}
-
-.status-pill.is-working::before {
-  background: var(--green);
-  box-shadow: 0 0 0 3px rgba(79, 209, 139, .18);
-  animation: mc-pulse 1.8s ease-out infinite;
-}
-
-@keyframes mc-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(79, 209, 139, .55); }
-  60%  { box-shadow: 0 0 0 6px rgba(79, 209, 139, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(79, 209, 139, 0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .status-pill.is-working::before { animation: none; }
   .skeleton { animation: none; }
-}
-
-.status-pill.is-idle {
-  border-color: #715521;
-  background: var(--amber-soft);
-  color: #ffd98a;
-}
-
-.status-pill.is-idle::before {
-  background: var(--amber);
 }
 
 .agent-kanban {
@@ -2652,35 +2505,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   border-color: #3f5369;
 }
 
-.agent-status-card .agent-role {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.agent-status-card .agent-role::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--agent-colour, var(--faint));
-}
-
-.agent-status-card .agent-last {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border-top: 1px solid var(--line-soft);
-  padding-top: 6px;
-  margin: 0;
-}
-
-.agent-status-card .agent-last strong {
-  color: var(--muted);
-  font-weight: 800;
-}
-
 .agent-lane {
   min-height: 220px;
 }
@@ -2865,10 +2689,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     grid-template-columns: 1fr;
   }
 
-  .agent-status-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-
   .persist-callout {
     align-items: flex-start;
   }
@@ -2879,10 +2699,6 @@ a.agent-status-card:focus-visible.is-nav::after {
 }
 
 @media (max-width: 680px) {
-  .agent-status-grid {
-    grid-template-columns: 1fr;
-  }
-
   .panel-toolbar {
     padding: 10px;
   }
@@ -3412,39 +3228,6 @@ a.agent-status-card:focus-visible.is-nav::after {
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h3>Agent status</h3>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="tag" id="agentsCountTag">0 agents</span>
-            <button class="button" type="button" id="agentsRefresh">Refresh</button>
-          </div>
-        </div>
-        <div class="panel-toolbar">
-          <div class="filter-group">
-            <span class="filter-label">Sort</span>
-            <select id="agentSort" aria-label="Sort agents">
-              <option value="status">Working first</option>
-              <option value="name">Name</option>
-              <option value="last">Last action</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <span class="filter-label">Show</span>
-            <select id="agentStatusFilter" aria-label="Filter agents by status">
-              <option value="all">All</option>
-              <option value="Working">Working only</option>
-              <option value="Idle">Idle only</option>
-            </select>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="agent-status-grid" data-agent-status aria-live="polite"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head">
-          <div>
             <h3>Current operations board</h3>
             <p>Privacy-safe accountability snapshot. Use Microsoft To Do and LEAP for record-level tasks.</p>
           </div>
@@ -3588,7 +3371,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   const financeHeroStatus = document.getElementById("financeHeroStatus");
   const mattersHeroCount = document.getElementById("mattersHeroCount");
   const agentsStatus = document.getElementById("agentsStatus");
-  const agentsRefresh = document.getElementById("agentsRefresh");
   const agentsTaskCount = document.getElementById("agentsTaskCount");
   const activityCount = document.getElementById("activityCount");
   const commsCount = document.getElementById("commsCount");
@@ -3611,8 +3393,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     seedComms: [],
     seedActivity: [],
     filters: {
-      agentSort: "status",
-      agentStatus: "all",
       kanbanAgent: "all",
       kanbanPriority: "all",
       kanbanDone: "show"
@@ -4264,9 +4044,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   }
 
   function setAgentsLoading() {
-    document.querySelector("[data-agent-status]")?.replaceChildren();
-    const statusGrid = document.querySelector("[data-agent-status]");
-    if (statusGrid) statusGrid.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`;
     ["To Do", "In Progress", "Done"].forEach((lane) => {
       const body = document.querySelector(`[data-lane-body="${lane}"]`);
       if (body) body.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
@@ -4303,24 +4080,9 @@ a.agent-status-card:focus-visible.is-nav::after {
   }
 
   function syncFilterState() {
-    agentState.filters.agentSort = document.getElementById("agentSort")?.value || "status";
-    agentState.filters.agentStatus = document.getElementById("agentStatusFilter")?.value || "all";
     agentState.filters.kanbanAgent = document.getElementById("kanbanAgentFilter")?.value || "all";
     agentState.filters.kanbanPriority = document.getElementById("kanbanPriorityFilter")?.value || "all";
     agentState.filters.kanbanDone = document.getElementById("kanbanDoneFilter")?.value || "show";
-  }
-
-  function sortedVisibleAgents() {
-    syncFilterState();
-    const visible = agentState.agents.filter((agent) => {
-      return agentState.filters.agentStatus === "all" || agent.status === agentState.filters.agentStatus;
-    });
-    return visible.sort((a, b) => {
-      if (agentState.filters.agentSort === "name") return a.name.localeCompare(b.name);
-      if (agentState.filters.agentSort === "last") return (b.lastActionAt || "").localeCompare(a.lastActionAt || "");
-      if (a.status !== b.status) return a.status === "Working" ? -1 : 1;
-      return a.name.localeCompare(b.name);
-    });
   }
 
   function visibleTasks() {
@@ -4335,7 +4097,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   }
 
   function renderAgentsWorkspace() {
-    renderAgentStatus();
     renderKanban();
     renderTodoBoard();
     renderActivity();
@@ -4351,43 +4112,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     if (!kanban) return;
     const needsScroll = kanban.scrollWidth > kanban.clientWidth + 4;
     hint.classList.toggle("is-visible", needsScroll);
-  }
-
-  function renderAgentStatus() {
-    const container = document.querySelector("[data-agent-status]");
-    if (!container) return;
-    const agents = sortedVisibleAgents();
-    const working = agentState.agents.filter((agent) => agent.status === "Working").length;
-    setText("agentsCountTag", `${working} working / ${agentState.agents.length} total`);
-    if (!agents.length) {
-      container.innerHTML = emptyState("No agents match this filter.", "Adjust the status filter or refresh the seed data.");
-      return;
-    }
-    const resolveSection = window.MC_AGENT_SECTIONS?.sectionForAgent || (() => "");
-    container.innerHTML = agents.map((agent) => {
-      const colour = escapeHtml(agent.colour || "#5eb1ff");
-      const statusClass = agent.status === "Working" ? "is-working" : "is-idle";
-      const section = resolveSection(agent.name, agent.role);
-      const isNav = section && validSections.has(section) && section !== "agents";
-      const avatar = agentIcon(agent);
-      const inner = `<header>
-          <div class="agent-identity">
-            ${avatar}
-            <div class="agent-identity-copy">
-              <h4>${escapeHtml(agent.name)}</h4>
-              <span class="agent-role">${escapeHtml(agent.role)}</span>
-            </div>
-          </div>
-          <span class="status-pill ${statusClass}">${escapeHtml(agent.status)}</span>
-        </header>
-        <p class="agent-working">${escapeHtml(agent.workingOn)}</p>
-        <p class="agent-last"><span>${escapeHtml(agent.lastAction || "No recent action")}</span><strong>${localTime(agent.lastActionAt)}</strong></p>`;
-      if (isNav) {
-        const label = escapeHtml(`Open ${agent.name} — ${section.replace("-", " ")} section`);
-        return `<a class="agent-status-card is-nav" href="#${section}" data-section="${section}" aria-label="${label}" style="--agent-colour:${colour}">${inner}</a>`;
-      }
-      return `<article class="agent-status-card" style="--agent-colour:${colour}">${inner}</article>`;
-    }).join("");
   }
 
   function agentOptions(selectedId) {
@@ -4605,11 +4329,8 @@ a.agent-status-card:focus-visible.is-nav::after {
       renderAgentsWorkspace();
     } catch (error) {
       setAgentsStatus("Offline", "red");
-      setText("agentsCountTag", "Unavailable");
-      const agentGrid = document.querySelector("[data-agent-status]");
       const activity = document.querySelector("[data-activity-list]");
       const comms = document.querySelector("[data-comms-list]");
-      if (agentGrid) agentGrid.innerHTML = emptyState("Agent seed data could not load.", error.message || "Check the local server or Vercel API route.", "error", true);
       ["To Do", "In Progress", "Done"].forEach((lane) => {
         const body = document.querySelector(`[data-lane-body="${lane}"]`);
         if (body) body.innerHTML = emptyState(`${lane} unavailable.`, "Task seed data could not load.", "error", true);
@@ -4878,25 +4599,13 @@ a.agent-status-card:focus-visible.is-nav::after {
     touchDrag.dragging = false;
   });
 
-  document.getElementById("agentsRefresh")?.addEventListener("click", () => {
-    refreshAgentsWorkspace().catch((error) => {
-      const status = document.getElementById("agentsStatus");
-      if (status) {
-        status.textContent = "Offline";
-        status.className = "tag red";
-      }
-      console.error(error);
-    });
-  });
-
   document.querySelector("[data-screen='agents']")?.addEventListener("click", (event) => {
     if (!event.target.closest("[data-agents-retry]")) return;
     refreshAgentsWorkspace().catch((error) => console.error(error));
   });
 
-  ["agentSort", "agentStatusFilter", "kanbanAgentFilter", "kanbanPriorityFilter", "kanbanDoneFilter"].forEach((id) => {
+  ["kanbanAgentFilter", "kanbanPriorityFilter", "kanbanDoneFilter"].forEach((id) => {
     document.getElementById(id)?.addEventListener("change", () => {
-      renderAgentStatus();
       renderKanban();
     });
   });

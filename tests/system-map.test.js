@@ -274,14 +274,14 @@ test("index.html renders agent rows as anchors when a section is known", () => {
     indexHtml.includes('class="row row-nav"'),
     "System agent rows must render as row-nav anchors so mobile users can tap them"
   );
-  assert.ok(
-    indexHtml.includes('class="agent-status-card is-nav"'),
-    "Agent status cards must render as is-nav anchors so mobile users can tap them"
-  );
 });
 
-test("Agents screen keeps status heading without helper copy", () => {
-  assert.ok(indexHtml.includes("<h3>Agent status</h3>"), "Agents screen must keep the Agent status heading");
+test("Agents screen does not render local cache or agent status sections", () => {
+  assert.equal(indexHtml.includes("<h3>Agent status</h3>"), false, "Agents screen must not render the Agent status section");
+  assert.equal(indexHtml.includes("data-agent-status"), false, "Agents screen must not render the agent status grid");
+  assert.equal(indexHtml.includes("agentStatusFilter"), false, "Agents screen must not render agent status filters");
+  assert.equal(indexHtml.includes("agentSort"), false, "Agents screen must not render agent sort controls");
+  assert.equal(indexHtml.includes("agentsRefresh"), false, "Agents screen must not render the old agent refresh control");
   assert.equal(
     indexHtml.includes(
       "Working shows a live green pulse; Idle shows an amber hold. Colour code stays consistent with each agent's kanban cards."
