@@ -67,7 +67,17 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.ok(summary.jurisdictionMix.some((item) => item.label === "NSW" && item.count === 99));
   assert.equal(summary.trends.monthlyOpened.length, 12);
   assert.ok(summary.trends.monthlyOpened.some((item) => item.month === "2026-02" && item.openedCount === 13));
-  assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => item.month === "2026-07" && item.total === 24214.3));
+  assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => item.month === "2026-07" && item.legalAidTotal === 24214.3));
+  assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => (
+    item.month === "2026-07"
+    && item.privateTotal === 263.95
+    && item.privateIncomeBasis === "current_month_weekly_private_matters_aggregate"
+  )));
+  assert.ok(summary.trends.monthlyLegalAidIncome.every((item) => Object.hasOwn(item, "privateTotal")));
+  assert.ok(summary.trends.monthlyLegalAidIncome
+    .filter((item) => item.month !== "2026-07")
+    .every((item) => item.privateTotal === null));
+  assert.ok(summary.trends.monthlyLegalAidIncome.every((item) => !Object.hasOwn(item, "myobIncomeTotal")));
   assert.equal(summary.trends.matterTypeIncome.available, false);
   assert.match(summary.trends.matterTypeIncome.note, /unavailable\/pending/i);
   assert.equal(Object.hasOwn(summary, "entities"), false);
@@ -127,6 +137,20 @@ test("legal work API allowlists labels from private-shaped source data", () => {
         { month: "2026-07", jurisdiction: "Darwin NT sender@example.com", total: 234.56, recordCount: 1 },
         { month: "client-month", jurisdiction: "Hidden Client", total: 9999, recordCount: 9 }
       ],
+      privateIncomeByMonth: [
+        {
+          month: "2026-07",
+          privateTotal: 765.44,
+          myobIncomeTotal: 2000,
+          basis: "myob_monthly_income_total"
+        },
+        {
+          month: "client-month",
+          privateTotal: 9999,
+          myobIncomeTotal: 9999,
+          basis: "Hidden Client transaction line"
+        }
+      ],
       payments: [{ reference: "LA-REF-999", line: "payment line" }],
       rawEmails: [{ sender: "sender@example.com", subject: "subject line" }]
     },
@@ -159,7 +183,10 @@ test("legal work API allowlists labels from private-shaped source data", () => {
   assert.deepEqual(summary.trends.monthlyLegalAidIncome, [
     {
       month: "2026-07",
-      total: 1234.56,
+      legalAidTotal: 1234.56,
+      privateTotal: 765.44,
+      privateIncomeBasis: "myob_monthly_income_total",
+      total: 2000,
       paymentCount: 2,
       byJurisdiction: [
         { jurisdiction: "NSW", total: 1000, paymentCount: 1 },
@@ -167,6 +194,7 @@ test("legal work API allowlists labels from private-shaped source data", () => {
       ]
     }
   ]);
+  assert.equal(Object.hasOwn(summary.trends.monthlyLegalAidIncome[0], "myobIncomeTotal"), false);
   assert.equal(Object.hasOwn(summary.totals, "legalAidIncome"), false);
   assert.equal(Object.hasOwn(summary.legalAidIncome, "total"), false);
   assert.equal(Object.hasOwn(summary.legalAidIncome, "byJurisdiction"), false);
@@ -197,6 +225,8 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(indexHtml.includes('<td>Total</td>'), "Matters opened trend table must render a totals row at the end");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
   assert.ok(section.includes("Legal Aid income by month and jurisdiction"), "Matters screen must label Legal Aid income by month and jurisdiction");
+  assert.ok(indexHtml.includes('<th scope="col">Private</th>'), "Matters income trend table must include a Private column");
+  assert.ok(indexHtml.includes("privateTotal"), "Matters income trend table must render aggregate private totals");
   assert.ok(indexHtml.includes("incomeTotals"), "Matters income trend table must calculate a totals row from displayed months");
   assert.equal(section.includes("Income by NSW and NT for the same 12-month window"), false, "Matters screen must not render Legal Aid income helper copy");
   assert.equal(section.includes("Matter-type income mapping"), false, "Matters screen must not render Legal Aid income footer note");

@@ -111,8 +111,47 @@ function safeMonthlyOpened(rows) {
   }).filter(Boolean);
 }
 
-function safeMonthlyLegalAidIncome(rows, period = {}) {
+function safePrivateIncomeRows(rows) {
+  const totals = new Map();
+  const basisLabels = new Set([
+    "myob_monthly_income_total",
+    "current_month_weekly_private_matters_aggregate",
+    "current_fy_to_date_total_used_for_current_month_only",
+    "myob_monthly_income_unavailable"
+  ]);
+  (Array.isArray(rows) ? rows : []).forEach((item) => {
+    const month = safeMonth(item?.month);
+    if (!month) return;
+    const basis = String(item?.basis || "");
+    const isKnownBasis = basisLabels.has(basis);
+    totals.set(month, {
+      privateTotal: isKnownBasis ? roundMoney(item?.privateTotal) : null,
+      basis: isKnownBasis ? basis : "myob_monthly_income_unavailable"
+    });
+  });
+  return totals;
+}
+
+function currentMonthPrivateFallback(summary, legalAidIncome) {
+  const month = safeMonth(legalAidIncome?.currentMonth?.month);
+  if (!month) return [];
+  const weeklyPrivate = roundMoney(summary?.weeklyIncome?.privateMatters);
+  if (weeklyPrivate !== null) {
+    return [{ month, privateTotal: Math.max(weeklyPrivate, 0), basis: "current_month_weekly_private_matters_aggregate" }];
+  }
+  const profitLossTotal = roundMoney(summary?.profitLoss?.totalIncome);
+  const legalAidTotal = roundMoney(legalAidIncome?.currentMonth?.total);
+  if (profitLossTotal === null || legalAidTotal === null) return [];
+  return [{
+    month,
+    privateTotal: Math.max(roundMoney(profitLossTotal - legalAidTotal) || 0, 0),
+    basis: "current_fy_to_date_total_used_for_current_month_only"
+  }];
+}
+
+function safeMonthlyLegalAidIncome(rows, period = {}, privateRows = []) {
   const monthMap = new Map();
+  const privateMap = safePrivateIncomeRows(privateRows);
   let windowMonths = [];
   if (safeMonth(period.startMonth) && safeMonth(period.endMonth)) {
     let [year, month] = period.startMonth.split("-").map(Number);
@@ -168,7 +207,10 @@ function safeMonthlyLegalAidIncome(rows, period = {}) {
     })
     .map((item) => ({
       month: item.month,
-      total: roundMoney(item.total),
+      legalAidTotal: roundMoney(item.total),
+      privateTotal: privateMap.get(item.month)?.privateTotal ?? null,
+      privateIncomeBasis: privateMap.get(item.month)?.basis || "myob_monthly_income_unavailable",
+      total: roundMoney(item.total + (privateMap.get(item.month)?.privateTotal || 0)),
       paymentCount: safeCount(item.paymentCount),
       byJurisdiction: ["NSW", "NT"].map((jurisdiction) => item.byJurisdiction.get(jurisdiction) || {
         jurisdiction,
@@ -199,7 +241,22 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
   const legalAidTrendRows = Array.isArray(legalAidIncome.last12MonthsByJurisdiction)
     ? legalAidIncome.last12MonthsByJurisdiction
     : legalAidIncome.monthlyByJurisdiction;
-  const monthlyLegalAidIncome = safeMonthlyLegalAidIncome(legalAidTrendRows, trendPeriod);
+  const configuredPrivateIncomeRows = Array.isArray(legalAidIncome.privateIncomeByMonth)
+    ? legalAidIncome.privateIncomeByMonth
+    : [];
+  const currentMonth = safeMonth(legalAidIncome.currentMonth?.month);
+  const hasCurrentMonthlyPrivateIncome = configuredPrivateIncomeRows.some((item) => (
+    safeMonth(item?.month) === currentMonth
+    && item?.basis === "myob_monthly_income_total"
+    && roundMoney(item?.privateTotal) !== null
+  ));
+  const fallbackPrivateIncomeRows = currentMonthPrivateFallback(summary, legalAidIncome);
+  const privateIncomeRows = hasCurrentMonthlyPrivateIncome || !fallbackPrivateIncomeRows.length
+    ? configuredPrivateIncomeRows
+    : configuredPrivateIncomeRows
+      .filter((item) => safeMonth(item?.month) !== currentMonth)
+      .concat(fallbackPrivateIncomeRows);
+  const monthlyLegalAidIncome = safeMonthlyLegalAidIncome(legalAidTrendRows, trendPeriod, privateIncomeRows);
   const currentMonthJurisdictions = safeJurisdictionIncome(legalAidIncome.currentMonth?.byJurisdiction);
   const activeRecordCount = safeCount(openMatters.activeRecordCount);
   const indexedRecordCount = safeCount(openMatters.recordCount);
@@ -231,9 +288,14 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
       currentMonth: legalAidIncome.currentMonth ? {
         month: legalAidIncome.currentMonth.month || null,
         total: roundMoney(legalAidIncome.currentMonth.total),
+        privateTotal: monthlyLegalAidIncome.find((item) => item.month === legalAidIncome.currentMonth.month)?.privateTotal ?? null,
         paymentCount: currentMonthPaymentCount
       } : null,
-      monthlyByJurisdiction: monthlyLegalAidIncome
+      monthlyByJurisdiction: monthlyLegalAidIncome,
+      privateIncomeBasis: safeNote(
+        legalAidIncome.privateIncomeBasis,
+        "Aggregate MYOB income minus aggregate Legal Aid monthly income only; unavailable months remain null."
+      )
     },
     trends: {
       period: trendPeriod,

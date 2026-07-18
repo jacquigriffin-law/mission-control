@@ -3734,6 +3734,11 @@ a.agent-status-card:focus-visible.is-nav::after {
     }).format(number);
   }
 
+  function privateCurrency(value) {
+    if (value === null || value === undefined || value === "") return "";
+    return currency(value);
+  }
+
   function plain(value) {
     if (value === null || value === undefined || value === "") return "—";
     return String(value);
@@ -3881,6 +3886,7 @@ a.agent-status-card:focus-visible.is-nav::after {
           <td>${monthLabel(item.month)}</td>
           <td>${currency(nsw?.total)}</td>
           <td>${currency(nt?.total)}</td>
+          <td>${privateCurrency(item.privateTotal)}</td>
           <td>${currency(item.total)}</td>
         </tr>`;
       }).join("");
@@ -3888,19 +3894,21 @@ a.agent-status-card:focus-visible.is-nav::after {
         const jurisdictions = Array.isArray(item.byJurisdiction) ? item.byJurisdiction : [];
         totals.nsw += Number(jurisdictions.find((row) => row.jurisdiction === "NSW")?.total) || 0;
         totals.nt += Number(jurisdictions.find((row) => row.jurisdiction === "NT")?.total) || 0;
+        totals.private += Number(item.privateTotal) || 0;
         totals.total += Number(item.total) || 0;
         return totals;
-      }, { nsw: 0, nt: 0, total: 0 });
+      }, { nsw: 0, nt: 0, private: 0, total: 0 });
       const totalRow = incomeRows.length ? `<tr class="total-row">
         <td>Total</td>
         <td>${currency(incomeTotals.nsw)}</td>
         <td>${currency(incomeTotals.nt)}</td>
+        <td>${currency(incomeTotals.private)}</td>
         <td>${currency(incomeTotals.total)}</td>
       </tr>` : "";
       incomeContainer.innerHTML = `
         <table class="finance-table">
-          <thead><tr><th scope="col">Month</th><th scope="col">NSW</th><th scope="col">NT</th><th scope="col">Total</th></tr></thead>
-          <tbody>${rows || `<tr><td colspan="4">No monthly Legal Aid income trend loaded.</td></tr>`}</tbody>
+          <thead><tr><th scope="col">Month</th><th scope="col">NSW</th><th scope="col">NT</th><th scope="col">Private</th><th scope="col">Total</th></tr></thead>
+          <tbody>${rows || `<tr><td colspan="5">No monthly Legal Aid income trend loaded.</td></tr>`}</tbody>
           ${totalRow ? `<tfoot>${totalRow}</tfoot>` : ""}
         </table>
       `;
