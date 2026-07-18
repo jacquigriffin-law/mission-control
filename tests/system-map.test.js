@@ -185,11 +185,22 @@ test("index.html exposes a separate To Do operations tab", () => {
   assert.ok(indexHtml.includes('id="todo"'), "index.html must define a #todo screen section");
   assert.ok(indexHtml.includes('data-screen="todo"'), "#todo screen must expose data-screen=\"todo\" for the router");
   assert.ok(indexHtml.includes("data-todo-board"), "#todo screen must expose the operations board container");
+  assert.ok(indexHtml.includes("Live operations board"), "To Do tab must label the board as live");
+  assert.ok(indexHtml.includes("Live Microsoft To Do"), "To Do tab must surface the live Microsoft To Do source");
+  assert.ok(indexHtml.includes('id="refreshTodoData"'), "To Do tab must expose a manual refresh control");
+  assert.ok(indexHtml.includes("Last refreshed:"), "To Do tab must show the live feed refresh timestamp");
+  assert.ok(indexHtml.includes("5 * 60 * 1000"), "To Do tab must auto-refresh the live feed while open");
   assert.ok(
     /Microsoft To Do and LEAP remain[^<]*record-level/.test(indexHtml),
     "To Do tab must state Microsoft To Do and LEAP remain the record-level systems"
   );
   assert.equal(indexHtml.includes("dashboardBusinessTasks"), false, "dashboardBusinessTasks must not appear in the shipped page");
+});
+
+test("local server tasks API uses the live Microsoft To Do builder", () => {
+  const serverSource = fs.readFileSync(path.join(__dirname, "..", "server.js"), "utf8");
+  assert.ok(serverSource.includes('require("./api/_live-tasks.js")'), "local server must load the live task builder");
+  assert.ok(serverSource.includes("await buildLiveTaskStore() || store"), "local /api/tasks GET must prefer live To Do data");
 });
 
 test("Agents screen keeps the heading without the intro paragraph", () => {

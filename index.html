@@ -2812,12 +2812,13 @@ button.system-map-node {
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h3>Operations board</h3>
-            <p>Populated from the Mission Control tasks and agents APIs. No client names or LEAP record data.</p>
+            <h3>Live operations board</h3>
+            <p>Loaded from the privacy-safe Microsoft To Do feed where available. No client names or LEAP record data.</p>
           </div>
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
             <span class="tag" id="todoSourceTag">Snapshot loading</span>
             <span class="tag" id="todoTaskCount">0 tasks</span>
+            <button class="button" type="button" id="refreshTodoData">Refresh</button>
           </div>
         </div>
         <div class="panel-body">
@@ -3844,6 +3845,11 @@ button.system-map-node {
     return payload.data;
   }
 
+  function uncachedUrl(url) {
+    const separator = url.includes("?") ? "&" : "?";
+    return `${url}${separator}_=${Date.now()}`;
+  }
+
   function isServerlessWrite(data) {
     return Boolean(data && data.persisted === false);
   }
@@ -4068,12 +4074,13 @@ button.system-map-node {
     if (countTag) countTag.textContent = `${tasks.length} task${tasks.length === 1 ? "" : "s"}`;
     if (sourceTag) {
       const meta = agentState.taskMeta || {};
-      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${meta.source || "operations snapshot"}`;
+      const sourceLabel = meta.live ? "Live Microsoft To Do" : (meta.source || "operations snapshot");
+      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${sourceLabel}`;
       sourceTag.title = meta.note || "Privacy-safe operations snapshot.";
     }
     if (status) {
-      status.textContent = tasks.length ? "Operations snapshot" : "Empty";
-      status.className = `tag ${tasks.length ? "green" : ""}`.trim();
+      status.textContent = tasks.length ? (agentState.taskMeta?.live ? "Live To Do" : "Snapshot") : "Empty";
+      status.className = `tag ${tasks.length ? (agentState.taskMeta?.live ? "green" : "amber") : ""}`.trim();
     }
     if (!tasks.length && !agents.length) {
       board.innerHTML = emptyState("No operations tasks or agents loaded.", "Task and agent seed data have not returned yet.");
@@ -4110,7 +4117,7 @@ button.system-map-node {
         </thead>
         <tbody>${rows || `<tr><td colspan="5">No operations tasks yet.</td></tr>`}</tbody>
       </table>
-      <p class="todo-board-note">Business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
+      <p class="todo-board-note">Last refreshed: ${escapeHtml(snapshotTime(agentState.taskMeta?.generatedAt))}. Business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
     `;
   }
 
@@ -4136,7 +4143,7 @@ button.system-map-node {
     try {
       const [agents, taskPayload, activity] = await Promise.all([
         apiJson("/api/agents"),
-        apiJson("/api/tasks"),
+        apiJson(uncachedUrl("/api/tasks")),
         apiJson("/api/activity")
       ]);
       agentState.agents = agents || [];
@@ -4555,6 +4562,9 @@ button.system-map-node {
   });
 
   refreshFinanceButton?.addEventListener("click", loadFinanceFeed);
+  document.getElementById("refreshTodoData")?.addEventListener("click", () => {
+    refreshAgentsWorkspace().catch((error) => console.error(error));
+  });
 
   let resizeFrame = null;
   window.addEventListener("resize", () => {
@@ -4692,6 +4702,9 @@ button.system-map-node {
   refreshAgentsWorkspace().catch((error) => {
     console.error(error);
   });
+  setInterval(() => {
+    refreshAgentsWorkspace().catch((error) => console.error(error));
+  }, 5 * 60 * 1000);
 })();
 </script>
 </body>

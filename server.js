@@ -9,6 +9,7 @@ const PORT = Number(process.env.PORT) || 3000;
 
 const financeSummary = require("./api/finance-summary.js");
 const legalWork = require("./api/legal-work.js");
+const { buildLiveTaskStore } = require("./api/_live-tasks.js");
 
 const STATIC_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -43,7 +44,9 @@ function sendJson(res, status, body) {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store"
+    "Cache-Control": "private, no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma": "no-cache",
+    "Expires": "0"
   });
   res.end(payload);
 }
@@ -161,11 +164,20 @@ function taskLanes(tasks) {
   return lanes;
 }
 
-function handleTasks(req, res, url) {
+async function handleTasks(req, res, url) {
   const parts = url.pathname.split("/").filter(Boolean);
 
   if (req.method === "GET" && parts.length === 2) {
-    const store = readJson("tasks");
+    let store = readJson("tasks");
+    try {
+      store = await buildLiveTaskStore() || store;
+    } catch (error) {
+      store.meta = {
+        ...(store.meta || {}),
+        liveError: true,
+        note: `${store.meta?.note || "Fallback task snapshot."} Live Microsoft To Do refresh failed; showing committed fallback.`
+      };
+    }
     const tasks = store.tasks || [];
     return sendJson(res, 200, {
       ok: true,
@@ -376,7 +388,7 @@ const server = http.createServer((req, res) => {
     if (pathname === "/api/finance-summary") return financeSummary(req, res);
     if (pathname === "/api/legal-work") return legalWork(req, res);
     if (pathname.startsWith("/api/agents")) return handleAgents(req, res, url);
-    if (pathname.startsWith("/api/tasks")) return handleTasks(req, res, url);
+    if (pathname.startsWith("/api/tasks")) return handleTasks(req, res, url).catch((error) => sendJson(res, 500, { ok: false, error: "server_error", message: error.message }));
     if (pathname === "/api/activity") return handleActivity(req, res);
     if (pathname === "/api/communications") return handleComms(req, res);
     if (pathname === "/api/journal") return handleJournal(req, res);
