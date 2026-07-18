@@ -342,6 +342,11 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
   assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
   assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
+  assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
+  assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
+  assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
+  assert.ok(indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "localStorage overlay read path must remain available");
+  assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "localStorage overlay reset path must remain available");
   assert.ok(
     !/05 July|Rebuilt daily follow-up worksheet|Cleared 6 lead alerts|Updated ATO pressure card/.test(agentText + activityText),
     "old demo agent and activity statuses must not return"

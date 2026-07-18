@@ -3410,11 +3410,7 @@ a.agent-status-card:focus-visible.is-nav::after {
         <span class="tag blue" id="agentsStatus">Loading</span>
       </div>
 
-      <div class="persist-callout is-hidden" id="persistCallout" role="note" aria-live="polite">
-        <div>
-          <strong>Local-only changes cached in this browser.</strong>
-          <span id="persistDetail">Task edits, new tasks and shared notes are saved to <code>localStorage</code> because the Vercel deployment uses read-only seed JSON. Run <code>node server.js</code> locally to persist to disk instead.</span>
-        </div>
+      <div class="persist-callout is-hidden" id="persistCallout" hidden aria-hidden="true">
         <div class="persist-actions">
           <button type="button" id="persistReset" title="Clear local task and log changes stored in this browser">Reset local changes</button>
         </div>
@@ -4352,11 +4348,11 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderTodoBoard();
     renderActivity();
     renderComms();
-    setAgentsStatus(agentState.hasLocalOverlay ? "Snapshot + local" : "Operations snapshot", agentState.hasLocalOverlay ? "amber" : "green");
+    setAgentsStatus("Operations snapshot", "green");
     const reset = document.getElementById("persistReset");
     if (reset) reset.disabled = !agentState.hasLocalOverlay;
     const callout = document.getElementById("persistCallout");
-    if (callout) callout.classList.toggle("is-hidden", !agentState.hasLocalOverlay);
+    if (callout) callout.hidden = true;
     updateKanbanScrollHint();
   }
 
@@ -5228,7 +5224,7 @@ a.agent-status-card:focus-visible.is-nav::after {
   loadLegalWorkFeed();
   refreshAgentsWorkspace().catch((error) => {
     const callout = document.getElementById("persistCallout");
-    if (callout && overlay.hasAny()) callout.classList.remove("is-hidden");
+    if (callout) callout.hidden = true;
     console.error(error);
   });
 })();
