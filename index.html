@@ -3005,82 +3005,7 @@ button.system-map-node {
       <div class="section-title">
         <div>
           <h2 id="documents-title">Documents</h2>
-          <p>Generated-document library concept for reports, drafts, audits, finance summaries, court instructions, conflict checks and marketing drafts. Metadata only; contents stay private.</p>
         </div>
-        <span class="tag blue">Metadata only</span>
-      </div>
-
-      <div class="kpi-strip" aria-label="Document library counters">
-        <article class="kpi-tile"><span>Library lanes</span><strong data-safe="system.documents.length">—</strong><small>Where files live</small></article>
-        <article class="kpi-tile"><span>Document types</span><strong data-safe="system.documentCategories.length">—</strong><small>Reports to drafts</small></article>
-        <article class="kpi-tile"><span>Status filters</span><strong data-safe="system.documentStatuses.length">—</strong><small>Draft to filed</small></article>
-        <article class="kpi-tile"><span>Privacy</span><strong>Safe</strong><small>No content preview</small></article>
-      </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Library lanes</h3><p>Where generated outputs and source-controlled artefacts are tracked.</p></div><span class="tag">Locations</span></div>
-          <div class="panel-body list" data-system-documents></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>Status model</h3><p>Filters Jacqui would expect when locating a generated document.</p></div><span class="tag amber">Concept</span></div>
-          <div class="panel-body list" data-document-statuses></div>
-        </aside>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Document categories and source agents</h3>
-            <p>Metadata lanes for generated outputs. The actual documents remain in the private workspace.</p>
-          </div>
-          <span class="tag green">Filter model</span>
-        </div>
-        <div class="panel-body mini-grid" data-document-categories></div>
-      </div>
-
-      <details class="summary-details">
-        <summary><span>Safe structure map</span><span class="tag">Secondary</span></summary>
-        <div class="panel-head">
-          <div>
-            <h3>How documents, memory and sites connect</h3>
-            <p id="systemMapLede">Loading…</p>
-          </div>
-          <div class="system-map-key" aria-label="Node types">
-            <span><i class="key-dot key-hub" aria-hidden="true"></i>Section</span>
-            <span><i class="key-dot key-site" aria-hidden="true"></i>Public site</span>
-            <span><i class="key-dot key-brain" aria-hidden="true"></i>Second Brain</span>
-          </div>
-        <div class="panel-body system-map-body">
-          <div class="system-map-canvas" id="systemMapCanvas" role="figure" aria-label="Mission Control system map"></div>
-          <aside class="system-map-detail" id="systemMapDetail" aria-live="polite">
-            <span class="tag">Select a node</span>
-            <h3>Mission Control structure</h3>
-            <p>Tap any node — sections open here, safe sites open in a new tab.</p>
-          </aside>
-        </div>
-      </details>
-
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Safe launchers</h3>
-            <p>Safe entry points for external systems. Working records stay in those systems.</p>
-          </div>
-          <span class="tag">Allowlisted</span>
-        </div>
-        <div class="panel-body system-map-launchers" id="systemMapLaunchers"></div>
-      </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head"><div><h3>What this map shows</h3><p>Structure only.</p></div><span class="tag green">Included</span></div>
-          <div class="panel-body list" id="systemMapIncluded"></div>
-        </div>
-        <aside class="panel">
-          <div class="panel-head"><div><h3>What it deliberately hides</h3><p>Never rendered on the dashboard.</p></div><span class="tag red">Excluded</span></div>
-          <div class="panel-body list" id="systemMapExcluded"></div>
-        </aside>
       </div>
     </section>
 
@@ -3541,21 +3466,6 @@ button.system-map-node {
     renderRows(document.querySelector("[data-system-agents]"), agentsWithSection, {
       empty: "Agent roster will appear when the safe system snapshot is available."
     });
-    renderRows(document.querySelector("[data-system-documents]"), system.documents || [], {
-      empty: "Document lanes will appear when the safe system snapshot is available.",
-      tone: "blue"
-    });
-    renderRows(document.querySelector("[data-document-statuses]"), system.documentStatuses || [], {
-      empty: "Document statuses will appear when the library model is available."
-    });
-    const categories = document.querySelector("[data-document-categories]");
-    if (categories) {
-      const items = system.documentCategories || [];
-      categories.innerHTML = items.length ? items.map((item) => {
-        const tone = item.tone || "";
-        return `<article class="mini-card"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.note || "")}</p><span class="tag ${escapeHtml(tone)}">${escapeHtml(item.agent || "Source agent")}</span></article>`;
-      }).join("") : `<p class="empty-state">Document categories will appear when the safe library model is available.</p>`;
-    }
     const securityItems = [
       ...(system.security?.signals || []),
       ...(system.fixQueue || [])

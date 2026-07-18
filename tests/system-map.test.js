@@ -28,6 +28,7 @@ const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
 const journalScreenHtml = indexHtml.match(/<section class="screen" id="journal"[\s\S]*?<section class="screen" id="documents"/)?.[0] || "";
+const documentsScreenHtml = indexHtml.match(/<section class="screen" id="documents"[\s\S]*?<section class="screen" id="agents"/)?.[0] || "";
 
 let passed = 0;
 function test(name, fn) {
@@ -204,6 +205,7 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="memory"'), "Memory must be a dedicated section");
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
   assert.ok(indexHtml.includes('<h2 id="memory-title">Memory</h2>'), "Memory heading must remain");
+  assert.ok(documentsScreenHtml.includes('<h2 id="documents-title">Documents</h2>'), "Documents heading must remain");
   ["#journal", "#dashboard", "#agents", "#documents"].forEach((href) => {
     assert.ok(indexHtml.includes(`href="${href}"`), `Memory screen must include clickable ${href} link`);
   });
@@ -215,8 +217,19 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(opsSummaryJs.includes("memoryCategories"), false, "Memory category feed data must not ship");
   assert.equal(indexHtml.includes("Searchable history concept"), false, "Memory categories panel must not appear");
   assert.equal(indexHtml.includes("Memory boundary"), false, "Memory boundary panel must not appear");
-  assert.ok(indexHtml.includes("Generated-document library"), "Documents section must describe the generated-documents library concept");
-  assert.ok(indexHtml.includes("Metadata only"), "Documents section must avoid exposing document contents");
+  assert.equal(documentsScreenHtml.includes("Generated-document library"), false, "Documents intro copy must not appear");
+  assert.equal(documentsScreenHtml.includes("Metadata only"), false, "Documents metadata tag/copy must not appear");
+  assert.equal(documentsScreenHtml.includes('aria-label="Document library counters"'), false, "Documents KPI/counter strip must not appear");
+  assert.equal(documentsScreenHtml.includes("Library lanes"), false, "Documents library lanes panel must not appear");
+  assert.equal(documentsScreenHtml.includes("Document types"), false, "Documents document-type counter must not appear");
+  assert.equal(documentsScreenHtml.includes("Status filters"), false, "Documents status counter must not appear");
+  assert.equal(documentsScreenHtml.includes("Status model"), false, "Documents status model panel must not appear");
+  assert.equal(documentsScreenHtml.includes("Document categories and source agents"), false, "Documents category panel must not appear");
+  assert.equal(documentsScreenHtml.includes("Safe structure map"), false, "Documents safe structure details must not appear");
+  assert.equal(documentsScreenHtml.includes("systemMapCanvas"), false, "Documents system map canvas must not appear");
+  assert.equal(indexHtml.includes("data-system-documents"), false, "Document lane renderer binding must not ship");
+  assert.equal(indexHtml.includes("data-document-statuses"), false, "Document status renderer binding must not ship");
+  assert.equal(indexHtml.includes("data-document-categories"), false, "Document category renderer binding must not ship");
 });
 
 test("index.html defines the Journal section and client-side API wiring", () => {
