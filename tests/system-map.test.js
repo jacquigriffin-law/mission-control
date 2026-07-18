@@ -23,13 +23,12 @@ const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.
 const liveTasks = require(path.join(__dirname, "..", "api", "_live-tasks.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const opsSummaryJs = fs.readFileSync(path.join(__dirname, "..", "ops-summary.js"), "utf8");
-const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "agents.json"), "utf8"));
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
 const todoScreenHtml = indexHtml.match(/<section class="screen" id="todo"[\s\S]*?<section class="screen" id="finance"/)?.[0] || "";
 const journalScreenHtml = indexHtml.match(/<section class="screen" id="journal"[\s\S]*?<section class="screen" id="documents"/)?.[0] || "";
-const documentsScreenHtml = indexHtml.match(/<section class="screen" id="documents"[\s\S]*?<section class="screen" id="agents"/)?.[0] || "";
+const documentsScreenHtml = indexHtml.match(/<section class="screen" id="documents"[\s\S]*?<\/section>\s*<\/main>/)?.[0] || "";
 
 let passed = 0;
 function test(name, fn) {
@@ -86,7 +85,7 @@ test("system map edges only reference known node ids", () => {
 });
 
 test("system map hubs only reference known sections", () => {
-  const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"]);
+  const validSections = new Set(["dashboard", "todo", "finance", "matters", "memory", "journal", "documents"]);
   systemMap.hubs.forEach((node) => {
     assert.ok(validSections.has(node.section), `hub ${node.id} points at unknown section ${node.section}`);
   });
@@ -125,12 +124,12 @@ test("safeLabel returns the friendly host name", () => {
 
 test("sectionForAgent maps the current roster to real sections", () => {
   const roster = [
-    { name: "Xena",      role: "Orchestrator",      expected: "agents" },
+    { name: "Xena",      role: "Orchestrator",      expected: "todo" },
     { name: "Hermes",    role: "Intake / PA",       expected: "matters" },
     { name: "Themis",    role: "Court diary",       expected: "matters" },
     { name: "Plutus",    role: "Finance",           expected: "finance" },
     { name: "Ares",      role: "Conflict checking", expected: "matters" },
-    { name: "Gabrielle", role: "Support",           expected: "agents" },
+    { name: "Gabrielle", role: "Support",           expected: "todo" },
     { name: "Marketing", role: "Marketing",         expected: "documents" }
   ];
   roster.forEach(({ name, role, expected }) => {
@@ -146,8 +145,8 @@ test("sectionForAgent falls back to role when the name is unknown", () => {
   assert.equal(agentSections.sectionForAgent("New Agent", "Court diary"), "matters");
   assert.equal(agentSections.sectionForAgent("New Agent", "Conflict checking"), "matters");
   assert.equal(agentSections.sectionForAgent("New Agent", "Finance"), "finance");
-  assert.equal(agentSections.sectionForAgent("New Agent", "Orchestrator"), "agents");
-  assert.equal(agentSections.sectionForAgent("New Agent", "Support"), "agents");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Orchestrator"), "todo");
+  assert.equal(agentSections.sectionForAgent("New Agent", "Support"), "todo");
   assert.equal(agentSections.sectionForAgent("New Agent", "Marketing"), "documents");
 });
 
@@ -159,18 +158,18 @@ test("sectionForAgent returns empty for junk input rather than guessing", () => 
 });
 
 test("sectionForAgent is case- and whitespace-tolerant", () => {
-  assert.equal(agentSections.sectionForAgent("  XENA  ", ""), "agents");
+  assert.equal(agentSections.sectionForAgent("  XENA  ", ""), "todo");
   assert.equal(agentSections.sectionForAgent("", "  Court Diary  "), "matters");
 });
 
 test("VALID_SECTIONS matches the router's screen list", () => {
-  ["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"].forEach((section) => {
+  ["dashboard", "todo", "finance", "matters", "memory", "journal", "documents"].forEach((section) => {
     assert.ok(agentSections.VALID_SECTIONS.has(section), `expected ${section} in VALID_SECTIONS`);
   });
 });
 
 test("index.html uses the Practice Intelligence primary navigation", () => {
-  ["To Do", "Finances", "Matters", "Agents", "Memory", "Journal", "Documents"].forEach((label) => {
+  ["To Do", "Finances", "Matters", "Memory", "Journal", "Documents"].forEach((label) => {
     assert.ok(indexHtml.includes(`<span class="nav-text">${label}</span>`), `missing primary nav label ${label}`);
   });
   ["#leads", "#system-map", 'id="leads"', 'id="system"', 'id="system-map"'].forEach((oldMarker) => {
@@ -216,13 +215,13 @@ test("local server tasks API uses the live Microsoft To Do builder", () => {
   assert.ok(agentStoreSource.includes('response.setHeader("Pragma", "no-cache")'), "serverless JSON API responses must include Pragma no-cache");
 });
 
-test("Agents screen keeps the heading without the intro paragraph", () => {
-  assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
-  assert.equal(
-    indexHtml.includes("Focused accountability view for the agent roster"),
-    false,
-    "Agents intro paragraph must not appear in the shipped page"
-  );
+test("Agents tab is removed from the shipped navigation", () => {
+  assert.equal(indexHtml.includes('href="#agents"'), false, "Agents nav/link must not ship");
+  assert.equal(indexHtml.includes('data-section="agents"'), false, "Agents nav data-section must not ship");
+  assert.equal(indexHtml.includes('id="agents"'), false, "Agents screen must not ship");
+  assert.equal(indexHtml.includes('data-screen="agents"'), false, "Agents router screen must not ship");
+  assert.equal(agentSections.VALID_SECTIONS.has("agents"), false, "agents must not be a valid route");
+  assert.equal(systemMap.hubs.some((node) => node.section === "agents"), false, "system map must not route to removed Agents tab");
 });
 
 test("index.html defines dedicated Memory and Documents sections", () => {
@@ -237,9 +236,10 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(documentsScreenHtml.includes("44 jobs"), "Documents cron inventory must include all scheduler jobs from the latest snapshot");
   assert.ok(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), "Documents cron table must include active morning brief job");
   assert.ok(documentsScreenHtml.includes("Iris call relay to Jacqui"), "Documents cron table must include disabled jobs as audit history");
-  ["#journal", "#dashboard", "#agents", "#documents"].forEach((href) => {
+  ["#journal", "#dashboard", "#documents"].forEach((href) => {
     assert.ok(indexHtml.includes(`href="${href}"`), `Memory screen must include clickable ${href} link`);
   });
+  assert.equal(indexHtml.includes('href="#agents"'), false, "Memory screen must not link to the removed Agents tab");
   assert.equal(indexHtml.includes("Memory Lanes Categories"), false, "Memory lanes categories subsection must not appear");
   assert.equal(indexHtml.includes("Memory lanes"), false, "Memory lanes tile must not appear");
   assert.equal(indexHtml.includes("Memory sources"), false, "Memory sources panel must not appear");
@@ -376,40 +376,22 @@ test("index.html renders system agent rows as anchors when a section is known", 
   );
 });
 
-test("Agents screen does not render local cache or agent status sections", () => {
-  assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
-  assert.ok(indexHtml.includes("Operations snapshot"), "Agents screen must keep the Operations snapshot badge");
-  assert.ok(indexHtml.includes("Agent Kanban board"), "Agents screen must render the live Kanban board section");
-  assert.equal(indexHtml.includes("Current operations board"), false, "Agents screen must not render the old stale board heading");
-  assert.ok(indexHtml.includes("Live privacy-safe task view from Microsoft To Do"), "Agents Kanban must explain the live privacy-safe source");
-  assert.ok(indexHtml.includes("data-kanban"), "Agents screen must keep the kanban task board");
-  assert.ok(indexHtml.includes('id="newTaskForm"'), "Agents screen must keep the operation-note task form");
-
+test("Agents Kanban screen does not ship", () => {
   [
+    '<h2 id="agents-title">Agents</h2>',
+    '<section class="screen" id="agents"',
+    'data-screen="agents"',
+    'href="#agents"',
+    'data-section="agents"',
+    "Agent Kanban board",
+    "Current operations board",
+    "Live privacy-safe task view from Microsoft To Do",
     "Agent status",
     "Local-only changes cached in this browser.",
     "Snapshot + local",
-    "persistCallout",
-    "persistReset",
-    "data-agent-status",
-    "agent-status-card",
-    "agent-status-grid",
-    "agentStatusFilter",
-    "agentSort",
-    "agentsCountTag",
-    "agentsRefresh",
-    "status-pill",
-    "agent-identity",
-    "agent-working",
-    "agent-last",
-    "renderAgentStatus",
-    "sortedVisibleAgents",
-    "Working shows a live green pulse; Idle shows an amber hold. Colour code stays consistent with each agent's kanban cards.",
-    "No agents match this filter.",
-    "Adjust the status filter or refresh the seed data.",
-    "Agent seed data could not load."
+    "Shared communication log"
   ].forEach((marker) => {
-    assert.equal(indexHtml.includes(marker), false, `removed Agent status marker must not remain: ${marker}`);
+    assert.equal(indexHtml.includes(marker), false, `removed Agents UI marker must not ship: ${marker}`);
   });
 });
 
@@ -504,40 +486,16 @@ test("Live To Do task transform removes matter identifiers from public Kanban ca
   assert.equal(/\b26\/1207\b|Smith/i.test(JSON.stringify(card)), false, "public Kanban card must not include raw matter identifiers");
 });
 
-test("Agent workspace seed avoids stale demo status text", () => {
-  const agentText = JSON.stringify(agentData);
+test("Removed Agents tab leaves no stale demo activity on visible pages", () => {
   const activityText = JSON.stringify(activityData);
-  assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
-  assert.ok(activityText.includes("19 July"), "activity seed must reflect current 19 July operations");
-  assert.ok(activityText.includes("Mission Control Journal"), "activity seed must include current journal work");
-  assert.ok(activityText.includes("Private income column"), "activity seed must include current Mission Control status work");
-  assert.ok(activityData.activity.every((item) => String(item.at || "").startsWith("2026-07-19")), "activity feed seed must use current 19 July timestamps");
-  assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
-  assert.ok(indexHtml.includes("Agent Kanban board"), "agents screen must show the live Kanban section");
-  assert.ok(!indexHtml.includes("Current operations board"), "agents screen must not show the old stale operations board heading");
-  assert.ok(indexHtml.includes('id="newTaskForm"'), "agents screen must keep the add-note task form");
-  assert.ok(!indexHtml.includes("Shared communication log"), "agents screen must not show the non-durable shared communication log");
-  assert.ok(!indexHtml.includes("Entries cached in this browser"), "agents screen must not show cached-browser wording");
-  assert.ok(!indexHtml.includes('id="commsForm"'), "agents screen must not ship the shared communication form");
-  assert.ok(!indexHtml.includes('class="comms-list"'), "agents screen must not ship the shared communication list panel");
-  assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
-  assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
-  assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
-  assert.ok(!indexHtml.includes("persistCallout"), "agents screen must not keep hidden persistence callout markup");
-  assert.ok(!indexHtml.includes("persistReset"), "agents screen must not keep hidden persistence reset controls");
-  assert.ok(!indexHtml.includes("data-agent-status"), "agents screen must not keep the removed status grid binding");
-  assert.ok(!indexHtml.includes("agentStatusFilter"), "agents screen must not keep removed status filter controls");
-  assert.ok(!indexHtml.includes("agent-status-card"), "agents screen must not keep removed status card markers");
-  assert.ok(!indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "agents screen must not read stale browser overlay data into the live feed");
-  assert.ok(!indexHtml.includes("localStorage.setItem(OVERLAY_KEY)"), "agents screen must not write new local-only overlay data");
-  assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "agents screen must clear stale local overlay data on load");
+  assert.equal(indexHtml.includes("Agent Kanban board"), false, "removed Agents Kanban must not ship");
+  assert.equal(indexHtml.includes('id="newTaskForm"'), false, "removed Agents add-note form must not ship");
+  assert.equal(indexHtml.includes("Shared communication log"), false, "removed Agents communication log must not ship");
+  assert.equal(indexHtml.includes("Entries cached in this browser"), false, "cached-browser wording must not ship");
+  assert.ok(activityText.includes("19 July"), "activity seed can remain current for API consumers");
   assert.ok(
     !/10 July|11 July|2026-07-10|2026-07-11|availability works|live booking creation is still blocked/.test(activityText),
     "stale 10 July/11 July demo activity must not return"
-  );
-  assert.ok(
-    !/05 July|Rebuilt daily follow-up worksheet|Cleared 6 lead alerts|Updated ATO pressure card/.test(agentText + activityText),
-    "old demo agent and activity statuses must not return"
   );
 });
 
