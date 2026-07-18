@@ -60,7 +60,7 @@ test("FINANCE_SUMMARY_JSON takes priority over data fallback", () => {
     clients: [{ name: "Private Client" }],
     invoices: [{ number: "INV-PRIVATE" }],
     transactions: [{ description: "Private transaction" }]
-  }), () => financeSummary._private.loadSummary());
+  }), () => financeSummary.loadSummary());
 
   assert.equal(summary.sourceStatus, "env_fixture");
   assert.equal(summary.profitLoss.period, "Env period");
@@ -69,7 +69,7 @@ test("FINANCE_SUMMARY_JSON takes priority over data fallback", () => {
 });
 
 test("data/finance-summary.json fallback supplies profitLoss when env is absent", () => {
-  const summary = withFinanceEnv(undefined, () => financeSummary._private.loadSummary());
+  const summary = withFinanceEnv(undefined, () => financeSummary.loadSummary());
   assert.equal(summary.live, true);
   assert.ok(summary.generatedAt, "fallback summary should expose generatedAt");
   assert.ok(summary.profitLoss.period, "fallback summary should expose profitLoss period");
@@ -96,7 +96,7 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
     matterDetails: [{ matter: "Hidden" }],
     rawMyob: { transaction: "Hidden" },
     transactions: [{ description: "Hidden" }]
-  }), () => financeSummary._private.loadSummary());
+  }), () => financeSummary.loadSummary());
 
   assert.deepEqual(Object.keys(summary).sort(), [
     "currency",
@@ -143,7 +143,7 @@ test("Finance screen binds only to profitLoss aggregate fields", () => {
   assert.ok(section.includes("data-finance-expense-categories"), "finance screen must render expensesByCategory");
   [
     /data-finance="(?!profitLoss\.)/,
-    /data-finance-expense/,
+    /data-finance-expense="/,
     /data-projection-month/
   ].forEach((pattern) => {
     assert.equal(pattern.test(section), false, `finance screen matched forbidden binding ${pattern}`);
