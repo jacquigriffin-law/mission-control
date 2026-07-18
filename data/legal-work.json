@@ -1,4 +1,4 @@
 {
-  "source": "Mission Control aggregate finance feed",
-  "privacyBoundary": "Aggregate matter counts and Legal Aid payment totals only."
+  "source": "Safe LEAP matter-count and Legal Aid aggregate income feed",
+  "privacyBoundary": "Aggregate matter counts plus Legal Aid aggregate income and payment counts only."
 }
