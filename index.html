@@ -1777,22 +1777,6 @@ button.system-map-node {
   }
 }
 
-.agent-avatar {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
-  display: block;
-  border: 1px solid color-mix(in srgb, var(--agent-colour, var(--faint)) 45%, var(--line));
-  border-radius: 8px;
-  background: #0b1118;
-  object-fit: cover;
-  box-shadow: 0 0 0 2px rgba(255,255,255,.02);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skeleton { animation: none; }
-}
-
 .priority-badge {
   min-height: 22px;
   display: inline-flex;
@@ -1876,24 +1860,6 @@ button.system-map-node {
   color: #ffb3b3;
 }
 
-.skeleton {
-  border: 1px solid var(--line-soft);
-  border-radius: 8px;
-  background: linear-gradient(90deg, #101720 25%, #131c26 50%, #101720 75%);
-  background-size: 200% 100%;
-  animation: mc-shimmer 1.6s ease-in-out infinite;
-  min-height: 68px;
-}
-
-.skeleton + .skeleton {
-  margin-top: 8px;
-}
-
-@keyframes mc-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
 .empty-state.is-error {
   border-style: solid;
   border-color: #743039;
@@ -1920,16 +1886,6 @@ button.system-map-node {
   display: block;
   margin-top: 4px;
   color: var(--faint);
-}
-
-
-
-
-
-@media (max-width: 680px) {
-  .panel-toolbar {
-    padding: 10px;
-  }
 }
 
 </style>
