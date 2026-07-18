@@ -22,6 +22,7 @@ const systemMap = require(path.join(__dirname, "..", "lib", "system-map-data.js"
 const agentSections = require(path.join(__dirname, "..", "lib", "agent-sections.js"));
 const liveTasks = require(path.join(__dirname, "..", "api", "_live-tasks.js"));
 const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const opsSummaryJs = fs.readFileSync(path.join(__dirname, "..", "ops-summary.js"), "utf8");
 const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "agents.json"), "utf8"));
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
@@ -207,6 +208,7 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(indexHtml.includes("Memory sources"), false, "Memory sources panel must not appear");
   assert.equal(indexHtml.includes("data-system-memory"), false, "Memory source renderer binding must not ship");
   assert.equal(indexHtml.includes("data-memory-categories"), false, "Memory category renderer binding must not ship");
+  assert.equal(opsSummaryJs.includes("memoryCategories"), false, "Memory category feed data must not ship");
   assert.equal(indexHtml.includes("Searchable history concept"), false, "Memory categories panel must not appear");
   assert.equal(indexHtml.includes("Memory boundary"), false, "Memory boundary panel must not appear");
   assert.ok(indexHtml.includes("Generated-document library"), "Documents section must describe the generated-documents library concept");
