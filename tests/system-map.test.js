@@ -224,10 +224,31 @@ test("index.html defines the Journal section and client-side API wiring", () => 
   assert.ok(indexHtml.includes('data-section="journal"'), "Journal nav link must carry data-section=\"journal\"");
   assert.ok(indexHtml.includes('id="journal"'), "index.html must define a #journal screen section");
   assert.ok(indexHtml.includes('data-screen="journal"'), "#journal screen must expose data-screen=\"journal\" for the router");
-  assert.ok(indexHtml.includes("data-journal-list"), "#journal screen must expose the journal list container");
+  assert.ok(journalScreenHtml.includes('<h2 id="journal-title">Journal</h2>'), "Journal heading must remain visible");
+  assert.ok(journalScreenHtml.includes("<h3>Workspace journal</h3>"), "Workspace journal heading must remain visible");
+  assert.ok(journalScreenHtml.includes("Date range"), "Journal date range heading must remain visible");
+  assert.ok(journalScreenHtml.includes('id="journalDateRange"'), "Journal date range value must remain visible");
   assert.ok(indexHtml.includes('apiJson("/api/journal")'), "Journal renderer must load from /api/journal");
   assert.equal(indexHtml.includes("Daily workspace journal entries rendered"), false, "Journal tab intro paragraph must not ship");
   assert.equal(indexHtml.includes("journalSource"), false, "Journal source summary text must not ship");
+});
+
+test("Journal visible cards and entry list do not ship", () => {
+  [
+    "<span>Entries</span>",
+    "<span>Source</span>",
+    "Daily memory",
+    "<span>Privacy</span>",
+    "Daily summaries loaded",
+    "Sanitised seed data",
+    "No raw notes rendered",
+    "Chronological",
+    "data-journal-list"
+  ].forEach((label) => {
+    assert.equal(journalScreenHtml.includes(label), false, `Journal screen must not include removed visible content: ${label}`);
+  });
+  assert.equal(indexHtml.includes('document.querySelector("[data-journal-list]")'), false, "Journal list renderer must not remain wired");
+  assert.equal(indexHtml.includes('class="journal-entry"'), false, "Journal entry card renderer must not remain wired");
 });
 
 test("Journal boundary panel labels do not ship", () => {

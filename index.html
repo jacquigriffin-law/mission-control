@@ -2985,11 +2985,9 @@ button.system-map-node {
         <span class="tag blue" id="journalStatus">Loading</span>
       </div>
 
-      <div class="kpi-strip" aria-label="Journal counters">
-        <article class="kpi-tile"><span>Entries</span><strong id="journalEntryCount">—</strong><small>Daily summaries loaded</small></article>
-        <article class="kpi-tile"><span>Date range</span><strong id="journalDateRange">—</strong><small>Oldest to newest</small></article>
-        <article class="kpi-tile"><span>Source</span><strong>Daily memory</strong><small>Sanitised seed data</small></article>
-        <article class="kpi-tile"><span>Privacy</span><strong>Safe</strong><small>No raw notes rendered</small></article>
+      <div class="meta-row" aria-label="Journal date range">
+        <span>Date range</span>
+        <strong id="journalDateRange">—</strong>
       </div>
 
       <div class="screen-grid">
@@ -2998,10 +2996,6 @@ button.system-map-node {
             <div>
               <h3>Workspace journal</h3>
             </div>
-            <span class="tag green">Chronological</span>
-          </div>
-          <div class="panel-body">
-            <div class="journal-list" data-journal-list aria-live="polite"></div>
           </div>
         </div>
       </div>
@@ -3805,49 +3799,22 @@ button.system-map-node {
 
   function renderJournal(payload) {
     const days = Array.isArray(payload?.days) ? payload.days : [];
-    const meta = payload?.meta || {};
-    const list = document.querySelector("[data-journal-list]");
-    const count = document.getElementById("journalEntryCount");
     const range = document.getElementById("journalDateRange");
-    const entryCount = days.reduce((total, day) => total + (Array.isArray(day.entries) ? day.entries.length : 0), 0);
-    if (count) count.textContent = String(entryCount);
     if (range) {
       range.textContent = days.length
         ? `${journalDate(days[0].date)} - ${journalDate(days[days.length - 1].date)}`
         : "No entries";
     }
-    if (!list) return;
-    if (!days.length) {
-      list.innerHTML = emptyState("No journal entries available.", "Add privacy-safe summaries to data/journal.json.");
-      return;
-    }
-    list.innerHTML = days.map((day) => {
-      const entries = Array.isArray(day.entries) ? day.entries : [];
-      return `<article class="journal-entry">
-        <header>
-          <div>
-            <h3>${escapeHtml(day.label || journalDate(day.date))}</h3>
-            <p>${escapeHtml(day.summary || "")}</p>
-          </div>
-          <span class="tag blue">${escapeHtml(journalDate(day.date))}</span>
-        </header>
-        ${entries.length ? `<ul class="journal-highlights">${entries.map((entry) => `<li><strong>${escapeHtml(entry.time || "Day")} · ${escapeHtml(entry.agent || "Xena")} · ${escapeHtml(entry.title || entry.type || "Entry")}</strong><span>${escapeHtml(entry.detail || "")}</span></li>`).join("")}</ul>` : ""}
-        <div class="journal-tags">${entries.map((entry) => `<span class="tag">${escapeHtml(entry.status || entry.type || "Logged")}</span>`).join("")}</div>
-      </article>`;
-    }).join("");
   }
 
   async function loadJournalFeed() {
     setJournalStatus("Loading", "blue");
-    const list = document.querySelector("[data-journal-list]");
-    if (list) list.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
     try {
       const payload = await apiJson("/api/journal");
       renderJournal(payload);
       setJournalStatus("Loaded", "green");
     } catch (error) {
       setJournalStatus("Offline", "red");
-      if (list) list.innerHTML = emptyState("Journal feed unavailable.", error.message || "Could not load journal seed.", "error");
     }
   }
 
