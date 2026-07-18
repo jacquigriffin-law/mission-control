@@ -345,6 +345,8 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
   assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
   assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
+  assert.ok(!indexHtml.includes("persistCallout"), "agents screen must not keep hidden persistence callout markup");
+  assert.ok(!indexHtml.includes("persistReset"), "agents screen must not keep hidden persistence reset controls");
   assert.ok(indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "localStorage overlay read path must remain available");
   assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "localStorage overlay reset path must remain available");
   assert.ok(

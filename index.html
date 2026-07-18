@@ -3410,12 +3410,6 @@ a.agent-status-card:focus-visible.is-nav::after {
         <span class="tag blue" id="agentsStatus">Loading</span>
       </div>
 
-      <div class="persist-callout is-hidden" id="persistCallout" hidden aria-hidden="true">
-        <div class="persist-actions">
-          <button type="button" id="persistReset" title="Clear local task and log changes stored in this browser">Reset local changes</button>
-        </div>
-      </div>
-
       <div class="panel">
         <div class="panel-head">
           <div>
@@ -4349,10 +4343,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderActivity();
     renderComms();
     setAgentsStatus("Operations snapshot", "green");
-    const reset = document.getElementById("persistReset");
-    if (reset) reset.disabled = !agentState.hasLocalOverlay;
-    const callout = document.getElementById("persistCallout");
-    if (callout) callout.hidden = true;
     updateKanbanScrollHint();
   }
 
@@ -4913,12 +4903,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     });
   });
 
-  document.getElementById("persistReset")?.addEventListener("click", () => {
-    overlay.clear();
-    applyOverlayState();
-    renderAgentsWorkspace();
-  });
-
   document.getElementById("newTaskForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -5223,8 +5207,6 @@ a.agent-status-card:focus-visible.is-nav::after {
   loadFinanceFeed();
   loadLegalWorkFeed();
   refreshAgentsWorkspace().catch((error) => {
-    const callout = document.getElementById("persistCallout");
-    if (callout) callout.hidden = true;
     console.error(error);
   });
 })();
