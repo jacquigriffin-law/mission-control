@@ -188,6 +188,15 @@ test("index.html exposes a separate To Do operations tab", () => {
   assert.equal(indexHtml.includes("dashboardBusinessTasks"), false, "dashboardBusinessTasks must not appear in the shipped page");
 });
 
+test("Agents screen keeps the heading without the intro paragraph", () => {
+  assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
+  assert.equal(
+    indexHtml.includes("Focused accountability view for the agent roster"),
+    false,
+    "Agents intro paragraph must not appear in the shipped page"
+  );
+});
+
 test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="memory"'), "Memory must be a dedicated section");
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
