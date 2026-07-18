@@ -222,23 +222,6 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
       indexedMatterRows: indexedRecordCount,
       legalAidPaymentCount
     },
-    entities: [
-      {
-        key: "open-matters",
-        name: "Open matters aggregate",
-        shortName: "Open matters",
-        openMatters: activeRecordCount,
-        indexedMatterRows: indexedRecordCount,
-        byType,
-        jurisdictions: byJurisdiction
-      },
-      {
-        key: "legal-aid-income",
-        name: "Legal Aid payment months",
-        shortName: "Legal Aid months",
-        paymentCount: legalAidPaymentCount
-      }
-    ],
     typeMix: byType,
     fundingMix: byFunding,
     jurisdictionMix: byJurisdiction,

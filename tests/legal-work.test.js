@@ -70,6 +70,7 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => item.month === "2026-07" && item.total === 24214.3));
   assert.equal(summary.trends.matterTypeIncome.available, false);
   assert.match(summary.trends.matterTypeIncome.note, /unavailable\/pending/i);
+  assert.equal(Object.hasOwn(summary, "entities"), false);
   assert.equal(Object.hasOwn(summary, "sourceMix"), false);
   assertNoPrivateLeak(summary);
 });
@@ -169,6 +170,7 @@ test("legal work API allowlists labels from private-shaped source data", () => {
   assert.equal(Object.hasOwn(summary.totals, "legalAidIncome"), false);
   assert.equal(Object.hasOwn(summary.legalAidIncome, "total"), false);
   assert.equal(Object.hasOwn(summary.legalAidIncome, "byJurisdiction"), false);
+  assert.equal(Object.hasOwn(summary, "entities"), false);
   assert.match(summary.trends.matterTypeIncome.note, /unavailable\/pending/i);
   assertNoPrivateLeak(summary);
 });
@@ -178,16 +180,20 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(indexHtml.includes('fetch("/api/legal-work"'), "Matters tab must fetch the legal work API");
   assert.ok(indexHtml.includes("let legalWorkData = null"), "Matters tab must render from legalWorkData");
   assert.equal(/safeSummary\.legalWork\?\./.test(indexHtml), false, "Matters renderer must not read stale ops-summary legalWork");
-  assert.ok(section.includes("data-entity-cards"), "Matters screen must keep entity summary cards");
+  assert.equal(section.includes("data-entity-cards"), false, "Matters screen must not render entity summary cards");
   assert.ok(section.includes('data-entity-bars="full"'), "Matters screen must keep matter type mix binding");
   assert.ok(section.includes("data-matter-funding-bars"), "Matters screen must keep funding mix binding");
   assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
   assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
   assert.ok(section.includes("Payment-month income by NSW and NT"), "Matters screen must label Legal Aid income by payment month and jurisdiction");
-  assert.ok(indexHtml.includes("indexed for monthly trend only"), "Matters live note must point to trends instead of all-time income");
   assert.equal(/\\$878,?593|878592\\.99/.test(section), false, "Matters screen must not lead with the all-time Legal Aid total");
   [
+    /Live legal work feed/i,
+    /Open matters aggregate/i,
+    /Legal Aid income aggregate/i,
+    /Legal Aid payment months/i,
+    /entity-card/i,
     /2026-07-04/,
     /placeholder/i,
     /counts remain placeholders/i,
@@ -205,6 +211,9 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
     assert.equal(pattern.test(section), false, `Matters screen matched stale wording ${pattern}`);
   });
   assert.equal(/data-matter-source-bars/.test(indexHtml), false, "removed source bars renderer must not remain in index.html");
+  assert.equal(/data-entity-cards/.test(indexHtml), false, "removed entity cards renderer must not remain in index.html");
+  assert.equal(/entity-card/.test(indexHtml), false, "removed entity card CSS must not remain in index.html");
+  assert.equal(/legalWorkData\?\.entities/.test(indexHtml), false, "Matters renderer must not read removed entities output");
   assert.equal(/sourceMix/.test(indexHtml), false, "Matters renderer must not read removed sourceMix output");
   assert.equal(/totals\.legalAidIncome/.test(indexHtml), false, "Matters renderer must not display all-time Legal Aid income");
 });
