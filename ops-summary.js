@@ -166,14 +166,6 @@ window.MISSION_CONTROL_SAFE_SUMMARY = {
       { label: "decisions/", purpose: "Point-in-time decisions with the reasoning behind them.", status: "Active", category: "Decisions" },
       { label: "searchable history", purpose: "Concept: a searchable index across daily logs, decisions and corrections. Content stays private on device.", status: "Concept", category: "Search" }
     ],
-    memoryCategories: [
-      { label: "Daily chats", note: "Working conversations kept as private daily logs.", tone: "blue" },
-      { label: "Decisions", note: "Point-in-time choices with the reasoning captured.", tone: "green" },
-      { label: "Corrections", note: "Explicit mistakes.md entries to avoid repeating.", tone: "amber" },
-      { label: "Status", note: "Current STATUS.md — what is happening right now.", tone: "" },
-      { label: "Long-term memory", note: "MEMORY.md long-lived facts for the main session.", tone: "violet" },
-      { label: "Searchable history", note: "Concept lane for full-text search across the above.", tone: "" }
-    ],
     documents: [
       { label: "output/", purpose: "Generated reports, audits, screenshots and working packs (local files).", status: "Local files", category: "Reports" },
       { label: "input/", purpose: "Source documents provided to the workspace (local files).", status: "Local files", category: "Source" },
