@@ -186,9 +186,11 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
   assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
-  assert.ok(section.includes("Payment-month income by NSW and NT"), "Matters screen must label Legal Aid income by payment month and jurisdiction");
+  assert.ok(section.includes("Legal Aid income by month and jurisdiction"), "Matters screen must label Legal Aid income by month and jurisdiction");
+  assert.equal(section.includes("mattersLiveStatus"), false, "Matters section header must not render a live status badge");
   assert.equal(/\\$878,?593|878592\\.99/.test(section), false, "Matters screen must not lead with the all-time Legal Aid total");
   [
+    /aggregate/i,
     /Live legal work feed/i,
     /Open matters aggregate/i,
     /Legal Aid income aggregate/i,

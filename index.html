@@ -2969,7 +2969,7 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div>
             <span class="tag blue">Work mix</span>
             <h3>Matter mix</h3>
-            <p>Type, source, funding and jurisdiction breakdowns from current safe aggregate feeds.</p>
+            <p>Type, source, funding and jurisdiction breakdowns from the current safe feeds.</p>
             <span class="pillar-value" id="mattersHeroCount">—</span>
           </div>
           <div class="stack-list" data-entity-bars="compact"></div>
@@ -3208,10 +3208,10 @@ a.agent-status-card:focus-visible.is-nav::after {
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current matter mix and 12-month opening/payment trends from the aggregate feeds.</p></div><span class="tag blue" id="mattersLiveStatus">Loading</span></div>
+      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current matter mix and 12-month opening/payment trends from the safe feeds.</p></div></div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Matter type mix</h3><p>Current open-matter categories from the aggregate matter feed.</p></div></div>
+          <div class="panel-head"><div><h3>Matter type mix</h3><p>Current open-matter categories from the matter feed.</p></div></div>
           <div class="panel-body">
             <div class="stack-list" data-entity-bars="full"></div>
             <div class="bar-legend">
@@ -3224,13 +3224,13 @@ a.agent-status-card:focus-visible.is-nav::after {
           </div>
         </div>
         <aside class="panel">
-          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid, private and mixed/unknown lanes from aggregate matter counts.</p></div></div>
+          <div class="panel-head"><div><h3>Funding mix</h3><p>Legal Aid, private and mixed/unknown lanes from matter counts.</p></div></div>
           <div class="panel-body stack-list" data-matter-funding-bars></div>
         </aside>
       </div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Jurisdiction</h3><p>Jurisdiction counts collapsed to safe NSW, NT and unknown buckets.</p></div><span class="tag green">Aggregate feed</span></div>
+          <div class="panel-head"><div><h3>Jurisdiction</h3><p>Jurisdiction counts collapsed to safe NSW, NT and unknown buckets.</p></div></div>
           <div class="panel-body stack-list" data-matter-jurisdiction-bars></div>
         </div>
       </div>
@@ -3239,7 +3239,7 @@ a.agent-status-card:focus-visible.is-nav::after {
         <div class="panel-body" data-matter-opened-trends></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Legal Aid income by payment month and jurisdiction</h3><p>Payment-month income by NSW and NT for the same 12-month window. Matter-type income needs a reliable payment-to-matter match before display.</p></div><span class="tag amber">Payment months</span></div>
+        <div class="panel-head"><div><h3>Legal Aid income by month and jurisdiction</h3><p>Income by NSW and NT for the same 12-month window. Matter-type income needs a reliable payment-to-matter match before display.</p></div><span class="tag amber">12 months</span></div>
         <div class="panel-body" data-matter-income-trends></div>
       </div>
     </section>
@@ -3811,7 +3811,7 @@ a.agent-status-card:focus-visible.is-nav::after {
     const container = document.querySelector(`[data-entity-bars="${mode}"]`);
     if (!container) return;
     renderBars(container, legalWorkData?.typeMix || [], {
-      empty: "No aggregate matter type counts loaded."
+      empty: "No matter type counts loaded."
     });
   }
 
@@ -3877,10 +3877,10 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderEntityBars("compact");
     renderEntityBars("full");
     renderBars(document.querySelector("[data-matter-funding-bars]"), legalWorkData?.fundingMix || [], {
-      empty: "No aggregate funding mix loaded."
+      empty: "No funding mix loaded."
     });
     renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), legalWorkData?.jurisdictionMix || [], {
-      empty: "No aggregate jurisdiction mix loaded."
+      empty: "No jurisdiction mix loaded."
     });
     renderMatterTrends();
   }
