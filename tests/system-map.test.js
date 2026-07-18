@@ -226,7 +226,8 @@ test("index.html defines the Journal section and client-side API wiring", () => 
   assert.ok(indexHtml.includes('data-screen="journal"'), "#journal screen must expose data-screen=\"journal\" for the router");
   assert.ok(indexHtml.includes("data-journal-list"), "#journal screen must expose the journal list container");
   assert.ok(indexHtml.includes('apiJson("/api/journal")'), "Journal renderer must load from /api/journal");
-  assert.ok(indexHtml.includes("secrets, raw emails, client contact details and legal advice"), "Journal tab must state the privacy boundary");
+  assert.equal(indexHtml.includes("Daily workspace journal entries rendered"), false, "Journal tab intro paragraph must not ship");
+  assert.equal(indexHtml.includes("journalSource"), false, "Journal source summary text must not ship");
 });
 
 test("Journal boundary panel labels do not ship", () => {

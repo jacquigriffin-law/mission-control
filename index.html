@@ -2981,7 +2981,6 @@ button.system-map-node {
       <div class="section-title">
         <div>
           <h2 id="journal-title">Journal</h2>
-          <p>Daily workspace journal entries rendered from privacy-safe summaries of the private daily memory logs. Entries are chronological and intentionally exclude secrets, raw emails, client contact details and legal advice.</p>
         </div>
         <span class="tag blue" id="journalStatus">Loading</span>
       </div>
@@ -2998,7 +2997,6 @@ button.system-map-node {
           <div class="panel-head">
             <div>
               <h3>Workspace journal</h3>
-              <p id="journalSource">Loading privacy-safe journal seed.</p>
             </div>
             <span class="tag green">Chronological</span>
           </div>
@@ -3811,16 +3809,12 @@ button.system-map-node {
     const list = document.querySelector("[data-journal-list]");
     const count = document.getElementById("journalEntryCount");
     const range = document.getElementById("journalDateRange");
-    const source = document.getElementById("journalSource");
     const entryCount = days.reduce((total, day) => total + (Array.isArray(day.entries) ? day.entries.length : 0), 0);
     if (count) count.textContent = String(entryCount);
     if (range) {
       range.textContent = days.length
         ? `${journalDate(days[0].date)} - ${journalDate(days[days.length - 1].date)}`
         : "No entries";
-    }
-    if (source) {
-      source.textContent = `${meta.source || "Privacy-safe journal seed."} ${meta.note || ""}`.trim();
     }
     if (!list) return;
     if (!days.length) {
