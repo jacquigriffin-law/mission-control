@@ -3172,9 +3172,6 @@ button.system-map-node {
   const financeLiveNote = document.getElementById("financeLiveNote");
   const financeHeroStatus = document.getElementById("financeHeroStatus");
   const mattersHeroCount = document.getElementById("mattersHeroCount");
-  const agentsStatus = document.getElementById("agentsStatus");
-  const agentsTaskCount = document.getElementById("agentsTaskCount");
-  const activityCount = document.getElementById("activityCount");
   const journalStatus = document.getElementById("journalStatus");
   const validSections = new Set(["dashboard", "todo", "finance", "matters", "memory", "journal", "documents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
@@ -3184,85 +3181,7 @@ button.system-map-node {
   const agentState = {
     agents: [],
     tasks: [],
-    activity: [],
-    seedTasks: [],
-    taskMeta: null,
-    seedActivity: [],
-    filters: {
-      kanbanAgent: "all",
-      kanbanPriority: "all",
-      kanbanDone: "show"
-    },
-    hasLocalOverlay: false
-  };
-
-  const OVERLAY_KEY = "missionControl.agentsOverlay.v1";
-  const emptyOverlayState = () => ({ taskPatches: {}, newTasks: [], newComms: [], localActivity: [] });
-  const overlay = {
-    read() {
-      overlay.clear();
-      return emptyOverlayState();
-    },
-    write(state) {
-      overlay.clear();
-    },
-    isEmpty(state = overlay.read()) {
-      return !Object.keys(state.taskPatches || {}).length && !state.newTasks.length && !state.newComms.length && !state.localActivity.length;
-    },
-    patchTask(id, changes) {
-      const state = overlay.read();
-      const newTaskIndex = state.newTasks.findIndex((task) => task.id === id);
-      if (newTaskIndex >= 0) {
-        state.newTasks[newTaskIndex] = { ...state.newTasks[newTaskIndex], ...changes, updatedAt: new Date().toISOString() };
-      } else {
-        state.taskPatches[id] = { ...(state.taskPatches[id] || {}), ...changes, updatedAt: new Date().toISOString() };
-      }
-      overlay.write(state);
-    },
-    addTask(task) {
-      const state = overlay.read();
-      state.newTasks.push(task);
-      overlay.write(state);
-    },
-    addActivity(entry) {
-      const state = overlay.read();
-      state.localActivity.unshift({
-        id: `local-${Date.now()}`,
-        at: new Date().toISOString(),
-        ...entry
-      });
-      state.localActivity = state.localActivity.slice(0, 80);
-      overlay.write(state);
-    },
-    addComm(comm) {
-      const state = overlay.read();
-      state.newComms.unshift(comm);
-      state.newComms = state.newComms.slice(0, 300);
-      overlay.write(state);
-    },
-    clear() {
-      try {
-        localStorage.removeItem(OVERLAY_KEY);
-      } catch (error) {
-        // ignore
-      }
-    },
-    applyToTasks(seedTasks) {
-      overlay.clear();
-      return seedTasks;
-    },
-    applyToComms(seedComms) {
-      overlay.clear();
-      return seedComms;
-    },
-    applyToActivity(seedActivity) {
-      overlay.clear();
-      return seedActivity;
-    },
-    hasAny() {
-      overlay.clear();
-      return false;
-    }
+    taskMeta: null
   };
 
   function currency(value) {
@@ -3307,12 +3226,6 @@ button.system-map-node {
     if (!financeLiveStatus) return;
     financeLiveStatus.textContent = text;
     financeLiveStatus.className = `tag ${tone}`.trim();
-  }
-
-  function setAgentsStatus(text, tone = "") {
-    if (!agentsStatus) return;
-    agentsStatus.textContent = text;
-    agentsStatus.className = `tag ${tone}`.trim();
   }
 
   function setJournalStatus(text, tone = "") {
@@ -3694,12 +3607,6 @@ button.system-map-node {
     return agentById(id)?.name || "Unassigned";
   }
 
-  function priorityTone(priority) {
-    if (priority === "High") return "red";
-    if (priority === "Medium") return "amber";
-    return "green";
-  }
-
   function statusTone(status) {
     if (status === "Done") return "green";
     if (status === "In Progress") return "blue";
@@ -3727,17 +3634,8 @@ button.system-map-node {
     return `${url}${separator}_mc=${Date.now()}`;
   }
 
-  function isServerlessWrite(data) {
-    return Boolean(data && data.persisted === false);
-  }
-
-  function setText(id, text) {
-    const element = document.getElementById(id);
-    if (element) element.textContent = text;
-  }
-
-  function emptyState(title, detail = "", tone = "empty", retry = false) {
-    return `<p class="empty-state is-${tone}"><span class="empty-title">${escapeHtml(title)}</span>${detail ? escapeHtml(detail) : ""}${retry ? `<br><button class="retry-button" type="button" data-agents-retry>Retry</button>` : ""}</p>`;
+  function emptyState(title, detail = "", tone = "empty") {
+    return `<p class="empty-state is-${tone}"><span class="empty-title">${escapeHtml(title)}</span>${detail ? escapeHtml(detail) : ""}</p>`;
   }
 
   function journalDate(value) {
@@ -3770,175 +3668,6 @@ button.system-map-node {
     } catch (error) {
       setJournalStatus("Offline", "red");
     }
-  }
-
-  function setAgentsLoading() {
-    ["To Do", "In Progress", "Done"].forEach((lane) => {
-      const body = document.querySelector(`[data-lane-body="${lane}"]`);
-      if (body) body.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
-    });
-    const activity = document.querySelector("[data-activity-list]");
-    if (activity) activity.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
-  }
-
-  function applyOverlayState() {
-    agentState.tasks = overlay.applyToTasks(agentState.seedTasks);
-    agentState.activity = overlay.applyToActivity(agentState.seedActivity);
-    agentState.hasLocalOverlay = overlay.hasAny();
-  }
-
-  function refreshAgentSelects() {
-    const assignee = document.getElementById("newTaskAssignee");
-    const kanbanAgent = document.getElementById("kanbanAgentFilter");
-    const agentOptionsHtml = agentState.agents.map((agent) => `<option value="${escapeHtml(agent.id)}">${escapeHtml(agent.name)}</option>`).join("");
-    if (assignee) {
-      const selected = assignee.value;
-      assignee.innerHTML = `<option value="">Unassigned</option>${agentOptionsHtml}`;
-      assignee.value = agentState.agents.some((agent) => agent.id === selected) ? selected : "";
-    }
-    if (kanbanAgent) {
-      const selected = kanbanAgent.value || "all";
-      kanbanAgent.innerHTML = `<option value="all">All agents</option><option value="unassigned">Unassigned only</option>${agentOptionsHtml}`;
-      kanbanAgent.value = selected === "all" || selected === "unassigned" || agentState.agents.some((agent) => agent.id === selected)
-        ? selected
-        : "all";
-    }
-  }
-
-  function syncFilterState() {
-    agentState.filters.kanbanAgent = document.getElementById("kanbanAgentFilter")?.value || "all";
-    agentState.filters.kanbanPriority = document.getElementById("kanbanPriorityFilter")?.value || "all";
-    agentState.filters.kanbanDone = document.getElementById("kanbanDoneFilter")?.value || "show";
-  }
-
-  function visibleTasks() {
-    syncFilterState();
-    return agentState.tasks.filter((task) => {
-      if (agentState.filters.kanbanAgent === "unassigned" && task.assigneeId) return false;
-      if (!["all", "unassigned"].includes(agentState.filters.kanbanAgent) && task.assigneeId !== agentState.filters.kanbanAgent) return false;
-      if (agentState.filters.kanbanPriority !== "all" && task.priority !== agentState.filters.kanbanPriority) return false;
-      if (agentState.filters.kanbanDone === "hide" && task.status === "Done") return false;
-      return true;
-    });
-  }
-
-  function renderAgentsWorkspace() {
-    renderKanban();
-    renderTodoBoard();
-    renderActivity();
-    setAgentsStatus("Operations snapshot", "green");
-    updateKanbanScrollHint();
-  }
-
-  function updateKanbanScrollHint() {
-    const hint = document.getElementById("kanbanScrollHint");
-    if (!hint) return;
-    const kanban = document.querySelector("[data-kanban]");
-    if (!kanban) return;
-    const needsScroll = kanban.scrollWidth > kanban.clientWidth + 4;
-    hint.classList.toggle("is-visible", needsScroll);
-  }
-
-  function agentOptions(selectedId) {
-    const options = [`<option value="">Unassigned</option>`].concat(agentState.agents.map((agent) => {
-      const selected = agent.id === selectedId ? " selected" : "";
-      return `<option value="${escapeHtml(agent.id)}"${selected}>${escapeHtml(agent.name)}</option>`;
-    }));
-    return options.join("");
-  }
-
-  function agentIcon(agent, className = "agent-avatar") {
-    const icon = agent?.icon;
-    if (!icon) return "";
-    const name = escapeHtml(agent.name || "Agent");
-    return `<img class="${className}" src="${escapeHtml(icon)}" alt="${name} icon" loading="lazy">`;
-  }
-
-  function statusOptions(selectedStatus) {
-    return ["To Do", "In Progress", "Done"]
-      .map((value) => `<option value="${value}"${value === selectedStatus ? " selected" : ""}>${value}</option>`)
-      .join("");
-  }
-
-  function renderTaskCard(task) {
-    const assignee = agentById(task.assigneeId);
-    const assigneeColour = escapeHtml(assignee?.colour || "#697789");
-    const ownerIcon = agentIcon(assignee);
-    const doneClass = task.status === "Done" ? " is-done" : "";
-    const localFlag = task._local ? `<span class="task-local-flag">Local</span>` : "";
-    const statuses = ["To Do", "In Progress", "Done"];
-    const statusIndex = statuses.indexOf(task.status);
-    const previousStatus = statuses[statusIndex - 1] || "";
-    const nextStatus = statuses[statusIndex + 1] || "";
-    const previousLabel = previousStatus ? `Move to ${previousStatus}` : "Already first lane";
-    const nextLabel = nextStatus ? `Move to ${nextStatus}` : "Already done";
-    return `<article class="agent-task-card${doneClass}" data-task-id="${escapeHtml(task.id)}" draggable="true" style="--agent-colour:${assigneeColour}">
-      <header class="task-title-row">
-        <h4>${escapeHtml(task.title)}</h4>
-        <span class="priority-badge is-${escapeHtml(String(task.priority || "Low").toLowerCase())}">${escapeHtml(task.priority)}</span>
-      </header>
-      <p class="task-detail">${escapeHtml(task.detail || "No detail added.")}</p>
-      <div class="task-meta">
-        <span class="task-owner">${ownerIcon}${escapeHtml(agentName(task.assigneeId))}</span>
-        <span>${localTime(task.updatedAt)}</span>
-      </div>
-      ${localFlag}
-      <label class="task-lane-picker">
-        <span>Lane</span>
-        <select class="control-select" data-task-field="status" aria-label="Move task to Kanban lane">
-          ${statusOptions(task.status)}
-        </select>
-      </label>
-      <div class="task-quick-actions" aria-label="Move task between Kanban lanes">
-        <button class="task-move-button" type="button" data-task-move="${escapeHtml(previousStatus)}" ${previousStatus ? "" : "disabled"}>${escapeHtml(previousLabel)}</button>
-        <button class="task-move-button" type="button" data-task-move="${escapeHtml(nextStatus)}" ${nextStatus ? "" : "disabled"}>${escapeHtml(nextLabel)}</button>
-      </div>
-      <details class="task-controls-toggle">
-        <summary>Controls</summary>
-        <div class="task-controls">
-          <select class="control-select" data-task-field="assigneeId" aria-label="Assign task">${agentOptions(task.assigneeId)}</select>
-          <select class="control-select" data-task-field="priority" aria-label="Set priority">
-            ${["Low", "Medium", "High"].map((value) => `<option value="${value}"${value === task.priority ? " selected" : ""}>${value}</option>`).join("")}
-          </select>
-          <button class="control-button" type="button" data-task-done ${task.status === "Done" ? "disabled" : ""}>Done</button>
-        </div>
-      </details>
-    </article>`;
-  }
-
-  function renderKanban() {
-    const lanes = ["To Do", "In Progress", "Done"];
-    const total = agentState.tasks.length;
-    const filteredTasks = visibleTasks();
-    const totalTag = document.getElementById("agentsTaskCount");
-    const sourceTag = document.getElementById("agentsTaskSource");
-    if (totalTag) {
-      totalTag.textContent = filteredTasks.length === total
-        ? `${total} task${total === 1 ? "" : "s"}`
-        : `${filteredTasks.length} shown / ${total}`;
-    }
-    if (sourceTag) {
-      const meta = agentState.taskMeta || {};
-      const sourceLabel = meta.live ? "Live Microsoft To Do" : (meta.source || "operations snapshot");
-      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${sourceLabel}`;
-      sourceTag.title = meta.note || "Live Microsoft To Do privacy-safe feed; fallback snapshot only when Graph is unavailable.";
-    }
-    lanes.forEach((lane) => {
-      const laneElement = document.querySelector(`[data-lane="${lane}"]`);
-      const tasks = filteredTasks.filter((task) => task.status === lane);
-      const count = document.querySelector(`[data-lane-count="${lane}"]`);
-      const body = document.querySelector(`[data-lane-body="${lane}"]`);
-      if (laneElement) laneElement.classList.toggle("is-highlight", tasks.length > 0);
-      if (count) {
-        count.textContent = String(tasks.length);
-        count.className = `tag ${statusTone(lane)}`.trim();
-      }
-      if (body) {
-        body.innerHTML = tasks.length
-          ? tasks.map(renderTaskCard).join("")
-          : emptyState(`No ${lane.toLowerCase()} tasks shown.`, "The lane is empty for the current filters.");
-      }
-    });
   }
 
   function renderTodoBoard() {
@@ -3999,378 +3728,45 @@ button.system-map-node {
     `;
   }
 
-  function renderActivity() {
-    const list = document.querySelector("[data-activity-list]");
-    const count = document.getElementById("activityCount");
-    if (count) count.textContent = String(agentState.activity.length);
-    if (!list) return;
-    list.innerHTML = agentState.activity.length ? agentState.activity.map((item) => {
-      const agent = agentById(item.agentId);
-      const colour = escapeHtml(agent?.colour || "#9ba8b7");
-      const localFlag = item._local ? ` <span class="task-local-flag">Local</span>` : "";
-      return `<article class="activity-item" style="--agent-colour:${colour}">
-        <div class="activity-meta"><strong>${escapeHtml(agent?.name || "System")}</strong><span>${localTime(item.at)}${localFlag}</span></div>
-        <p>${escapeHtml(item.message)}</p>
-      </article>`;
-    }).join("") : emptyState("No activity yet.", "Task changes will appear here after the first update.");
-  }
-
-  async function refreshAgentsWorkspace() {
-    setAgentsStatus("Loading", "blue");
-    setAgentsLoading();
+  async function refreshTodoFeed() {
     try {
-      const [agents, taskPayload, activity] = await Promise.all([
+      const [agents, taskPayload] = await Promise.all([
         apiJson("/api/agents"),
-        apiJson("/api/tasks"),
-        apiJson("/api/activity")
+        apiJson("/api/tasks")
       ]);
       agentState.agents = agents || [];
-      agentState.seedTasks = taskPayload?.tasks || [];
+      agentState.tasks = taskPayload?.tasks || [];
       agentState.taskMeta = taskPayload?.meta || null;
-      agentState.seedActivity = activity || [];
-      refreshAgentSelects();
-      applyOverlayState();
-      renderAgentsWorkspace();
+      renderTodoBoard();
     } catch (error) {
-      setAgentsStatus("Offline", "red");
-      const activity = document.querySelector("[data-activity-list]");
-      ["To Do", "In Progress", "Done"].forEach((lane) => {
-        const body = document.querySelector(`[data-lane-body="${lane}"]`);
-        if (body) body.innerHTML = emptyState(`${lane} unavailable.`, "Task seed data could not load.", "error", true);
-      });
-      if (activity) activity.innerHTML = emptyState("Activity feed unavailable.", error.message || "Could not load activity.", "error", true);
+      const board = document.querySelector("[data-todo-board]");
+      const status = document.getElementById("todoStatus");
+      const countTag = document.getElementById("todoTaskCount");
+      const sourceTag = document.getElementById("todoSourceTag");
+      if (status) {
+        status.textContent = "Offline";
+        status.className = "tag red";
+      }
+      if (countTag) countTag.textContent = "0 tasks";
+      if (sourceTag) sourceTag.textContent = "Feed unavailable";
+      if (board) board.innerHTML = emptyState("To Do feed unavailable.", error.message || "Could not load Microsoft To Do tasks.", "error");
       throw error;
     }
   }
 
-  async function patchTask(taskId, body) {
-    const existing = agentState.tasks.find((item) => item.id === taskId);
-    const payload = await apiJson(`/api/tasks/${encodeURIComponent(taskId)}`, {
-      method: "PATCH",
-      body: JSON.stringify(body)
-    });
-    if (isServerlessWrite(payload) || existing?._local) {
-      overlay.patchTask(taskId, body);
-      overlay.addActivity({
-        agentId: body.assigneeId || existing?.assigneeId || null,
-        type: "task_updated",
-        message: `Updated "${existing?.title || "task"}" in the browser overlay.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-      return;
-    }
-    await refreshAgentsWorkspace();
-  }
-
-  async function moveTaskToStatus(taskId, status) {
-    if (!["To Do", "In Progress", "Done"].includes(status)) return;
-    const existing = agentState.tasks.find((item) => item.id === taskId);
-    if (!existing || existing.status === status) return;
-    await patchTask(taskId, { status });
-  }
-
-  document.querySelector("[data-screen='agents']")?.addEventListener("change", async (event) => {
-    const select = event.target.closest("[data-task-field]");
-    if (!select) return;
-    const card = select.closest("[data-task-id]");
-    if (!card) return;
-    const field = select.dataset.taskField;
-    const value = field === "assigneeId" && select.value === "" ? null : select.value;
-    try {
-      await patchTask(card.dataset.taskId, { [field]: value });
-    } catch (error) {
-      const existing = agentState.tasks.find((item) => item.id === card.dataset.taskId);
-      overlay.patchTask(card.dataset.taskId, { [field]: value });
-      overlay.addActivity({
-        agentId: field === "assigneeId" ? value : existing?.assigneeId || null,
-        type: "task_updated",
-        message: `Cached "${existing?.title || "task"}" update in this browser after the API write failed.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-    }
-  });
-
-  document.querySelector("[data-screen='agents']")?.addEventListener("click", async (event) => {
-    const moveButton = event.target.closest("[data-task-move]");
-    if (moveButton) {
-      const card = moveButton.closest("[data-task-id]");
-      const status = moveButton.dataset.taskMove;
-      if (!card || !status) return;
-      moveButton.disabled = true;
-      try {
-        await moveTaskToStatus(card.dataset.taskId, status);
-      } catch (error) {
-        const existing = agentState.tasks.find((item) => item.id === card.dataset.taskId);
-        overlay.patchTask(card.dataset.taskId, { status });
-        overlay.addActivity({
-          agentId: existing?.assigneeId || null,
-          type: "task_updated",
-          message: `Moved "${existing?.title || "task"}" to ${status} in this browser after the API write failed.`
-        });
-        applyOverlayState();
-        renderAgentsWorkspace();
-      }
-      return;
-    }
-
-    const button = event.target.closest("[data-task-done]");
-    if (!button) return;
-    const card = button.closest("[data-task-id]");
-    if (!card) return;
-    const task = agentState.tasks.find((item) => item.id === card.dataset.taskId);
-    button.disabled = true;
-    try {
-      const payload = await apiJson(`/api/tasks/${encodeURIComponent(card.dataset.taskId)}/done`, {
-        method: "POST",
-        body: JSON.stringify({ agentId: task?.assigneeId || null })
-      });
-      if (isServerlessWrite(payload) || task?._local) {
-        overlay.patchTask(card.dataset.taskId, { status: "Done" });
-        overlay.addActivity({
-          agentId: task?.assigneeId || null,
-          type: "task_done",
-          message: `Marked "${task?.title || "task"}" done in the browser overlay.`
-        });
-        applyOverlayState();
-        renderAgentsWorkspace();
-      } else {
-        await refreshAgentsWorkspace();
-      }
-    } catch (error) {
-      overlay.patchTask(card.dataset.taskId, { status: "Done" });
-      overlay.addActivity({
-        agentId: task?.assigneeId || null,
-        type: "task_done",
-        message: `Cached "${task?.title || "task"}" as done in this browser after the API write failed.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-    }
-  });
-
-  document.querySelector("[data-screen='agents']")?.addEventListener("dragstart", (event) => {
-    const card = event.target.closest("[data-task-id]");
-    if (!card) return;
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", card.dataset.taskId);
-    card.classList.add("is-dragging");
-  });
-
-  document.querySelector("[data-screen='agents']")?.addEventListener("dragend", (event) => {
-    event.target.closest("[data-task-id]")?.classList.remove("is-dragging");
-    clearKanbanDropTargets();
-  });
-
-  function clearKanbanDropTargets() {
-    document.querySelectorAll(".agent-lane.is-drop-target").forEach((lane) => lane.classList.remove("is-drop-target"));
-  }
-
-  function kanbanLaneAtPoint(x, y) {
-    const element = document.elementFromPoint(x, y);
-    return element?.closest?.("[data-lane]") || null;
-  }
-
-  document.querySelector("[data-kanban]")?.addEventListener("dragover", (event) => {
-    const lane = event.target.closest("[data-lane]");
-    if (!lane) return;
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-    document.querySelectorAll(".agent-lane.is-drop-target").forEach((item) => {
-      if (item !== lane) item.classList.remove("is-drop-target");
-    });
-    lane.classList.add("is-drop-target");
-  });
-
-  document.querySelector("[data-kanban]")?.addEventListener("dragleave", (event) => {
-    const lane = event.target.closest("[data-lane]");
-    if (!lane || lane.contains(event.relatedTarget)) return;
-    lane.classList.remove("is-drop-target");
-  });
-
-  document.querySelector("[data-kanban]")?.addEventListener("drop", async (event) => {
-    const lane = event.target.closest("[data-lane]");
-    if (!lane) return;
-    event.preventDefault();
-    lane.classList.remove("is-drop-target");
-    const taskId = event.dataTransfer.getData("text/plain");
-    if (!taskId) return;
-    try {
-      await moveTaskToStatus(taskId, lane.dataset.lane);
-    } catch (error) {
-      const existing = agentState.tasks.find((item) => item.id === taskId);
-      overlay.patchTask(taskId, { status: lane.dataset.lane });
-      overlay.addActivity({
-        agentId: existing?.assigneeId || null,
-        type: "task_updated",
-        message: `Dropped "${existing?.title || "task"}" into ${lane.dataset.lane} in this browser after the API write failed.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-    }
-  });
-
-  const touchDrag = {
-    card: null,
-    taskId: "",
-    pointerId: null,
-    startX: 0,
-    startY: 0,
-    dragging: false
-  };
-
-  document.querySelector("[data-kanban]")?.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "mouse") return;
-    if (event.target.closest("button, select, summary, details, a, input, textarea")) return;
-    const card = event.target.closest("[data-task-id]");
-    if (!card) return;
-    touchDrag.card = card;
-    touchDrag.taskId = card.dataset.taskId || "";
-    touchDrag.pointerId = event.pointerId;
-    touchDrag.startX = event.clientX;
-    touchDrag.startY = event.clientY;
-    touchDrag.dragging = false;
-    try {
-      card.setPointerCapture?.(event.pointerId);
-    } catch (error) {
-      // Some mobile browsers and synthetic tests do not expose pointer capture for touch.
-    }
-  });
-
-  document.querySelector("[data-kanban]")?.addEventListener("pointermove", (event) => {
-    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
-    const deltaX = Math.abs(event.clientX - touchDrag.startX);
-    const deltaY = Math.abs(event.clientY - touchDrag.startY);
-    if (!touchDrag.dragging && Math.max(deltaX, deltaY) < 12) return;
-    event.preventDefault();
-    touchDrag.dragging = true;
-    touchDrag.card.classList.add("is-dragging");
-    const lane = kanbanLaneAtPoint(event.clientX, event.clientY);
-    clearKanbanDropTargets();
-    lane?.classList.add("is-drop-target");
-  });
-
-  document.querySelector("[data-kanban]")?.addEventListener("pointerup", async (event) => {
-    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
-    const { card, taskId, dragging } = touchDrag;
-    const lane = dragging ? kanbanLaneAtPoint(event.clientX, event.clientY) : null;
-    const deltaX = event.clientX - touchDrag.startX;
-    const deltaY = event.clientY - touchDrag.startY;
-    const task = agentState.tasks.find((item) => item.id === taskId);
-    const statuses = ["To Do", "In Progress", "Done"];
-    const currentIndex = statuses.indexOf(task?.status);
-    let targetStatus = lane?.dataset.lane || "";
-    if (!targetStatus && dragging && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 32 && currentIndex >= 0) {
-      targetStatus = statuses[currentIndex + (deltaX > 0 ? 1 : -1)] || "";
-    }
-    try {
-      card.releasePointerCapture?.(event.pointerId);
-    } catch (error) {
-      // Ignore unsupported pointer capture release.
-    }
-    card.classList.remove("is-dragging");
-    clearKanbanDropTargets();
-    touchDrag.card = null;
-    touchDrag.taskId = "";
-    touchDrag.pointerId = null;
-    touchDrag.dragging = false;
-    if (!dragging || !targetStatus || !taskId) return;
-    event.preventDefault();
-    try {
-      await moveTaskToStatus(taskId, targetStatus);
-    } catch (error) {
-      overlay.patchTask(taskId, { status: targetStatus });
-      overlay.addActivity({
-        agentId: task?.assigneeId || null,
-        type: "task_updated",
-        message: `Moved "${task?.title || "task"}" to ${targetStatus} in this browser after the API write failed.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-    }
-  });
-
-  document.querySelector("[data-kanban]")?.addEventListener("pointercancel", (event) => {
-    if (touchDrag.pointerId !== event.pointerId || !touchDrag.card) return;
-    touchDrag.card.classList.remove("is-dragging");
-    clearKanbanDropTargets();
-    touchDrag.card = null;
-    touchDrag.taskId = "";
-    touchDrag.pointerId = null;
-    touchDrag.dragging = false;
-  });
-
-  document.querySelector("[data-screen='agents']")?.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-agents-retry]")) return;
-    refreshAgentsWorkspace().catch((error) => console.error(error));
-  });
-
-  ["kanbanAgentFilter", "kanbanPriorityFilter", "kanbanDoneFilter"].forEach((id) => {
-    document.getElementById(id)?.addEventListener("change", () => {
-      renderKanban();
-    });
-  });
-
-  document.getElementById("newTaskForm")?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const state = document.getElementById("newTaskState");
-    const body = {
-      title: form.elements.title.value.trim(),
-      priority: form.elements.priority.value,
-      status: form.elements.status.value,
-      assigneeId: form.elements.assigneeId.value || null
-    };
-    if (!body.title) return;
-    if (state) state.textContent = "Adding...";
-    try {
-      const payload = await apiJson("/api/tasks", {
-        method: "POST",
-        body: JSON.stringify(body)
-      });
-      if (isServerlessWrite(payload)) {
-        overlay.addTask({ ...payload, _local: true });
-        overlay.addActivity({
-          agentId: payload.assigneeId || null,
-          type: "task_created",
-          message: `Added "${payload.title}" in the browser overlay.`
-        });
-        applyOverlayState();
-        renderAgentsWorkspace();
-      } else {
-        await refreshAgentsWorkspace();
-      }
-      form.reset();
-      if (state) state.textContent = "Added.";
-    } catch (error) {
-      const fallback = {
-        id: `local-task-${Date.now()}`,
-        title: body.title.slice(0, 160),
-        detail: "",
-        status: body.status,
-        priority: body.priority,
-        assigneeId: body.assigneeId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        _local: true
-      };
-      overlay.addTask(fallback);
-      overlay.addActivity({
-        agentId: fallback.assigneeId,
-        type: "task_created",
-        message: `Cached "${fallback.title}" in this browser after the API write failed.`
-      });
-      applyOverlayState();
-      renderAgentsWorkspace();
-      form.reset();
-      if (state) state.textContent = "Added locally.";
-    }
-  });
-
   function normaliseHash(hash) {
     const candidate = (hash || "").replace("#", "").trim().toLowerCase();
     return validSections.has(candidate) ? candidate : "dashboard";
+  }
+
+  function activateHashRoute() {
+    const hash = window.location.hash || "";
+    const candidate = hash.replace("#", "").trim().toLowerCase();
+    const section = normaliseHash(hash);
+    setActive(section, false);
+    if (candidate && !validSections.has(candidate) && window.location.hash !== `#${section}`) {
+      history.replaceState(null, "", `#${section}`);
+    }
   }
 
   function setActive(section, updateHash = true) {
@@ -4413,7 +3809,7 @@ button.system-map-node {
   });
 
   window.addEventListener("hashchange", () => {
-    setActive(normaliseHash(window.location.hash), false);
+    activateHashRoute();
   });
 
   commandInput.addEventListener("keydown", (event) => {
@@ -4441,16 +3837,7 @@ button.system-map-node {
 
   refreshFinanceButton?.addEventListener("click", loadFinanceFeed);
   document.getElementById("refreshTodoData")?.addEventListener("click", () => {
-    refreshAgentsWorkspace().catch((error) => console.error(error));
-  });
-
-  let resizeFrame = null;
-  window.addEventListener("resize", () => {
-    if (resizeFrame) cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(() => {
-      updateKanbanScrollHint();
-      resizeFrame = null;
-    });
+    refreshTodoFeed().catch((error) => console.error(error));
   });
 
   function renderSystemMap() {
@@ -4573,15 +3960,15 @@ button.system-map-node {
 
   renderSafeSummary();
   renderSystemMap();
-  setActive(normaliseHash(window.location.hash), false);
+  activateHashRoute();
   loadJournalFeed();
   loadFinanceFeed();
   loadLegalWorkFeed();
-  refreshAgentsWorkspace().catch((error) => {
+  refreshTodoFeed().catch((error) => {
     console.error(error);
   });
   setInterval(() => {
-    refreshAgentsWorkspace().catch((error) => console.error(error));
+    refreshTodoFeed().catch((error) => console.error(error));
   }, 5 * 60 * 1000);
 })();
 </script>

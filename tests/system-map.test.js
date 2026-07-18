@@ -413,33 +413,6 @@ test("launcher render code opens external sites in a new tab with noopener noref
   );
 });
 
-test("Kanban cards expose button and touch move paths", () => {
-  assert.ok(
-    indexHtml.includes('class="task-lane-picker"'),
-    "Kanban cards must show an always-visible lane selector"
-  );
-  assert.ok(
-    indexHtml.includes('aria-label="Move task to Kanban lane"'),
-    "The always-visible lane selector must be labelled for mobile and keyboard users"
-  );
-  assert.ok(
-    indexHtml.includes('data-task-move="${escapeHtml(previousStatus)}"'),
-    "Kanban cards must keep visible previous-lane move buttons"
-  );
-  assert.ok(
-    indexHtml.includes('data-task-move="${escapeHtml(nextStatus)}"'),
-    "Kanban cards must keep visible next-lane move buttons"
-  );
-  assert.ok(
-    indexHtml.includes('addEventListener("pointerdown"'),
-    "Kanban must support touch/pointer dragging for phones"
-  );
-  assert.ok(
-    indexHtml.includes("kanbanLaneAtPoint"),
-    "Touch dragging must resolve the lane under the user's finger"
-  );
-});
-
 test("Kanban seed uses a current privacy-safe operations snapshot", () => {
   assert.ok(taskData.meta?.generatedAt, "task seed data must expose a snapshot timestamp");
   assert.ok(
