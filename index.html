@@ -4147,7 +4147,7 @@ button.system-map-node {
     try {
       const [agents, taskPayload, activity] = await Promise.all([
         apiJson("/api/agents"),
-        apiJson(uncachedUrl("/api/tasks")),
+        apiJson("/api/tasks"),
         apiJson("/api/activity")
       ]);
       agentState.agents = agents || [];
