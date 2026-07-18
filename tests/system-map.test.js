@@ -203,6 +203,9 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="memory"'), "Memory must be a dedicated section");
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
   assert.ok(indexHtml.includes('<h2 id="memory-title">Memory</h2>'), "Memory heading must remain");
+  ["#journal", "#dashboard", "#agents", "#documents"].forEach((href) => {
+    assert.ok(indexHtml.includes(`href="${href}"`), `Memory screen must include clickable ${href} link`);
+  });
   assert.equal(indexHtml.includes("Memory Lanes Categories"), false, "Memory lanes categories subsection must not appear");
   assert.equal(indexHtml.includes("Memory lanes"), false, "Memory lanes tile must not appear");
   assert.equal(indexHtml.includes("Memory sources"), false, "Memory sources panel must not appear");

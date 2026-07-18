@@ -1016,6 +1016,10 @@ a.mini-card:focus-visible {
   gap: 8px;
 }
 
+.memory-actions {
+  margin-top: 8px;
+}
+
 .kpi-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2965,6 +2969,12 @@ button.system-map-node {
 
     <section class="screen" id="memory" data-screen="memory" aria-labelledby="memory-title">
       <div class="section-title"><div><h2 id="memory-title">Memory</h2></div></div>
+      <div class="pillar-actions memory-actions" aria-label="Memory links">
+        <a class="button primary" href="#journal">Open journal</a>
+        <a class="button" href="#dashboard">Current status</a>
+        <a class="button" href="#agents">Agent updates</a>
+        <a class="button" href="#documents">Documents</a>
+      </div>
     </section>
 
     <section class="screen" id="journal" data-screen="journal" aria-labelledby="journal-title">
