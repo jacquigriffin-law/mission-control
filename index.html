@@ -824,6 +824,12 @@ a.mini-card:focus-visible {
   border-bottom: 0;
 }
 
+.finance-table .total-row td {
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  font-weight: 800;
+}
+
 .forecast-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3823,6 +3829,21 @@ a.agent-status-card:focus-visible.is-nav::after {
       .join("; ");
   }
 
+  function totalBreakdown(rows, key) {
+    const totals = new Map();
+    rows.forEach((row) => {
+      const items = Array.isArray(row?.[key]) ? row[key] : [];
+      items.forEach((item) => {
+        const label = item.label || item.jurisdiction;
+        const count = Number(item.count) || 0;
+        if (!label || count <= 0) return;
+        totals.set(label, (totals.get(label) || 0) + count);
+      });
+    });
+    return Array.from(totals, ([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+  }
+
   function renderMatterTrends() {
     const openedContainer = document.querySelector("[data-matter-opened-trends]");
     const incomeContainer = document.querySelector("[data-matter-income-trends]");
@@ -3835,10 +3856,17 @@ a.agent-status-card:focus-visible.is-nav::after {
         <td>${escapeHtml(compactBreakdown(item.byType, "label", "count"))}</td>
         <td>${escapeHtml(compactBreakdown(item.byJurisdiction, "jurisdiction", "count"))}</td>
       </tr>`).join("");
+      const totalRow = openedRows.length ? `<tr class="total-row">
+        <td>Total</td>
+        <td>${countText(openedRows.reduce((sum, item) => sum + (Number(item.openedCount) || 0), 0))}</td>
+        <td>${escapeHtml(compactBreakdown(totalBreakdown(openedRows, "byType"), "label", "count"))}</td>
+        <td>${escapeHtml(compactBreakdown(totalBreakdown(openedRows, "byJurisdiction"), "label", "count"))}</td>
+      </tr>` : "";
       openedContainer.innerHTML = `
         <table class="finance-table">
           <thead><tr><th scope="col">Month</th><th scope="col">Opened</th><th scope="col">Type</th><th scope="col">NSW / NT</th></tr></thead>
           <tbody>${rows || `<tr><td colspan="4">No last-12-month LEAP opening trend loaded.</td></tr>`}</tbody>
+          ${totalRow ? `<tfoot>${totalRow}</tfoot>` : ""}
         </table>
         <p class="todo-board-note">${escapeHtml(trends.period?.basis || "Currently open LEAP matters only.")}</p>
       `;

@@ -193,6 +193,8 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
   assert.ok(section.includes("Open Matters last 12 months"), "Matters screen must use Jacqui's open matters heading");
   assert.equal(section.includes("Opened matters, last 12 months"), false, "Matters screen must not use the old opened matters heading");
+  assert.ok(indexHtml.includes("totalBreakdown(openedRows"), "Matters opened trend table must calculate a totals row from displayed months");
+  assert.ok(indexHtml.includes('<td>Total</td>'), "Matters opened trend table must render a totals row at the end");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
   assert.ok(section.includes("Legal Aid income by month and jurisdiction"), "Matters screen must label Legal Aid income by month and jurisdiction");
   assert.equal(section.includes("mattersLiveStatus"), false, "Matters section header must not render a live status badge");
