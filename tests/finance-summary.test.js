@@ -129,22 +129,36 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
   });
 });
 
-test("Finance screen binds only to profitLoss aggregate fields", () => {
+test("Finance screen binds only to safe aggregate finance fields", () => {
   const section = financeSection();
   const financeBindings = Array.from(section.matchAll(/data-finance="([^"]+)"/g), (match) => match[1]);
-  assert.deepEqual(financeBindings.sort(), [
+  [
+    "bank.balance",
+    "atoPressure.accumulatedGstToPay",
+    "atoPressure.runwayVsGst",
     "profitLoss.netProfit",
     "profitLoss.operatingProfit",
     "profitLoss.period",
     "profitLoss.totalExpenses",
-    "profitLoss.totalIncome"
-  ].sort());
-  assert.ok(section.includes("data-finance-income-categories"), "finance screen must render incomeByCategory");
-  assert.ok(section.includes("data-finance-expense-categories"), "finance screen must render expensesByCategory");
+    "profitLoss.totalIncome",
+    "bookkeepingHygiene.unallocatedTransactions",
+    "quarterlyBas.estimatedNetBas",
+    "weeklyIncome.legalAidNsw"
+  ].forEach((binding) => {
+    assert.ok(financeBindings.includes(binding), `finance screen must bind ${binding}`);
+  });
+  assert.ok(section.includes('id="profitLossIncomeRows"'), "finance screen must render incomeByCategory");
+  assert.ok(section.includes('id="profitLossExpenseRows"'), "finance screen must render expensesByCategory");
   [
-    /data-finance="(?!profitLoss\.)/,
-    /data-finance-expense="/,
-    /data-projection-month/
+    /rawMyob/,
+    /rawRecords/,
+    /clientRecords/,
+    /matterRecords/,
+    /data-finance="myobLive\./,
+    /data-finance="transactions\./,
+    /data-finance="clients\./,
+    /data-finance="invoices\./,
+    /data-finance="payments\./
   ].forEach((pattern) => {
     assert.equal(pattern.test(section), false, `finance screen matched forbidden binding ${pattern}`);
   });

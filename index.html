@@ -3020,9 +3020,9 @@ a.agent-status-card:focus-visible.is-nav::after {
     </section>
 
     <section class="screen" id="finance" data-screen="finance" aria-labelledby="finance-title">
-      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus profit and loss view. Aggregate figures only — no client, invoice, payment line, matter or transaction detail.</p></div><span class="tag blue" id="financeLiveStatus">Loading</span></div>
+      <div class="section-title"><div><h2 id="finance-title">Finance</h2><p>Plutus view for cash, GST/BAS commitments, ATO pressure and bookkeeping hygiene. Aggregate figures only — no client, invoice or transaction detail.</p></div><span class="tag blue" id="financeLiveStatus">Loading</span></div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Live finance feed</h3><p>Privacy-safe Profit and Loss aggregate loaded from the Mission Control finance API.</p></div><button class="button" type="button" id="refreshFinanceData">Refresh</button></div>
+        <div class="panel-head"><div><h3>Live finance feed</h3><p>Aggregate figures loaded from the Mission Control finance API.</p></div><button class="button" type="button" id="refreshFinanceData">Refresh</button></div>
         <div class="panel-body">
           <p class="finance-live-note" id="financeLiveNote">Loading the aggregate finance feed…</p>
         </div>
@@ -3041,20 +3041,136 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div class="screen-grid">
             <div>
               <h4>Income categories</h4>
-              <div class="list" data-finance-income-categories><p class="empty-state">No income categories loaded.</p></div>
+              <div class="list" id="profitLossIncomeRows"><p class="empty-state">No income categories loaded.</p></div>
             </div>
             <div>
               <h4>Expense categories</h4>
-              <div class="list" data-finance-expense-categories><p class="empty-state">No expense categories loaded.</p></div>
+              <div class="list" id="profitLossExpenseRows"><p class="empty-state">No expense categories loaded.</p></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="panel">
-        <div class="panel-head"><div><h3>Finance source boundary</h3><p>What this page will and will not display.</p></div></div>
-        <div class="panel-body"><p class="empty-state">Only Profit and Loss aggregate fields are rendered here. Client names, invoices, payment lines, matter details and transaction details stay out of Mission Control.</p></div>
+      <div class="screen-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Cash vs GST/BAS commitments</h3><p>The first finance question: what is available against what must be kept aside.</p></div><span class="tag red">ATO focus</span></div>
+          <div class="panel-body">
+            <div class="tax-return-grid">
+              <article class="metric-card"><span>Operating cash</span><strong data-finance="bank.balance">—</strong></article>
+              <article class="metric-card critical"><span>Accumulated GST to pay</span><strong data-finance="atoPressure.accumulatedGstToPay">—</strong></article>
+              <article class="metric-card critical"><span>Runway vs GST</span><strong data-finance="atoPressure.runwayVsGst">—</strong></article>
+              <article class="metric-card"><span>Overdue invoices</span><strong data-finance="receivables.overdueInvoices" data-finance-format="plain">—</strong></article>
+            </div>
+            <p class="finance-live-note">Runway is operating cash less accumulated GST. It is a decision-support indicator, not accounting advice.</p>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="panel-head"><div><h3>ATO strip</h3><p>Current quarter, carried GST and income-tax estimate placeholders.</p></div></div>
+          <div class="panel-body list">
+            <div class="row"><div><strong>This quarter GST</strong><span>Current BAS net payable/refund where available.</span></div><span class="tag" data-finance="atoPressure.quarterGstPayable">—</span></div>
+            <div class="row"><div><strong>Carried GST pressure</strong><span>Dashboard GST less current-quarter estimate where available.</span></div><span class="tag red" data-finance="atoPressure.carriedGstToPay">—</span></div>
+            <div class="row"><div><strong>FY2026 tax estimate</strong><span>Placeholder range from operating profit; not tax advice.</span></div><span class="tag amber" data-finance="atoPressure.incomeTaxEstimate.range" data-finance-format="plain">—</span></div>
+          </div>
+        </aside>
       </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>Bookkeeping hygiene</h3><p>Plutus daily cleanup strip from MYOB dashboard fields.</p></div><span class="tag amber">Action strip</span></div>
+        <div class="panel-body kpi-strip">
+          <article class="kpi-tile"><span>Unallocated total</span><strong data-finance="bookkeepingHygiene.unallocatedTransactions" data-finance-format="plain">—</strong><small>Bank/feed items needing allocation</small></article>
+          <article class="kpi-tile"><span>Unallocated bank</span><strong data-finance="bookkeepingHygiene.unallocatedBank" data-finance-format="plain">—</strong><small>Bank transactions</small></article>
+          <article class="kpi-tile"><span>Documents uploaded</span><strong data-finance="bookkeepingHygiene.documentsInUploads" data-finance-format="plain">—</strong><small>Documents awaiting processing</small></article>
+          <article class="kpi-tile"><span>Last reconciled</span><strong data-finance="bookkeepingHygiene.daysSinceReconciled" data-finance-format="plain">—</strong><small>Days or pending source</small></article>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>BAS timeline</h3><p>Quarter-by-quarter view replaces the old straight-line monthly projection as the main decision surface.</p></div><span class="tag blue">Timeline</span></div>
+        <div class="panel-body timeline-strip" id="basTimeline">
+          <article class="timeline-tile"><strong>Q1</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q2</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q3</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+          <article class="timeline-tile"><strong>Q4</strong><span>Awaiting feed</span><small>Due date pending</small></article>
+        </div>
+      </div>
+      <div class="screen-grid">
+        <div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Weekly income split</h3><p>MYOB year-to-date cash-basis averages from visible profit and loss accounts.</p></div><span class="tag green">MYOB live</span></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Legal Aid NSW</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNsw">—</span></div>
+              <div class="row"><div><strong>Legal Aid NT</strong><span>Weekly received or billable income.</span></div><span class="tag" data-finance="weeklyIncome.legalAidNt">—</span></div>
+              <div class="row"><div><strong>Private matters</strong><span>Weekly private client income.</span></div><span class="tag" data-finance="weeklyIncome.privateMatters">—</span></div>
+              <div class="row"><div><strong>Business total</strong><span>All MYOB income accounts averaged weekly.</span></div><span class="tag blue" data-finance="weeklyIncome.businessTotal">—</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Weekly expense outline</h3><p>MYOB year-to-date expenses grouped into operating categories.</p></div></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Accounting, bank fees and tax agent</strong><span>Bank charges, bookkeeping, accounting and lodgement support.</span></div><span class="tag" data-finance-expense="Accounting, bank fees and tax agent">—</span></div>
+              <div class="row"><div><strong>Office, software and subscriptions</strong><span>Practice systems, cloud services, stationery and office running costs.</span></div><span class="tag" data-finance-expense="Office, software and subscriptions">—</span></div>
+              <div class="row"><div><strong>Motor vehicle, travel and parking</strong><span>Client visits, court travel, parking and related practice travel.</span></div><span class="tag" data-finance-expense="Motor vehicle, travel and parking">—</span></div>
+              <div class="row"><div><strong>Insurance, licences and professional costs</strong><span>Practising costs, cover, memberships, CPD and professional services.</span></div><span class="tag" data-finance-expense="Insurance, licences and professional costs">—</span></div>
+              <div class="row"><div><strong>Phone, internet and communications</strong><span>Mobile, internet, calling platforms and client communication tools.</span></div><span class="tag" data-finance-expense="Phone, internet and communications">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Quarterly BAS</h3><p>GST return summary from MYOB, with dashboard GST pressure noted in the status.</p></div><span class="tag green">MYOB live</span></div>
+            <div class="panel-body list">
+              <div class="row"><div><strong>Quarter</strong><span>Current BAS period.</span></div><span class="tag" data-finance="quarterlyBas.quarter">—</span></div>
+              <div class="row"><div><strong>GST collected</strong><span>Requires MYOB, bank or finance report input.</span></div><span class="tag" data-finance="quarterlyBas.gstCollected">—</span></div>
+              <div class="row"><div><strong>GST paid</strong><span>Requires categorised expense source data.</span></div><span class="tag" data-finance="quarterlyBas.gstPaid">—</span></div>
+              <div class="row"><div><strong>Estimated net BAS</strong><span>Aggregate MYOB GST return value where available.</span></div><span class="tag" data-finance="quarterlyBas.estimatedNetBas">—</span></div>
+              <div class="row"><div><strong>Lodgement status</strong><span>Needs source report confirmation before display.</span></div><span class="tag amber" data-finance="quarterlyBas.lodgementStatus">Pending feed</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Finance source boundary</h3><p>What this page will and will not display.</p></div></div>
+            <div class="panel-body"><p class="empty-state">Aggregate finance figures come from the server-side feed. No credentials, raw MYOB records, invoices, client names or matter facts are rendered on this page.</p></div>
+          </div>
+        </aside>
+      </div>
+
+      <details class="summary-details">
+        <summary><span>2025 tax return baseline</span><span class="tag amber">Private baseline</span></summary>
+        <div class="panel-body tax-return-grid">
+          <article class="metric-card"><span>Business income</span><strong data-finance="taxReturn2025.annualBusinessIncome">—</strong></article>
+          <article class="metric-card"><span>Business expenses</span><strong data-finance="taxReturn2025.annualBusinessExpenses">—</strong></article>
+          <article class="metric-card"><span>Net small business</span><strong data-finance="taxReturn2025.netSmallBusinessIncome">—</strong></article>
+          <article class="metric-card"><span>Taxable income</span><strong data-finance="taxReturn2025.taxableIncome">—</strong></article>
+          <article class="metric-card"><span>Estimated tax</span><strong data-finance="taxReturn2025.estimatedTaxPayable">—</strong></article>
+          <article class="metric-card"><span>Rental income</span><strong data-finance="taxReturn2025.rentalIncome">—</strong></article>
+          <article class="metric-card"><span>Rental expenses</span><strong data-finance="taxReturn2025.rentalExpenses">—</strong></article>
+          <article class="metric-card"><span>Net rental loss</span><strong data-finance="taxReturn2025.netRentalLoss">—</strong></article>
+          <article class="metric-card"><span>Net capital gain</span><strong data-finance="taxReturn2025.netCapitalGain">—</strong></article>
+          <article class="metric-card"><span>Source email date</span><strong data-finance="taxReturn2025.sourceEmailDate" data-finance-format="plain">—</strong></article>
+          <article class="metric-card wide"><span>Source attachment</span><strong data-finance="taxReturn2025.sourceAttachment" data-finance-format="plain">—</strong></article>
+        </div>
+      </details>
+
+      <details class="summary-details">
+        <summary><span>12-month income/expense projection</span><span class="tag">Secondary</span></summary>
+        <div class="panel-body mini-grid">
+          <article class="mini-card" data-projection-month="Jul"><strong>Jul</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Aug"><strong>Aug</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Sep"><strong>Sep</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Oct"><strong>Oct</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Nov"><strong>Nov</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Dec"><strong>Dec</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Jan"><strong>Jan</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Feb"><strong>Feb</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Mar"><strong>Mar</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Apr"><strong>Apr</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="May"><strong>May</strong><p>Income —<br>Expenses —</p></article>
+          <article class="mini-card" data-projection-month="Jun"><strong>Jun</strong><p>Income —<br>Expenses —</p></article>
+        </div>
+      </details>
 
     </section>
 
