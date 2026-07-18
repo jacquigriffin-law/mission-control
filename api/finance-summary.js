@@ -92,7 +92,8 @@ const DEFAULT_SUMMARY = {
       { funding: "Private funded", count: null },
       { funding: "Mixed or unknown", count: null }
     ]
-  }
+  },
+  actions: []
 };
 
 function sendJson(response, status, body) {
@@ -103,6 +104,7 @@ function sendJson(response, status, body) {
 }
 
 function roundMoney(value) {
+  if (value === null || value === undefined || value === "") return null;
   const number = Number(value);
   if (!Number.isFinite(number)) return null;
   return Math.round(number * 100) / 100;
@@ -126,6 +128,174 @@ function safeProfitLoss(profitLoss) {
       amount: roundMoney(item?.amount)
     })).filter((item) => item.category && item.amount !== null)
   };
+}
+
+function cleanActionText(value, maxLength) {
+  return String(value || "")
+    .replace(/client/gi, "private party")
+    .replace(/invoice/gi, "billing item")
+    .replace(/transaction/gi, "item")
+    .replace(/payment/gi, "amount")
+    .replace(/matter/gi, "work item")
+    .replace(/raw/gi, "source-level")
+    .replace(/filename/gi, "source label")
+    .slice(0, maxLength);
+}
+
+function safeAction(action) {
+  return {
+    id: String(action.id || "").slice(0, 48),
+    title: cleanActionText(action.title, 90),
+    detail: cleanActionText(action.detail, 180),
+    priority: ["critical", "high", "medium", "low"].includes(action.priority) ? action.priority : "low",
+    status: cleanActionText(action.status || "open", 48),
+    source: String(action.source || "aggregate").slice(0, 64),
+    amount: action.amount === undefined ? null : roundMoney(action.amount),
+    dueDate: action.dueDate ? String(action.dueDate).slice(0, 32) : null,
+    metric: cleanActionText(action.metric, 80)
+  };
+}
+
+function buildFinanceActions(summary) {
+  const actions = [];
+  const ato = summary.atoPressure || {};
+  const hygiene = summary.bookkeepingHygiene || {};
+  const bas = summary.quarterlyBas || {};
+  const basTimeline = Array.isArray(summary.basTimeline) ? summary.basTimeline : [];
+  const sourceStatus = [summary.sourceStatus, summary.staleness].filter(Boolean).join("; ");
+
+  if (Number.isFinite(Number(ato.runwayVsGst)) && Number(ato.runwayVsGst) < 0) {
+    actions.push({
+      id: "gst-runway-shortfall",
+      title: "Protect GST cash shortfall",
+      detail: "Operating cash is below accumulated GST shown by the finance feed.",
+      priority: "critical",
+      status: "Needs plan",
+      source: "atoPressure",
+      amount: Math.abs(Number(ato.runwayVsGst)),
+      metric: "Runway vs GST"
+    });
+  } else if (Number.isFinite(Number(ato.accumulatedGstToPay)) && Number(ato.accumulatedGstToPay) > 0) {
+    actions.push({
+      id: "gst-reserve-watch",
+      title: "Keep GST reserve visible",
+      detail: "Accumulated GST to pay is present in the dashboard and should remain separated from operating cash.",
+      priority: "high",
+      status: "Monitor",
+      source: "atoPressure",
+      amount: ato.accumulatedGstToPay,
+      metric: "Accumulated GST"
+    });
+  }
+
+  if (Number.isFinite(Number(ato.carriedGstToPay)) && Number(ato.carriedGstToPay) > 0) {
+    actions.push({
+      id: "carried-gst-pressure",
+      title: "Check carried GST pressure",
+      detail: "Carried GST pressure remains above the current-quarter estimate.",
+      priority: Number(ato.carriedGstToPay) > 10000 ? "high" : "medium",
+      status: "Review",
+      source: "atoPressure",
+      amount: ato.carriedGstToPay,
+      metric: "Carried GST"
+    });
+  }
+
+  const today = new Date();
+  const todayUtc = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+  const nextBasTimelineItem = basTimeline
+    .filter((item) => item && item.dueDate && !/lodged|paid|complete/i.test(String(item.status || "")))
+    .map((item) => ({
+      ...item,
+      daysFromToday: Math.round((Date.parse(`${item.dueDate}T00:00:00Z`) - todayUtc) / 86400000)
+    }))
+    .filter((item) => Number.isFinite(item.daysFromToday))
+    .sort((a, b) => {
+      const aPastPenalty = a.daysFromToday < -30 ? 10000 : 0;
+      const bPastPenalty = b.daysFromToday < -30 ? 10000 : 0;
+      return (aPastPenalty + Math.abs(a.daysFromToday)) - (bPastPenalty + Math.abs(b.daysFromToday));
+    })[0]
+    || basTimeline.find((item) => item && item.dueDate);
+
+  if (Number.isFinite(Number(bas.estimatedNetBas)) && Number(bas.estimatedNetBas) > 0) {
+    actions.push({
+      id: "bas-net-amount",
+      title: "Confirm BAS amount and lodgement status",
+      detail: bas.status || bas.lodgementStatus || "A BAS net payable amount is visible and needs status confirmation.",
+      priority: "high",
+      status: "Confirm",
+      source: "quarterlyBas",
+      amount: bas.estimatedNetBas,
+      dueDate: bas.dueDate || bas.due || nextBasTimelineItem?.dueDate || null,
+      metric: bas.quarter || "Quarterly BAS"
+    });
+  } else if (nextBasTimelineItem) {
+    actions.push({
+      id: "bas-timeline-status",
+      title: "Confirm BAS timeline status",
+      detail: nextBasTimelineItem.status || "Quarterly BAS status needs source confirmation.",
+      priority: /pending|draft|source/i.test(String(nextBasTimelineItem.status || "")) ? "high" : "medium",
+      status: "Confirm",
+      source: "basTimeline",
+      amount: nextBasTimelineItem.netPayable,
+      dueDate: nextBasTimelineItem.dueDate,
+      metric: nextBasTimelineItem.quarter || "BAS timeline"
+    });
+  }
+
+  if (Number.isFinite(Number(hygiene.unallocatedTransactions)) && Number(hygiene.unallocatedTransactions) > 0) {
+    actions.push({
+      id: "unallocated-items",
+      title: "Clear unallocated items",
+      detail: `${Number(hygiene.unallocatedTransactions)} unallocated items are reducing reliability of category and BAS reporting.`,
+      priority: Number(hygiene.unallocatedTransactions) > 50 ? "high" : "medium",
+      status: "Open",
+      source: "bookkeepingHygiene",
+      amount: null,
+      metric: "Unallocated total"
+    });
+  }
+
+  if (Number.isFinite(Number(hygiene.unallocatedBank)) && Number(hygiene.unallocatedBank) > 0) {
+    actions.push({
+      id: "unallocated-bank-feed",
+      title: "Review unallocated bank-feed items",
+      detail: `${Number(hygiene.unallocatedBank)} bank-feed items need allocation before the aggregate figures are accountant-ready.`,
+      priority: Number(hygiene.unallocatedBank) > 25 ? "high" : "medium",
+      status: "Open",
+      source: "bookkeepingHygiene",
+      amount: null,
+      metric: "Unallocated bank"
+    });
+  }
+
+  if (Number.isFinite(Number(hygiene.documentsInUploads)) && Number(hygiene.documentsInUploads) > 0) {
+    actions.push({
+      id: "upload-documents",
+      title: "Process uploaded MYOB documents",
+      detail: `${Number(hygiene.documentsInUploads)} uploaded documents are waiting to be matched or filed.`,
+      priority: "medium",
+      status: "Open",
+      source: "bookkeepingHygiene",
+      amount: null,
+      metric: "Upload documents"
+    });
+  }
+
+  if (sourceStatus && /stale/i.test(sourceStatus)) {
+    actions.push({
+      id: "source-freshness",
+      title: "Refresh stale finance source",
+      detail: "One or more finance sources are marked stale; keep last verified figures visible until a fresh pull succeeds.",
+      priority: "medium",
+      status: "Watch",
+      source: "sourceStatus",
+      amount: null,
+      metric: "Source freshness"
+    });
+  }
+
+  return actions.map(safeAction).filter((action) => action.id && action.title);
 }
 
 function derivePrivateFields(summary) {
@@ -196,6 +366,7 @@ function derivePrivateFields(summary) {
 }
 
 function sanitisePrivateSummary(summary) {
+  const actions = buildFinanceActions(summary);
   return {
     generatedAt: summary.generatedAt || null,
     source: summary.source || "No private finance source connected",
@@ -223,7 +394,8 @@ function sanitisePrivateSummary(summary) {
     openMatters: summary.openMatters || DEFAULT_SUMMARY.openMatters,
     projectionMonths: Array.isArray(summary.projectionMonths) ? summary.projectionMonths : DEFAULT_SUMMARY.projectionMonths,
     receivables: summary.receivables || null,
-    taxReturn2025: summary.taxReturn2025 || DEFAULT_SUMMARY.taxReturn2025
+    taxReturn2025: summary.taxReturn2025 || DEFAULT_SUMMARY.taxReturn2025,
+    actions
   };
 }
 

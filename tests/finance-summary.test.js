@@ -80,6 +80,30 @@ test("data/finance-summary.json fallback supplies profitLoss when env is absent"
   assert.equal(typeof summary.profitLoss.netProfit, "number");
   assert.ok(summary.profitLoss.incomeByCategory.length, "fallback summary should expose income categories");
   assert.ok(summary.profitLoss.expensesByCategory.length, "fallback summary should expose expense categories");
+  assert.ok(Array.isArray(summary.actions), "fallback summary should expose finance actions");
+  assert.ok(summary.actions.length >= 3, "fallback summary should derive action queue items");
+  assert.ok(summary.actions.some((action) => action.id === "gst-runway-shortfall"));
+  assert.ok(summary.actions.some((action) => action.id === "unallocated-transactions"));
+  const actionKeys = [
+    "amount",
+    "detail",
+    "dueDate",
+    "id",
+    "metric",
+    "priority",
+    "source",
+    "status",
+    "title"
+  ];
+  summary.actions.forEach((action) => {
+    assert.deepEqual(Object.keys(action).sort(), actionKeys);
+    assert.ok([
+      "atoPressure",
+      "bookkeepingHygiene",
+      "quarterlyBas",
+      "sourceStatus"
+    ].includes(action.source), `action source must be an aggregate field: ${action.source}`);
+  });
 });
 
 test("finance API response is allowlisted to privacy-safe aggregate fields", () => {
@@ -99,10 +123,18 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
     paymentLines: [{ payment: "Hidden" }],
     matterDetails: [{ matter: "Hidden" }],
     rawMyob: { transaction: "Hidden" },
-    transactions: [{ description: "Hidden" }]
+    transactions: [{ description: "Hidden" }],
+    actions: [{
+      id: "private-action",
+      title: "Hidden action",
+      detail: "Hidden client payment issue",
+      priority: "high",
+      status: "Hidden"
+    }]
   }), () => financeSummary.loadSummary());
 
   assert.deepEqual(Object.keys(summary).sort(), [
+    "actions",
     "atoPressure",
     "bank",
     "basTimeline",
@@ -133,16 +165,31 @@ test("finance API response is allowlisted to privacy-safe aggregate fields", () 
     "totalIncome"
   ]);
   const serialised = JSON.stringify(summary);
+  const serialisedActions = JSON.stringify(summary.actions);
+  [
+    /client/i,
+    /invoice/i,
+    /transaction/i,
+    /payment/i,
+    /matter/i,
+    /raw/i,
+    /filename/i
+  ].forEach((pattern) => {
+    assert.equal(pattern.test(serialisedActions), false, `finance actions matched forbidden pattern ${pattern}`);
+  });
   [
     /Hidden/,
     /clientRecords/i,
     /invoiceLines/i,
     /paymentLines/i,
     /matterDetails/i,
+    /matterRecords/i,
+    /private-action/i,
     /"transactions"\s*:/i,
     /rawMyob/i
   ].forEach((pattern) => {
     assert.equal(pattern.test(serialised), false, `finance response matched forbidden pattern ${pattern}`);
+    assert.equal(pattern.test(serialisedActions), false, `finance actions matched forbidden pattern ${pattern}`);
   });
 });
 
@@ -166,6 +213,8 @@ test("Finance screen binds only to safe aggregate finance fields", () => {
   });
   assert.ok(section.includes('id="profitLossIncomeRows"'), "finance screen must render incomeByCategory");
   assert.ok(section.includes('id="profitLossExpenseRows"'), "finance screen must render expensesByCategory");
+  assert.ok(section.includes('id="financeActionQueue"'), "finance screen must render action queue");
+  assert.ok(section.includes("data-finance-actions"), "finance screen must bind action queue");
   [
     /rawMyob/,
     /rawRecords/,
@@ -175,7 +224,12 @@ test("Finance screen binds only to safe aggregate finance fields", () => {
     /data-finance="transactions\./,
     /data-finance="clients\./,
     /data-finance="invoices\./,
-    /data-finance="payments\./
+    /data-finance="payments\./,
+    /data-finance-actions="transactions/,
+    /data-finance-actions="clients/,
+    /data-finance-actions="invoices/,
+    /data-finance-actions="payments/,
+    /data-finance-actions="matters/
   ].forEach((pattern) => {
     assert.equal(pattern.test(section), false, `finance screen matched forbidden binding ${pattern}`);
   });
