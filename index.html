@@ -1860,6 +1860,28 @@ button.system-map-node {
   color: #ffb3b3;
 }
 
+.skeleton {
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: linear-gradient(90deg, #101720 25%, #131c26 50%, #101720 75%);
+  background-size: 200% 100%;
+  animation: mc-shimmer 1.6s ease-in-out infinite;
+  min-height: 68px;
+}
+
+.skeleton + .skeleton {
+  margin-top: 8px;
+}
+
+@keyframes mc-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
 .empty-state.is-error {
   border-style: solid;
   border-color: #743039;

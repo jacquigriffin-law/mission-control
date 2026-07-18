@@ -5,14 +5,14 @@
       "at": "2026-07-19T08:22:00+10:00",
       "agentId": "xena",
       "type": "snapshot_update",
-      "message": "Xena connected the Agents Kanban to the current privacy-safe Microsoft To Do operations feed."
+      "message": "Xena connected the To Do tab to the current privacy-safe Microsoft To Do operations feed."
     },
     {
       "id": "A-4009",
       "at": "2026-07-19T08:20:00+10:00",
       "agentId": "xena",
       "type": "snapshot_update",
-      "message": "Fallback Kanban data was refreshed from current 19 July operational tasks with client and matter details removed."
+      "message": "Fallback To Do data was refreshed from current 19 July operational tasks with client and matter details removed."
     },
     {
       "id": "A-4008",

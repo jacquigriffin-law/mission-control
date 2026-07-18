@@ -5,7 +5,7 @@
       "at": "2026-07-19T08:58:00+10:00",
       "from": "Xena",
       "channel": "Mission Control",
-      "message": "The visible shared communication log was retired from the Agents screen because it was not durable live storage on Vercel."
+      "message": "The visible shared communication log was retired because it was not durable live storage on Vercel."
     }
   ]
 }

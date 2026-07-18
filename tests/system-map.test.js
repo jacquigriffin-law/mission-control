@@ -377,14 +377,13 @@ test("index.html renders system agent rows as anchors when a section is known", 
   );
 });
 
-test("Retired Agents task board does not ship", () => {
+test("Retired task board does not ship", () => {
   [
     '<h2 id="agents-title">Agents</h2>',
     '<section class="screen" id="agents"',
     'data-screen="agents"',
     'href="#agents"',
     'data-section="agents"',
-    "Agent Kanban board",
     "Current operations board",
     "Live privacy-safe task view from Microsoft To Do",
     "Agent status",
@@ -429,14 +428,14 @@ test("To Do seed uses a current privacy-safe operations snapshot", () => {
     "task seed data must include current Plutus automation work"
   );
   assert.ok(
-    !taskData.tasks.some((task) => /Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
+    !taskData.tasks.some((task) => /Gabrielle booking bridge|Mission Control demo|Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
     "old demo tasks must not return"
   );
 });
 
 test("To Do feed wording rejects the stale 10/11 July snapshot", () => {
   const taskText = JSON.stringify(taskData);
-  const staleSnapshotPattern = /10 July|11 July|2026-07-10|2026-07-11|Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items|availability works|live booking creation is still blocked/i;
+  const staleSnapshotPattern = /10 July|11 July|2026-07-10|2026-07-11|Gabrielle booking bridge|Mission Control demo|Draft weekly content brief|MYOB unallocated bank items|availability works|live booking creation is still blocked/i;
   assert.ok(todoScreenHtml.includes("Live Microsoft To Do privacy-safe feed"), "visible To Do tab must identify the live privacy-safe feed");
   assert.equal(staleSnapshotPattern.test(todoScreenHtml), false, "visible To Do tab must not mention the stale 10/11 July snapshot");
   assert.equal(staleSnapshotPattern.test(taskText), false, "fallback To Do seed must not contain stale 10/11 July task snapshot wording");
@@ -461,7 +460,6 @@ test("Live To Do task transform removes matter identifiers from public To Do row
 });
 
 test("Removed task-board UI leaves no stale controls on visible pages", () => {
-  assert.equal(indexHtml.includes("Agent Kanban board"), false, "removed task board heading must not ship");
   assert.equal(indexHtml.includes('id="newTaskForm"'), false, "removed add-note form must not ship");
   assert.equal(indexHtml.includes("Shared communication log"), false, "removed communication log must not ship");
   assert.equal(indexHtml.includes("Entries cached in this browser"), false, "cached-browser wording must not ship");
