@@ -3263,20 +3263,8 @@ a.agent-status-card:focus-visible.is-nav::after {
       </div>
       <div class="screen-grid">
         <div class="panel">
-          <div class="panel-head"><div><h3>Source lanes</h3><p>Where work is coming from across safe aggregate sources.</p></div><span class="tag">Source mix</span></div>
-          <div class="panel-body stack-list" data-matter-source-bars></div>
-        </div>
-        <aside class="panel">
           <div class="panel-head"><div><h3>Jurisdiction</h3><p>Jurisdiction counts collapsed to safe NSW, NT and unknown buckets.</p></div><span class="tag green">Aggregate feed</span></div>
           <div class="panel-body stack-list" data-matter-jurisdiction-bars></div>
-        </aside>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><div><h3>Privacy boundary</h3><p>Mission Control shows the carrying shape of the practice, not the protected file record.</p></div><span class="tag green">Safe aggregate</span></div>
-        <div class="panel-body list">
-          <div class="row"><div><strong>Displayed here</strong><span>Matter-type, funding, source, jurisdiction, active-open-matter count, indexed-row count and Legal Aid aggregate income/payment counts.</span></div><span class="tag green">Safe</span></div>
-          <div class="row"><div><strong>Not displayed here</strong><span>Client names, matter IDs, file numbers, Legal Aid references, raw email details, raw LEAP records, transaction lines or payment lines.</span></div><span class="tag red">Excluded</span></div>
-          <div class="row"><div><strong>Source systems</strong><span>LEAP aggregate index and Legal Aid aggregate remittance totals remain the sources behind this summary.</span></div><span class="tag blue">Aggregate only</span></div>
         </div>
       </div>
     </section>
@@ -3858,9 +3846,6 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderEntityBars("full");
     renderBars(document.querySelector("[data-matter-funding-bars]"), legalWorkData?.fundingMix || [], {
       empty: "No aggregate funding mix loaded."
-    });
-    renderBars(document.querySelector("[data-matter-source-bars]"), legalWorkData?.sourceMix || [], {
-      empty: "No aggregate source mix loaded."
     });
     renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), legalWorkData?.jurisdictionMix || [], {
       empty: "No aggregate jurisdiction mix loaded."
