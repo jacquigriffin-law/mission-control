@@ -3884,10 +3884,24 @@ a.agent-status-card:focus-visible.is-nav::after {
           <td>${currency(item.total)}</td>
         </tr>`;
       }).join("");
+      const incomeTotals = incomeRows.reduce((totals, item) => {
+        const jurisdictions = Array.isArray(item.byJurisdiction) ? item.byJurisdiction : [];
+        totals.nsw += Number(jurisdictions.find((row) => row.jurisdiction === "NSW")?.total) || 0;
+        totals.nt += Number(jurisdictions.find((row) => row.jurisdiction === "NT")?.total) || 0;
+        totals.total += Number(item.total) || 0;
+        return totals;
+      }, { nsw: 0, nt: 0, total: 0 });
+      const totalRow = incomeRows.length ? `<tr class="total-row">
+        <td>Total</td>
+        <td>${currency(incomeTotals.nsw)}</td>
+        <td>${currency(incomeTotals.nt)}</td>
+        <td>${currency(incomeTotals.total)}</td>
+      </tr>` : "";
       incomeContainer.innerHTML = `
         <table class="finance-table">
           <thead><tr><th scope="col">Month</th><th scope="col">NSW</th><th scope="col">NT</th><th scope="col">Total</th></tr></thead>
           <tbody>${rows || `<tr><td colspan="4">No monthly Legal Aid income trend loaded.</td></tr>`}</tbody>
+          ${totalRow ? `<tfoot>${totalRow}</tfoot>` : ""}
         </table>
       `;
     }
