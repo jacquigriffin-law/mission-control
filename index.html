@@ -3884,13 +3884,11 @@ a.agent-status-card:focus-visible.is-nav::after {
           <td>${currency(item.total)}</td>
         </tr>`;
       }).join("");
-      const note = trends.matterTypeIncome?.note || "Matter-type income mapping is pending.";
       incomeContainer.innerHTML = `
         <table class="finance-table">
           <thead><tr><th scope="col">Month</th><th scope="col">NSW</th><th scope="col">NT</th><th scope="col">Total</th></tr></thead>
           <tbody>${rows || `<tr><td colspan="4">No monthly Legal Aid income trend loaded.</td></tr>`}</tbody>
         </table>
-        <p class="todo-board-note">${escapeHtml(note)}</p>
       `;
     }
   }
