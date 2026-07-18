@@ -197,6 +197,7 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(indexHtml.includes('<td>Total</td>'), "Matters opened trend table must render a totals row at the end");
   assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
   assert.ok(section.includes("Legal Aid income by month and jurisdiction"), "Matters screen must label Legal Aid income by month and jurisdiction");
+  assert.equal(section.includes("Income by NSW and NT for the same 12-month window"), false, "Matters screen must not render Legal Aid income helper copy");
   assert.equal(section.includes("mattersLiveStatus"), false, "Matters section header must not render a live status badge");
   assert.equal(/\\$878,?593|878592\\.99/.test(section), false, "Matters screen must not lead with the all-time Legal Aid total");
   [
