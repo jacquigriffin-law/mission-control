@@ -27,6 +27,7 @@ const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", 
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
+const journalScreenHtml = indexHtml.match(/<section class="screen" id="journal"[\s\S]*?<section class="screen" id="documents"/)?.[0] || "";
 
 let passed = 0;
 function test(name, fn) {
@@ -226,6 +227,21 @@ test("index.html defines the Journal section and client-side API wiring", () => 
   assert.ok(indexHtml.includes("data-journal-list"), "#journal screen must expose the journal list container");
   assert.ok(indexHtml.includes('apiJson("/api/journal")'), "Journal renderer must load from /api/journal");
   assert.ok(indexHtml.includes("secrets, raw emails, client contact details and legal advice"), "Journal tab must state the privacy boundary");
+});
+
+test("Journal boundary panel labels do not ship", () => {
+  assert.equal(indexHtml.includes("Journal boundary"), false, "Journal boundary panel heading must not ship");
+  [
+    "What can appear in this public-safe operations view.",
+    "<strong>Shown</strong>",
+    "<strong>Hidden</strong>",
+    "<strong>Source files</strong>",
+    "Operational summaries, decisions, tool/runtime work, non-confidential milestones and review-only publication status.",
+    "Secrets, credentials, raw emails, full client contact details, legal advice and matter-record facts.",
+    "Summaries are derived offline from private <code>memory/YYYY-MM-DD.md</code> files, then committed as static JSON."
+  ].forEach((label) => {
+    assert.equal(journalScreenHtml.includes(label), false, `Journal boundary panel text must not ship in Journal screen: ${label}`);
+  });
 });
 
 test("Journal seed is chronological and privacy-safe", () => {
