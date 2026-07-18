@@ -279,6 +279,8 @@ test("index.html renders system agent rows as anchors when a section is known", 
 test("Agents screen does not render local cache or agent status sections", () => {
   assert.ok(indexHtml.includes('<h2 id="agents-title">Agents</h2>'), "Agents heading must remain");
   assert.ok(indexHtml.includes("Operations snapshot"), "Agents screen must keep the Operations snapshot badge");
+  assert.equal(indexHtml.includes("Current operations board"), false, "Agents screen must not render the operations board section");
+  assert.equal(indexHtml.includes('id="newTaskForm"'), false, "Agents screen must not render the operation-note task form");
 
   [
     "Agent status",
@@ -379,8 +381,8 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
   assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
   assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
-  assert.ok(indexHtml.includes("Current operations board"), "agents screen must keep the operations kanban section");
-  assert.ok(indexHtml.includes("data-kanban"), "agents screen must keep the kanban task board");
+  assert.ok(!indexHtml.includes("Current operations board"), "agents screen must not show the operations board section");
+  assert.ok(!indexHtml.includes('id="newTaskForm"'), "agents screen must not show the add-note task form");
   assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
   assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
   assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
