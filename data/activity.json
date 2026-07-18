@@ -1,60 +1,74 @@
 {
   "activity": [
     {
-      "id": "A-3008",
-      "at": "2026-07-10T12:36:00+10:00",
+      "id": "A-4010",
+      "at": "2026-07-19T08:22:00+10:00",
       "agentId": "xena",
       "type": "snapshot_update",
-      "message": "Xena replaced the static Kanban seed with a current privacy-safe operations snapshot."
+      "message": "Xena connected the Agents Kanban to the current privacy-safe Microsoft To Do operations feed."
     },
     {
-      "id": "A-3007",
-      "at": "2026-07-10T12:31:00+10:00",
-      "agentId": "hermes",
-      "type": "verified",
-      "message": "Hermes Health-Agent folder path was verified in the live VPS runtime."
+      "id": "A-4009",
+      "at": "2026-07-19T08:20:00+10:00",
+      "agentId": "xena",
+      "type": "snapshot_update",
+      "message": "Fallback Kanban data was refreshed from current 19 July operational tasks with client and matter details removed."
     },
     {
-      "id": "A-3006",
-      "at": "2026-07-10T12:20:00+10:00",
+      "id": "A-4008",
+      "at": "2026-07-19T07:35:00+10:00",
+      "agentId": "plutus",
+      "type": "finance",
+      "message": "Mission Control Matters added the Private income column from aggregate MYOB and Legal Aid figures."
+    },
+    {
+      "id": "A-4007",
+      "at": "2026-07-19T07:16:00+10:00",
+      "agentId": "plutus",
+      "type": "finance",
+      "message": "Legal Aid income and open-matter trend tables were tightened with calculated totals rows."
+    },
+    {
+      "id": "A-4006",
+      "at": "2026-07-19T01:05:00+10:00",
+      "agentId": "xena",
+      "type": "journal",
+      "message": "Mission Control Journal went live with privacy-safe daily entries for 18 July and 19 July."
+    },
+    {
+      "id": "A-4005",
+      "at": "2026-07-19T00:52:00+10:00",
       "agentId": "hermes",
       "type": "heartbeat",
-      "message": "Lead monitor, SMS lead check and email triage ran with no new urgent lead alerts."
+      "message": "Lead, SMS and email checks ran; one analytics notice was filtered as not a real client lead."
     },
     {
-      "id": "A-3005",
-      "at": "2026-07-10T12:20:00+10:00",
+      "id": "A-4004",
+      "at": "2026-07-19T00:52:00+10:00",
       "agentId": "themis",
       "type": "heartbeat",
-      "message": "Court-date monitor ran with no new court date changes detected."
+      "message": "Court-date and calendar checks completed with no new court-date changes detected."
     },
     {
-      "id": "A-3004",
-      "at": "2026-07-10T12:16:00+10:00",
-      "agentId": "gabrielle",
-      "type": "booking_test",
-      "message": "Gabrielle/Acuity test confirmed availability works, but live booking creation is still blocked."
+      "id": "A-4003",
+      "at": "2026-07-19T00:46:00+10:00",
+      "agentId": "plutus",
+      "type": "finance",
+      "message": "Outstanding invoice candidates were separated from do-not-pay and reconcile-only items; no payment was made."
     },
     {
-      "id": "A-3003",
-      "at": "2026-07-10T12:13:00+10:00",
-      "agentId": "gabrielle",
-      "type": "subscription",
-      "message": "AIS+ / Skool subscription cancellation is ready but blocked on login or approval to send support email."
-    },
-    {
-      "id": "A-3002",
-      "at": "2026-07-10T12:10:00+10:00",
+      "id": "A-4002",
+      "at": "2026-07-19T00:04:00+10:00",
       "agentId": "marketing",
       "type": "review",
-      "message": "Mission Control review recommended replacing status boards with next-action panels."
+      "message": "Kallipi prepared draft-only organic post approval previews for the active marketing campaigns."
     },
     {
-      "id": "A-3001",
-      "at": "2026-07-10T12:07:00+10:00",
+      "id": "A-4001",
+      "at": "2026-07-19T00:00:00+10:00",
       "agentId": "xena",
-      "type": "deploy",
-      "message": "Kanban Lane selector was deployed and verified on the live mobile-sized page."
+      "type": "status",
+      "message": "Mission Control activity was refreshed from current status and journal summaries instead of demo data."
     }
   ]
 }

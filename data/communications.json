@@ -1,32 +1,11 @@
 {
   "communications": [
     {
-      "id": "C-4004",
-      "at": "2026-07-10T12:36:00+10:00",
+      "id": "C-5001",
+      "at": "2026-07-19T08:58:00+10:00",
       "from": "Xena",
       "channel": "Mission Control",
-      "message": "Replacing old demo task data with a current privacy-safe operations snapshot."
-    },
-    {
-      "id": "C-4003",
-      "at": "2026-07-10T12:20:00+10:00",
-      "from": "Hermes",
-      "channel": "Heartbeat",
-      "message": "No new urgent leads detected in the latest intake checks."
-    },
-    {
-      "id": "C-4002",
-      "at": "2026-07-10T12:16:00+10:00",
-      "from": "Gabrielle",
-      "channel": "Booking",
-      "message": "Acuity availability is responding, but confirmed booking is blocked until the workflow is updated."
-    },
-    {
-      "id": "C-4001",
-      "at": "2026-07-10T12:10:00+10:00",
-      "from": "Xena",
-      "channel": "Planning",
-      "message": "Mission Control should become a next-action board, not a static status board."
+      "message": "The visible shared communication log was retired from the Agents screen because it was not durable live storage on Vercel."
     }
   ]
 }

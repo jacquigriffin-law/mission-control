@@ -401,11 +401,18 @@ test("Agent workspace seed avoids stale demo status text", () => {
   const agentText = JSON.stringify(agentData);
   const activityText = JSON.stringify(activityData);
   assert.ok(/Acuity update|live booking/.test(agentText), "agent seed must reflect current booking blocker context");
-  assert.ok(activityText.includes("availability works"), "activity seed must reflect the current live booking test");
+  assert.ok(activityText.includes("19 July"), "activity seed must reflect current 19 July operations");
+  assert.ok(activityText.includes("Mission Control Journal"), "activity seed must include current journal work");
+  assert.ok(activityText.includes("Private income column"), "activity seed must include current Mission Control status work");
+  assert.ok(activityData.activity.every((item) => String(item.at || "").startsWith("2026-07-19")), "activity feed seed must use current 19 July timestamps");
   assert.ok(indexHtml.includes("Operations snapshot"), "agents screen must label the seed as an operations snapshot");
   assert.ok(indexHtml.includes("Agent Kanban board"), "agents screen must show the live Kanban section");
   assert.ok(!indexHtml.includes("Current operations board"), "agents screen must not show the old stale operations board heading");
   assert.ok(indexHtml.includes('id="newTaskForm"'), "agents screen must keep the add-note task form");
+  assert.ok(!indexHtml.includes("Shared communication log"), "agents screen must not show the non-durable shared communication log");
+  assert.ok(!indexHtml.includes("Entries cached in this browser"), "agents screen must not show cached-browser wording");
+  assert.ok(!indexHtml.includes('id="commsForm"'), "agents screen must not ship the shared communication form");
+  assert.ok(!indexHtml.includes('class="comms-list"'), "agents screen must not ship the shared communication list panel");
   assert.ok(!indexHtml.includes("Snapshot + local"), "agents screen must not show the local overlay status badge");
   assert.ok(!indexHtml.includes("Local-only changes cached in this browser."), "agents screen must not show the local-only cache warning");
   assert.ok(!indexHtml.includes("read-only seed JSON"), "agents screen must not show deployment persistence warning copy");
@@ -416,6 +423,10 @@ test("Agent workspace seed avoids stale demo status text", () => {
   assert.ok(!indexHtml.includes("agent-status-card"), "agents screen must not keep removed status card markers");
   assert.ok(indexHtml.includes("localStorage.getItem(OVERLAY_KEY)"), "localStorage overlay read path must remain available");
   assert.ok(indexHtml.includes("localStorage.removeItem(OVERLAY_KEY)"), "localStorage overlay reset path must remain available");
+  assert.ok(
+    !/10 July|11 July|2026-07-10|2026-07-11|availability works|live booking creation is still blocked/.test(activityText),
+    "stale 10 July/11 July demo activity must not return"
+  );
   assert.ok(
     !/05 July|Rebuilt daily follow-up worksheet|Cleared 6 lead alerts|Updated ATO pressure card/.test(agentText + activityText),
     "old demo agent and activity statuses must not return"

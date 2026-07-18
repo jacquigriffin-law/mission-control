@@ -2184,100 +2184,6 @@ button.system-map-node {
   line-height: 1.35;
 }
 
-.comms-form {
-  display: grid;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.comms-form-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 8px;
-}
-
-.comms-input,
-.comms-textarea {
-  min-height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #0f151d;
-  color: var(--text);
-  padding: 8px 10px;
-  font-size: .82rem;
-}
-
-.comms-textarea {
-  min-height: 76px;
-  resize: vertical;
-  font-family: inherit;
-  line-height: 1.4;
-}
-
-.comms-input:focus,
-.comms-textarea:focus {
-  outline: 2px solid rgba(94, 177, 255, .34);
-  outline-offset: 1px;
-}
-
-.comms-form-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.comms-list {
-  display: grid;
-  gap: 8px;
-  max-height: 360px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.comms-item {
-  display: grid;
-  gap: 4px;
-  border: 1px solid var(--line-soft);
-  border-radius: 8px;
-  background: #101720;
-  padding: 10px;
-}
-
-.comms-item header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.comms-item .comms-from {
-  color: var(--text);
-  font-size: .82rem;
-  font-weight: 800;
-}
-
-.comms-item .comms-channel {
-  color: var(--muted);
-  font-size: .7rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-}
-
-.comms-item p {
-  margin: 0;
-  color: var(--muted);
-  font-size: .78rem;
-  line-height: 1.4;
-}
-
-.comms-item time {
-  color: var(--faint);
-  font-size: .68rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-
 .form-message {
   min-height: 18px;
   color: var(--muted);
@@ -2683,10 +2589,6 @@ button.system-map-node {
 @media (max-width: 920px) {
   .agent-kanban {
     grid-auto-columns: minmax(240px, 78vw);
-  }
-
-  .comms-form-row {
-    grid-template-columns: 1fr;
   }
 
   .persist-callout {
@@ -3325,32 +3227,6 @@ button.system-map-node {
             <div class="activity-list" data-activity-list aria-live="polite"></div>
           </div>
         </div>
-
-        <aside class="panel">
-          <div class="panel-head">
-            <div>
-              <h3>Shared communication log</h3>
-              <p>Post a short update visible to every agent. Entries cached in this browser survive refresh.</p>
-            </div>
-            <span class="tag" id="commsCount">0</span>
-          </div>
-          <div class="panel-body">
-            <form class="comms-form" id="commsForm" autocomplete="off">
-              <div class="comms-form-row">
-                <select class="comms-input" name="from" id="commsFrom" required>
-                  <option value="">Select agent</option>
-                </select>
-                <input class="comms-input" name="channel" id="commsChannel" placeholder="Channel (e.g. Broadcast)" value="Broadcast" maxlength="40">
-              </div>
-              <textarea class="comms-textarea" name="message" id="commsMessage" placeholder="Post a short update to the shared log…" required maxlength="800"></textarea>
-              <div class="comms-form-actions">
-                <span class="form-message" id="commsMessageState" aria-live="polite"></span>
-                <button class="button primary" type="submit">Post to log</button>
-              </div>
-            </form>
-            <div class="comms-list" data-comms-list aria-live="polite"></div>
-          </div>
-        </aside>
       </div>
     </section>
   </main>
@@ -3373,10 +3249,6 @@ button.system-map-node {
   const agentsStatus = document.getElementById("agentsStatus");
   const agentsTaskCount = document.getElementById("agentsTaskCount");
   const activityCount = document.getElementById("activityCount");
-  const commsCount = document.getElementById("commsCount");
-  const commsForm = document.getElementById("commsForm");
-  const commsFrom = document.getElementById("commsFrom");
-  const commsMessageState = document.getElementById("commsMessageState");
   const journalStatus = document.getElementById("journalStatus");
   const validSections = new Set(["dashboard", "todo", "finance", "matters", "agents", "memory", "journal", "documents"]);
   const safeSummary = window.MISSION_CONTROL_SAFE_SUMMARY || {};
@@ -3387,10 +3259,8 @@ button.system-map-node {
     agents: [],
     tasks: [],
     activity: [],
-    communications: [],
     seedTasks: [],
     taskMeta: null,
-    seedComms: [],
     seedActivity: [],
     filters: {
       kanbanAgent: "all",
@@ -4049,14 +3919,11 @@ button.system-map-node {
       if (body) body.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
     });
     const activity = document.querySelector("[data-activity-list]");
-    const comms = document.querySelector("[data-comms-list]");
     if (activity) activity.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
-    if (comms) comms.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
   }
 
   function applyOverlayState() {
     agentState.tasks = overlay.applyToTasks(agentState.seedTasks);
-    agentState.communications = overlay.applyToComms(agentState.seedComms);
     agentState.activity = overlay.applyToActivity(agentState.seedActivity);
     agentState.hasLocalOverlay = overlay.hasAny();
   }
@@ -4100,7 +3967,6 @@ button.system-map-node {
     renderKanban();
     renderTodoBoard();
     renderActivity();
-    renderComms();
     setAgentsStatus("Operations snapshot", "green");
     updateKanbanScrollHint();
   }
@@ -4288,55 +4154,30 @@ button.system-map-node {
     }).join("") : emptyState("No activity yet.", "Task changes will appear here after the first update.");
   }
 
-  function renderComms() {
-    const list = document.querySelector("[data-comms-list]");
-    const count = document.getElementById("commsCount");
-    const from = document.getElementById("commsFrom");
-    if (count) count.textContent = String(agentState.communications.length);
-    if (from) {
-      const selected = from.value;
-      from.innerHTML = `<option value="">Select agent</option>${agentState.agents.map((agent) => `<option value="${escapeHtml(agent.name)}">${escapeHtml(agent.name)}</option>`).join("")}`;
-      from.value = agentState.agents.some((agent) => agent.name === selected) ? selected : "";
-    }
-    if (!list) return;
-    list.innerHTML = agentState.communications.length ? agentState.communications.map((item) => {
-      const localFlag = item._local ? `<span class="task-local-flag">Local</span>` : "";
-      return `<article class="comms-item">
-        <div class="activity-meta"><strong>${escapeHtml(item.from)}</strong><span>${localTime(item.at)}</span></div>
-        <p>${escapeHtml(item.message)}</p>
-        <span class="tag blue">${escapeHtml(item.channel || "Broadcast")}</span>${localFlag}
-      </article>`;
-    }).join("") : emptyState("No shared notes yet.", "Post a short non-confidential update for the agent team.");
-  }
-
   async function refreshAgentsWorkspace() {
     setAgentsStatus("Loading", "blue");
     setAgentsLoading();
     try {
-      const [agents, taskPayload, activity, communications] = await Promise.all([
+      const [agents, taskPayload, activity] = await Promise.all([
         apiJson("/api/agents"),
         apiJson("/api/tasks"),
-        apiJson("/api/activity"),
-        apiJson("/api/communications")
+        apiJson("/api/activity")
       ]);
       agentState.agents = agents || [];
       agentState.seedTasks = taskPayload?.tasks || [];
       agentState.taskMeta = taskPayload?.meta || null;
       agentState.seedActivity = activity || [];
-      agentState.seedComms = communications || [];
       refreshAgentSelects();
       applyOverlayState();
       renderAgentsWorkspace();
     } catch (error) {
       setAgentsStatus("Offline", "red");
       const activity = document.querySelector("[data-activity-list]");
-      const comms = document.querySelector("[data-comms-list]");
       ["To Do", "In Progress", "Done"].forEach((lane) => {
         const body = document.querySelector(`[data-lane-body="${lane}"]`);
         if (body) body.innerHTML = emptyState(`${lane} unavailable.`, "Task seed data could not load.", "error", true);
       });
       if (activity) activity.innerHTML = emptyState("Activity feed unavailable.", error.message || "Could not load activity.", "error", true);
-      if (comms) comms.innerHTML = emptyState("Communication log unavailable.", error.message || "Could not load shared notes.", "error", true);
       throw error;
     }
   }
@@ -4663,47 +4504,6 @@ button.system-map-node {
       renderAgentsWorkspace();
       form.reset();
       if (state) state.textContent = "Added locally.";
-    }
-  });
-
-  document.getElementById("commsForm")?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const state = document.getElementById("commsMessageState");
-    const body = {
-      from: form.elements.from.value.trim(),
-      channel: form.elements.channel.value.trim() || "Broadcast",
-      message: form.elements.message.value.trim()
-    };
-    if (!body.from || !body.message) return;
-    if (state) state.textContent = "Posting…";
-    try {
-      const payload = await apiJson("/api/communications", {
-        method: "POST",
-        body: JSON.stringify(body)
-      });
-      if (isServerlessWrite(payload)) {
-        overlay.addComm(payload);
-        applyOverlayState();
-        renderAgentsWorkspace();
-      } else {
-        await refreshAgentsWorkspace();
-      }
-      form.elements.message.value = "";
-      if (state) state.textContent = "Posted.";
-    } catch (error) {
-      const fallback = {
-        id: `local-comm-${Date.now()}`,
-        at: new Date().toISOString(),
-        from: body.from,
-        channel: body.channel,
-        message: body.message
-      };
-      overlay.addComm(fallback);
-      applyOverlayState();
-      renderAgentsWorkspace();
-      form.elements.message.value = "";
-      if (state) state.textContent = "Posted locally.";
     }
   });
 
