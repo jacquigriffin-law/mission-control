@@ -2805,7 +2805,7 @@ button.system-map-node {
       <div class="section-title">
         <div>
           <h2 id="todo-title">To Do</h2>
-          <p>Compact operations board for business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
+          <p>Live Microsoft To Do privacy-safe feed for business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
         </div>
         <span class="tag blue" id="todoStatus">Loading</span>
       </div>
@@ -2813,7 +2813,7 @@ button.system-map-node {
         <div class="panel-head">
           <div>
             <h3>Live operations board</h3>
-            <p>Loaded from the privacy-safe Microsoft To Do feed where available. No client names or LEAP record data.</p>
+            <p>Loaded from the live Microsoft To Do privacy-safe feed where available. No client names, matter numbers or LEAP record data.</p>
           </div>
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
             <span class="tag" id="todoSourceTag">Snapshot loading</span>
@@ -3833,7 +3833,9 @@ button.system-map-node {
   }
 
   async function apiJson(url, options = {}) {
-    const response = await fetch(url, {
+    const method = String(options.method || "GET").toUpperCase();
+    const requestUrl = method === "GET" ? uncachedUrl(url) : url;
+    const response = await fetch(requestUrl, {
       cache: "no-store",
       headers: { "Content-Type": "application/json", ...(options.headers || {}) },
       ...options
@@ -3846,8 +3848,9 @@ button.system-map-node {
   }
 
   function uncachedUrl(url) {
+    if (!String(url || "").startsWith("/api/")) return url;
     const separator = url.includes("?") ? "&" : "?";
-    return `${url}${separator}_=${Date.now()}`;
+    return `${url}${separator}_mc=${Date.now()}`;
   }
 
   function isServerlessWrite(data) {
@@ -4042,8 +4045,9 @@ button.system-map-node {
     }
     if (sourceTag) {
       const meta = agentState.taskMeta || {};
-      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${meta.source || "operations snapshot"}`;
-      sourceTag.title = meta.note || "Privacy-safe operational task snapshot.";
+      const sourceLabel = meta.live ? "Live Microsoft To Do" : (meta.source || "operations snapshot");
+      sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${sourceLabel}`;
+      sourceTag.title = meta.note || "Live Microsoft To Do privacy-safe feed; fallback snapshot only when Graph is unavailable.";
     }
     lanes.forEach((lane) => {
       const laneElement = document.querySelector(`[data-lane="${lane}"]`);
@@ -4076,7 +4080,7 @@ button.system-map-node {
       const meta = agentState.taskMeta || {};
       const sourceLabel = meta.live ? "Live Microsoft To Do" : (meta.source || "operations snapshot");
       sourceTag.textContent = `${snapshotTime(meta.generatedAt)} · ${sourceLabel}`;
-      sourceTag.title = meta.note || "Privacy-safe operations snapshot.";
+      sourceTag.title = meta.note || "Live Microsoft To Do privacy-safe feed; fallback snapshot only when Graph is unavailable.";
     }
     if (status) {
       status.textContent = tasks.length ? (agentState.taskMeta?.live ? "Live To Do" : "Snapshot") : "Empty";
@@ -4117,7 +4121,7 @@ button.system-map-node {
         </thead>
         <tbody>${rows || `<tr><td colspan="5">No operations tasks yet.</td></tr>`}</tbody>
       </table>
-      <p class="todo-board-note">Last refreshed: ${escapeHtml(snapshotTime(agentState.taskMeta?.generatedAt))}. Business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
+      <p class="todo-board-note">Last refreshed: ${escapeHtml(snapshotTime(agentState.taskMeta?.generatedAt))}. Live Microsoft To Do privacy-safe feed when connected; fallback snapshot only if Graph is unavailable. Business and agent operations only. Microsoft To Do and LEAP remain the record-level systems for client, matter and personal tasks.</p>
     `;
   }
 

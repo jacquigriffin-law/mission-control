@@ -27,6 +27,7 @@ const agentData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", 
 const activityData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "activity.json"), "utf8"));
 const taskData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "tasks.json"), "utf8"));
 const journalData = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "journal.json"), "utf8"));
+const todoScreenHtml = indexHtml.match(/<section class="screen" id="todo"[\s\S]*?<section class="screen" id="finance"/)?.[0] || "";
 const journalScreenHtml = indexHtml.match(/<section class="screen" id="journal"[\s\S]*?<section class="screen" id="documents"/)?.[0] || "";
 const documentsScreenHtml = indexHtml.match(/<section class="screen" id="documents"[\s\S]*?<section class="screen" id="agents"/)?.[0] || "";
 
@@ -185,11 +186,18 @@ test("index.html exposes a separate To Do operations tab", () => {
   assert.ok(indexHtml.includes('id="todo"'), "index.html must define a #todo screen section");
   assert.ok(indexHtml.includes('data-screen="todo"'), "#todo screen must expose data-screen=\"todo\" for the router");
   assert.ok(indexHtml.includes("data-todo-board"), "#todo screen must expose the operations board container");
-  assert.ok(indexHtml.includes("Live operations board"), "To Do tab must label the board as live");
-  assert.ok(indexHtml.includes("Live Microsoft To Do"), "To Do tab must surface the live Microsoft To Do source");
+  assert.ok(todoScreenHtml.includes("Live operations board"), "To Do tab must label the board as live");
+  assert.ok(todoScreenHtml.includes("Live Microsoft To Do privacy-safe feed"), "To Do tab must describe the live privacy-safe feed");
+  assert.ok(todoScreenHtml.includes("No client names, matter numbers or LEAP record data."), "To Do tab must state its privacy boundary");
   assert.ok(indexHtml.includes('id="refreshTodoData"'), "To Do tab must expose a manual refresh control");
   assert.ok(indexHtml.includes("Last refreshed:"), "To Do tab must show the live feed refresh timestamp");
   assert.ok(indexHtml.includes("5 * 60 * 1000"), "To Do tab must auto-refresh the live feed while open");
+  assert.ok(indexHtml.includes("uncachedUrl(url)"), "client GET API fetches must use the shared cache-bust helper");
+  assert.ok(indexHtml.includes("_mc=${Date.now()}"), "client cache-bust token must change per request");
+  assert.ok(
+    !/old 10\/11 July|10 July operations snapshot|11 July operations snapshot|2026-07-10|2026-07-11/.test(todoScreenHtml + JSON.stringify(taskData)),
+    "To Do tab and task seed must not ship stale 10/11 July snapshot wording"
+  );
   assert.ok(
     /Microsoft To Do and LEAP remain[^<]*record-level/.test(indexHtml),
     "To Do tab must state Microsoft To Do and LEAP remain the record-level systems"
@@ -199,8 +207,13 @@ test("index.html exposes a separate To Do operations tab", () => {
 
 test("local server tasks API uses the live Microsoft To Do builder", () => {
   const serverSource = fs.readFileSync(path.join(__dirname, "..", "server.js"), "utf8");
+  const agentStoreSource = fs.readFileSync(path.join(__dirname, "..", "api", "_agent-store.js"), "utf8");
   assert.ok(serverSource.includes('require("./api/_live-tasks.js")'), "local server must load the live task builder");
   assert.ok(serverSource.includes("await buildLiveTaskStore() || store"), "local /api/tasks GET must prefer live To Do data");
+  assert.ok(serverSource.includes("private, no-store, no-cache, must-revalidate, max-age=0"), "local JSON API responses must not cache task data");
+  assert.ok(agentStoreSource.includes("private, no-store, no-cache, must-revalidate, max-age=0"), "serverless JSON API responses must not cache task data");
+  assert.ok(serverSource.includes('"Pragma": "no-cache"'), "local JSON API responses must include Pragma no-cache");
+  assert.ok(agentStoreSource.includes('response.setHeader("Pragma", "no-cache")'), "serverless JSON API responses must include Pragma no-cache");
 });
 
 test("Agents screen keeps the heading without the intro paragraph", () => {
@@ -463,6 +476,14 @@ test("Kanban seed uses a current privacy-safe operations snapshot", () => {
     !taskData.tasks.some((task) => /Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items/i.test(task.title)),
     "old demo Kanban tasks must not return"
   );
+});
+
+test("To Do feed wording rejects the stale 10/11 July snapshot", () => {
+  const taskText = JSON.stringify(taskData);
+  const staleSnapshotPattern = /10 July|11 July|2026-07-10|2026-07-11|Gabrielle booking bridge|Mission Control demo Kanban|Draft weekly content brief|MYOB unallocated bank items|availability works|live booking creation is still blocked/i;
+  assert.ok(todoScreenHtml.includes("Live Microsoft To Do privacy-safe feed"), "visible To Do tab must identify the live privacy-safe feed");
+  assert.equal(staleSnapshotPattern.test(todoScreenHtml), false, "visible To Do tab must not mention the stale 10/11 July snapshot");
+  assert.equal(staleSnapshotPattern.test(taskText), false, "fallback To Do seed must not contain stale 10/11 July task snapshot wording");
 });
 
 test("Live To Do task transform removes matter identifiers from public Kanban cards", () => {

@@ -15,7 +15,9 @@ function readJson(name) {
 function sendJson(response, status, body) {
   response.statusCode = status;
   response.setHeader("Content-Type", "application/json; charset=utf-8");
-  response.setHeader("Cache-Control", "no-store");
+  response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate, max-age=0");
+  response.setHeader("Pragma", "no-cache");
+  response.setHeader("Expires", "0");
   response.end(JSON.stringify(body));
 }
 
