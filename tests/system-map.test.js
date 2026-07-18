@@ -280,6 +280,17 @@ test("index.html renders agent rows as anchors when a section is known", () => {
   );
 });
 
+test("Agents screen keeps status heading without helper copy", () => {
+  assert.ok(indexHtml.includes("<h3>Agent status</h3>"), "Agents screen must keep the Agent status heading");
+  assert.equal(
+    indexHtml.includes(
+      "Working shows a live green pulse; Idle shows an amber hold. Colour code stays consistent with each agent's kanban cards."
+    ),
+    false,
+    "Agents screen must not render the old Agent status helper text"
+  );
+});
+
 test("index.html routes safe-launcher links through safeUrl", () => {
   assert.ok(
     indexHtml.includes("hosts.safeUrl(item.url)"),
