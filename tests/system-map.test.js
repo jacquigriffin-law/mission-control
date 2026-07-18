@@ -223,10 +223,18 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(documentsScreenHtml.includes("Library lanes"), false, "Documents library lanes panel must not appear");
   assert.equal(documentsScreenHtml.includes("Document types"), false, "Documents document-type counter must not appear");
   assert.equal(documentsScreenHtml.includes("Status filters"), false, "Documents status counter must not appear");
+  assert.equal(documentsScreenHtml.includes("Privacy"), false, "Documents privacy counter must not appear");
   assert.equal(documentsScreenHtml.includes("Status model"), false, "Documents status model panel must not appear");
   assert.equal(documentsScreenHtml.includes("Document categories and source agents"), false, "Documents category panel must not appear");
   assert.equal(documentsScreenHtml.includes("Safe structure map"), false, "Documents safe structure details must not appear");
+  assert.equal(documentsScreenHtml.includes("Safe launchers"), false, "Documents safe launchers panel must not appear");
+  assert.equal(documentsScreenHtml.includes("What this map shows"), false, "Documents included-map panel must not appear");
+  assert.equal(documentsScreenHtml.includes("What it deliberately hides"), false, "Documents hidden-map panel must not appear");
   assert.equal(documentsScreenHtml.includes("systemMapCanvas"), false, "Documents system map canvas must not appear");
+  assert.equal(documentsScreenHtml.includes("systemMapDetail"), false, "Documents system map details must not appear");
+  assert.equal(documentsScreenHtml.includes("systemMapLaunchers"), false, "Documents system map launchers must not appear");
+  assert.equal(documentsScreenHtml.includes("systemMapIncluded"), false, "Documents included-map container must not appear");
+  assert.equal(documentsScreenHtml.includes("systemMapExcluded"), false, "Documents hidden-map container must not appear");
   assert.equal(indexHtml.includes("data-system-documents"), false, "Document lane renderer binding must not ship");
   assert.equal(indexHtml.includes("data-document-statuses"), false, "Document status renderer binding must not ship");
   assert.equal(indexHtml.includes("data-document-categories"), false, "Document category renderer binding must not ship");
