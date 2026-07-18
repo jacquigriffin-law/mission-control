@@ -206,6 +206,13 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
   assert.ok(indexHtml.includes('<h2 id="memory-title">Memory</h2>'), "Memory heading must remain");
   assert.ok(documentsScreenHtml.includes('<h2 id="documents-title">Documents</h2>'), "Documents heading must remain");
+  assert.ok(documentsScreenHtml.includes("Documents tab review"), "Documents screen must include the review recommendation panel");
+  assert.ok(documentsScreenHtml.includes("Link audit and proposed clean-up"), "Documents screen must include the link audit");
+  assert.ok(documentsScreenHtml.includes("Scheduled jobs"), "Documents screen must include the cron inventory");
+  assert.ok(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), "Documents cron inventory must show its snapshot date");
+  assert.ok(documentsScreenHtml.includes("44 jobs"), "Documents cron inventory must include all scheduler jobs from the latest snapshot");
+  assert.ok(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), "Documents cron table must include active morning brief job");
+  assert.ok(documentsScreenHtml.includes("Iris call relay to Jacqui"), "Documents cron table must include disabled jobs as audit history");
   ["#journal", "#dashboard", "#agents", "#documents"].forEach((href) => {
     assert.ok(indexHtml.includes(`href="${href}"`), `Memory screen must include clickable ${href} link`);
   });
