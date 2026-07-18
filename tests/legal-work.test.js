@@ -58,12 +58,15 @@ test("legal work feed derives current aggregates from finance summary fallback",
   assert.equal(summary.live, true);
   assert.equal(summary.totals.activeOpenMatters, 103);
   assert.equal(summary.totals.indexedMatterRows, 1236);
-  assert.equal(summary.totals.legalAidIncome, 878592.99);
   assert.equal(summary.totals.legalAidPaymentCount, 94);
+  assert.equal(Object.hasOwn(summary.totals, "legalAidIncome"), false);
   assert.ok(summary.typeMix.some((item) => item.label === "Care and protection" && item.count === 67));
   assert.deepEqual(summary.fundingMix, [{ label: "Mixed or unknown", count: 103 }]);
   assert.ok(summary.jurisdictionMix.some((item) => item.label === "NSW" && item.count === 99));
-  assert.ok(summary.legalAidIncome.byJurisdiction.some((item) => item.jurisdiction === "NSW" && item.paymentCount === 74));
+  assert.equal(summary.trends.monthlyOpened.length, 12);
+  assert.ok(summary.trends.monthlyOpened.some((item) => item.month === "2026-02" && item.openedCount === 13));
+  assert.ok(summary.trends.monthlyLegalAidIncome.some((item) => item.month === "2026-07" && item.total === 24214.3));
+  assert.equal(summary.trends.matterTypeIncome.available, false);
   assert.equal(Object.hasOwn(summary, "sourceMix"), false);
   assertNoPrivateLeak(summary);
 });
@@ -91,6 +94,16 @@ test("legal work API allowlists labels from private-shaped source data", () => {
         { jurisdiction: "Parramatta NSW court file 26/1207", count: 2 },
         { jurisdiction: "Darwin NT sender@example.com", count: 1 }
       ],
+      monthlyOpened: [
+        {
+          month: "2026-07",
+          openedCount: 2,
+          byType: [{ type: "Care and protection 26/1207", count: 2 }],
+          byJurisdiction: [{ jurisdiction: "NSW court file 26/1207", count: 2 }],
+          matterRecords: [{ clientName: "Jane Smith" }]
+        },
+        { month: "bad-client-month", openedCount: 100, byType: [{ type: "Hidden Client", count: 100 }] }
+      ],
       matterRecords: [{ clientName: "Jane Smith", matterId: "MAT-123" }]
     },
     legalAidIncome: {
@@ -100,6 +113,11 @@ test("legal work API allowlists labels from private-shaped source data", () => {
       byJurisdiction: [
         { jurisdiction: "NSW LA-REF-999", total: 1000, recordCount: 1 },
         { jurisdiction: "NT raw email subject line", total: 234.56, recordCount: 1 }
+      ],
+      monthlyByJurisdiction: [
+        { month: "2026-07", jurisdiction: "NSW LA-REF-999", total: 1000, recordCount: 1 },
+        { month: "2026-07", jurisdiction: "Darwin NT sender@example.com", total: 234.56, recordCount: 1 },
+        { month: "client-month", jurisdiction: "Hidden Client", total: 9999, recordCount: 9 }
       ],
       payments: [{ reference: "LA-REF-999", line: "payment line" }],
       rawEmails: [{ sender: "sender@example.com", subject: "subject line" }]
@@ -122,6 +140,25 @@ test("legal work API allowlists labels from private-shaped source data", () => {
     { label: "NSW", count: 2 },
     { label: "NT", count: 1 }
   ]);
+  assert.deepEqual(summary.trends.monthlyOpened, [
+    {
+      month: "2026-07",
+      openedCount: 2,
+      byType: [{ label: "Care and protection", count: 2 }],
+      byJurisdiction: [{ label: "NSW", count: 2 }]
+    }
+  ]);
+  assert.deepEqual(summary.trends.monthlyLegalAidIncome, [
+    {
+      month: "2026-07",
+      total: 1234.56,
+      paymentCount: 2,
+      byJurisdiction: [
+        { jurisdiction: "NSW", total: 1000, paymentCount: 1 },
+        { jurisdiction: "NT", total: 234.56, paymentCount: 1 }
+      ]
+    }
+  ]);
   assertNoPrivateLeak(summary);
 });
 
@@ -134,6 +171,9 @@ test("Matters screen loads legal-work API and avoids stale placeholder wording",
   assert.ok(section.includes('data-entity-bars="full"'), "Matters screen must keep matter type mix binding");
   assert.ok(section.includes("data-matter-funding-bars"), "Matters screen must keep funding mix binding");
   assert.ok(section.includes("data-matter-jurisdiction-bars"), "Matters screen must keep jurisdiction split binding");
+  assert.ok(section.includes("data-matter-opened-trends"), "Matters screen must show last-12-month opened matter trends");
+  assert.ok(section.includes("data-matter-income-trends"), "Matters screen must show monthly Legal Aid income trends");
+  assert.equal(/\\$878,?593|878592\\.99/.test(section), false, "Matters screen must not lead with the all-time Legal Aid total");
   [
     /2026-07-04/,
     /placeholder/i,

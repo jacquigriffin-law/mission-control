@@ -50,7 +50,7 @@
     "unallocatedTransactions": 112
   },
   "currency": "AUD",
-  "generatedAt": "2026-07-18T18:08:51Z",
+  "generatedAt": "2026-07-18T20:18:42Z",
   "legalAidIncome": {
     "byJurisdiction": [
       {
@@ -324,6 +324,217 @@
         "type": "Wills and estates"
       }
     ],
+    "monthlyOpened": [
+      {
+        "byJurisdiction": [],
+        "byType": [],
+        "month": "2025-08",
+        "openedCount": 0
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 3,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 3,
+            "type": "Care and protection"
+          }
+        ],
+        "month": "2025-09",
+        "openedCount": 3
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 11,
+            "jurisdiction": "NSW"
+          },
+          {
+            "count": 2,
+            "jurisdiction": "NT"
+          }
+        ],
+        "byType": [
+          {
+            "count": 10,
+            "type": "Care and protection"
+          },
+          {
+            "count": 1,
+            "type": "Criminal law"
+          },
+          {
+            "count": 2,
+            "type": "Family law"
+          }
+        ],
+        "month": "2025-10",
+        "openedCount": 13
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 2,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 1,
+            "type": "Care and protection"
+          },
+          {
+            "count": 1,
+            "type": "Other or unknown"
+          }
+        ],
+        "month": "2025-11",
+        "openedCount": 2
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 6,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 4,
+            "type": "Care and protection"
+          },
+          {
+            "count": 2,
+            "type": "Family law"
+          }
+        ],
+        "month": "2025-12",
+        "openedCount": 6
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 1,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 1,
+            "type": "Family law"
+          }
+        ],
+        "month": "2026-01",
+        "openedCount": 1
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 13,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 12,
+            "type": "Care and protection"
+          },
+          {
+            "count": 1,
+            "type": "Family law"
+          }
+        ],
+        "month": "2026-02",
+        "openedCount": 13
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 5,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 5,
+            "type": "Care and protection"
+          }
+        ],
+        "month": "2026-03",
+        "openedCount": 5
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 4,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 4,
+            "type": "Care and protection"
+          }
+        ],
+        "month": "2026-04",
+        "openedCount": 4
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 11,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 7,
+            "type": "Care and protection"
+          },
+          {
+            "count": 3,
+            "type": "Family law"
+          },
+          {
+            "count": 1,
+            "type": "Wills and estates"
+          }
+        ],
+        "month": "2026-05",
+        "openedCount": 11
+      },
+      {
+        "byJurisdiction": [
+          {
+            "count": 3,
+            "jurisdiction": "NSW"
+          }
+        ],
+        "byType": [
+          {
+            "count": 3,
+            "type": "Care and protection"
+          }
+        ],
+        "month": "2026-06",
+        "openedCount": 3
+      },
+      {
+        "byJurisdiction": [],
+        "byType": [],
+        "month": "2026-07",
+        "openedCount": 0
+      }
+    ],
+    "monthlyOpenedPeriod": {
+      "basis": "Currently open LEAP aggregate records grouped by instruction date.",
+      "endMonth": "2026-07",
+      "startMonth": "2025-08"
+    },
     "recordCount": 1236
   },
   "profitLoss": {

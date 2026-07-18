@@ -21,6 +21,12 @@ function safeLabel(value, fallback) {
     .slice(0, 80);
 }
 
+function safeNote(value, fallback) {
+  return String(value || fallback || "")
+    .replace(/[<>]/g, "")
+    .slice(0, 220);
+}
+
 function typeLabel(value) {
   const label = safeLabel(value, "Other or unknown").toLowerCase();
   if (label.includes("care") || label.includes("protection")) return "Care and protection";
@@ -85,18 +91,114 @@ function safeJurisdictionIncome(rows) {
   }));
 }
 
+function safeMonth(value) {
+  const text = String(value || "");
+  return /^\d{4}-\d{2}$/.test(text) ? text : null;
+}
+
+function safeMonthlyOpened(rows) {
+  return (Array.isArray(rows) ? rows : []).map((item) => {
+    const month = safeMonth(item?.month);
+    if (!month) return null;
+    return {
+      month,
+      openedCount: safeCount(item?.openedCount) ?? 0,
+      byType: safeRows(item?.byType, "type"),
+      byJurisdiction: safeRows(item?.byJurisdiction, "jurisdiction")
+    };
+  }).filter(Boolean);
+}
+
+function safeMonthlyLegalAidIncome(rows, period = {}) {
+  const monthMap = new Map();
+  let windowMonths = [];
+  if (safeMonth(period.startMonth) && safeMonth(period.endMonth)) {
+    let [year, month] = period.startMonth.split("-").map(Number);
+    const end = period.endMonth;
+    while (`${year.toString().padStart(4, "0")}-${month.toString().padStart(2, "0")}` <= end && windowMonths.length < 12) {
+      windowMonths.push(`${year.toString().padStart(4, "0")}-${month.toString().padStart(2, "0")}`);
+      month += 1;
+      if (month > 12) {
+        month = 1;
+        year += 1;
+      }
+    }
+  }
+  (Array.isArray(rows) ? rows : []).forEach((item) => {
+    const month = safeMonth(item?.month);
+    if (!month) return;
+    const jurisdiction = jurisdictionLabel(item?.jurisdiction);
+    if (!["NSW", "NT"].includes(jurisdiction)) return;
+    const current = monthMap.get(month) || {
+      month,
+      total: 0,
+      paymentCount: 0,
+      byJurisdiction: new Map()
+    };
+    const jurisdictionRow = current.byJurisdiction.get(jurisdiction) || {
+      jurisdiction,
+      total: 0,
+      paymentCount: 0
+    };
+    const amount = roundMoney(item?.total);
+    const paymentCount = safeCount(item?.recordCount ?? item?.paymentCount) ?? 0;
+    if (amount !== null) {
+      current.total += amount;
+      jurisdictionRow.total += amount;
+    }
+    current.paymentCount += paymentCount;
+    jurisdictionRow.paymentCount += paymentCount;
+    current.byJurisdiction.set(jurisdiction, jurisdictionRow);
+    monthMap.set(month, current);
+  });
+  if (!windowMonths.length) {
+    windowMonths = Array.from(monthMap.keys()).sort((a, b) => a.localeCompare(b)).slice(-12);
+  }
+  return windowMonths
+    .map((month) => monthMap.get(month) || {
+      month,
+      total: 0,
+      paymentCount: 0,
+      byJurisdiction: new Map([
+        ["NSW", { jurisdiction: "NSW", total: 0, paymentCount: 0 }],
+        ["NT", { jurisdiction: "NT", total: 0, paymentCount: 0 }]
+      ])
+    })
+    .map((item) => ({
+      month: item.month,
+      total: roundMoney(item.total),
+      paymentCount: safeCount(item.paymentCount),
+      byJurisdiction: ["NSW", "NT"].map((jurisdiction) => item.byJurisdiction.get(jurisdiction) || {
+        jurisdiction,
+        total: 0,
+        paymentCount: 0
+      })
+        .sort((a, b) => a.jurisdiction.localeCompare(b.jurisdiction))
+        .map((jurisdiction) => ({
+          jurisdiction: jurisdiction.jurisdiction,
+          total: roundMoney(jurisdiction.total),
+          paymentCount: safeCount(jurisdiction.paymentCount)
+        }))
+    }));
+}
+
 function buildLegalWork(summary = financeSummary.loadSummary()) {
   const openMatters = summary.openMatters || {};
   const legalAidIncome = summary.legalAidIncome || {};
   const byType = safeRows(openMatters.byType, "type");
   const byFunding = safeRows(openMatters.byFunding, "funding");
   const byJurisdiction = safeRows(openMatters.byJurisdiction, "jurisdiction");
-  const legalAidByJurisdiction = safeJurisdictionIncome(legalAidIncome.byJurisdiction);
+  const monthlyOpened = safeMonthlyOpened(openMatters.monthlyOpened);
+  const trendPeriod = openMatters.monthlyOpenedPeriod || {
+    startMonth: monthlyOpened[0]?.month || null,
+    endMonth: monthlyOpened[monthlyOpened.length - 1]?.month || null,
+    basis: "Currently open LEAP aggregate records grouped by instruction date."
+  };
+  const monthlyLegalAidIncome = safeMonthlyLegalAidIncome(legalAidIncome.monthlyByJurisdiction, trendPeriod);
   const currentMonthJurisdictions = safeJurisdictionIncome(legalAidIncome.currentMonth?.byJurisdiction);
   const activeRecordCount = safeCount(openMatters.activeRecordCount);
   const indexedRecordCount = safeCount(openMatters.recordCount);
   const legalAidPaymentCount = safeCount(legalAidIncome.recordCount);
-  const legalAidTotal = roundMoney(legalAidIncome.total);
   const currentMonthPaymentCount = safeCount(legalAidIncome.currentMonth?.recordCount)
     ?? currentMonthJurisdictions.reduce((sum, item) => sum + (item.paymentCount || 0), 0);
 
@@ -113,7 +215,6 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
     totals: {
       activeOpenMatters: activeRecordCount,
       indexedMatterRows: indexedRecordCount,
-      legalAidIncome: legalAidTotal,
       legalAidPaymentCount
     },
     entities: [
@@ -128,18 +229,15 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
       },
       {
         key: "legal-aid-income",
-        name: "Legal Aid income aggregate",
-        shortName: "Legal Aid income",
-        totalIncome: legalAidTotal,
-        paymentCount: legalAidPaymentCount,
-        byJurisdiction: legalAidByJurisdiction
+        name: "Legal Aid payment months",
+        shortName: "Legal Aid months",
+        paymentCount: legalAidPaymentCount
       }
     ],
     typeMix: byType,
     fundingMix: byFunding,
     jurisdictionMix: byJurisdiction,
     legalAidIncome: {
-      total: legalAidTotal,
       paymentCount: legalAidPaymentCount,
       latestMonth: legalAidIncome.latestMonth || null,
       currentMonth: legalAidIncome.currentMonth ? {
@@ -147,7 +245,19 @@ function buildLegalWork(summary = financeSummary.loadSummary()) {
         total: roundMoney(legalAidIncome.currentMonth.total),
         paymentCount: currentMonthPaymentCount
       } : null,
-      byJurisdiction: legalAidByJurisdiction
+      monthlyByJurisdiction: monthlyLegalAidIncome
+    },
+    trends: {
+      period: trendPeriod,
+      monthlyOpened,
+      monthlyLegalAidIncome,
+      matterTypeIncome: {
+        available: Boolean(legalAidIncome.matterTypeIncomeMapping?.available),
+        note: safeNote(
+          legalAidIncome.matterTypeIncomeMapping?.note,
+          "Matter-type income mapping is unavailable until payment-to-matter matching is reliable."
+        )
+      }
     }
   };
 }

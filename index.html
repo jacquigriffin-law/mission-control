@@ -3234,9 +3234,9 @@ a.agent-status-card:focus-visible.is-nav::after {
     </section>
 
     <section class="screen" id="matters" data-screen="matters" aria-labelledby="matters-title">
-      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current aggregate matter intelligence from safe LEAP counts and Legal Aid income totals. Client names, matter names and raw LEAP records stay out of this layer.</p></div><span class="tag blue" id="mattersLiveStatus">Loading</span></div>
+      <div class="section-title"><div><h2 id="matters-title">Matters</h2><p>Current aggregate matter intelligence from safe LEAP counts and Legal Aid payment-month trends. Client names, matter names and raw LEAP records stay out of this layer.</p></div><span class="tag blue" id="mattersLiveStatus">Loading</span></div>
       <div class="panel">
-        <div class="panel-head"><div><h3>Live legal work feed</h3><p>Open-matter counts and Legal Aid income totals loaded from aggregate server-side data.</p></div><span class="tag green">No raw records</span></div>
+        <div class="panel-head"><div><h3>Live legal work feed</h3><p>Open-matter counts and Legal Aid payment-month trends loaded from aggregate server-side data.</p></div><span class="tag green">No raw records</span></div>
         <div class="panel-body">
           <p class="finance-live-note" id="mattersLiveNote">Loading aggregate legal work data…</p>
         </div>
@@ -3266,6 +3266,14 @@ a.agent-status-card:focus-visible.is-nav::after {
           <div class="panel-head"><div><h3>Jurisdiction</h3><p>Jurisdiction counts collapsed to safe NSW, NT and unknown buckets.</p></div><span class="tag green">Aggregate feed</span></div>
           <div class="panel-body stack-list" data-matter-jurisdiction-bars></div>
         </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Opened matters, last 12 months</h3><p>Currently open matters grouped by LEAP instruction month, type and jurisdiction.</p></div><span class="tag blue">12 months</span></div>
+        <div class="panel-body" data-matter-opened-trends></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Legal Aid income by payment month and jurisdiction</h3><p>Monthly Legal Aid income by NSW and NT for the same 12-month window. Matter-type income needs a reliable payment-to-matter match before display.</p></div><span class="tag amber">Payment months</span></div>
+        <div class="panel-body" data-matter-income-trends></div>
       </div>
     </section>
 
@@ -3841,6 +3849,64 @@ a.agent-status-card:focus-visible.is-nav::after {
     });
   }
 
+  function monthLabel(value) {
+    if (!/^\d{4}-\d{2}$/.test(String(value || ""))) return plain(value);
+    const [year, month] = String(value).split("-").map(Number);
+    return new Intl.DateTimeFormat("en-AU", { month: "short", year: "numeric" }).format(new Date(year, month - 1, 1));
+  }
+
+  function compactBreakdown(rows, labelKey = "label", valueKey = "count") {
+    const items = Array.isArray(rows) ? rows.filter((item) => Number(item?.[valueKey]) > 0) : [];
+    if (!items.length) return "—";
+    return items
+      .map((item) => `${plain(item[labelKey] || item.label || item.jurisdiction)} ${valueKey === "total" ? currency(item[valueKey]) : countText(item[valueKey])}`)
+      .join("; ");
+  }
+
+  function renderMatterTrends() {
+    const openedContainer = document.querySelector("[data-matter-opened-trends]");
+    const incomeContainer = document.querySelector("[data-matter-income-trends]");
+    const trends = legalWorkData?.trends || {};
+    const openedRows = Array.isArray(trends.monthlyOpened) ? trends.monthlyOpened : [];
+    if (openedContainer) {
+      const rows = openedRows.map((item) => `<tr>
+        <td>${monthLabel(item.month)}</td>
+        <td>${countText(item.openedCount)}</td>
+        <td>${escapeHtml(compactBreakdown(item.byType, "label", "count"))}</td>
+        <td>${escapeHtml(compactBreakdown(item.byJurisdiction, "jurisdiction", "count"))}</td>
+      </tr>`).join("");
+      openedContainer.innerHTML = `
+        <table class="finance-table">
+          <thead><tr><th scope="col">Month</th><th scope="col">Opened</th><th scope="col">Type</th><th scope="col">NSW / NT</th></tr></thead>
+          <tbody>${rows || `<tr><td colspan="4">No last-12-month LEAP opening trend loaded.</td></tr>`}</tbody>
+        </table>
+        <p class="todo-board-note">${escapeHtml(trends.period?.basis || "Currently open LEAP matters only.")}</p>
+      `;
+    }
+    if (incomeContainer) {
+      const incomeRows = Array.isArray(trends.monthlyLegalAidIncome) ? trends.monthlyLegalAidIncome : [];
+      const rows = incomeRows.map((item) => {
+        const jurisdictions = Array.isArray(item.byJurisdiction) ? item.byJurisdiction : [];
+        const nsw = jurisdictions.find((row) => row.jurisdiction === "NSW");
+        const nt = jurisdictions.find((row) => row.jurisdiction === "NT");
+        return `<tr>
+          <td>${monthLabel(item.month)}</td>
+          <td>${currency(nsw?.total)}</td>
+          <td>${currency(nt?.total)}</td>
+          <td>${currency(item.total)}</td>
+        </tr>`;
+      }).join("");
+      const note = trends.matterTypeIncome?.note || "Matter-type income mapping is pending.";
+      incomeContainer.innerHTML = `
+        <table class="finance-table">
+          <thead><tr><th scope="col">Month</th><th scope="col">NSW</th><th scope="col">NT</th><th scope="col">Total</th></tr></thead>
+          <tbody>${rows || `<tr><td colspan="4">No monthly Legal Aid income trend loaded.</td></tr>`}</tbody>
+        </table>
+        <p class="todo-board-note">${escapeHtml(note)}</p>
+      `;
+    }
+  }
+
   function renderLegalWork() {
     renderEntityBars("compact");
     renderEntityBars("full");
@@ -3850,15 +3916,15 @@ a.agent-status-card:focus-visible.is-nav::after {
     renderBars(document.querySelector("[data-matter-jurisdiction-bars]"), legalWorkData?.jurisdictionMix || [], {
       empty: "No aggregate jurisdiction mix loaded."
     });
+    renderMatterTrends();
     const cards = document.querySelector("[data-entity-cards]");
     const entities = legalWorkData?.entities || [];
     if (cards) {
       cards.innerHTML = entities.map((entity) => {
-        const totalIncome = entity.totalIncome === null || entity.totalIncome === undefined ? "" : `<span class="tag green">Income: ${currency(entity.totalIncome)}</span>`;
         const paymentCount = entity.paymentCount === null || entity.paymentCount === undefined ? "" : `<span class="tag">Payments: ${countText(entity.paymentCount)}</span>`;
         const openMatters = entity.openMatters === null || entity.openMatters === undefined ? "" : `<span class="tag blue">Open: ${countText(entity.openMatters)}</span>`;
         const indexedRows = entity.indexedMatterRows === null || entity.indexedMatterRows === undefined ? "" : `<span class="tag">Indexed rows: ${countText(entity.indexedMatterRows)}</span>`;
-        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3></div><div class="entity-meta">${openMatters}${indexedRows}${totalIncome}${paymentCount}</div></article>`;
+        return `<article class="entity-card"><div><h3>${plain(entity.name)}</h3></div><div class="entity-meta">${openMatters}${indexedRows}${paymentCount}</div></article>`;
       }).join("");
     }
     const jurisdictions = entities.flatMap((entity) => entity.jurisdictions || []).map((item) => item.label).filter(Boolean);
@@ -3965,11 +4031,10 @@ a.agent-status-card:focus-visible.is-nav::after {
       if (mattersLiveNote) {
         const totals = payload.data?.totals || {};
         const openText = totals.activeOpenMatters === null || totals.activeOpenMatters === undefined ? "open-matter count unavailable" : `${countText(totals.activeOpenMatters)} open matters`;
-        const incomeText = totals.legalAidIncome === null || totals.legalAidIncome === undefined ? "Legal Aid income unavailable" : `${currency(totals.legalAidIncome)} Legal Aid income`;
-        const paymentText = totals.legalAidPaymentCount === null || totals.legalAidPaymentCount === undefined ? "" : ` across ${countText(totals.legalAidPaymentCount)} payments`;
+        const paymentText = totals.legalAidPaymentCount === null || totals.legalAidPaymentCount === undefined ? "Legal Aid payment trend unavailable" : `${countText(totals.legalAidPaymentCount)} Legal Aid payment records indexed for monthly trend only`;
         const freshness = payload.data?.sourceFreshness;
         const freshnessText = freshness ? ` LEAP: ${freshness.leap}; Legal Aid: ${freshness.legalAid}.` : "";
-        mattersLiveNote.textContent = `Loaded ${openText} and ${incomeText}${paymentText}.${freshnessText}`;
+        mattersLiveNote.textContent = `Loaded ${openText}. ${paymentText}.${freshnessText}`;
       }
       if (mattersHeroCount) mattersHeroCount.textContent = countText(payload.data?.totals?.activeOpenMatters);
     } catch (error) {
