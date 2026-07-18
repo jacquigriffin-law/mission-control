@@ -1,0 +1,519 @@
+{
+  "atoPressure": {
+    "accumulatedGstToPay": 38505.95,
+    "assumption": "Informational only; not tax advice.",
+    "carriedGstToPay": 24849.95,
+    "incomeTaxHigh": 5901.36,
+    "incomeTaxLow": 5183.62,
+    "quarterGstPayable": 13656,
+    "runwayVsGst": -10684.52
+  },
+  "bank": {
+    "balance": 27821.43,
+    "label": "CBA#0285-business",
+    "lastReconciledAt": null
+  },
+  "basTimeline": [
+    {
+      "dueDate": "2025-10-28",
+      "netPayable": null,
+      "period": "Jul-Sep 2025",
+      "quarter": "2026-Q1",
+      "status": "source pending"
+    },
+    {
+      "dueDate": "2026-02-28",
+      "netPayable": null,
+      "period": "Oct-Dec 2025",
+      "quarter": "2026-Q2",
+      "status": "source pending"
+    },
+    {
+      "dueDate": "2026-04-28",
+      "netPayable": 13656,
+      "period": "Jan-Mar 2026",
+      "quarter": "2026-Q3",
+      "status": "MYOB GST return report visible; payment/lodgement status not confirmed"
+    },
+    {
+      "dueDate": "2026-07-28",
+      "netPayable": null,
+      "period": "Apr-Jun 2026",
+      "quarter": "2026-Q4",
+      "status": "draft source pending"
+    }
+  ],
+  "bookkeepingHygiene": {
+    "daysSinceReconciled": null,
+    "documentsInUploads": 6,
+    "unallocatedBank": 83,
+    "unallocatedTransactions": 112
+  },
+  "currency": "AUD",
+  "generatedAt": "2026-07-18T18:08:51Z",
+  "legalAidIncome": {
+    "byJurisdiction": [
+      {
+        "jurisdiction": "NSW",
+        "recordCount": 74,
+        "total": 863346.99
+      },
+      {
+        "jurisdiction": "NT",
+        "recordCount": 20,
+        "total": 15246.0
+      }
+    ],
+    "currentMonth": {
+      "byJurisdiction": [
+        {
+          "jurisdiction": "NSW",
+          "recordCount": 1,
+          "total": 24214.3
+        }
+      ],
+      "month": "2026-07",
+      "total": 24214.3
+    },
+    "latestMonth": "2026-07",
+    "monthlyByJurisdiction": [
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-07",
+        "recordCount": 2,
+        "total": 5639.04
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2023-07",
+        "recordCount": 1,
+        "total": 363.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-08",
+        "recordCount": 2,
+        "total": 20914.3
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2023-08",
+        "recordCount": 2,
+        "total": 363.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-09",
+        "recordCount": 4,
+        "total": 32676.6
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-10",
+        "recordCount": 6,
+        "total": 71327.85
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2023-10",
+        "recordCount": 6,
+        "total": 5989.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-11",
+        "recordCount": 2,
+        "total": 7565.8
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2023-11",
+        "recordCount": 1,
+        "total": 181.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2023-12",
+        "recordCount": 3,
+        "total": 29618.6
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-01",
+        "recordCount": 5,
+        "total": 26820.2
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2024-01",
+        "recordCount": 2,
+        "total": 3866.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-02",
+        "recordCount": 5,
+        "total": 60835.5
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2024-02",
+        "recordCount": 3,
+        "total": 231.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-03",
+        "recordCount": 6,
+        "total": 36751.0
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-04",
+        "recordCount": 4,
+        "total": 21390.6
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2024-04",
+        "recordCount": 1,
+        "total": 181.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-05",
+        "recordCount": 5,
+        "total": 25945.7
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2024-06",
+        "recordCount": 4,
+        "total": 32748.1
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-05",
+        "recordCount": 1,
+        "total": 52867.1
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-06",
+        "recordCount": 1,
+        "total": 5165.6
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2025-06",
+        "recordCount": 2,
+        "total": 2359.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-07",
+        "recordCount": 1,
+        "total": 27024.8
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-08",
+        "recordCount": 3,
+        "total": 28192.45
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-09",
+        "recordCount": 3,
+        "total": 38274.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-10",
+        "recordCount": 2,
+        "total": 13010.8
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-11",
+        "recordCount": 2,
+        "total": 56543.3
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2025-12",
+        "recordCount": 3,
+        "total": 51295.35
+      },
+      {
+        "jurisdiction": "NT",
+        "month": "2026-02",
+        "recordCount": 2,
+        "total": 1710.5
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-04",
+        "recordCount": 1,
+        "total": 58088.8
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-05",
+        "recordCount": 2,
+        "total": 78736.9
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-06",
+        "recordCount": 6,
+        "total": 57699.8
+      },
+      {
+        "jurisdiction": "NSW",
+        "month": "2026-07",
+        "recordCount": 1,
+        "total": 24214.3
+      }
+    ],
+    "recordCount": 94,
+    "total": 878592.99
+  },
+  "openMatters": {
+    "activeRecordCount": 103,
+    "available": true,
+    "byFunding": [
+      {
+        "count": 103,
+        "funding": "Mixed or unknown"
+      }
+    ],
+    "byJurisdiction": [
+      {
+        "count": 99,
+        "jurisdiction": "NSW"
+      },
+      {
+        "count": 4,
+        "jurisdiction": "NT"
+      }
+    ],
+    "byType": [
+      {
+        "count": 67,
+        "type": "Care and protection"
+      },
+      {
+        "count": 3,
+        "type": "Criminal law"
+      },
+      {
+        "count": 6,
+        "type": "Domestic violence orders"
+      },
+      {
+        "count": 16,
+        "type": "Family law"
+      },
+      {
+        "count": 8,
+        "type": "Other or unknown"
+      },
+      {
+        "count": 3,
+        "type": "Wills and estates"
+      }
+    ],
+    "recordCount": 1236
+  },
+  "profitLoss": {
+    "basis": "Cash",
+    "expensesByCategory": [
+      {
+        "amount": 49.72,
+        "category": "bankCharges"
+      },
+      {
+        "amount": 1386.19,
+        "category": "computerSoftwareSupport"
+      },
+      {
+        "amount": 181.82,
+        "category": "electricityGasWater"
+      },
+      {
+        "amount": 270.61,
+        "category": "fuelOil"
+      },
+      {
+        "amount": 24.85,
+        "category": "insurance"
+      },
+      {
+        "amount": 68.45,
+        "category": "maintenanceRepairs"
+      },
+      {
+        "amount": 236.34,
+        "category": "printingStationery"
+      },
+      {
+        "amount": 1109.09,
+        "category": "rent"
+      },
+      {
+        "amount": 128.96,
+        "category": "subscriptions"
+      },
+      {
+        "amount": 100.0,
+        "category": "superannuation"
+      },
+      {
+        "amount": 271.73,
+        "category": "telephoneInternet"
+      },
+      {
+        "amount": 100.0,
+        "category": "totalEmploymentExpenses"
+      },
+      {
+        "amount": 2235.63,
+        "category": "travelAccommodationConferences"
+      }
+    ],
+    "incomeByCategory": [
+      {
+        "amount": 22013.0,
+        "category": "legalAidFees"
+      }
+    ],
+    "netProfit": 15949.61,
+    "operatingProfit": 15949.61,
+    "period": "1 July 2026 to 19 July 2026",
+    "totalExpenses": 6063.39,
+    "totalIncome": 22013.0
+  },
+  "projectionMonths": [
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Jul"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Aug"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Sep"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Oct"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Nov"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Dec"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Jan"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Feb"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Mar"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Apr"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "May"
+    },
+    {
+      "expenses": 15753.95,
+      "income": 37585.61,
+      "month": "Jun"
+    }
+  ],
+  "quarterlyBas": {
+    "estimatedNetBas": 13656,
+    "gstCollected": 17865,
+    "gstPaid": 4209,
+    "lodgementStatus": "MYOB GST return report visible; payment/lodgement status not confirmed; dashboard GST pressure shows $38,505.95 to pay as at 19 Jul 2026",
+    "quarter": "Apr-Jun 2026 GST return"
+  },
+  "receivables": {
+    "overdueInvoices": 0
+  },
+  "source": "Aggregate finance feed for Mission Control",
+  "sourceCoverage": {
+    "leap": "aggregate_conflict_index_counts",
+    "legalAidIncome": "email_remittance_aggregate",
+    "myob": "baseline_summary_snapshot"
+  },
+  "sourceStatus": "legal_aid_email_active_myob_baseline_stale_leap_cache_stale",
+  "taxReturn2025": {
+    "annualBusinessExpenses": 304193,
+    "annualBusinessIncome": 398702,
+    "estimatedTaxPayable": 43300.8,
+    "netCapitalGain": 114335,
+    "netRentalLoss": 47105,
+    "netSmallBusinessIncome": 94509,
+    "rentalExpenses": 108080.5,
+    "rentalIncome": 60975.5,
+    "taxableIncome": 158238
+  },
+  "weeklyExpenses": [
+    {
+      "amount": 8.8,
+      "category": "Accounting, bank fees and tax agent"
+    },
+    {
+      "amount": 1598.97,
+      "category": "Office, software and subscriptions"
+    },
+    {
+      "amount": 1099.34,
+      "category": "Motor vehicle, travel and parking"
+    },
+    {
+      "amount": 286.95,
+      "category": "Insurance, licences and professional costs"
+    },
+    {
+      "amount": 63.36,
+      "category": "Phone, internet and communications"
+    },
+    {
+      "amount": 3635.53,
+      "category": "MYOB FY2026 total expenses average"
+    }
+  ],
+  "weeklyIncome": {
+    "businessTotal": 24478.25,
+    "legalAidNsw": 24214.3,
+    "legalAidNt": null,
+    "privateMatters": 263.95
+  }
+}

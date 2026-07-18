@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "test": "node tests/system-map.test.js"
+    "test": "node tests/system-map.test.js && node tests/finance-summary.test.js"
   },
   "engines": {
     "node": ">=18"

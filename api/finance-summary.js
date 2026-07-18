@@ -1,3 +1,8 @@
+const fs = require("node:fs");
+const path = require("node:path");
+
+const SUMMARY_FILE = path.join(__dirname, "..", "data", "finance-summary.json");
+
 const DEFAULT_SUMMARY = {
   generatedAt: null,
   source: "No private finance source connected",
@@ -40,6 +45,15 @@ const DEFAULT_SUMMARY = {
     { category: "Insurance, licences and professional costs", amount: null },
     { category: "Phone, internet and communications", amount: null }
   ],
+  profitLoss: {
+    period: null,
+    totalIncome: null,
+    totalExpenses: null,
+    operatingProfit: null,
+    netProfit: null,
+    incomeByCategory: [],
+    expensesByCategory: []
+  },
   quarterlyBas: {
     quarter: null,
     gstCollected: null,
@@ -94,6 +108,26 @@ function roundMoney(value) {
   return Math.round(number * 100) / 100;
 }
 
+function safeProfitLoss(profitLoss) {
+  const incomeByCategory = Array.isArray(profitLoss?.incomeByCategory) ? profitLoss.incomeByCategory : [];
+  const expensesByCategory = Array.isArray(profitLoss?.expensesByCategory) ? profitLoss.expensesByCategory : [];
+  return {
+    period: profitLoss?.period || null,
+    totalIncome: roundMoney(profitLoss?.totalIncome),
+    totalExpenses: roundMoney(profitLoss?.totalExpenses),
+    operatingProfit: roundMoney(profitLoss?.operatingProfit),
+    netProfit: roundMoney(profitLoss?.netProfit),
+    incomeByCategory: incomeByCategory.map((item) => ({
+      category: String(item?.category || "").slice(0, 80),
+      amount: roundMoney(item?.amount)
+    })).filter((item) => item.category && item.amount !== null),
+    expensesByCategory: expensesByCategory.map((item) => ({
+      category: String(item?.category || "").slice(0, 80),
+      amount: roundMoney(item?.amount)
+    })).filter((item) => item.category && item.amount !== null)
+  };
+}
+
 function derivePrivateFields(summary) {
   const dashboard = summary.myobLive?.dashboard || {};
   const profitLoss = summary.myobLive?.profitLoss || {};
@@ -101,7 +135,7 @@ function derivePrivateFields(summary) {
   const bankBalance = dashboard.bankBalance;
   const accumulatedGstToPay = dashboard.dashboardGstToPay;
   const quarterGstPayable = summary.quarterlyBas?.estimatedNetBas ?? gstReturn.netPaymentOrRefund;
-  const operatingProfit = profitLoss.operatingProfit;
+  const operatingProfit = summary.profitLoss?.operatingProfit ?? profitLoss.operatingProfit;
   const incomeTaxLow = roundMoney(Number(operatingProfit) * 0.325);
   const incomeTaxHigh = roundMoney(Number(operatingProfit) * 0.37);
   const carriedGstToPay = Number.isFinite(Number(accumulatedGstToPay)) && Number.isFinite(Number(quarterGstPayable))
@@ -162,26 +196,50 @@ function derivePrivateFields(summary) {
 }
 
 function sanitisePrivateSummary(summary) {
-  const safe = { ...summary };
-  delete safe.myobLive;
-  delete safe.rawMyob;
-  delete safe.rawRecords;
-  delete safe.transactions;
-  delete safe.clients;
-  delete safe.clientRecords;
-  return safe;
+  return {
+    generatedAt: summary.generatedAt || null,
+    source: summary.source || "No private finance source connected",
+    currency: summary.currency || "AUD",
+    live: Boolean(summary.live),
+    sourceStatus: summary.sourceStatus || "missing finance summary source",
+    profitLoss: {
+      period: summary.profitLoss?.period || null,
+      totalIncome: roundMoney(summary.profitLoss?.totalIncome),
+      totalExpenses: roundMoney(summary.profitLoss?.totalExpenses),
+      operatingProfit: roundMoney(summary.profitLoss?.operatingProfit),
+      netProfit: roundMoney(summary.profitLoss?.netProfit),
+      incomeByCategory: Array.isArray(summary.profitLoss?.incomeByCategory) ? summary.profitLoss.incomeByCategory : [],
+      expensesByCategory: Array.isArray(summary.profitLoss?.expensesByCategory) ? summary.profitLoss.expensesByCategory : []
+    }
+  };
+}
+
+function loadRawSummary() {
+  if (process.env.FINANCE_SUMMARY_JSON) {
+    return {
+      parsed: JSON.parse(process.env.FINANCE_SUMMARY_JSON),
+      sourceStatus: "env"
+    };
+  }
+  if (fs.existsSync(SUMMARY_FILE)) {
+    return {
+      parsed: JSON.parse(fs.readFileSync(SUMMARY_FILE, "utf8")),
+      sourceStatus: "file"
+    };
+  }
+  return null;
 }
 
 function loadSummary() {
-  const raw = process.env.FINANCE_SUMMARY_JSON;
+  const raw = loadRawSummary();
   if (!raw) {
-    return {
+    return sanitisePrivateSummary({
       ...DEFAULT_SUMMARY,
       live: false,
-      sourceStatus: "missing FINANCE_SUMMARY_JSON"
-    };
+      sourceStatus: "missing finance summary source"
+    });
   }
-  const parsed = JSON.parse(raw);
+  const parsed = raw.parsed;
   const merged = {
     ...DEFAULT_SUMMARY,
     ...parsed,
@@ -205,6 +263,10 @@ function loadSummary() {
       ...DEFAULT_SUMMARY.bookkeepingHygiene,
       ...(parsed.bookkeepingHygiene || {})
     },
+    profitLoss: {
+      ...DEFAULT_SUMMARY.profitLoss,
+      ...safeProfitLoss(parsed.profitLoss || parsed.myobLive?.profitLoss || {})
+    },
     basTimeline: Array.isArray(parsed.basTimeline) ? parsed.basTimeline : DEFAULT_SUMMARY.basTimeline,
     taxReturn2025: {
       ...DEFAULT_SUMMARY.taxReturn2025,
@@ -212,12 +274,12 @@ function loadSummary() {
       sourceAttachment: parsed.taxReturn2025?.sourceAttachment ? "Private source" : null
     },
     live: true,
-    sourceStatus: parsed.sourceStatus || "connected"
+    sourceStatus: parsed.sourceStatus || `connected:${raw.sourceStatus}`
   };
   return sanitisePrivateSummary(derivePrivateFields(merged));
 }
 
-module.exports = function handler(request, response) {
+function handler(request, response) {
   if (request.method !== "GET") {
     response.setHeader("Allow", "GET");
     return sendJson(response, 405, { ok: false, error: "method_not_allowed" });
@@ -232,4 +294,8 @@ module.exports = function handler(request, response) {
       message: error instanceof Error ? error.message : String(error)
     });
   }
-};
+}
+
+module.exports = handler;
+module.exports.loadSummary = loadSummary;
+module.exports.sanitisePrivateSummary = sanitisePrivateSummary;
