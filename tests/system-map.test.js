@@ -230,13 +230,6 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.ok(indexHtml.includes('id="documents"'), "Documents must be a dedicated section");
   assert.ok(indexHtml.includes('<h2 id="memory-title">Memory</h2>'), "Memory heading must remain");
   assert.ok(documentsScreenHtml.includes('<h2 id="documents-title">Documents</h2>'), "Documents heading must remain");
-  assert.ok(documentsScreenHtml.includes("Documents tab review"), "Documents screen must include the review recommendation panel");
-  assert.ok(documentsScreenHtml.includes("Link audit and proposed clean-up"), "Documents screen must include the link audit");
-  assert.ok(documentsScreenHtml.includes("Scheduled jobs"), "Documents screen must include the cron inventory");
-  assert.ok(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), "Documents cron inventory must show its snapshot date");
-  assert.ok(documentsScreenHtml.includes("44 jobs"), "Documents cron inventory must include all scheduler jobs from the latest snapshot");
-  assert.ok(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), "Documents cron table must include active morning brief job");
-  assert.ok(documentsScreenHtml.includes("Iris call relay to Jacqui"), "Documents cron table must include disabled jobs as audit history");
   ["#journal", "#dashboard", "#documents"].forEach((href) => {
     assert.ok(indexHtml.includes(`href="${href}"`), `Memory screen must include clickable ${href} link`);
   });
@@ -270,6 +263,13 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(indexHtml.includes("data-system-documents"), false, "Document lane renderer binding must not ship");
   assert.equal(indexHtml.includes("data-document-statuses"), false, "Document status renderer binding must not ship");
   assert.equal(indexHtml.includes("data-document-categories"), false, "Document category renderer binding must not ship");
+  assert.equal(documentsScreenHtml.includes("Documents tab review"), false, "Documents review panel must not appear");
+  assert.equal(documentsScreenHtml.includes("Link audit and proposed clean-up"), false, "Documents link audit must not appear");
+  assert.equal(documentsScreenHtml.includes("Scheduled jobs"), false, "Documents scheduled jobs panel must not appear");
+  assert.equal(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), false, "Documents cron snapshot copy must not appear");
+  assert.equal(documentsScreenHtml.includes("44 jobs"), false, "Documents cron inventory count must not appear");
+  assert.equal(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), false, "Documents active cron rows must not appear");
+  assert.equal(documentsScreenHtml.includes("Iris call relay to Jacqui"), false, "Documents disabled cron rows must not appear");
 });
 
 test("index.html defines the Journal section and client-side API wiring", () => {
@@ -354,13 +354,14 @@ test("Journal seed is chronological and privacy-safe", () => {
 
 // -------------------------------------------------------------------------
 // index.html wiring — the script tags and hash anchors we depend on above
-// must actually exist in the shipped page.
+// must actually exist in the shipped page. Retired Agents-tab scripts must
+// stay out of the visible application shell.
 // -------------------------------------------------------------------------
 
-test("index.html loads the agent-sections and safe-hosts scripts", () => {
+test("index.html loads active safe scripts only", () => {
   assert.ok(indexHtml.includes("lib/safe-hosts.js"), "safe-hosts.js must be included in index.html");
   assert.ok(indexHtml.includes("lib/system-map-data.js"), "system-map-data.js must be included in index.html");
-  assert.ok(indexHtml.includes("lib/agent-sections.js"), "agent-sections.js must be included in index.html");
+  assert.equal(indexHtml.includes("lib/agent-sections.js"), false, "retired agent-sections.js script must not ship");
 });
 
 test("index.html defines every internal hash target we route to", () => {

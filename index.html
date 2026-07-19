@@ -743,51 +743,6 @@ a.mini-card:focus-visible {
   -webkit-overflow-scrolling: touch;
 }
 
-.cron-table th:last-child,
-.cron-table td:last-child {
-  text-align: left;
-}
-
-.cron-table td {
-  min-width: 150px;
-}
-
-.cron-table td:first-child {
-  min-width: 220px;
-}
-
-.cron-table td:last-child {
-  min-width: 260px;
-}
-
-.document-review-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.document-review-card {
-  min-height: 142px;
-  display: grid;
-  align-content: start;
-  gap: 8px;
-  border: 1px solid var(--line-soft);
-  border-radius: 8px;
-  background: #101720;
-  padding: 12px;
-}
-
-.document-review-card strong {
-  color: var(--text);
-  font-size: .9rem;
-}
-
-.document-review-card span {
-  color: var(--muted);
-  font-size: .76rem;
-  line-height: 1.42;
-}
-
 .forecast-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1155,41 +1110,6 @@ a.mini-card:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-}
-
-.agent-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.agent-card {
-  min-height: 146px;
-  display: grid;
-  align-content: space-between;
-  gap: 14px;
-  border: 1px solid var(--line-soft);
-  border-radius: 8px;
-  background: #101720;
-  padding: 12px;
-}
-
-.agent-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.agent-card h3 {
-  margin: 0;
-  font-size: .95rem;
-}
-
-.agent-card p {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: .76rem;
 }
 
 .initial {
@@ -1648,9 +1568,7 @@ button.system-map-node {
   .finance-grid,
   .tax-return-grid,
   .kpi-strip,
-  .document-review-grid,
-  .timeline-strip,
-  .agent-grid {
+  .timeline-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1758,9 +1676,7 @@ button.system-map-node {
   .finance-grid,
   .tax-return-grid,
   .kpi-strip,
-  .document-review-grid,
-  .timeline-strip,
-  .agent-grid {
+  .timeline-strip {
     grid-template-columns: 1fr;
   }
 
@@ -2273,114 +2189,6 @@ button.system-map-node {
           <h2 id="documents-title">Documents</h2>
         </div>
       </div>
-
-      <div class="screen-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h3>Documents tab review</h3>
-            </div>
-            <span class="tag amber">Recommendation</span>
-          </div>
-          <div class="panel-body document-review-grid">
-            <div class="document-review-card">
-              <strong>Remove the old top half</strong>
-              <span>The previous counters, category labels and privacy/source panels did not tell Jacqui what needed attention. They should stay removed unless backed by a real current file index.</span>
-            </div>
-            <div class="document-review-card">
-              <strong>Keep only working destinations</strong>
-              <span>Links should open a live page, a review folder, or another Mission Control tab. Local workspace paths should not appear as fake browser links.</span>
-            </div>
-            <div class="document-review-card">
-              <strong>Use this tab for outputs and automation</strong>
-              <span>The useful version is a control surface: current review folders, generated reports worth opening, broken-link decisions and scheduled jobs.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head">
-            <div>
-              <h3>Link audit and proposed clean-up</h3>
-            </div>
-            <span class="tag blue">Next pass</span>
-          </div>
-          <div class="panel-body list">
-            <div class="row"><div><strong>Keep internal Mission Control links</strong><span>Finance, Matters, Memory and Journal are real hash routes and should remain as navigation.</span></div><span class="tag green">Keep</span></div>
-            <div class="row"><div><strong>Keep live review-folder links only</strong><span>Marketing review packs, PDFs and browser-readable folders can be linked when they have a verified HTTPS URL.</span></div><span class="tag green">Keep</span></div>
-            <div class="row"><div><strong>Remove local workspace paths</strong><span>Folders such as output/, input/, skills/ and local PDFs are not clickable from the deployed board. They should be removed or replaced with a live review URL.</span></div><span class="tag red">Remove</span></div>
-            <div class="row"><div><strong>Do not restore document category/status counters</strong><span>Draft/filed/generated counters are only useful if the board can open the actual document list. Without that, they create noise.</span></div><span class="tag amber">Hold</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Scheduled jobs</h3>
-            <p>OpenClaw scheduler snapshot checked 19 July 2026. Disabled jobs are included so the board shows what is active and what has deliberately been retired.</p>
-          </div>
-          <span class="tag green">44 jobs</span>
-        </div>
-        <div class="panel-body table-scroll">
-          <table class="finance-table cron-table">
-            <thead>
-              <tr>
-                <th scope="col">Cron job</th>
-                <th scope="col">Status</th>
-                <th scope="col">Frequency</th>
-                <th scope="col">Brief description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Xena: Twice-weekly LEAP and Legal Aid action-list reconciliation</td><td>Enabled</td><td>Sun and Wed, 9:30am Sydney</td><td>Read-only LEAP/Legal Aid reconciliation action-list PDF.</td></tr>
-              <tr><td>Matter Tasks chronology append sync</td><td>Enabled</td><td>Every 30 minutes, 7am-9pm daily</td><td>Append-only Microsoft To Do Matter Tasks chronology sync.</td></tr>
-              <tr><td>Auto-sync leads tracker every 30 minutes</td><td>Enabled</td><td>Every 60 minutes</td><td>Syncs LeadFlow/lead tracker data and production-only leads.</td></tr>
-              <tr><td>Monitor cron job health</td><td>Enabled</td><td>Every 2 hours</td><td>Checks enabled cron jobs for failures and records health status.</td></tr>
-              <tr><td>Flight safety monitor - Darwin departures / pepper spray reminder</td><td>Enabled</td><td>Daily, 5am, 12pm and 6pm</td><td>Checks calendar for Darwin departures and creates/verifies safety reminders.</td></tr>
-              <tr><td>Themis: Daily Children’s Court PDF list calendar report</td><td>Enabled</td><td>Daily, 4:50pm</td><td>Checks Children’s Court lists against Jacqui’s matters/calendar.</td></tr>
-              <tr><td>Daily 5pm Themis court diary risk alert</td><td>Enabled</td><td>Daily, 5pm</td><td>Court diary safety scan, excluding the separate Children’s Court list report.</td></tr>
-              <tr><td>Themis: Daily Morning Brief (7am)</td><td>Enabled</td><td>Daily, 7am</td><td>Consolidated phone-readable morning brief.</td></tr>
-              <tr><td>Hermes: Urgent Lead Alerts (cheap-first, command)</td><td>Enabled</td><td>Every 30 minutes, weekdays 7am-6pm</td><td>Checks for urgent/high-priority new leads.</td></tr>
-              <tr><td>Smart lead check (cheap-first, command)</td><td>Enabled</td><td>Every 20 minutes, weekdays 7am-6pm</td><td>Frequent lightweight lead check.</td></tr>
-              <tr><td>Xena: Matter deadline extraction</td><td>Enabled</td><td>Weekdays, 7:40am</td><td>Extracts high-confidence matter deadlines into Matter Tasks.</td></tr>
-              <tr><td>Parking fine watch (Mon 8am)</td><td>Enabled</td><td>Mondays, 8am</td><td>Checks parking fines/infringement tracker.</td></tr>
-              <tr><td>Hermes: Email Question Triage (8am and 2pm)</td><td>Enabled</td><td>Weekdays, 8am and 2pm</td><td>Checks emails needing answers or triage.</td></tr>
-              <tr><td>Hermes: Flagged Email Triage</td><td>Enabled</td><td>Mon/Wed/Fri, 8:45am</td><td>Reviews flagged emails with reduced report volume.</td></tr>
-              <tr><td>Themis: Court Date Change Monitor (9am)</td><td>Enabled</td><td>Weekdays, 9am</td><td>Monitors emails/calendar for changed court dates.</td></tr>
-              <tr><td>Plutus: Daily invoice payment run</td><td>Enabled</td><td>Mon/Wed/Fri, 3:30pm</td><td>Regular invoice/payment review.</td></tr>
-              <tr><td>Xena: 6pm To Do control check</td><td>Enabled</td><td>Weekdays, 6pm</td><td>Checks urgent/high-priority To Do control items.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 827 to Brisbane - 2 hours</td><td>Enabled</td><td>One-shot, 23 Jul 2026, 11:40pm Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 827 to Brisbane - 1 hour</td><td>Enabled</td><td>One-shot, 24 Jul 2026, 12:40am Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 827 to Brisbane - 30 minutes</td><td>Enabled</td><td>One-shot, 24 Jul 2026, 1:10am Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Weekend Morning Check (8:30am Sat/Sun)</td><td>Enabled</td><td>Saturday and Sunday, 8:30am</td><td>Lighter weekend/Monday-risk brief.</td></tr>
-              <tr><td>Fortnightly ED coordinator contact refresh</td><td>Enabled</td><td>Every 14 days</td><td>Refreshes ED coordinator contact research.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 843 to Sydney - 2 hours</td><td>Enabled</td><td>One-shot, 28 Jul 2026, 12:05am Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 843 to Sydney - 1 hour</td><td>Enabled</td><td>One-shot, 28 Jul 2026, 1:05am Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Pepper spray flight reminder - Qantas 843 to Sydney - 30 minutes</td><td>Enabled</td><td>One-shot, 28 Jul 2026, 1:35am Sydney</td><td>Flight safety reminder before Darwin departure.</td></tr>
-              <tr><td>Monthly subscription audit (1st 8am)</td><td>Enabled</td><td>1st day of each month, 8am</td><td>Checks recurring subscriptions and tech spend.</td></tr>
-              <tr><td>Xena: Daily My Day Builder</td><td>Disabled</td><td>Daily, 7:20am</td><td>Retired into the 7am Morning Brief to reduce duplicate reports.</td></tr>
-              <tr><td>Vehicle rego watch (daily 8am)</td><td>Disabled</td><td>Daily, 8am</td><td>Vehicle registration watch.</td></tr>
-              <tr><td>Pepper spray flight reminder - JQ671 RJS2TY - 30 minutes</td><td>Disabled</td><td>One-shot, 22 Jun 2026, 1:15am Sydney</td><td>Past flight safety reminder.</td></tr>
-              <tr><td>CPD + practising cert watch (Mon 8am)</td><td>Disabled</td><td>Mondays, 8am</td><td>Retired to reduce model/token usage.</td></tr>
-              <tr><td>Themis: Parramatta Children’s Court list monitor - Thursday afternoon</td><td>Disabled</td><td>Thursdays, 4:30pm</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Daily 6am useful surprise for Jacqui</td><td>Disabled</td><td>Daily, 6am</td><td>Retired into the 7am Morning Brief.</td></tr>
-              <tr><td>Weekly Matter Tasks chronology export</td><td>Disabled</td><td>Mondays, 7am</td><td>Low-value weekly report retired; append sync remains active.</td></tr>
-              <tr><td>Themis: Surry Hills Children’s Court list monitor - Thursday</td><td>Disabled</td><td>Thursdays, 7:15am</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Sync completed Client Tasks to LEAP Tasks</td><td>Disabled</td><td>Every 30 minutes, 7am-8pm daily</td><td>Retired with the separate LEAP Tasks list.</td></tr>
-              <tr><td>Themis: Surry Hills Children’s Court list monitor - Wednesday</td><td>Disabled</td><td>Wednesdays, 4:30pm</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Hermes: Daily Leads Check (6am)</td><td>Disabled</td><td>Daily, 6am</td><td>Retired because smart lead check and urgent lead alerts remain active.</td></tr>
-              <tr><td>Pepper spray flight reminder - JQ671 RJS2TY - 1 hour</td><td>Disabled</td><td>One-shot, 22 Jun 2026, 12:45am Sydney</td><td>Past flight safety reminder.</td></tr>
-              <tr><td>Themis: Parramatta Children’s Court list monitor - Friday afternoon</td><td>Disabled</td><td>Fridays, 4:30pm</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Themis: Parramatta Children’s Court list monitor - Tuesday morning catch-up</td><td>Disabled</td><td>Tuesdays, 7:15am</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Daily 4am autonomous business progress task for Jacqui</td><td>Disabled</td><td>Daily, 4am</td><td>Retired into the 7am Morning Brief.</td></tr>
-              <tr><td>Iris call relay to Jacqui</td><td>Disabled</td><td>Every 5 minutes</td><td>Model-free Vapi call-summary relay, currently off.</td></tr>
-              <tr><td>Themis: Parramatta Children’s Court list monitor - Monday afternoon</td><td>Disabled</td><td>Mondays, 4:30pm</td><td>Replaced by combined Children’s Court list monitor.</td></tr>
-              <tr><td>Pepper spray flight reminder - JQ671 RJS2TY - 2 hours</td><td>Disabled</td><td>One-shot, 21 Jun 2026, 11:45pm Sydney</td><td>Past flight safety reminder.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </section>
 
   </main>
@@ -2388,7 +2196,6 @@ button.system-map-node {
 
 <script src="lib/safe-hosts.js?v=20260707"></script>
 <script src="lib/system-map-data.js?v=20260707"></script>
-<script src="lib/agent-sections.js?v=20260707"></script>
 <script src="ops-summary.js?v=20260704-links"></script>
 <script>
 (() => {
@@ -2633,29 +2440,8 @@ button.system-map-node {
     }).join("");
   }
 
-  function renderMemoryDocumentsPanel() {
-    const system = safeSummary.system || {};
-    const resolveSection = window.MC_AGENT_SECTIONS?.sectionForAgent || (() => "");
-    const agentsWithSection = (system.agents || []).map((agent) => ({
-      ...agent,
-      section: agent.section || resolveSection(agent.name, agent.role)
-    }));
-    renderRows(document.querySelector("[data-system-agents]"), agentsWithSection, {
-      empty: "Agent roster will appear when the safe system snapshot is available."
-    });
-    const securityItems = [
-      ...(system.security?.signals || []),
-      ...(system.fixQueue || [])
-    ];
-    renderRows(document.querySelector("[data-system-security]"), securityItems, {
-      empty: "Security and fix signals will appear when the safe system snapshot is available.",
-      tone: "amber"
-    });
-  }
-
   function renderSafeSummary() {
     setSafeText();
-    renderMemoryDocumentsPanel();
   }
 
   async function loadLegalWorkFeed() {
