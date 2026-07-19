@@ -266,7 +266,9 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(documentsScreenHtml.includes("Documents tab review"), false, "Documents review panel must not appear");
   assert.equal(documentsScreenHtml.includes("Link audit and proposed clean-up"), false, "Documents link audit must not appear");
   assert.ok(documentsScreenHtml.includes("Created documents"), "Documents screen must include the created-documents launcher");
-  assert.ok(documentsScreenHtml.includes("https://files.srv1691021.hstgr.cloud/Marketing-Review/"), "Documents launcher must open the verified live review folder");
+  assert.ok(documentsScreenHtml.includes("/opt/openclaw/clients/jacqui-griffin/output/Xena-Created-Documents/"), "Documents screen must show the Mac mini document library root");
+  assert.ok(documentsScreenHtml.includes("Actual files stay off the VPS"), "Documents screen must explain that files stay off the VPS");
+  assert.equal(documentsScreenHtml.includes("https://files.srv1691021.hstgr.cloud/Marketing-Review/"), false, "Documents screen must not link to the VPS review folder");
   assert.ok(documentsScreenHtml.includes("Scheduled jobs"), "Documents scheduled jobs panel must remain");
   assert.ok(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), "Documents cron snapshot copy must remain");
   assert.ok(documentsScreenHtml.includes("44 jobs"), "Documents cron inventory count must remain");
