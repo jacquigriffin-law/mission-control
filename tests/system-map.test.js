@@ -265,11 +265,13 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(indexHtml.includes("data-document-categories"), false, "Document category renderer binding must not ship");
   assert.equal(documentsScreenHtml.includes("Documents tab review"), false, "Documents review panel must not appear");
   assert.equal(documentsScreenHtml.includes("Link audit and proposed clean-up"), false, "Documents link audit must not appear");
-  assert.equal(documentsScreenHtml.includes("Scheduled jobs"), false, "Documents scheduled jobs panel must not appear");
-  assert.equal(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), false, "Documents cron snapshot copy must not appear");
-  assert.equal(documentsScreenHtml.includes("44 jobs"), false, "Documents cron inventory count must not appear");
-  assert.equal(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), false, "Documents active cron rows must not appear");
-  assert.equal(documentsScreenHtml.includes("Iris call relay to Jacqui"), false, "Documents disabled cron rows must not appear");
+  assert.ok(documentsScreenHtml.includes("Created documents"), "Documents screen must include the created-documents launcher");
+  assert.ok(documentsScreenHtml.includes("https://files.srv1691021.hstgr.cloud/Marketing-Review/"), "Documents launcher must open the verified live review folder");
+  assert.ok(documentsScreenHtml.includes("Scheduled jobs"), "Documents scheduled jobs panel must remain");
+  assert.ok(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), "Documents cron snapshot copy must remain");
+  assert.ok(documentsScreenHtml.includes("44 jobs"), "Documents cron inventory count must remain");
+  assert.ok(documentsScreenHtml.includes("Themis: Daily Morning Brief (7am)"), "Documents active cron rows must remain");
+  assert.ok(documentsScreenHtml.includes("Iris call relay to Jacqui"), "Documents disabled cron rows must remain");
 });
 
 test("index.html defines the Journal section and client-side API wiring", () => {
