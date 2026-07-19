@@ -266,8 +266,12 @@ test("index.html defines dedicated Memory and Documents sections", () => {
   assert.equal(documentsScreenHtml.includes("Documents tab review"), false, "Documents review panel must not appear");
   assert.equal(documentsScreenHtml.includes("Link audit and proposed clean-up"), false, "Documents link audit must not appear");
   assert.ok(documentsScreenHtml.includes("Created documents"), "Documents screen must include the created-documents launcher");
+  assert.ok(documentsScreenHtml.includes("http://192.168.50.51:8792/"), "Documents screen must link to the Mac mini document browser");
+  assert.ok(documentsScreenHtml.includes("Open Mac mini documents"), "Documents screen must label the local document browser link");
   assert.ok(documentsScreenHtml.includes("/opt/openclaw/clients/jacqui-griffin/output/Xena-Created-Documents/"), "Documents screen must show the Mac mini document library root");
-  assert.ok(documentsScreenHtml.includes("Actual files stay off the VPS"), "Documents screen must explain that files stay off the VPS");
+  assert.ok(documentsScreenHtml.includes("Actual files stay on the Mac mini"), "Documents screen must explain that files stay on the Mac mini");
+  assert.ok(documentsScreenHtml.includes("this is not Vercel storage and not VPS storage"), "Documents screen must explain that Vercel/VPS are not storage");
+  assert.ok(documentsScreenHtml.includes("Local token required; not Vercel storage, not VPS storage"), "Documents screen must clearly identify Mac mini-only tokened access");
   assert.equal(documentsScreenHtml.includes("https://files.srv1691021.hstgr.cloud/Marketing-Review/"), false, "Documents screen must not link to the VPS review folder");
   assert.ok(documentsScreenHtml.includes("Scheduled jobs"), "Documents scheduled jobs panel must remain");
   assert.ok(documentsScreenHtml.includes("OpenClaw scheduler snapshot checked 19 July 2026"), "Documents cron snapshot copy must remain");
